@@ -1070,6 +1070,40 @@ footer{background:#111110!important;color:#e8e6e2!important;}
   .plan-period, .footer-copy { font-family: 'DM Mono', monospace !important; font-size: 11px; letter-spacing: 1.5px; }
   .hero-title-accent { font-family: 'Cormorant Garamond', serif !important; font-style: italic; }
   /* ── END WSH ─── */
+
+
+/* ─── LABEL-BASED PLAN CARDS FIX ─── */
+label.plan-card {
+  display: flex !important;
+  flex-direction: column !important;
+  cursor: pointer !important;
+}
+label.plan-card * { pointer-events: none !important; }
+label.plan-card input[type="radio"] { display: none !important; }
+/* ══════════════════════════════════════════
+   PLAN CARD FINAL FIX — overrides everything
+══════════════════════════════════════════ */
+.plans-grid { position: relative !important; z-index: 10 !important; }
+.plan-card-wrap { position: relative !important; z-index: 10 !important; }
+.plan-card {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 10 !important;
+  user-select: none !important;
+}
+.plan-card * {
+  pointer-events: none !important;
+}
+.plan-card.selected {
+  outline: 2px solid #A67C52 !important;
+  outline-offset: -2px !important;
+  background: rgba(166,124,82,0.08) !important;
+}
+.plan-card.selected .plan-check {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+}
 </style>
 <!-- Google Analytics GA4 — REPLACE G-Z386REXEZF with your real Measurement ID -->
 <!-- Steps: analytics.google.com → Admin → Create Property → Get Measurement ID -->
@@ -1186,7 +1220,8 @@ footer{background:#111110!important;color:#e8e6e2!important;}
 
         <!-- FREE -->
         <div class="plan-card-wrap">
-        <div class="plan-card" data-plan="free" data-price="0">
+        <label class="plan-card" data-plan="free" data-price="0">
+          <input type="radio" name="wsh_plan" value="free" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('free',0,this)">
           <div class="plan-check">✓</div>
           <div class="plan-tag t-free">Gratuito</div>
           <div class="plan-name" data-es="Directorio" data-en="Directory">Directorio</div>
@@ -1202,12 +1237,13 @@ footer{background:#111110!important;color:#e8e6e2!important;}
             <li class="off"><span class="fi">·</span>Sin fotos ni catálogo</li>
             <li class="off"><span class="fi">·</span>Sin estadísticas</li>
           </ul>
-        </div>
+        </label>
         </div>
 
         <!-- PRESENCIA -->
         <div class="plan-card-wrap">
-        <div class="plan-card" data-plan="presencia" data-price="49">
+        <label class="plan-card" data-plan="presencia" data-price="49">
+          <input type="radio" name="wsh_plan" value="presencia" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('presencia',49,this)">
           <div class="plan-check">✓</div>
           <div class="plan-tag t-base">Entrada</div>
           <div class="plan-name">Presencia</div>
@@ -1223,12 +1259,13 @@ footer{background:#111110!important;color:#e8e6e2!important;}
             <li><span class="fi">›</span>Badge verificado</li>
             <li class="off"><span class="fi">·</span>Sin galería de proyectos</li>
           </ul>
-        </div>
+        </label>
         </div>
 
         <!-- PROFESIONAL -->
         <div class="plan-card-wrap">
-        <div class="plan-card featured" data-plan="profesional" data-price="129">
+        <label class="plan-card featured" data-plan="profesional" data-price="129">
+          <input type="radio" name="wsh_plan" value="profesional" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('profesional',129,this)">
           <div class="plan-popular" data-es="Más popular" data-en="Most popular">Más popular</div>
           <div class="plan-check">✓</div>
           <div class="plan-tag t-pro">Recomendado</div>
@@ -1245,12 +1282,13 @@ footer{background:#111110!important;color:#e8e6e2!important;}
             <li><span class="fi">›</span>Estadísticas + leads</li>
             <li><span class="fi">›</span>Badge de confianza</li>
           </ul>
-        </div>
+        </label>
         </div>
 
         <!-- ELITE -->
         <div class="plan-card-wrap">
-        <div class="plan-card" data-plan="elite" data-price="299">
+        <label class="plan-card" data-plan="elite" data-price="299">
+          <input type="radio" name="wsh_plan" value="elite" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('elite',299,this)">
           <div class="plan-check">✓</div>
           <div class="plan-tag t-elite" data-es="Premium" data-en="Premium">Premium</div>
           <div class="plan-name">Élite</div>
@@ -1266,7 +1304,7 @@ footer{background:#111110!important;color:#e8e6e2!important;}
             <li><span class="fi">›</span>Gestor dedicado</li>
             <li><span class="fi">›</span>Informes de mercado</li>
           </ul>
-        </div>
+        </label>
         </div>
       </div>
 
@@ -1693,6 +1731,17 @@ var PLAN_NAMES   = { free:'Directorio', presencia:'Presencia', profesional:'Prof
 var PLAN_PERIODS = { free:'Sin coste', presencia:'€49/mes · anual', profesional:'€129/mes · anual', elite:'€299/mes · anual' };
 var ACTOR_NAMES  = { cantera:'Propietarios de canteras', distribuidor:'Distribuidores', fabricante:'Fabricantes y talleres', arquitecto:'Estudios de arquitectura', constructora:'Constructoras', maquinaria:'Maquinaria industrial', laboratorio:'Laboratorios y certificación', logistica:'Logística' };
 
+
+function selectPlanRadio(plan, price, input) {
+  document.querySelectorAll('.plan-card').forEach(function(c){ c.classList.remove('selected'); });
+  var label = input.closest('.plan-card');
+  if(label) label.classList.add('selected');
+  ST.plan  = plan;
+  ST.price = price;
+  document.getElementById('btn1').disabled = false;
+  updateSidebarBadge();
+  updateTierUI();
+}
 // ── 1. Select plan ──
 function selectPlan(card) {
   document.querySelectorAll('.plan-card').forEach(function(c){ c.classList.remove('selected'); });
@@ -1705,15 +1754,15 @@ function selectPlan(card) {
 }
 
 // Robust plan card click — handles clicks on child elements too
-document.addEventListener('DOMContentLoaded', function() {
+(function() {
   document.querySelectorAll('.plan-card').forEach(function(card) {
-    card.style.cssText += ';cursor:pointer!important;pointer-events:auto!important;position:relative!important;z-index:2!important;';
     card.addEventListener('click', function(e) {
       e.stopPropagation();
+      e.preventDefault();
       selectPlan(card);
     });
   });
-});
+})();
 
 // ── 2. Toggle actor ──
 function toggleActor(card) {
