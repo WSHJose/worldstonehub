@@ -1722,9 +1722,9 @@ label.plan-card input[type="radio"] { display: none !important; }
 </div><!-- /shell -->
 
 <script>
-// ═══════════════════════════════════════════
-// WORLD STONE HUB — REGISTRO
-// ═══════════════════════════════════════════
+// ===========================================
+// WORLD STONE HUB - REGISTRO
+// ===========================================
 var ST = { plan:null, price:0, actors:[], step:1 };
 
 var PLAN_NAMES   = { free:'Directorio', presencia:'Presencia', profesional:'Profesional', elite:'Élite' };
@@ -1742,7 +1742,7 @@ function selectPlanRadio(plan, price, input) {
   updateSidebarBadge();
   updateTierUI();
 }
-// ── 1. Select plan ──
+// == 1. Select plan ==
 function selectPlan(card) {
   document.querySelectorAll('.plan-card').forEach(function(c){ c.classList.remove('selected'); });
   card.classList.add('selected');
@@ -1753,7 +1753,7 @@ function selectPlan(card) {
   updateTierUI();
 }
 
-// Robust plan card click — handles clicks on child elements too
+// Robust plan card click - handles clicks on child elements too
 (function() {
   document.querySelectorAll('.plan-card').forEach(function(card) {
     card.addEventListener('click', function(e) {
@@ -1764,7 +1764,7 @@ function selectPlan(card) {
   });
 })();
 
-// ── 2. Toggle actor ──
+// == 2. Toggle actor ==
 function toggleActor(card) {
   card.classList.toggle('selected');
   var a = card.dataset.actor;
@@ -1778,13 +1778,13 @@ function toggleActor(card) {
   document.getElementById('sec_cantera').style.display = ST.actors.includes('cantera') ? 'block' : 'none';
 }
 
-// ── Sidebar badge ──
+// == Sidebar badge ==
 function updateSidebarBadge() {
   var b = document.getElementById('planBadge');
   if (!ST.plan) { b.classList.remove('show'); return; }
   b.classList.add('show');
-  document.getElementById('spbName').textContent  = PLAN_NAMES[ST.plan] || '—';
-  document.getElementById('spbPrice').textContent = PLAN_PERIODS[ST.plan] || '—';
+  document.getElementById('spbName').textContent  = PLAN_NAMES[ST.plan] || '-';
+  document.getElementById('spbPrice').textContent = PLAN_PERIODS[ST.plan] || '-';
   var actEl = document.getElementById('spbActors');
   if (ST.actors.length > 0) {
     actEl.style.display = 'block';
@@ -1792,7 +1792,7 @@ function updateSidebarBadge() {
   } else { actEl.style.display = 'none'; }
 }
 
-// ── Tier-based UI ──
+// == Tier-based UI ==
 function updateTierUI() {
   var p = ST.plan;
   var isFree = p === 'free';
@@ -1825,7 +1825,7 @@ function updateTierUI() {
   if (uc) uc.textContent = isPro ? 'Ilimitado · JPG / PNG · 5 MB c/u' : 'Hasta 10 imágenes · JPG / PNG · 5 MB c/u';
 }
 
-// ── Navigate ──
+// == Navigate ==
 function goTo(n) {
   document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById('s' + n).classList.add('active');
@@ -1845,7 +1845,7 @@ function updateSteps(cur) {
   }
 }
 
-// ── Validate step 3 ──
+// == Validate step 3 ==
 function validateS3() {
   var checks = [
     { id:'f_nombre', fn:function(v){ return v.trim().length > 0; } },
@@ -1882,18 +1882,18 @@ function validateS3() {
   goTo(4);
 }
 
-// ── Fill review ──
+// == Fill review ==
 function fillReview() {
   function v(id) { var e=document.getElementById(id); return e ? (e.value.trim()||'—') : '—'; }
 
-  document.getElementById('rv_plan').textContent   = PLAN_NAMES[ST.plan] || '—';
-  document.getElementById('rv_actors').textContent = ST.actors.map(function(a){ return ACTOR_NAMES[a]||a; }).join(' · ') || '—';
+  document.getElementById('rv_plan').textContent   = PLAN_NAMES[ST.plan] || '-';
+  document.getElementById('rv_actors').textContent = ST.actors.map(function(a){ return ACTOR_NAMES[a]||a; }).join(' · ') || '-';
 
   var priceEl = document.getElementById('rv_price');
   if (ST.price === 0) { priceEl.innerHTML = '<span style="font-size:28px;font-family:Cormorant Garamond,serif;color:#A67C52">Gratuito</span>'; }
   else { priceEl.innerHTML = '<sup>€</sup>' + ST.price; }
 
-  document.getElementById('rv_period').textContent  = PLAN_PERIODS[ST.plan] || '—';
+  document.getElementById('rv_period').textContent  = PLAN_PERIODS[ST.plan] || '-';
   document.getElementById('rv_nombre').textContent  = v('f_nombre');
   document.getElementById('rv_pais').textContent    = v('f_pais');
   document.getElementById('rv_ciudad').textContent  = v('f_ciudad');
@@ -1906,7 +1906,7 @@ function fillReview() {
   document.getElementById('rv_login').textContent   = v('f_login');
 }
 
-// ── Submit ──
+// == Submit ==
 function submitForm() {
   if (!document.getElementById('chk_terms').checked) {
     alert('Acepta los términos y condiciones para continuar.');
@@ -1917,7 +1917,7 @@ function submitForm() {
   var PLAN_NAMES  = { free:'Directorio (Gratuito)', presencia:'Presencia — 49EUR/mes', profesional:'Profesional — 129EUR/mes', elite:'Elite — 299EUR/mes' };
   var ACTOR_NAMES = { cantera:'Canteras', distribuidor:'Distribuidores', fabricante:'Fabricantes', arquitecto:'Arquitectura', constructora:'Constructoras', maquinaria:'Maquinaria', laboratorio:'Laboratorios', logistica:'Logistica' };
 
-  // Build a clean text summary — this goes into the single Google Form field
+  // Build a clean text summary - this goes into the single Google Form field
   var resumen = [
     '=== NUEVA SOLICITUD ALTA WSH ===',
     'PLAN: '           + (PLAN_NAMES[ST.plan] || ST.plan),
@@ -1943,15 +1943,14 @@ function submitForm() {
     'Cargo: '          + v('f_resp_cargo'),
     'Email: '          + v('f_resp_email'),
     'Email acceso: '   + v('f_login'),
-  ].join('
-');
+  ].join('\n');
 
   // Loading state
   var btn = document.querySelector('.btn-submit');
   btn.textContent = 'Enviando...';
   btn.disabled = true;
 
-  // ── GOOGLE FORMS SUBMISSION ──
+  // == GOOGLE FORMS SUBMISSION ==
   // INSTRUCCIONES PARA CONFIGURAR:
   // 1. Ve a forms.google.com con tu cuenta WSH
   // 2. Crea un formulario nuevo llamado "WSH Altas"
@@ -1968,7 +1967,7 @@ function submitForm() {
   var params = new URLSearchParams();
   params.append(ENTRY_ID, resumen);
 
-  // Use no-cors (Google Forms doesn't allow CORS — this is normal and expected)
+  // Use no-cors (Google Forms doesn't allow CORS - this is normal and expected)
   fetch(googleUrl, {
     method: 'POST',
     mode: 'no-cors',
@@ -1976,7 +1975,7 @@ function submitForm() {
     body: params.toString()
   })
   .then(function() {
-    // no-cors always resolves (can't read response) — treat as success
+    // no-cors always resolves (can't read response) - treat as success
     showSuccess();
   })
   .catch(function(err) {
@@ -2023,7 +2022,7 @@ function showSuccess() {
 }
 
 
-// ── Live validation ──
+// == Live validation ==
 document.querySelectorAll('.field input, .field select, .field textarea').forEach(function(el) {
   el.addEventListener('input', function() {
     var f = this.closest('.field');
@@ -2031,7 +2030,7 @@ document.querySelectorAll('.field input, .field select, .field textarea').forEac
   });
 });
 
-// ── Init ──
+// == Init ==
 updateTierUI();
 </script>
 
