@@ -1007,6 +1007,8 @@ nav{
   box-shadow:0 0 0 2px rgba(166,124,82,0.25), 0 8px 30px rgba(26,25,23,0.10)!important;
 }
 .plan-card.selected .plan-check{opacity:1!important;transform:scale(1)!important;}
+.plan-card * { pointer-events:none!important; }
+.plan-card { pointer-events:auto!important; }
 .plan-card.featured,.plan-popular{
   border-top-color:#A67C52!important;
 }
@@ -1184,7 +1186,7 @@ footer{background:#111110!important;color:#e8e6e2!important;}
 
         <!-- FREE -->
         <div class="plan-card-wrap">
-        <div class="plan-card" data-plan="free" data-price="0" onclick="selectPlan(this)">
+        <div class="plan-card" data-plan="free" data-price="0">
           <div class="plan-check">✓</div>
           <div class="plan-tag t-free">Gratuito</div>
           <div class="plan-name" data-es="Directorio" data-en="Directory">Directorio</div>
@@ -1205,7 +1207,7 @@ footer{background:#111110!important;color:#e8e6e2!important;}
 
         <!-- PRESENCIA -->
         <div class="plan-card-wrap">
-        <div class="plan-card" data-plan="presencia" data-price="49" onclick="selectPlan(this)">
+        <div class="plan-card" data-plan="presencia" data-price="49">
           <div class="plan-check">✓</div>
           <div class="plan-tag t-base">Entrada</div>
           <div class="plan-name">Presencia</div>
@@ -1226,7 +1228,7 @@ footer{background:#111110!important;color:#e8e6e2!important;}
 
         <!-- PROFESIONAL -->
         <div class="plan-card-wrap">
-        <div class="plan-card featured" data-plan="profesional" data-price="129" onclick="selectPlan(this)">
+        <div class="plan-card featured" data-plan="profesional" data-price="129">
           <div class="plan-popular" data-es="Más popular" data-en="Most popular">Más popular</div>
           <div class="plan-check">✓</div>
           <div class="plan-tag t-pro">Recomendado</div>
@@ -1248,7 +1250,7 @@ footer{background:#111110!important;color:#e8e6e2!important;}
 
         <!-- ELITE -->
         <div class="plan-card-wrap">
-        <div class="plan-card" data-plan="elite" data-price="299" onclick="selectPlan(this)">
+        <div class="plan-card" data-plan="elite" data-price="299">
           <div class="plan-check">✓</div>
           <div class="plan-tag t-elite" data-es="Premium" data-en="Premium">Premium</div>
           <div class="plan-name">Élite</div>
@@ -1701,6 +1703,17 @@ function selectPlan(card) {
   updateSidebarBadge();
   updateTierUI();
 }
+
+// Robust plan card click — handles clicks on child elements too
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.plan-card').forEach(function(card) {
+    card.style.cssText += ';cursor:pointer!important;pointer-events:auto!important;position:relative!important;z-index:2!important;';
+    card.addEventListener('click', function(e) {
+      e.stopPropagation();
+      selectPlan(card);
+    });
+  });
+});
 
 // ── 2. Toggle actor ──
 function toggleActor(card) {
