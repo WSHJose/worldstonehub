@@ -1503,7 +1503,7 @@ DB = DB; filtered = DB.slice(); applyFilters();
 
 function openAddMaterial(){document.getElementById('addMaterialModal').classList.add('open');}
 function closeAddMaterial(){document.getElementById('addMaterialModal').classList.remove('open');}
-document.getElementById('addMaterialModal').addEventListener('click',function(e){if(e.target===this)closeAddMaterial();});
+(function(){var m=document.getElementById('addMaterialModal');if(m)m.addEventListener('click',function(e){if(e.target===this)closeAddMaterial();});})();
 function submitNuevoMaterial(){
   var nombre=document.getElementById('nm-nombre').value.trim();
   var cat=document.getElementById('nm-cat').value;
