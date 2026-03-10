@@ -1735,7 +1735,7 @@ update();
 
 function openAddCantera(){document.getElementById('addCanteraModal').classList.add('open');}
 function closeAddCantera(){document.getElementById('addCanteraModal').classList.remove('open');}
-document.getElementById('addCanteraModal').addEventListener('click',function(e){if(e.target===this)closeAddCantera();});
+(function(){var m=document.getElementById('addCanteraModal');if(m)m.addEventListener('click',function(e){if(e.target===this)closeAddCantera();});})();
 function submitNuevaCantera(){
   var nombre=document.getElementById('nc-nombre').value.trim();
   var tipo=document.getElementById('nc-tipo').value;
