@@ -2302,6 +2302,7 @@ footer{background:#111110!important;color:#e8e6e2!important;}
       </ul>
     </li>
     <li><a href="registro.html" class="nav-cta">Publicar</a></li>
+    <li id="nav-auth-item"></li>
   </ul>
 </nav>
 
@@ -3205,6 +3206,73 @@ document.querySelectorAll('.sp-sug-tag').forEach(function(tag) {
       menu.addEventListener('mouseleave', function(){
         closeTimer = setTimeout(function(){ el.classList.remove('open'); }, 250);
       });
+    }
+  });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+.nav-auth-sep {
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  background: #c8c5bf;
+  margin: 0 4px 0 8px;
+  vertical-align: middle;
+  opacity: 0.6;
+}
+.nav-auth-link {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.25s, opacity 0.25s;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-auth-link.state-acceso {
+  color: #8a8784;
+}
+.nav-auth-link.state-acceso:hover {
+  color: #1a1917;
+}
+.nav-auth-link.state-panel {
+  color: #A67C52;
+  border: 1px solid rgba(166,124,82,0.35);
+  padding: 6px 14px;
+  letter-spacing: 2px;
+}
+.nav-auth-link.state-panel:hover {
+  background: #A67C52;
+  color: #f8f7f5;
+  border-color: #A67C52;
+}
+.nav-auth-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #A67C52;
+  display: inline-block;
+  flex-shrink: 0;
+}
+</style>
+<script>
+(function(){
+  var SB_URL="https://whcptmdapnavcxcszwwk.supabase.co";
+  var SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8";
+  var db=supabase.createClient(SB_URL,SB_KEY);
+  db.auth.getSession().then(function(r){
+    var s=r.data&&r.data.session;
+    var el=document.getElementById("nav-auth-item");
+    if(!el)return;
+    if(s){
+      el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Mi Panel</a>';
+    } else {
+      el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-acceso">Acceso</a>';
     }
   });
 })();
