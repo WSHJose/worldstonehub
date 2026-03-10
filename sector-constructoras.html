@@ -399,6 +399,9 @@ nav {
   </div>
   </div>
 </main>
+<!-- WSH AD SLOT: SECTOR-CON -->
+<div class="wsh-ad" data-espacio="SECTOR-CON" style="display:none;text-align:center;padding:12px 48px;background:var(--bg,#f8f7f5);border-top:1px solid var(--border,#e2e0dc);border-bottom:1px solid var(--border,#e2e0dc);"></div>
+
 
 <section class="sector-nav-section">
   <div class="sector-nav-title">Explorar otros actores del sector</div>
@@ -550,6 +553,31 @@ nav {
       el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-acceso">Acceso</a>';
     }
   });
+})();
+</script>
+
+<!-- WSH Ad Loader -->
+<script>
+(function(){
+  var SB_URL="https://whcptmdapnavcxcszwwk.supabase.co";
+  var SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8";
+  var today=new Date().toISOString().slice(0,10);
+  var slots=document.querySelectorAll('.wsh-ad[data-espacio]');
+  if(!slots.length)return;
+  var codigos=Array.from(slots).map(function(s){return s.dataset.espacio;});
+  var query=codigos.map(function(c){return 'espacio_codigo.eq.'+c;}).join(',');
+  fetch(SB_URL+'/rest/v1/anuncios?select=espacio_codigo,anunciante,imagen_url,url_destino,texto_alt&activo=eq.true&or=('+query+')&fecha_fin=gte.'+today,{
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
+  }).then(function(r){return r.json();}).then(function(data){
+    if(!data||!data.length)return;
+    data.forEach(function(ad){
+      slots.forEach(function(slot){
+        if(slot.dataset.espacio!==ad.espacio_codigo)return;
+        slot.style.cssText='display:block;text-align:center;padding:16px 0;';
+        slot.innerHTML='<a href="'+ad.url_destino+'" target="_blank" rel="noopener sponsored" style="display:inline-block;max-width:100%;"><img src="'+ad.imagen_url+'" alt="'+(ad.texto_alt||ad.anunciante||'')+'" style="max-width:100%;height:auto;display:block;" loading="lazy"></a>';
+      });
+    });
+  }).catch(function(){});
 })();
 </script>
 </body>
