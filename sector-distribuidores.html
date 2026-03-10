@@ -274,23 +274,8 @@ nav {
     <p class="ph-desc">Empresas especializadas en la distribución de piedra natural y artificial que conectan productores con arquitectos, interioristas y constructoras en todo el mundo.</p>
     <div class="ph-stats"><div><div class="ph-stat-n">180+</div><div class="ph-stat-l">Empresas</div></div><div><div class="ph-stat-n">60</div><div class="ph-stat-l">Países</div></div><div><div class="ph-stat-n">Global</div><div class="ph-stat-l">Cobertura</div></div></div>
   </div>
-  <div class="page-hdr-right">
-    <div class="hdr-deco">
-    <div class="hdr-deco-bg" style="background:linear-gradient(135deg,#2c4a6b 0%,#2c4a6bcc 60%,#2c4a6b88 100%);"></div>
-    <div style="position:absolute;inset:0;opacity:0.06;" >
-      <svg width="100%" height="100%" viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice">
-        <g stroke="rgba(255,255,255,0.8)" stroke-width="0.6" fill="none">
-          <path d="M40,80 Q120,20 220,100 T380,140"/>
-          <path d="M0,200 Q80,160 180,220 T400,200"/>
-          <path d="M60,0 Q80,120 120,240 T100,480"/>
-          <path d="M220,0 Q240,140 260,280 T240,480"/>
-          <path d="M340,0 Q360,160 320,320 T360,480"/>
-        </g>
-      </svg>
-    </div>
-    <div class="hdr-deco-letter" style="color:rgba(255,255,255,0.07);">D</div>
-    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:72px;z-index:3;line-height:1;">🚚</div>
-    <div class="hdr-deco-label" style="color:rgba(255,255,255,0.35);">WORLD STONE HUB · DISTRIBUIDORES DE PIEDRA NATURAL</div>
+  <div class="page-hdr-right" id="hdr-ad-sector-dis" style="display:none;">
+    <div class="wsh-ad" data-espacio="SECTOR-DIS" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
   </div>
   </div>
 </div>
@@ -399,9 +384,6 @@ nav {
   </div>
   </div>
 </main>
-<!-- WSH AD SLOT: SECTOR-DIS -->
-<div class="wsh-ad" data-espacio="SECTOR-DIS" style="display:none;text-align:center;padding:12px 48px;background:var(--bg,#f8f7f5);border-top:1px solid var(--border,#e2e0dc);border-bottom:1px solid var(--border,#e2e0dc);"></div>
-
 
 <section class="sector-nav-section">
   <div class="sector-nav-title">Explorar otros actores del sector</div>
@@ -573,7 +555,9 @@ nav {
     data.forEach(function(ad){
       slots.forEach(function(slot){
         if(slot.dataset.espacio!==ad.espacio_codigo)return;
-        slot.style.cssText='display:block;text-align:center;padding:16px 0;';
+        slot.style.cssText='display:flex;align-items:center;justify-content:center;width:100%;height:100%;';
+        var wrapper=slot.closest('[id^="hdr-ad-"]');
+        if(wrapper) wrapper.style.display='';
         slot.innerHTML='<a href="'+ad.url_destino+'" target="_blank" rel="noopener sponsored" style="display:inline-block;max-width:100%;"><img src="'+ad.imagen_url+'" alt="'+(ad.texto_alt||ad.anunciante||'')+'" style="max-width:100%;height:auto;display:block;" loading="lazy"></a>';
       });
     });
