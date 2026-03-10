@@ -312,6 +312,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 48px;display:fl
                 <option value="HOME-TOP" data-precio="490" data-pagina="index">HOME-TOP · Banner superior · 490€/mes</option>
                 <option value="HOME-MID" data-precio="290" data-pagina="index">HOME-MID · Entre secciones · 290€/mes</option>
               </optgroup>
+              <optgroup label="Directorio proveedores">
+                <option value="PROVEEDORES-TOP" data-precio="290" data-pagina="lapidis-proveedores">PROVEEDORES-TOP · Bajo nav · 290€/mes</option>
+              </optgroup>
               <optgroup label="Canteras">
                 <option value="CANTERAS-TOP" data-precio="190" data-pagina="lapidis-canteras">CANTERAS-TOP · Bajo header · 190€/mes</option>
               </optgroup>
@@ -493,9 +496,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 48px;display:fl
 
   // Catálogo de espacios
   var ESPACIOS = [
-    {codigo:'HOME-TOP',     pagina:'index',                 posicion:'Banner superior bajo nav',  precio:490},
-    {codigo:'HOME-MID',     pagina:'index',                 posicion:'Entre secciones principales',precio:290},
-    {codigo:'CANTERAS-TOP', pagina:'lapidis-canteras',      posicion:'Bajo el header de página',   precio:190},
+    {codigo:'HOME-TOP',        pagina:'index',                 posicion:'Banner superior bajo nav',   precio:490},
+    {codigo:'HOME-MID',        pagina:'index',                 posicion:'Entre secciones principales', precio:290},
+    {codigo:'PROVEEDORES-TOP', pagina:'lapidis-proveedores',   posicion:'Bajo el nav del directorio',  precio:290},
+    {codigo:'CANTERAS-TOP',    pagina:'lapidis-canteras',      posicion:'Bajo el header de página',    precio:190},
     {codigo:'MATERIALES-TOP',pagina:'lapidis-materiales',   posicion:'Bajo el header de página',   precio:190},
     {codigo:'SECTOR-ARQ',   pagina:'sector-arquitectura',   posicion:'Bajo el listado de empresas',precio:99},
     {codigo:'SECTOR-DIS',   pagina:'sector-distribuidores', posicion:'Bajo el listado de empresas',precio:99},
@@ -594,7 +598,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 48px;display:fl
             '<td><span class="td-estado ' + estado + '">' + estadoLabel + '</span></td>' +
             '<td><div class="td-acciones">' +
               '<button class="btn btn-ghost btn-sm" onclick="editarAnuncio(\'' + a.id + '\')">Editar</button>' +
-              '<button class="btn btn-sm" style="background:'+(a.activo?'rgba(192,64,64,.1)':'rgba(58,128,96,.1)');color:'+(a.activo?'var(--red)':'var(--green)')+';border:1px solid '+(a.activo?'rgba(192,64,64,.3)':'rgba(58,128,96,.3)')+';" onclick="toggleActivo(\'' + a.id + '\',' + !a.activo + ')">'+(a.activo?'Pausar':'Activar')+'</button>' +
+              (function(){ var bg=a.activo?'rgba(192,64,64,.1)':'rgba(58,128,96,.1)'; var co=a.activo?'var(--red)':'var(--green)'; var bo=a.activo?'rgba(192,64,64,.3)':'rgba(58,128,96,.3)'; return '<button class="btn btn-sm" style="background:'+bg+';color:'+co+';border:1px solid '+bo+';" onclick="toggleActivo(\''+a.id+'\','+!a.activo+')">'+(a.activo?'Pausar':'Activar')+'</button>'; })() +
             '</div></td>' +
           '</tr>';
         });
