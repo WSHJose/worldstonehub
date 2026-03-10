@@ -1124,6 +1124,13 @@ label.plan-card input[type="radio"] { display: none !important; }
 <meta property="og:image" content="https://worldstonehub.com/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Registra tu empresa en el directorio global de piedra natural. Planes desde gratuito hasta Élite.">
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const WSH_SUPABASE_URL  = 'https://whcptmdapnavcxcszwwk.supabase.co';
+  const WSH_SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
+  const wshDB = window.supabase.createClient(WSH_SUPABASE_URL, WSH_SUPABASE_ANON);
+</script>
 </head>
 <body>
 
@@ -1917,73 +1924,74 @@ function submitForm() {
   var PLAN_NAMES  = { free:'Directorio (Gratuito)', presencia:'Presencia — 49EUR/mes', profesional:'Profesional — 129EUR/mes', elite:'Elite — 299EUR/mes' };
   var ACTOR_NAMES = { cantera:'Canteras', distribuidor:'Distribuidores', fabricante:'Fabricantes', arquitecto:'Arquitectura', constructora:'Constructoras', maquinaria:'Maquinaria', laboratorio:'Laboratorios', logistica:'Logistica' };
 
-  // Build a clean text summary - this goes into the single Google Form field
-  var resumen = [
-    '=== NUEVA SOLICITUD ALTA WSH ===',
-    'PLAN: '           + (PLAN_NAMES[ST.plan] || ST.plan),
-    'TIPO EMPRESA: '   + ST.actors.map(function(a){ return ACTOR_NAMES[a]||a; }).join(', '),
-    '',
-    '-- EMPRESA --',
-    'Razon social: '   + v('f_nombre'),
-    'Nombre comercial: '+ v('f_marca'),
-    'Pais: '           + v('f_pais'),
-    'Ciudad: '         + v('f_ciudad'),
-    'Fundacion: '      + v('f_fundacion'),
-    'Empleados: '      + v('f_empleados'),
-    'Descripcion: '    + v('f_desc'),
-    '',
-    '-- CONTACTO --',
-    'Email empresa: '  + v('f_email'),
-    'Telefono: '       + v('f_tel'),
-    'Web: '            + v('f_web'),
-    'LinkedIn: '       + v('f_linkedin'),
-    '',
-    '-- RESPONSABLE --',
-    'Nombre: '         + v('f_resp_nombre'),
-    'Cargo: '          + v('f_resp_cargo'),
-    'Email: '          + v('f_resp_email'),
-    'Email acceso: '   + v('f_login'),
-  ].join('\n');
-
   // Loading state
   var btn = document.querySelector('.btn-submit');
-  btn.textContent = 'Enviando...';
+  btn.textContent = 'Registrando...';
   btn.disabled = true;
 
-  // == GOOGLE FORMS SUBMISSION ==
-  // INSTRUCCIONES PARA CONFIGURAR:
-  // 1. Ve a forms.google.com con tu cuenta WSH
-  // 2. Crea un formulario nuevo llamado "WSH Altas"
-  // 3. Añade UN campo: tipo "Respuesta larga", titulo "Datos"
-  // 4. Menú (3 puntos) → "Obtener URL de relleno previo" → escribe algo → "Obtener enlace"
-  // 5. De la URL resultante copia el número largo del parámetro "entry.XXXXXXXXX"
-  // 6. También copia el ID del formulario (entre /e/ y /viewform)
-  // 7. Reemplaza GOOGLE_FORM_ID y ENTRY_ID abajo
+  var emailLogin = v('f_login');
+  var password   = v('f_pass1');
+  var nombreEmpresa = v('f_nombre');
 
-  var GOOGLE_FORM_ID = '1FAIpQLScZh4nGlEhFWszBpAlkpC6FZR-FFnrgycA4G8muxdRwWzqgPA';  // ej: 1FAIpQLSe...
-  var ENTRY_ID       = 'entry.132958394';             // ej: entry.123456789
+  // Generar slug desde nombre empresa
+  function makeSlug(str) {
+    return str.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
 
-  var googleUrl = 'https://docs.google.com/forms/d/e/' + GOOGLE_FORM_ID + '/formResponse';
-  var params = new URLSearchParams();
-  params.append(ENTRY_ID, resumen);
-
-  // Use no-cors (Google Forms doesn't allow CORS - this is normal and expected)
-  fetch(googleUrl, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: params.toString()
+  // == SUPABASE: 1) Crear usuario en Auth ==
+  wshDB.auth.signUp({
+    email: emailLogin,
+    password: password,
+    options: {
+      data: {
+        nombre_empresa: nombreEmpresa,
+        plan: ST.plan || 'free'
+      }
+    }
   })
-  .then(function() {
-    // no-cors always resolves (can't read response) - treat as success
+  .then(function(authResult) {
+    if (authResult.error) throw authResult.error;
+
+    var userId = authResult.data.user ? authResult.data.user.id : null;
+
+    // == SUPABASE: 2) Insertar proveedor en la tabla ==
+    return wshDB.from('proveedores').insert({
+      user_id:        userId,
+      nombre_empresa: nombreEmpresa,
+      slug:           makeSlug(nombreEmpresa) + '-' + Date.now().toString(36),
+      tipo_empresa:   ST.actors ? ST.actors[0] : null,
+      sector:         ST.actors || [],
+      descripcion:    v('f_desc'),
+      ano_fundacion:  v('f_fundacion') ? parseInt(v('f_fundacion')) : null,
+      num_empleados:  v('f_empleados'),
+      email_contacto: v('f_email'),
+      telefono:       v('f_tel'),
+      website:        v('f_web'),
+      linkedin:       v('f_linkedin'),
+      pais:           v('f_pais'),
+      ciudad:         v('f_ciudad'),
+      plan:           ST.plan || 'free',
+      plan_activo:    ST.plan === 'free',
+      estado:         ST.plan === 'free' ? 'activo' : 'pendiente'
+    });
+  })
+  .then(function(insertResult) {
+    if (insertResult.error) throw insertResult.error;
     showSuccess();
   })
   .catch(function(err) {
-    // Network error
     btn.textContent = 'Enviar solicitud de alta →';
     btn.disabled = false;
-    alert('Error de red. Por favor intenta de nuevo o escríbenos a hello@worldstonehub.com');
-    console.error('Google Forms error:', err);
+    var msg = err.message || 'Error desconocido';
+    if (msg.includes('already registered') || msg.includes('User already registered')) {
+      alert('Este email ya está registrado. ¿Ya tienes cuenta? Accede a tu panel en panel.worldstonehub.com');
+    } else {
+      alert('Error al registrar: ' + msg + '\nSi el problema persiste escríbenos a hello@worldstonehub.com');
+    }
+    console.error('Supabase error:', err);
   });
 }
 
