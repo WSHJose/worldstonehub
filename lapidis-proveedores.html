@@ -1223,881 +1223,48 @@ footer{background:#111110!important;color:#e8e6e2!important;}
 
 <main class="providers-list" id="providersList">
 
-  <div class="tier-sep">
-    <div class="tier-sep-inner">
-      <span class="tier-sep-dot elite"></span>
-      <span class="tier-sep-label">Élite</span>
-      <span class="tier-sep-desc">— Presencia editorial completa · 299€/mes</span>
-    </div>
-    <div class="tier-sep-line"></div>
+  <!-- Loading state -->
+  <div id="loadingState" style="padding:80px 0;text-align:center;">
+    <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#8a8784;animation:pulse 1.5s ease-in-out infinite;">Cargando directorio…</div>
   </div>
-  <article class="profile-elite" id="levantina" data-tags="fabricante exportador distribuidor espana" style="--acc:#c9a84c;--acc-rgb:201,168,76">
+  <style>@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}</style>
 
-    <!-- TOP BAND -->
-    <div class="e-topband">
-      <div class="e-topband-accent" style="background:linear-gradient(90deg,#c9a84ccc,#c9a84c40,transparent)"></div>
-      <div class="e-topband-inner">
-        <div class="e-plan-badge e-plan-elite">◆ ÉLITE</div>
-        <div class="e-topband-name">Levantina Group</div>
-        <div class="e-topband-tipo"><span class="tipo-tag">Fabricante</span><span class="tipo-tag">Exportador</span><span class="tipo-tag">Distribuidor</span></div>
-        <div class="e-topband-stats"><div class="e-stat">
-          <div class="e-stat-num" style="color:#A67C52">65+</div>
-          <div class="e-stat-lbl">años de historia</div>
-        </div><div class="e-stat">
-          <div class="e-stat-num" style="color:#A67C52">100+</div>
-          <div class="e-stat-lbl">países</div>
-        </div><div class="e-stat">
-          <div class="e-stat-num" style="color:#A67C52">19</div>
-          <div class="e-stat-lbl">Stone Centers</div>
-        </div><div class="e-stat">
-          <div class="e-stat-num" style="color:#A67C52">8</div>
-          <div class="e-stat-lbl">fábricas</div>
-        </div></div>
-      </div>
+  <!-- Dynamic providers injected here -->
+  <div id="dynamicProviders"></div>
+
+  <!-- Static CTA -->
+  <div class="join-cta">
+    <div class="jc-text">
+      <h2>¿Tu empresa no aparece aquí?</h2>
+      <p>Crea tu ficha gratuita en minutos y empieza a ser visible para compradores, arquitectos y constructoras de todo el mundo. Los planes de pago amplían tu presencia con galería, catálogo y estadísticas.</p>
     </div>
-
-    <!-- BODY GRID -->
-    <div class="e-body">
-
-      <!-- LEFT SIDEBAR -->
-      <aside class="e-sidebar">
-        <div class="e-logo-zone">
-          <div class="e-logo-text" style="color:#A67C52">LEVANTINA</div>
-          <div class="e-logo-sub">GROUP</div>
-          <div class="e-logo-year">Est. 1959</div>
-        </div>
-
-        <div class="e-meta-block">
-          <div class="e-meta-row"><span class="e-meta-k">Sede</span><span class="e-meta-v">Novelda, Alicante<br>España</span></div>
-          <div class="e-meta-row"><span class="e-meta-k">Fundación</span><span class="e-meta-v">1959</span></div>
-          <div class="e-meta-row"><span class="e-meta-k">Equipo</span><span class="e-meta-v">~840 empleados</span></div>
-          <div class="e-meta-row"><span class="e-meta-k">Presencia</span><span class="e-meta-v">+100 países · 19 Stone Centers · 8 fábricas</span></div>
-          <div class="e-meta-row"><span class="e-meta-k" data-es="Web" data-en="Website">Web</span><span class="e-meta-v"><a href="https://www.levantina.com" target="_blank" class="e-web-link">www.levantina.com</a></span></div>
-        </div>
-
-        <div class="e-marcas-block">
-          <div class="e-block-lbl">Marcas propias</div>
-          <div class="e-marcas"><span class="e-marca">Techlam®</span><span class="e-marca">Naturamia®</span><span class="e-marca">Pavex®</span><span class="e-marca">MÁRMOL®</span></div>
-        </div>
-
-        <div class="e-certs-block">
-          <div class="e-block-lbl" data-es="Certificaciones" data-en="Certifications">Certificaciones</div>
-          <div class="e-certs"><span class="e-cert">ISO 9001</span><span class="e-cert">PEFC</span><span class="e-cert">CE</span><span class="e-cert" data-es="Verificado" data-en="Verified">Verificado</span></div>
-        </div>
-
-        <div class="e-canteras"><span class="e-canteras-lbl">Canteras vinculadas</span><a href="lapidis-canteras.html" class="e-cantera-link">Cantera Crema Marfil Novelda</a><a href="lapidis-canteras.html" class="e-cantera-link">Sierra Minera</a><a href="lapidis-canteras.html" class="e-cantera-link">Cavanilles</a></div>
-      </aside>
-
-      <!-- MAIN CONTENT -->
-      <div class="e-main">
-        <div class="e-head">
-          <div class="e-eyebrow">España · Novelda, Alicante</div>
-          <h2 class="e-name">Levantina Group</h2>
-          <p class="e-tagline">Líder mundial en piedra natural y sinterizada</p>
-          <p class="e-desc">Fundada en 1959 en Novelda (Alicante), Levantina es la multinacional española de referencia en piedra natural y sinterizada. Controla la cadena completa —desde canteras propias hasta distribución en más de 100 países— a través de 19 Stone Centers y 8 fábricas propias.</p>
-        </div>
-
-        <div class="e-specs"><div class="e-spec-cell">
-          <div class="e-spec-icon">🏔️</div>
-          <div class="e-spec-name">Mármol y Caliza</div>
-          <div class="e-spec-desc">Crema Marfil DOP, Mediterranean Stone, calizas premium de Novelda</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">⚡</div>
-          <div class="e-spec-name">Piedra Sinterizada</div>
-          <div class="e-spec-desc">Techlam® — primer fabricante español. Formatos hasta 360×160 cm</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">💎</div>
-          <div class="e-spec-name">Granito y Cuarcita</div>
-          <div class="e-spec-desc">Naturamia® — granitos y cuarcitas de origen Brasil y España</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">🏛️</div>
-          <div class="e-spec-name">Pavimentación</div>
-          <div class="e-spec-desc">Pavex® — adoquines y pavimentos para obra pública y urbana</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">🛁</div>
-          <div class="e-spec-name">Aplicaciones</div>
-          <div class="e-spec-desc">Cocinas, baños, fachadas, piscinas, mobiliario, náutica</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">🌱</div>
-          <div class="e-spec-name">Sostenibilidad</div>
-          <div class="e-spec-desc">ESG propia, ODS alineados, emisiones verificadas por KPMG</div>
-        </div></div>
-
-        <div class="e-mats-block">
-          <div class="e-block-lbl">Materiales comercializados</div>
-          <div class="e-mats"><span class="mat-tag">Crema Marfil</span><span class="mat-tag">Rojo Alicante</span><span class="mat-tag">Blanco Macael</span><span class="mat-tag">Gris Pulpis</span><span class="mat-tag">Crema Valencia</span><span class="mat-tag">Dekton Calacatta Laza</span><span class="mat-tag">Dekton Sirius</span><span class="mat-tag">Techlam Calacatta Gold</span><span class="mat-tag">Travertino Romano</span></div>
-        </div>
-
-        <div class="e-productos"><div class="e-prod" style="--pacc:#c9a84c">
-          <div class="e-prod-name">Techlam®</div>
-          <div class="e-prod-type">Sinterizada</div>
-        </div><div class="e-prod" style="--pacc:#a08030">
-          <div class="e-prod-name">Naturamia®</div>
-          <div class="e-prod-type">Granitos</div>
-        </div><div class="e-prod" style="--pacc:#b09060">
-          <div class="e-prod-name">Mediterranean</div>
-          <div class="e-prod-type">Mármol premium</div>
-        </div><div class="e-prod" style="--pacc:#8a7040">
-          <div class="e-prod-name">Pavex®</div>
-          <div class="e-prod-type">Pavimentación</div>
-        </div></div>
-
-        
-    <div class="e-editorial">
-      <div class="e-editorial-mark">❝</div>
-      <div class="e-editorial-body">
-        <div class="e-editorial-eyebrow">Perfil editorial</div>
-        <div class="e-editorial-titulo">La multinacional española que exportó piedra a 100 países</div>
-        <div class="e-editorial-texto">Con más de 65 años en el sector, Levantina Group ha suministrado piedra para proyectos emblemáticos como el Aeropuerto de Madrid Barajas, hoteles de lujo en Dubái y Shanghai, y las avenidas comerciales más exclusivas de Europa. Su apuesta por la innovación, con el desarrollo de Techlam® en 2007 como primera losa sinterizada española, marcó un antes y un después en el sector.</div>
-        <div class="e-editorial-extras">
-          <span class="e-extra-tag">◆ Informe de mercado</span>
-          <span class="e-extra-tag">◇ Gestor dedicado</span>
-          <span class="e-extra-tag">⟡ Integración API/Feed</span>
-        </div>
-      </div>
-    </div>
-
-        <div class="e-footer">
-          <div class="e-links"><a href="https://www.levantina.com" class="e-link" target="_blank">levantina.com</a><a href="https://www.levantina.com/stone-centers/" class="e-link" target="_blank">Stone Centers</a><a href="https://www.levantina.com/downloads/" class="e-link" target="_blank">Catálogos</a></div>
-          <div class="e-verified">◆ Perfil verificado · Élite</div>
-        </div>
-      </div>
-
-    </div><!-- /e-body -->
-
-    <!-- GALLERY -->
-    <div class="e-gallery"><div class="e-gal-big">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">🏗️</span>
-          </div>
-          <div class="e-gal-lbl">Proyectos exteriores</div>
-        </div><div class="e-gal-slot">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">🪨</span>
-          </div>
-          <div class="e-gal-lbl">Crema Marfil DOP</div>
-        </div><div class="e-gal-slot">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">⚡</span>
-          </div>
-          <div class="e-gal-lbl">Techlam® sinterizada</div>
-        </div><div class="e-gal-slot">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">💎</span>
-          </div>
-          <div class="e-gal-lbl">Naturamia® Brasil</div>
-        </div><div class="e-gal-slot">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">🏛️</span>
-          </div>
-          <div class="e-gal-lbl">Stone Center Madrid</div>
-        </div></div>
-
-  </article>
-  <article class="profile-elite" id="antolini" data-tags="fabricante exportador distribuidor italia" style="--acc:#8aa0b8;--acc-rgb:138,160,184">
-
-    <!-- TOP BAND -->
-    <div class="e-topband">
-      <div class="e-topband-accent" style="background:linear-gradient(90deg,#8aa0b8cc,#8aa0b840,transparent)"></div>
-      <div class="e-topband-inner">
-        <div class="e-plan-badge e-plan-elite">◆ ÉLITE</div>
-        <div class="e-topband-name">Antolini Luigi & C.</div>
-        <div class="e-topband-tipo"><span class="tipo-tag">Fabricante</span><span class="tipo-tag">Distribuidor</span></div>
-        <div class="e-topband-stats"><div class="e-stat">
-          <div class="e-stat-num" style="color:#8aa0b8">65+</div>
-          <div class="e-stat-lbl">años</div>
-        </div><div class="e-stat">
-          <div class="e-stat-num" style="color:#8aa0b8">130</div>
-          <div class="e-stat-lbl">países</div>
-        </div><div class="e-stat">
-          <div class="e-stat-num" style="color:#8aa0b8">1.500+</div>
-          <div class="e-stat-lbl">referencias</div>
-        </div><div class="e-stat">
-          <div class="e-stat-num" style="color:#8aa0b8">30+</div>
-          <div class="e-stat-lbl">showrooms</div>
-        </div></div>
-      </div>
-    </div>
-
-    <!-- BODY GRID -->
-    <div class="e-body">
-
-      <!-- LEFT SIDEBAR -->
-      <aside class="e-sidebar">
-        <div class="e-logo-zone">
-          <div class="e-logo-text" style="color:#8aa0b8">ANTOLINI</div>
-          <div class="e-logo-sub">LUIGI & C.</div>
-          <div class="e-logo-year">Est. 1956</div>
-        </div>
-
-        <div class="e-meta-block">
-          <div class="e-meta-row"><span class="e-meta-k">Sede</span><span class="e-meta-v">Sega di Cavaion, Verona<br>Italia</span></div>
-          <div class="e-meta-row"><span class="e-meta-k">Fundación</span><span class="e-meta-v">1956</span></div>
-          <div class="e-meta-row"><span class="e-meta-k">Equipo</span><span class="e-meta-v">~400 empleados</span></div>
-          <div class="e-meta-row"><span class="e-meta-k">Presencia</span><span class="e-meta-v">130 países · +1.500 referencias · 30+ showrooms</span></div>
-          <div class="e-meta-row"><span class="e-meta-k" data-es="Web" data-en="Website">Web</span><span class="e-meta-v"><a href="https://www.antolini.com" target="_blank" class="e-web-link">www.antolini.com</a></span></div>
-        </div>
-
-        <div class="e-marcas-block">
-          <div class="e-block-lbl">Marcas propias</div>
-          <div class="e-marcas"><span class="e-marca">Antolini Exclusive</span><span class="e-marca">Natural Surfaces</span><span class="e-marca">Semiprecious Collection</span></div>
-        </div>
-
-        <div class="e-certs-block">
-          <div class="e-block-lbl" data-es="Certificaciones" data-en="Certifications">Certificaciones</div>
-          <div class="e-certs"><span class="e-cert">ISO 9001</span><span class="e-cert">CE</span><span class="e-cert">UNI EN 1341</span><span class="e-cert" data-es="Verificado" data-en="Verified">Verificado</span></div>
-        </div>
-
-        <div class="e-canteras"><span class="e-canteras-lbl">Canteras vinculadas</span><a href="lapidis-canteras.html" class="e-cantera-link">Cava Fantiscritti</a><a href="lapidis-canteras.html" class="e-cantera-link">Cava Michelangelo / Cervaiole</a><a href="lapidis-canteras.html" class="e-cantera-link">Cava Ravaccione</a></div>
-      </aside>
-
-      <!-- MAIN CONTENT -->
-      <div class="e-main">
-        <div class="e-head">
-          <div class="e-eyebrow">Italia · Sega di Cavaion, Verona</div>
-          <h2 class="e-name">Antolini Luigi & C.</h2>
-          <p class="e-tagline">Referencia mundial en piedra de lujo, exótica y semipreciosa</p>
-          <p class="e-desc">Empresa familiar italiana con más de 65 años de historia. Especializada en piedras de lujo, semipreciosas y materiales exóticos con un catálogo de más de 1.500 referencias. Distribución directa en 130 países con showrooms en los mercados más exclusivos del mundo.</p>
-        </div>
-
-        <div class="e-specs"><div class="e-spec-cell">
-          <div class="e-spec-icon">🏛️</div>
-          <div class="e-spec-name">Mármoles Clásicos</div>
-          <div class="e-spec-desc">Carrara, Statuario, Calacatta, Portoro — primera extracción</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">💎</div>
-          <div class="e-spec-name">Piedras Exóticas</div>
-          <div class="e-spec-desc">Blue Bahia, Sodalite, cuarcitas brasileñas únicas</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">🔮</div>
-          <div class="e-spec-name">Semipreciosas</div>
-          <div class="e-spec-desc">Ágata, Lápiz Lázuli, Malachita, Cuarzo Rosa retroiluminado</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">📐</div>
-          <div class="e-spec-name">Gran Formato</div>
-          <div class="e-spec-desc">Losas hasta 3.400×2.100 mm. Espesores 12, 20 y 30 mm</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">✨</div>
-          <div class="e-spec-name">Acabados</div>
-          <div class="e-spec-desc">Pulido, apomazado, spazzolato, bush-hammered, satinado</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">🌍</div>
-          <div class="e-spec-name">Red Global</div>
-          <div class="e-spec-desc">30+ showrooms propios, logística certificada, ADC Service</div>
-        </div></div>
-
-        <div class="e-mats-block">
-          <div class="e-block-lbl">Materiales comercializados</div>
-          <div class="e-mats"><span class="mat-tag">Bianco Carrara C</span><span class="mat-tag">Statuario</span><span class="mat-tag">Calacatta Gold</span><span class="mat-tag">Nero Marquina</span><span class="mat-tag">Nero Portoro</span><span class="mat-tag">Arabescato Cervaiole</span><span class="mat-tag">Sodalite Blue</span><span class="mat-tag">Lápiz Lázuli</span><span class="mat-tag">Malachita</span><span class="mat-tag">Tiger Eye Gold</span><span class="mat-tag mat-more">+2 más</span></div>
-        </div>
-
-        <div class="e-productos"><div class="e-prod" style="--pacc:#8aa0b8">
-          <div class="e-prod-name">Classic Range</div>
-          <div class="e-prod-type">Mármoles europeos</div>
-        </div><div class="e-prod" style="--pacc:#6a8098">
-          <div class="e-prod-name">Exotic Stone</div>
-          <div class="e-prod-type">Piedras raras</div>
-        </div><div class="e-prod" style="--pacc:#9080a0">
-          <div class="e-prod-name">Semiprecious</div>
-          <div class="e-prod-type">Gemas decorativas</div>
-        </div><div class="e-prod" style="--pacc:#7890a0">
-          <div class="e-prod-name">Brazilian</div>
-          <div class="e-prod-type">Cuarcitas Brasil</div>
-        </div></div>
-
-        
-    <div class="e-editorial">
-      <div class="e-editorial-mark">❝</div>
-      <div class="e-editorial-body">
-        <div class="e-editorial-eyebrow">Perfil editorial</div>
-        <div class="e-editorial-titulo">El catálogo más exclusivo de piedra del mundo desde 1956</div>
-        <div class="e-editorial-texto">Antolini ha suministrado materiales para algunos de los proyectos de arquitectura más exclusivos del planeta: residencias privadas en Mónaco, hoteles Aman en Asia, boutiques de lujo en las avenidas más selectas de París, Milán y Nueva York. Su colección de piedras semipreciosas retroiluminadas es hoy un referente en diseño de interiores de ultra-lujo.</div>
-        <div class="e-editorial-extras">
-          <span class="e-extra-tag">◆ Informe de mercado</span>
-          <span class="e-extra-tag">◇ Gestor dedicado</span>
-          <span class="e-extra-tag">⟡ Integración API/Feed</span>
-        </div>
-      </div>
-    </div>
-
-        <div class="e-footer">
-          <div class="e-links"><a href="https://www.antolini.com" class="e-link" target="_blank">antolini.com</a><a href="https://www.antolini.com/catalogue/" class="e-link" target="_blank">Catálogo digital</a><a href="https://www.antolini.com/showrooms/" class="e-link" target="_blank">Showrooms</a></div>
-          <div class="e-verified">◆ Perfil verificado · Élite</div>
-        </div>
-      </div>
-
-    </div><!-- /e-body -->
-
-    <!-- GALLERY -->
-    <div class="e-gallery"><div class="e-gal-big">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">🏛️</span>
-          </div>
-          <div class="e-gal-lbl">Mármoles Carrara</div>
-        </div><div class="e-gal-slot">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">💎</span>
-          </div>
-          <div class="e-gal-lbl">Piedras Exóticas</div>
-        </div><div class="e-gal-slot">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">🔮</span>
-          </div>
-          <div class="e-gal-lbl">Semipreciosas</div>
-        </div><div class="e-gal-slot">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">📐</span>
-          </div>
-          <div class="e-gal-lbl">Gran Formato</div>
-        </div><div class="e-gal-slot">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">✨</span>
-          </div>
-          <div class="e-gal-lbl">Showroom Verona</div>
-        </div></div>
-
-  </article>
-  <article class="profile-elite" id="cosentino" data-tags="fabricante distribuidor espana" style="--acc:#4a90c0;--acc-rgb:74,144,192">
-
-    <!-- TOP BAND -->
-    <div class="e-topband">
-      <div class="e-topband-accent" style="background:linear-gradient(90deg,#4a90c0cc,#4a90c040,transparent)"></div>
-      <div class="e-topband-inner">
-        <div class="e-plan-badge e-plan-elite">◆ ÉLITE</div>
-        <div class="e-topband-name">Cosentino Group</div>
-        <div class="e-topband-tipo"><span class="tipo-tag">Fabricante</span><span class="tipo-tag">Distribuidor</span></div>
-        <div class="e-topband-stats"><div class="e-stat">
-          <div class="e-stat-num" style="color:#4a90c0">45+</div>
-          <div class="e-stat-lbl">años</div>
-        </div><div class="e-stat">
-          <div class="e-stat-num" style="color:#4a90c0">80+</div>
-          <div class="e-stat-lbl">países</div>
-        </div><div class="e-stat">
-          <div class="e-stat-num" style="color:#4a90c0">150+</div>
-          <div class="e-stat-lbl">Centers</div>
-        </div><div class="e-stat">
-          <div class="e-stat-num" style="color:#4a90c0">5.000</div>
-          <div class="e-stat-lbl">empleados</div>
-        </div></div>
-      </div>
-    </div>
-
-    <!-- BODY GRID -->
-    <div class="e-body">
-
-      <!-- LEFT SIDEBAR -->
-      <aside class="e-sidebar">
-        <div class="e-logo-zone">
-          <div class="e-logo-text" style="color:#4a90c0">COSENTINO</div>
-          <div class="e-logo-sub">GROUP</div>
-          <div class="e-logo-year">Est. 1979</div>
-        </div>
-
-        <div class="e-meta-block">
-          <div class="e-meta-row"><span class="e-meta-k">Sede</span><span class="e-meta-v">Cantoria, Almería<br>España</span></div>
-          <div class="e-meta-row"><span class="e-meta-k">Fundación</span><span class="e-meta-v">1979</span></div>
-          <div class="e-meta-row"><span class="e-meta-k">Equipo</span><span class="e-meta-v">~5.000 empleados</span></div>
-          <div class="e-meta-row"><span class="e-meta-k">Presencia</span><span class="e-meta-v">80+ países · 150+ Cosentino Centers</span></div>
-          <div class="e-meta-row"><span class="e-meta-k" data-es="Web" data-en="Website">Web</span><span class="e-meta-v"><a href="https://www.cosentino.com" target="_blank" class="e-web-link">www.cosentino.com</a></span></div>
-        </div>
-
-        <div class="e-marcas-block">
-          <div class="e-block-lbl">Marcas propias</div>
-          <div class="e-marcas"><span class="e-marca">Silestone®</span><span class="e-marca">Dekton®</span><span class="e-marca">Sensa®</span><span class="e-marca">Scalea®</span></div>
-        </div>
-
-        <div class="e-certs-block">
-          <div class="e-block-lbl" data-es="Certificaciones" data-en="Certifications">Certificaciones</div>
-          <div class="e-certs"><span class="e-cert">ISO 9001</span><span class="e-cert">ISO 14001</span><span class="e-cert">NSF</span><span class="e-cert">Greenguard Gold</span><span class="e-cert" data-es="Verificado" data-en="Verified">Verificado</span></div>
-        </div>
-
-        
-      </aside>
-
-      <!-- MAIN CONTENT -->
-      <div class="e-main">
-        <div class="e-head">
-          <div class="e-eyebrow">España · Cantoria, Almería</div>
-          <h2 class="e-name">Cosentino Group</h2>
-          <p class="e-tagline">Líder global en superficies innovadoras de cuarzo y sinterizado</p>
-          <p class="e-desc">Multinacional española y líder global en superficies innovadoras. Inventor del cuarzo engineered de alta gama (Silestone®, 1990) y pionero en sinterizado de ultra-compacto (Dekton®, 2013). Red de más de 150 Cosentino Centers con entrega en 24-72h en Europa.</p>
-        </div>
-
-        <div class="e-specs"><div class="e-spec-cell">
-          <div class="e-spec-icon">⚪</div>
-          <div class="e-spec-name">Silestone®</div>
-          <div class="e-spec-desc">Cuarzo engineered N-BOOST®. +60 colores. Cocina y baño</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">⬛</div>
-          <div class="e-spec-name">Dekton®</div>
-          <div class="e-spec-desc">Sinterizado ultra-compacto. Exterior, fachada, suelo</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">🪨</div>
-          <div class="e-spec-name">Scalea®</div>
-          <div class="e-spec-desc">Granito, mármol y cuarcita natural seleccionados</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">🛡️</div>
-          <div class="e-spec-name">Sensa®</div>
-          <div class="e-spec-desc">Piedra natural con tratamiento antimanchas integrado</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">🌱</div>
-          <div class="e-spec-name">Net Zero 2040</div>
-          <div class="e-spec-desc">Economía circular, reciclado en fábrica, cero emisiones</div>
-        </div><div class="e-spec-cell">
-          <div class="e-spec-icon">📦</div>
-          <div class="e-spec-name">Logística</div>
-          <div class="e-spec-desc">+150 Centers. Entrega en 24-72h en Europa</div>
-        </div></div>
-
-        <div class="e-mats-block">
-          <div class="e-block-lbl">Materiales comercializados</div>
-          <div class="e-mats"><span class="mat-tag">Silestone White Storm</span><span class="mat-tag">Silestone Calacatta Gold</span><span class="mat-tag">Silestone Ocean Storm</span><span class="mat-tag">Dekton Calacatta Laza</span><span class="mat-tag">Dekton Sirius</span><span class="mat-tag">Dekton Laurent</span><span class="mat-tag">Sensa Kashmir White</span></div>
-        </div>
-
-        <div class="e-productos"><div class="e-prod" style="--pacc:#4a90c0">
-          <div class="e-prod-name">Silestone®</div>
-          <div class="e-prod-type">Cuarzo engineered</div>
-        </div><div class="e-prod" style="--pacc:#3a7090">
-          <div class="e-prod-name">Dekton®</div>
-          <div class="e-prod-type">Sinterizado</div>
-        </div><div class="e-prod" style="--pacc:#2a6080">
-          <div class="e-prod-name">Sensa®</div>
-          <div class="e-prod-type">Natural tratado</div>
-        </div><div class="e-prod" style="--pacc:#5080a0">
-          <div class="e-prod-name">Scalea®</div>
-          <div class="e-prod-type">Natural premium</div>
-        </div></div>
-
-        
-    <div class="e-editorial">
-      <div class="e-editorial-mark">❝</div>
-      <div class="e-editorial-body">
-        <div class="e-editorial-eyebrow">Perfil editorial</div>
-        <div class="e-editorial-titulo">Dos revoluciones industriales en cuatro décadas</div>
-        <div class="e-editorial-texto">Cosentino transformó el sector dos veces: con la invención del cuarzo engineered en 1990 y con Dekton en 2013. Sus superficies se encuentran en el Aeropuerto de Singapur, el Google Campus de Zürich, residencias firmadas por Zaha Hadid y miles de cocinas de diseño en los cinco continentes.</div>
-        <div class="e-editorial-extras">
-          <span class="e-extra-tag">◆ Informe de mercado</span>
-          <span class="e-extra-tag">◇ Gestor dedicado</span>
-          <span class="e-extra-tag">⟡ Integración API/Feed</span>
-        </div>
-      </div>
-    </div>
-
-        <div class="e-footer">
-          <div class="e-links"><a href="https://www.cosentino.com" class="e-link" target="_blank">cosentino.com</a><a href="https://www.silestone.com" class="e-link" target="_blank">Silestone®</a><a href="https://www.dekton.com" class="e-link" target="_blank">Dekton®</a></div>
-          <div class="e-verified">◆ Perfil verificado · Élite</div>
-        </div>
-      </div>
-
-    </div><!-- /e-body -->
-
-    <!-- GALLERY -->
-    <div class="e-gallery"><div class="e-gal-big">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">⚪</span>
-          </div>
-          <div class="e-gal-lbl">Silestone Cocina</div>
-        </div><div class="e-gal-slot">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">⬛</span>
-          </div>
-          <div class="e-gal-lbl">Dekton Fachada</div>
-        </div><div class="e-gal-slot">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">🌊</span>
-          </div>
-          <div class="e-gal-lbl">Baño premium</div>
-        </div><div class="e-gal-slot">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">🏡</span>
-          </div>
-          <div class="e-gal-lbl">Exterior Dekton</div>
-        </div><div class="e-gal-slot">
-          <div class="e-gal-ph">
-            <span class="e-gal-icon">📐</span>
-          </div>
-          <div class="e-gal-lbl">Gran formato</div>
-        </div></div>
-
-  </article>
-  <div class="tier-sep">
-    <div class="tier-sep-inner">
-      <span class="tier-sep-dot pro"></span>
-      <span class="tier-sep-label">Profesional</span>
-      <span class="tier-sep-desc">— Ficha destacada con galería · 129€/mes</span>
-    </div>
-    <div class="tier-sep-line"></div>
+    <a href="registro.html" class="jc-btn">Publicar mi empresa →</a>
   </div>
-  <article class="profile-pro" id="cupa" data-tags="fabricante exportador distribuidor espana" style="--acc:#607888;--acc-rgb:96,120,136">
 
-    <div class="p-accent-bar" style="background:linear-gradient(90deg,#607888,#60788850,transparent)"></div>
+</main>
 
-    <div class="p-inner">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
+function filterCards(btn) {
+  document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  const f = btn.dataset.f;
+  const cards = document.querySelectorAll('[data-tags]');
+  cards.forEach(card => {
+    card.style.display = (f === 'todos' || card.dataset.tags.includes(f)) ? '' : 'none';
+  });
+  document.querySelectorAll('.tier-sep').forEach(sep => {
+    let next = sep.nextElementSibling;
+    let visible = false;
+    while (next && !next.classList.contains('tier-sep') && !next.classList.contains('join-cta')) {
+      if (next.style.display !== 'none' && next.dataset.tags !== undefined) { visible = true; break; }
+      next = next.nextElementSibling;
+    }
+    sep.style.display = visible ? '' : 'none';
+  });
+}
+</script>
 
-      <!-- SIDEBAR -->
-      <aside class="p-sidebar">
-        <div class="p-logo-zone">
-          <div class="p-plan-badge e-plan-pro">Profesional</div>
-          <div class="p-logo-text" style="color:#607888">CUPA</div>
-          <div class="p-logo-sub">STONE</div>
-          <div class="p-logo-year">Est. 1892</div>
-        </div>
-        <div class="p-meta">
-          <div class="p-meta-row"><span class="p-meta-k">Sede</span><span class="p-meta-v">Ourense, Galicia · España</span></div>
-          <div class="p-meta-row"><span class="p-meta-k">Fundación</span><span class="p-meta-v">1892</span></div>
-          <div class="p-meta-row"><span class="p-meta-k">Equipo</span><span class="p-meta-v">~600 empleados</span></div>
-          <div class="p-meta-row"><span class="p-meta-k">Presencia</span><span class="p-meta-v">50+ países · Canteras propias en Galicia y León</span></div>
-          <div class="p-meta-row"><span class="p-meta-k" data-es="Web" data-en="Website">Web</span><span class="p-meta-v"><a href="https://www.cupastone.com" target="_blank" class="p-web">www.cupastone.com</a></span></div>
-        </div>
-        <div class="p-certs"><span class="cert-tag">ISO 9001</span><span class="cert-tag">FSC</span><span class="cert-tag">CE</span></div>
-        <div class="p-tipo"><span class="tipo-tag">Fabricante</span><span class="tipo-tag">Exportador</span><span class="tipo-tag">Distribuidor</span></div>
-        <div class="p-stats"><div class="p-stat"><span class="p-stat-num" style="color:#607888">130+</span><span class="p-stat-lbl">años</span></div><div class="p-stat"><span class="p-stat-num" style="color:#607888">50+</span><span class="p-stat-lbl">países</span></div><div class="p-stat"><span class="p-stat-num" style="color:#607888">600</span><span class="p-stat-lbl">empleados</span></div><div class="p-stat"><span class="p-stat-num" style="color:#607888">30</span><span class="p-stat-lbl">años garantía</span></div></div>
-        <a href="registro.html" class="p-muestra-btn">◈ Solicitar muestras</a>
-      </aside>
-
-      <!-- CONTENT -->
-      <div class="p-content">
-        <div class="p-head">
-          <div class="p-eyebrow">España · Ourense, Galicia</div>
-          <h2 class="p-name">CUPA Stone</h2>
-          <p class="p-tagline">Mayor productor mundial de pizarra natural desde 1892</p>
-          <p class="p-desc">Grupo familiar con más de 130 años de historia y el mayor productor mundial de pizarra natural gallega. Canteras propias en Galicia y León con extracción sostenible certificada FSC. Exporta a más de 50 países con distribuidores especializados en cubierta, fachada y paisajismo.</p>
-        </div>
-        <div class="p-specs"><div class="p-spec">
-          <div class="p-spec-hd">🏔️ Pizarra de cubierta</div>
-          <div class="p-spec-txt">CUPA PIZARRAS — estándares propios más exigentes que la norma CE</div>
-        </div><div class="p-spec">
-          <div class="p-spec-hd">🏗️ Pizarra de fachada</div>
-          <div class="p-spec-txt">Revestimiento ventilado, fachadas cortina, sistemas técnicos</div>
-        </div><div class="p-spec">
-          <div class="p-spec-hd">🌿 Jardín y exterior</div>
-          <div class="p-spec-txt">Pavimentos, fuentes, senderos, elementos de paisajismo</div>
-        </div><div class="p-spec">
-          <div class="p-spec-hd">🔬 Control de calidad</div>
-          <div class="p-spec-txt">Laboratorio propio. Garantía 30 años en cubierta</div>
-        </div></div>
-        <div class="p-mats-wrap">
-          <div class="p-mats-lbl" data-es="Materiales" data-en="Materials">Materiales</div>
-          <div class="p-mats"><span class="mat-tag">Pizarra Gallega CUPA</span><span class="mat-tag">Pizarra Multicolor</span><span class="mat-tag">Pizarra Verdete</span><span class="mat-tag">Welsh Slate Penrhyn</span><span class="mat-tag">Ardesia Ligure</span></div>
-        </div>
-        <div class="p-footer">
-          <div class="p-links"><a href="https://www.cupastone.com" class="p-link" target="_blank">cupastone.com</a><a href="https://www.cupastone.com/downloads/" class="p-link" target="_blank">Catálogos</a></div>
-          <div class="p-verified">◇ Verificado · Profesional</div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="p-gallery"><div class="p-gal-slot">
-          <div class="p-gal-ph"><span class="p-gal-icon">🏠</span></div>
-          <div class="p-gal-lbl">Cubierta residencial</div>
-        </div><div class="p-gal-slot">
-          <div class="p-gal-ph"><span class="p-gal-icon">🏢</span></div>
-          <div class="p-gal-lbl">Fachada ventilada</div>
-        </div><div class="p-gal-slot">
-          <div class="p-gal-ph"><span class="p-gal-icon">🌿</span></div>
-          <div class="p-gal-lbl">Jardín y paisajismo</div>
-        </div><div class="p-gal-slot">
-          <div class="p-gal-ph"><span class="p-gal-icon">🔲</span></div>
-          <div class="p-gal-lbl">Pavimento exterior</div>
-        </div></div>
-
-  </article>
-  <article class="profile-pro" id="pokarna" data-tags="fabricante exportador india" style="--acc:#c07840;--acc-rgb:192,120,64">
-
-    <div class="p-accent-bar" style="background:linear-gradient(90deg,#c07840,#c0784050,transparent)"></div>
-
-    <div class="p-inner">
-
-      <!-- SIDEBAR -->
-      <aside class="p-sidebar">
-        <div class="p-logo-zone">
-          <div class="p-plan-badge e-plan-pro">Profesional</div>
-          <div class="p-logo-text" style="color:#c07840">POKARNA</div>
-          <div class="p-logo-sub">LIMITED</div>
-          <div class="p-logo-year">Est. 1991</div>
-        </div>
-        <div class="p-meta">
-          <div class="p-meta-row"><span class="p-meta-k">Sede</span><span class="p-meta-v">Hyderabad, Telangana · India</span></div>
-          <div class="p-meta-row"><span class="p-meta-k">Fundación</span><span class="p-meta-v">1991</span></div>
-          <div class="p-meta-row"><span class="p-meta-k">Equipo</span><span class="p-meta-v">~2.000 empleados</span></div>
-          <div class="p-meta-row"><span class="p-meta-k">Presencia</span><span class="p-meta-v">40+ países · 50.000 m²/mes capacidad</span></div>
-          <div class="p-meta-row"><span class="p-meta-k" data-es="Web" data-en="Website">Web</span><span class="p-meta-v"><a href="https://www.pokarna.com" target="_blank" class="p-web">www.pokarna.com</a></span></div>
-        </div>
-        <div class="p-certs"><span class="cert-tag">ISO 9001</span><span class="cert-tag">CE</span><span class="cert-tag">ASTM</span></div>
-        <div class="p-tipo"><span class="tipo-tag">Fabricante</span><span class="tipo-tag">Exportador</span></div>
-        <div class="p-stats"><div class="p-stat"><span class="p-stat-num" style="color:#c07840">30+</span><span class="p-stat-lbl">años</span></div><div class="p-stat"><span class="p-stat-num" style="color:#c07840">40+</span><span class="p-stat-lbl">países</span></div><div class="p-stat"><span class="p-stat-num" style="color:#c07840">50K</span><span class="p-stat-lbl">m²/mes</span></div><div class="p-stat"><span class="p-stat-num" style="color:#c07840">2.000</span><span class="p-stat-lbl">empleados</span></div></div>
-        <a href="registro.html" class="p-muestra-btn">◈ Solicitar muestras</a>
-      </aside>
-
-      <!-- CONTENT -->
-      <div class="p-content">
-        <div class="p-head">
-          <div class="p-eyebrow">India · Hyderabad, Telangana</div>
-          <h2 class="p-name">Pokarna Limited</h2>
-          <p class="p-tagline">Mayor exportador de granito de India y fabricante de Quantra® quartz</p>
-          <p class="p-desc">Líder en extracción y exportación de granito indio. Fabricante de Quantra®, cuarzo engineered de alta gama. Tres líneas de procesado con capacidad de 50.000 m² mensuales. Exportación directa FOB Mundra y Chennai a EEUU, Europa y Asia.</p>
-        </div>
-        <div class="p-specs"><div class="p-spec">
-          <div class="p-spec-hd">🪨 Granito indio</div>
-          <div class="p-spec-txt">Black Galaxy, Steel Gray, Tan Brown, Kuppam Green — origen certificado</div>
-        </div><div class="p-spec">
-          <div class="p-spec-hd">⚪ Quantra® Quartz</div>
-          <div class="p-spec-txt">Cuarzo engineered premium. 30+ diseños. Producción propia</div>
-        </div><div class="p-spec">
-          <div class="p-spec-hd">🔬 Procesado</div>
-          <div class="p-spec-txt">Cortado, pulido, apomazado, chorreado. Losas y baldosas</div>
-        </div><div class="p-spec">
-          <div class="p-spec-hd">🌍 Exportación</div>
-          <div class="p-spec-txt">FOB Mundra/Chennai. Contenedor 20'/40'. Envío a toda Europa</div>
-        </div></div>
-        <div class="p-mats-wrap">
-          <div class="p-mats-lbl" data-es="Materiales" data-en="Materials">Materiales</div>
-          <div class="p-mats"><span class="mat-tag">G654 Padang Dark</span><span class="mat-tag">Steel Gray</span><span class="mat-tag">Black Galaxy</span><span class="mat-tag">Tan Brown</span><span class="mat-tag">Quantra by Pokarna</span><span class="mat-tag">New Kashmir White</span><span class="mat-tag">Kuppam Green</span></div>
-        </div>
-        <div class="p-footer">
-          <div class="p-links"><a href="https://www.pokarna.com" class="p-link" target="_blank">pokarna.com</a><a href="https://www.quantrausa.com" class="p-link" target="_blank">Quantra Quartz</a></div>
-          <div class="p-verified">◇ Verificado · Profesional</div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="p-gallery"><div class="p-gal-slot">
-          <div class="p-gal-ph"><span class="p-gal-icon">🪨</span></div>
-          <div class="p-gal-lbl">Black Galaxy slab</div>
-        </div><div class="p-gal-slot">
-          <div class="p-gal-ph"><span class="p-gal-icon">⚪</span></div>
-          <div class="p-gal-lbl">Quantra surface</div>
-        </div><div class="p-gal-slot">
-          <div class="p-gal-ph"><span class="p-gal-icon">🏭</span></div>
-          <div class="p-gal-lbl">Planta Hyderabad</div>
-        </div><div class="p-gal-slot">
-          <div class="p-gal-ph"><span class="p-gal-icon">📦</span></div>
-          <div class="p-gal-lbl">Container export</div>
-        </div></div>
-
-  </article>
-  <article class="profile-pro" id="pietre_rapolano" data-tags="fabricante exportador italia" style="--acc:#c8a060;--acc-rgb:200,160,96">
-
-    <div class="p-accent-bar" style="background:linear-gradient(90deg,#c8a060,#c8a06050,transparent)"></div>
-
-    <div class="p-inner">
-
-      <!-- SIDEBAR -->
-      <aside class="p-sidebar">
-        <div class="p-logo-zone">
-          <div class="p-plan-badge e-plan-pro">Profesional</div>
-          <div class="p-logo-text" style="color:#c8a060">PIETRE DI</div>
-          <div class="p-logo-sub">RAPOLANO</div>
-          <div class="p-logo-year">Est. 1962</div>
-        </div>
-        <div class="p-meta">
-          <div class="p-meta-row"><span class="p-meta-k">Sede</span><span class="p-meta-v">Rapolano Terme, Siena · Italia</span></div>
-          <div class="p-meta-row"><span class="p-meta-k">Fundación</span><span class="p-meta-v">1962</span></div>
-          <div class="p-meta-row"><span class="p-meta-k">Equipo</span><span class="p-meta-v">~120 empleados</span></div>
-          <div class="p-meta-row"><span class="p-meta-k">Presencia</span><span class="p-meta-v">25+ países · Toscana · Canteras propias</span></div>
-          <div class="p-meta-row"><span class="p-meta-k" data-es="Web" data-en="Website">Web</span><span class="p-meta-v">—</span></div>
-        </div>
-        <div class="p-certs"><span class="cert-tag">CE</span><span class="cert-tag">UNI EN 1341</span></div>
-        <div class="p-tipo"><span class="tipo-tag">Fabricante</span><span class="tipo-tag">Exportador</span></div>
-        <div class="p-stats"><div class="p-stat"><span class="p-stat-num" style="color:#c8a060">60+</span><span class="p-stat-lbl">años</span></div><div class="p-stat"><span class="p-stat-num" style="color:#c8a060">25+</span><span class="p-stat-lbl">países</span></div><div class="p-stat"><span class="p-stat-num" style="color:#c8a060">3</span><span class="p-stat-lbl">canteras</span></div><div class="p-stat"><span class="p-stat-num" style="color:#c8a060">120</span><span class="p-stat-lbl">empleados</span></div></div>
-        <a href="registro.html" class="p-muestra-btn">◈ Solicitar muestras</a>
-      </aside>
-
-      <!-- CONTENT -->
-      <div class="p-content">
-        <div class="p-head">
-          <div class="p-eyebrow">Italia · Rapolano Terme, Siena</div>
-          <h2 class="p-name">Pietre di Rapolano</h2>
-          <p class="p-tagline">Travertino romano de primera calidad desde las canteras de la Toscana</p>
-          <p class="p-desc">Extracción y elaboración de travertino toscano desde 1962. Uno de los principales productores mundiales de travertino romano classico. Tres variedades principales con canteras propias en Rapolano Terme, Baccinello y Saturnia.</p>
-        </div>
-        <div class="p-specs"><div class="p-spec">
-          <div class="p-spec-hd">🪨 Travertino Classico</div>
-          <div class="p-spec-txt">La referencia del sector. Disponible en corte cruzado y en vena</div>
-        </div><div class="p-spec">
-          <div class="p-spec-hd">🤍 Alabastrino</div>
-          <div class="p-spec-txt">Travertino blanco de alta pureza. Proyectos de lujo e interiores</div>
-        </div><div class="p-spec">
-          <div class="p-spec-hd">🍂 Noce y Walnut</div>
-          <div class="p-spec-txt">Tonos cálidos contemporáneos para espacios residenciales</div>
-        </div><div class="p-spec">
-          <div class="p-spec-hd">📐 Formatos</div>
-          <div class="p-spec-txt">Losas, baldosas, molduras, escaleras. Espesores 2–5 cm</div>
-        </div></div>
-        <div class="p-mats-wrap">
-          <div class="p-mats-lbl" data-es="Materiales" data-en="Materials">Materiales</div>
-          <div class="p-mats"><span class="mat-tag">Travertino Romano Classico</span><span class="mat-tag">Travertino Alabastrino</span><span class="mat-tag">Silver Travertine</span><span class="mat-tag">Noce Travertine</span><span class="mat-tag">Gold Travertine</span><span class="mat-tag">Red Travertine</span></div>
-        </div>
-        <div class="p-footer">
-          <div class="p-links"><a href="#" class="p-link" target="_blank" data-es="Contacto" data-en="Contact">Contacto</a></div>
-          <div class="p-verified">◇ Verificado · Profesional</div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="p-gallery"><div class="p-gal-slot">
-          <div class="p-gal-ph"><span class="p-gal-icon">🏛️</span></div>
-          <div class="p-gal-lbl">Interior clásico</div>
-        </div><div class="p-gal-slot">
-          <div class="p-gal-ph"><span class="p-gal-icon">🤍</span></div>
-          <div class="p-gal-lbl">Travertino Alabastrino</div>
-        </div><div class="p-gal-slot">
-          <div class="p-gal-ph"><span class="p-gal-icon">🍂</span></div>
-          <div class="p-gal-lbl">Noce Travertine</div>
-        </div><div class="p-gal-slot">
-          <div class="p-gal-ph"><span class="p-gal-icon">🏊</span></div>
-          <div class="p-gal-lbl">Piscina exterior</div>
-        </div></div>
-
-  </article>
-  <div class="tier-sep">
-    <div class="tier-sep-inner">
-      <span class="tier-sep-dot pres"></span>
-      <span class="tier-sep-label">Presencia</span>
-      <span class="tier-sep-desc">— Ficha verificada y visible · 49€/mes</span>
-    </div>
-    <div class="tier-sep-line"></div>
-  </div>
-  <article class="profile-pres" id="stonewrx" data-tags="distribuidor eeuu" style="--acc:#907060;--acc-rgb:144,112,96">
-    <div class="pr-strip" style="background:#907060"></div>
-
-    <div class="pr-logo-col">
-      <div class="pr-plan-badge e-plan-pres">Presencia</div>
-      <div class="pr-logo" style="color:#907060;border-color:#90706040">STONEWRX</div>
-      <div class="pr-logo-sub">INTL.</div>
-      <div class="pr-tipo"><span class="tipo-tag">Distribuidor</span><span class="tipo-tag">Importador</span></div>
-      
-    </div>
-
-    <div class="pr-info">
-      <div class="pr-eyebrow">EEUU · Dallas, Texas · Est. 2003</div>
-      <h2 class="pr-name">StoneWrx International</h2>
-      <p class="pr-tagline">Cuarcitas y mármoles brasileños para el mercado norteamericano</p>
-      <p class="pr-desc">Importador y distribuidor especializado en cuarcitas premium y mármoles exóticos de Brasil. Stock permanente en almacén de Dallas con envío garantizado en 48h a todo el territorio norteamericano.</p>
-      <div class="pr-mats-lbl" data-es="Materiales" data-en="Materials">Materiales</div>
-      <div class="pr-mats"><span class="mat-tag">Taj Mahal Quartzite</span><span class="mat-tag">Macaubus Cristallo</span><span class="mat-tag">Patagonia Quartzite</span><span class="mat-tag">Van Gogh Quartzite</span><span class="mat-tag">Fantasy Brown</span><span class="mat-tag">Acqua Quartzite</span></div>
-    </div>
-
-    <div class="pr-contact">
-      <div class="pr-contact-lbl" data-es="Contacto" data-en="Contact">Contacto</div>
-      <div class="pr-contact-row">✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2a43444c456a595e45444f5d585204494547">[email&#160;protected]</a></div>
-      <div class="pr-contact-row">☎ +1 214 000 0000</div>
-      <div class="pr-contact-row">Web: —</div>
-      <a href="registro.html" class="pr-upgrade-btn">Mejorar a Profesional →</a>
-    </div>
-
-  </article>
-  <article class="profile-pres" id="tenerife_marmol" data-tags="distribuidor fabricante espana" style="--acc:#3a8060;--acc-rgb:58,128,96">
-    <div class="pr-strip" style="background:#3a8060"></div>
-
-    <div class="pr-logo-col">
-      <div class="pr-plan-badge e-plan-pres">Presencia</div>
-      <div class="pr-logo" style="color:#3a8060;border-color:#3a806040">TENERIFE</div>
-      <div class="pr-logo-sub">MÁRMOL</div>
-      <div class="pr-tipo"><span class="tipo-tag">Distribuidor</span><span class="tipo-tag">Fabricante</span></div>
-      <div class="pr-cert"><span class="cert-tag">ISO 9001</span></div>
-    </div>
-
-    <div class="pr-info">
-      <div class="pr-eyebrow">España · Santa Cruz de Tenerife · Est. 1985</div>
-      <h2 class="pr-name">Tenerife Mármol</h2>
-      <p class="pr-tagline">Especialistas en mármoles y granitos para el Atlántico</p>
-      <p class="pr-desc">Distribución de mármoles y granitos con fuerte presencia en Canarias, África Occidental y Latinoamérica. Almacén propio con stock permanente de losas y baldosas en los formatos más demandados.</p>
-      <div class="pr-mats-lbl" data-es="Materiales" data-en="Materials">Materiales</div>
-      <div class="pr-mats"><span class="mat-tag">Nero Marquina</span><span class="mat-tag">Crema Marfil</span><span class="mat-tag">Emperador Dark</span><span class="mat-tag">Bianco Carrara C</span><span class="mat-tag">Black Galaxy</span><span class="mat-tag">Absolute Black</span></div>
-    </div>
-
-    <div class="pr-contact">
-      <div class="pr-contact-lbl" data-es="Contacto" data-en="Contact">Contacto</div>
-      <div class="pr-contact-row">✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9ef7f0f8f1deeafbf0fbecf7f8fbf3ffecf3f1f2b0fdf1f3">[email&#160;protected]</a></div>
-      <div class="pr-contact-row">☎ +34 922 000 000</div>
-      <div class="pr-contact-row">Web: —</div>
-      <a href="registro.html" class="pr-upgrade-btn">Mejorar a Profesional →</a>
-    </div>
-
-  </article>
-  <article class="profile-pres" id="naturamia" data-tags="fabricante exportador brasil" style="--acc:#1a9050;--acc-rgb:26,144,80">
-    <div class="pr-strip" style="background:#1a9050"></div>
-
-    <div class="pr-logo-col">
-      <div class="pr-plan-badge e-plan-pres">Presencia</div>
-      <div class="pr-logo" style="color:#1a9050;border-color:#1a905040">NATURAMIA</div>
-      <div class="pr-logo-sub">BRASIL</div>
-      <div class="pr-tipo"><span class="tipo-tag">Fabricante</span><span class="tipo-tag">Exportador</span></div>
-      <div class="pr-cert"><span class="cert-tag">ISO 9001</span></div>
-    </div>
-
-    <div class="pr-info">
-      <div class="pr-eyebrow">Brasil · Cachoeiro de Itapemirim, ES · Est. 1998</div>
-      <h2 class="pr-name">Naturamia Brasil</h2>
-      <p class="pr-tagline">Cuarcitas y granitos exóticos directamente del origen brasileño</p>
-      <p class="pr-desc">Extracción y exportación de cuarcitas exóticas y granitos del interior de Brasil. Acceso directo a los mejores bloques de Taj Mahal, Van Gogh y Blue Bahia en origen con trazabilidad completa.</p>
-      <div class="pr-mats-lbl" data-es="Materiales" data-en="Materials">Materiales</div>
-      <div class="pr-mats"><span class="mat-tag">Blue Bahia</span><span class="mat-tag">Taj Mahal Quartzite</span><span class="mat-tag">Van Gogh Quartzite</span><span class="mat-tag">Cosmic Black</span><span class="mat-tag">Giallo Veneziano</span><span class="mat-tag">Ubatuba</span><span class="mat-tag mat-more">+1 más</span></div>
-    </div>
-
-    <div class="pr-contact">
-      <div class="pr-contact-lbl" data-es="Contacto" data-en="Contact">Contacto</div>
-      <div class="pr-contact-row">✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ceabb6bea1bcba8ea0afbabbbcafa3a7afe0ada1a3e0acbc">[email&#160;protected]</a></div>
-      <div class="pr-contact-row">☎ +55 28 0000 0000</div>
-      <div class="pr-contact-row">Web: —</div>
-      <a href="registro.html" class="pr-upgrade-btn">Mejorar a Profesional →</a>
-    </div>
-
-  </article>
-  <article class="profile-pres" id="henraux" data-tags="fabricante exportador italia" style="--acc:#c0c0a8;--acc-rgb:192,192,168">
-    <div class="pr-strip" style="background:#c0c0a8"></div>
-
-    <div class="pr-logo-col">
-      <div class="pr-plan-badge e-plan-pres">Presencia</div>
-      <div class="pr-logo" style="color:#c0c0a8;border-color:#c0c0a840">HENRAUX</div>
-      <div class="pr-logo-sub">S.P.A.</div>
-      <div class="pr-tipo"><span class="tipo-tag">Fabricante</span><span class="tipo-tag">Exportador</span></div>
-      <div class="pr-cert"><span class="cert-tag">CE</span></div>
-    </div>
-
-    <div class="pr-info">
-      <div class="pr-eyebrow">Italia · Querceta, Lucca · Est. 1820</div>
-      <h2 class="pr-name">Henraux S.p.A.</h2>
-      <p class="pr-tagline">Elaboración artística del mármol de Carrara desde 1820</p>
-      <p class="pr-desc">Empresa con más de 200 años de historia en la elaboración artística del mármol de Carrara. Especialista en piezas únicas, escultura arquitectónica y grandes formatos de la más alta calidad para proyectos de lujo.</p>
-      <div class="pr-mats-lbl" data-es="Materiales" data-en="Materials">Materiales</div>
-      <div class="pr-mats"><span class="mat-tag">Statuario</span><span class="mat-tag">Calacatta Gold</span><span class="mat-tag">Bianco Carrara C</span><span class="mat-tag">Arabescato Cervaiole</span><span class="mat-tag">Bianco Lasa</span></div>
-    </div>
-
-    <div class="pr-contact">
-      <div class="pr-contact-lbl" data-es="Contacto" data-en="Contact">Contacto</div>
-      <div class="pr-contact-row">✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c9a0a7afa689a1aca7bba8bcb1e7aaa6a4">[email&#160;protected]</a></div>
-      <div class="pr-contact-row">☎ +39 0584 0000</div>
-      <div class="pr-contact-row">Web: <a href="https://www.henraux.com" target="_blank" class="pr-web">www.henraux.com</a></div>
-      <a href="registro.html" class="pr-upgrade-btn">Mejorar a Profesional →</a>
-    </div>
-
-  </article>
-  <div class="tier-sep">
-    <div class="tier-sep-inner">
-      <span class="tier-sep-dot dir"></span>
-      <span class="tier-sep-label" data-es="Directorio" data-en="Directory">Directorio</span>
-      <span class="tier-sep-desc">— Ficha básica · Gratis</span>
-    </div>
-    <div class="tier-sep-line"></div>
-  </div>
-  <article class="profile-dir" id="marmoles_ejemplo" data-tags="distribuidor espana">
-    <div class="d-avatar" style="color:#6a6050;border-color:#6a605030">MG</div>
-    <div class="d-body">
-      <div class="d-name">Mármoles García S.L.</div>
-      <div class="d-meta">Murcia · España · Est. 2008</div>
-      <div class="d-tipo"><span class="tipo-tag">Distribuidor</span></div>
-      <div class="d-mats"><span class="mat-tag">Crema Marfil</span><span class="mat-tag">Nero Marquina</span><span class="mat-tag">Granito Gris</span></div>
-    </div>
-    <div class="d-right">
-      <div class="d-plan-badge" data-es="Directorio" data-en="Directory">Directorio</div>
-      <a href="registro.html" class="d-upgrade">↑ Ampliar visibilidad</a>
-    </div>
-  </article>
   <div class="join-cta">
     <div class="jc-text">
       <h2>¿Tu empresa no aparece aquí?</h2>
@@ -2196,6 +1363,219 @@ function filterCards(btn) {
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ═══════════════════════════════════════════════
+   WSH — Directorio dinámico desde Supabase
+   ═══════════════════════════════════════════════ */
+(function(){
+  var SB_URL = "https://whcptmdapnavcxcszwwk.supabase.co";
+  var SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8";
+  var db = supabase.createClient(SB_URL, SB_KEY);
+
+  // Colores accent por empresa (slug → color)
+  var ACCENT_COLORS = {
+    'levantina':       {hex:'#c9a84c', rgb:'201,168,76'},
+    'antolini':        {hex:'#8aa0b8', rgb:'138,160,184'},
+    'cosentino':       {hex:'#4a90c0', rgb:'74,144,192'},
+    'henraux':         {hex:'#9a8870', rgb:'154,136,112'},
+    'stonewrx':        {hex:'#907060', rgb:'144,112,96'},
+    'naturamia-brasil':{hex:'#1a9050', rgb:'26,144,80'},
+    'tenerife-marmol': {hex:'#3a8060', rgb:'58,128,96'},
+  };
+
+  function accent(slug){
+    return ACCENT_COLORS[slug] || {hex:'#A67C52', rgb:'166,124,82'};
+  }
+
+  function initials(nombre){
+    return nombre.split(' ').slice(0,2).map(function(w){ return w[0]; }).join('').toUpperCase();
+  }
+
+  function sectorTags(sector){
+    if(!sector) return '';
+    var arr = Array.isArray(sector) ? sector : [sector];
+    return arr.map(function(s){ return s.toLowerCase(); }).join(' ');
+  }
+
+  function renderElite(p){
+    var acc = accent(p.slug);
+    var tags = sectorTags(p.sector);
+    var pais = (p.pais||'').toLowerCase().replace('españa','espana').replace('estados unidos','eeuu');
+    var allTags = [tags, pais].filter(Boolean).join(' ');
+    var logoLines = p.nombre_empresa.split(' ');
+    var logoMain = logoLines[0].toUpperCase();
+    var logoSub  = logoLines.slice(1).join(' ').toUpperCase();
+    var sectorArr = Array.isArray(p.sector) ? p.sector : [p.sector||''];
+
+    return '<article class="profile-elite" id="' + p.slug + '" data-tags="' + allTags + '" style="--acc:' + acc.hex + ';--acc-rgb:' + acc.rgb + '">' +
+      '<div class="e-topband">' +
+        '<div class="e-topband-accent" style="background:linear-gradient(135deg,' + acc.hex + '22,transparent)"></div>' +
+        '<div class="e-topband-inner">' +
+          '<span class="e-plan-badge e-plan-elite">Élite</span>' +
+          (p.verificado ? '<span style="font-size:9px;letter-spacing:2px;color:' + acc.hex + ';border:1px solid ' + acc.hex + '40;padding:3px 10px;">✓ Verificado</span>' : '') +
+          '<span class="e-topband-name">' + p.nombre_empresa.toUpperCase() + '</span>' +
+          '<div class="e-topband-tipo">' + sectorArr.map(function(s){ return '<span class="tipo-tag">' + s + '</span>'; }).join('') + '</div>' +
+          '<div class="e-topband-stats">' +
+            (p.ano_fundacion ? '<div class="e-stat"><span class="e-stat-num" style="color:' + acc.hex + '">' + (new Date().getFullYear() - p.ano_fundacion) + '</span><span class="e-stat-lbl">años</span></div>' : '') +
+            (p.num_empleados ? '<div class="e-stat"><span class="e-stat-num" style="color:' + acc.hex + '">' + p.num_empleados + '</span><span class="e-stat-lbl">empleados</span></div>' : '') +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="e-body">' +
+        '<aside class="e-sidebar">' +
+          '<div class="e-logo-zone">' +
+            '<div class="e-logo-text" style="color:' + acc.hex + '">' + logoMain + '</div>' +
+            (logoSub ? '<div class="e-logo-sub">' + logoSub + '</div>' : '') +
+            (p.ano_fundacion ? '<div class="e-logo-year">Est. ' + p.ano_fundacion + '</div>' : '') +
+          '</div>' +
+          '<div class="e-meta-block">' +
+            (p.ciudad||p.pais ? '<div class="e-meta-row"><span class="e-meta-k">Sede</span><span class="e-meta-v">' + [p.ciudad, p.pais].filter(Boolean).join(' · ') + '</span></div>' : '') +
+            (p.tipo_empresa ? '<div class="e-meta-row"><span class="e-meta-k">Tipo</span><span class="e-meta-v">' + p.tipo_empresa + '</span></div>' : '') +
+            (p.website ? '<div class="e-meta-row"><span class="e-meta-k">Web</span><span class="e-meta-v"><a href="' + p.website + '" target="_blank" class="e-meta-v" style="color:' + acc.hex + '">' + p.website.replace('https://','').replace('http://','') + '</a></span></div>' : '') +
+            (p.linkedin ? '<div class="e-meta-row"><span class="e-meta-k">LinkedIn</span><span class="e-meta-v"><a href="' + p.linkedin + '" target="_blank" style="color:' + acc.hex + '">Ver perfil →</a></span></div>' : '') +
+          '</div>' +
+        '</aside>' +
+        '<div class="e-content" style="padding:32px 40px;flex:1;">' +
+          '<div class="e-block-lbl" style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#8a8784;margin-bottom:16px;">' + (p.ciudad||'') + ' · ' + (p.pais||'') + '</div>' +
+          '<h2 style="font-family:var(--font-disp);font-size:42px;font-weight:300;line-height:1;margin-bottom:20px;">' + p.nombre_empresa + '</h2>' +
+          (p.descripcion ? '<p style="font-size:13px;line-height:1.8;color:#4a4845;max-width:680px;margin-bottom:28px;">' + p.descripcion + '</p>' : '') +
+          '<a href="proveedor.html?slug=' + p.slug + '" style="display:inline-block;background:' + acc.hex + ';color:#f8f7f5;padding:10px 24px;font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:600;margin-top:8px;transition:opacity .2s;">Ver perfil completo →</a>' +
+        '</div>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function renderPro(p){
+    var acc = accent(p.slug);
+    var tags = sectorTags(p.sector);
+    var pais = (p.pais||'').toLowerCase().replace('españa','espana').replace('estados unidos','eeuu');
+    var allTags = [tags, pais].filter(Boolean).join(' ');
+    var logoLines = p.nombre_empresa.split(' ');
+    var logoMain = logoLines[0].toUpperCase();
+    var logoSub  = logoLines.slice(1).join(' ').toUpperCase();
+    var sectorArr = Array.isArray(p.sector) ? p.sector : [p.sector||''];
+
+    return '<article class="profile-pro" id="' + p.slug + '" data-tags="' + allTags + '" style="--acc:' + acc.hex + ';--acc-rgb:' + acc.rgb + '">' +
+      '<div class="p-accent-bar" style="background:linear-gradient(90deg,' + acc.hex + ',' + acc.hex + '50,transparent)"></div>' +
+      '<div class="p-inner">' +
+        '<aside class="p-sidebar">' +
+          '<div class="p-logo-zone">' +
+            '<div class="p-plan-badge e-plan-pro">Profesional</div>' +
+            '<div class="p-logo-text" style="color:' + acc.hex + '">' + logoMain + '</div>' +
+            (logoSub ? '<div class="p-logo-sub">' + logoSub + '</div>' : '') +
+            (p.ano_fundacion ? '<div class="p-logo-year">Est. ' + p.ano_fundacion + '</div>' : '') +
+          '</div>' +
+          '<div class="p-meta">' +
+            (p.ciudad||p.pais ? '<div class="p-meta-row"><span class="p-meta-k">Sede</span><span class="p-meta-v">' + [p.ciudad, p.pais].filter(Boolean).join(' · ') + '</span></div>' : '') +
+            (p.ano_fundacion ? '<div class="p-meta-row"><span class="p-meta-k">Fundación</span><span class="p-meta-v">' + p.ano_fundacion + '</span></div>' : '') +
+            (p.num_empleados ? '<div class="p-meta-row"><span class="p-meta-k">Equipo</span><span class="p-meta-v">' + p.num_empleados + ' empleados</span></div>' : '') +
+            (p.website ? '<div class="p-meta-row"><span class="p-meta-k">Web</span><span class="p-meta-v"><a href="' + p.website + '" target="_blank" class="p-web">' + p.website.replace('https://','').replace('http://','') + '</a></span></div>' : '') +
+          '</div>' +
+          '<div class="p-tipo">' + sectorArr.map(function(s){ return '<span class="tipo-tag">' + s + '</span>'; }).join('') + '</div>' +
+          '<a href="proveedor.html?slug=' + p.slug + '" class="p-muestra-btn">Ver perfil completo →</a>' +
+        '</aside>' +
+        '<div class="p-content">' +
+          '<div class="p-head">' +
+            '<div class="p-eyebrow">' + (p.pais||'') + (p.ciudad ? ' · ' + p.ciudad : '') + '</div>' +
+            '<h2 class="p-name">' + p.nombre_empresa + '</h2>' +
+            (p.tipo_empresa ? '<p class="p-tagline">' + p.tipo_empresa + '</p>' : '') +
+            (p.descripcion ? '<p class="p-desc">' + p.descripcion.substring(0,280) + (p.descripcion.length>280?'…':'') + '</p>' : '') +
+          '</div>' +
+          '<div class="p-footer">' +
+            (p.website ? '<div class="p-links"><a href="' + p.website + '" class="p-link" target="_blank">' + p.website.replace('https://','').replace('http://','') + '</a></div>' : '') +
+            (p.verificado ? '<div class="p-verified">◇ Verificado · Profesional</div>' : '<div class="p-verified">◈ Profesional</div>') +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function renderPres(p){
+    var acc = accent(p.slug);
+    var tags = sectorTags(p.sector);
+    var pais = (p.pais||'').toLowerCase().replace('españa','espana').replace('estados unidos','eeuu');
+    var allTags = [tags, pais].filter(Boolean).join(' ');
+    var ini = initials(p.nombre_empresa);
+    var sectorArr = Array.isArray(p.sector) ? p.sector : [p.sector||''];
+
+    return '<article class="profile-pres" id="' + p.slug + '" data-tags="' + allTags + '" style="--acc:' + acc.hex + ';--acc-rgb:' + acc.rgb + '">' +
+      '<div class="pr-strip" style="background:' + acc.hex + '"></div>' +
+      '<div class="pr-logo-col">' +
+        '<div class="pr-plan-badge e-plan-pres">Presencia</div>' +
+        '<div class="pr-logo" style="color:' + acc.hex + ';border-color:' + acc.hex + '40">' + ini + '</div>' +
+        '<div class="pr-logo-sub">' + p.nombre_empresa.substring(0,12).toUpperCase() + '</div>' +
+        '<div class="pr-tipo">' + sectorArr.map(function(s){ return '<span class="tipo-tag">' + s + '</span>'; }).join('') + '</div>' +
+      '</div>' +
+      '<div class="pr-info">' +
+        '<div class="pr-eyebrow">' + (p.pais||'') + (p.ciudad ? ' · ' + p.ciudad : '') + (p.ano_fundacion ? ' · Est. ' + p.ano_fundacion : '') + '</div>' +
+        '<h2 class="pr-name">' + p.nombre_empresa + '</h2>' +
+        (p.tipo_empresa ? '<p class="pr-tagline">' + p.tipo_empresa + '</p>' : '') +
+        (p.descripcion ? '<p class="pr-desc">' + p.descripcion.substring(0,200) + (p.descripcion.length>200?'…':'') + '</p>' : '') +
+      '</div>' +
+      '<div class="pr-contact">' +
+        '<div class="pr-contact-lbl">Contacto</div>' +
+        (p.email_contacto ? '<div class="pr-contact-row">✉ ' + p.email_contacto + '</div>' : '') +
+        (p.telefono ? '<div class="pr-contact-row">☎ ' + p.telefono + '</div>' : '') +
+        (p.website ? '<div class="pr-contact-row">Web: <a href="' + p.website + '" target="_blank" class="pr-web">' + p.website.replace('https://','').replace('http://','') + '</a></div>' : '<div class="pr-contact-row">Web: —</div>') +
+        '<a href="registro.html" class="pr-upgrade-btn">Mejorar a Profesional →</a>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function tierSep(dotClass, label, desc){
+    return '<div class="tier-sep">' +
+      '<div class="tier-sep-inner">' +
+        '<span class="tier-sep-dot ' + dotClass + '"></span>' +
+        '<span class="tier-sep-label">' + label + '</span>' +
+        '<span class="tier-sep-desc">' + desc + '</span>' +
+      '</div>' +
+      '<div class="tier-sep-line"></div>' +
+    '</div>';
+  }
+
+  // Cargar proveedores desde Supabase
+  db.from('proveedores')
+    .select('*')
+    .eq('estado', 'activo')
+    .order('nombre_empresa')
+    .then(function(result){
+      var loading = document.getElementById('loadingState');
+      var container = document.getElementById('dynamicProviders');
+      if(!container) return;
+
+      if(result.error){
+        if(loading) loading.style.display = 'none';
+        container.innerHTML = '<p style="text-align:center;padding:40px;color:#8a8784;font-size:13px;">Error cargando directorio. Intenta de nuevo.</p>';
+        return;
+      }
+
+      var proveedores = result.data || [];
+
+      // Separar por tier
+      var elite = proveedores.filter(function(p){ return p.plan === 'elite'; });
+      var pro   = proveedores.filter(function(p){ return p.plan === 'profesional'; });
+      var pres  = proveedores.filter(function(p){ return p.plan === 'presencia'; });
+
+      var html = '';
+
+      if(elite.length){
+        html += tierSep('elite','Élite','— Presencia editorial completa · 299€/mes');
+        elite.forEach(function(p){ html += renderElite(p); });
+      }
+      if(pro.length){
+        html += tierSep('pro','Profesional','— Ficha completa con catálogo · 99€/mes');
+        pro.forEach(function(p){ html += renderPro(p); });
+      }
+      if(pres.length){
+        html += tierSep('pres','Presencia','— Ficha verificada y visible · 49€/mes');
+        pres.forEach(function(p){ html += renderPres(p); });
+      }
+
+      if(loading) loading.style.display = 'none';
+      container.innerHTML = html;
+    });
+})();
+</script>
 <style>
 .nav-auth-sep {
   display: inline-block;
