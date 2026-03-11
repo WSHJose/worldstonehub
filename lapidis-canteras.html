@@ -1211,11 +1211,6 @@ footer{background:#111110!important;color:#e8e6e2!important;}
   </ul>
     <li id="nav-auth-item"></li>
 </nav>
-<!-- WSH AD SLOT: CANTERAS-TOP -->
-<div class="wsh-ad" data-espacio="CANTERAS-TOP" style="display:none;text-align:center;padding:12px 48px;background:var(--bg,#f8f7f5);border-top:1px solid var(--border,#e2e0dc);border-bottom:1px solid var(--border,#e2e0dc);padding:20px 48px;"></div>
-
-
-
 <div class="page-hdr">
   <div class="page-hdr-left">
 <div class="eyebrow">Directorio global · Base de datos actualizada 2025</div>
@@ -1239,6 +1234,9 @@ footer{background:#111110!important;color:#e8e6e2!important;}
       <div class="stat-l" data-es="Tipos de piedra" data-en="Stone types">Tipos de piedra</div>
     </div>
   </div>
+  </div>
+  <div class="page-hdr-right" id="hdr-ad-canteras" style="display:none;">
+    <div class="wsh-ad" data-espacio="CANTERAS-TOP" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
   </div>
 </div>
 
@@ -2029,7 +2027,9 @@ function submitNuevaCantera(){
     data.forEach(function(ad){
       slots.forEach(function(slot){
         if(slot.dataset.espacio!==ad.espacio_codigo)return;
-        slot.style.cssText='display:block;text-align:center;padding:16px 0;';
+        slot.style.cssText='display:flex;align-items:center;justify-content:center;width:100%;height:100%;';
+        var wrapper=slot.closest('[id^="hdr-ad-"]');
+        if(wrapper) wrapper.style.display='';
         slot.innerHTML='<a href="'+ad.url_destino+'" target="_blank" rel="noopener sponsored" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#1a1917;"><img src="'+ad.imagen_url+'" alt="'+(ad.texto_alt||ad.anunciante||'')+'" style="width:100%;height:100%;object-fit:contain;display:block;background:#1a1917;" loading="lazy"></a>';
       });
     });
