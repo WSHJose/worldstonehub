@@ -1238,6 +1238,30 @@ function applyFilters() {
   if (el) el.textContent = filtered.length + ' resultado' + (filtered.length !== 1 ? 's' : '');
 }
 
+// IntersectionObserver para lazy-load de imágenes
+var imgObserver = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      var img = e.target;
+      if (img.dataset.src) { img.src = img.dataset.src; delete img.dataset.src; }
+      imgObserver.unobserve(img);
+    }
+  });
+}, { rootMargin: '200px' }) : null;
+
+function attachLazyImgs(container) {
+  if (!imgObserver) {
+    // Fallback: cargar todas directamente
+    container.querySelectorAll('img.lazy-img[data-src]').forEach(function(img) {
+      img.src = img.dataset.src; delete img.dataset.src;
+    });
+    return;
+  }
+  container.querySelectorAll('img.lazy-img[data-src]').forEach(function(img) {
+    imgObserver.observe(img);
+  });
+}
+
 function renderGrid() {
   var grid = document.getElementById('materialsGrid');
   if (!grid) return;
@@ -1245,15 +1269,27 @@ function renderGrid() {
     grid.innerHTML = '<div class="no-results"><h3 data-es="Sin resultados" data-en="No results">Sin resultados</h3><p>Prueba con otros términos</p></div>';
     return;
   }
-  var html = '';
-  for (var i = 0; i < filtered.length; i++) {
-    html += buildCard(filtered[i]);
+  grid.innerHTML = '';
+  var BATCH = 20;
+  var idx = 0;
+  function renderBatch() {
+    var frag = document.createDocumentFragment();
+    var end = Math.min(idx + BATCH, filtered.length);
+    for (var i = idx; i < end; i++) {
+      var tmp = document.createElement('div');
+      tmp.innerHTML = buildCard(filtered[i]);
+      var card = tmp.firstChild;
+      card.addEventListener('click', (function(id){ return function(){ openModal(id); }; })(card.getAttribute('data-id')));
+      frag.appendChild(card);
+    }
+    grid.appendChild(frag);
+    attachLazyImgs(grid);
+    idx = end;
+    if (idx < filtered.length) {
+      requestAnimationFrame(renderBatch);
+    }
   }
-  grid.innerHTML = html;
-  var cards = grid.querySelectorAll('.material-card');
-  for (var j = 0; j < cards.length; j++) {
-    cards[j].addEventListener('click', (function(id){ return function(){ openModal(id); }; })(cards[j].getAttribute('data-id')));
-  }
+  requestAnimationFrame(renderBatch);
 }
 
 function buildCard(s) {
@@ -1269,9 +1305,9 @@ function buildCard(s) {
   var helada = t.resistencia_helada || '—';
   var imgUrl = s.imagen_url_principal || '';
   var imgHtml = imgUrl
-    ? ['<div class="card-img-wrap"><img class="card-img" src="', imgUrl,
+    ? ['<div class="card-img-wrap"><img class="card-img lazy-img" data-src="', imgUrl,
        '" alt="', esc(s.nombre_comercial),
-       '" loading="lazy" onerror="this.style.display=&#39;none&#39;"/></div>'].join('')
+       '" onerror="this.style.display=none"/></div>'].join('')
     : '<div class="card-img-wrap card-img-placeholder"><div class="card-img-cat-label">' + esc(s.categoria) + '</div></div>';
   return '<div class="material-card" data-id="' + esc(s.id) + '">' +
     '<div class="card-color-bar" style="background:' + bar + '"></div>' +
