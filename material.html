@@ -276,12 +276,43 @@ nav {
   <a href="lapidis-materiales.html" style="color:var(--gold);">← Volver al catálogo</a>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
 <script>
 (function() {
   var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
   var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk0NTQ2MDUsImV4cCI6MjA1NTAzMDYwNX0.T2sT_dtajyJI8SRiRxjBKrHJlXH3gD7C7bORMSfb6vU';
-  var db = supabase.createClient(SB_URL, SB_KEY);
+
+  // Fetch directo sin librería — más robusto
+  function sbGet(slug, callback) {
+    var url = SB_URL + '/rest/v1/materiales?select=*&slug=eq.' + encodeURIComponent(slug);
+    fetch(url, {
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + SB_KEY,
+        'Accept': 'application/json'
+      }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (Array.isArray(data) && data.length > 0) callback(null, data[0]);
+      else callback('not_found', null);
+    })
+    .catch(function(e) { callback(e, null); });
+  }
+
+  function sbGetAdj(op, id, callback) {
+    var op_str = op === 'lt' ? 'lt' : 'gt';
+    var order  = op === 'lt' ? 'id.desc' : 'id.asc';
+    var url = SB_URL + '/rest/v1/materiales?select=slug,nombre_comercial&id=' + op_str + '.' + encodeURIComponent(id) + '&order=' + order + '&limit=1';
+    fetch(url, {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Accept': 'application/json' }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) { callback(Array.isArray(data) && data.length ? data[0] : null); })
+    .catch(function() { callback(null); });
+  }
+
+  var db = null; // ya no se usa, pero dejamos la var para compatibilidad
 
   // ── Helpers ────────────────────────────────────────────────────────────────
   function esc(s) {
@@ -321,16 +352,11 @@ nav {
   }
 
   // ── Cargar material desde Supabase ─────────────────────────────────────────
-  db.from('materiales')
-    .select('*')
-    .eq('slug', slug)
-    .single()
-    .then(function(res) {
-      if (res.error || !res.data) { show404(); return; }
-      renderFicha(res.data);
-      // Cargar prev/next
-      loadAdyacentes(res.data);
-    });
+  sbGet(slug, function(err, data) {
+    if (err || !data) { show404(); return; }
+    renderFicha(data);
+    loadAdyacentes(data);
+  });
 
   // ── Render ficha ──────────────────────────────────────────────────────────
   function renderFicha(m) {
@@ -443,28 +469,22 @@ nav {
     el('fichaContent').style.display = 'block';
   }
 
-  // ── Prev / Next (por id numérico) ──────────────────────────────────────────
+  // ── Prev / Next ────────────────────────────────────────────────────────────
   function loadAdyacentes(m) {
-    // Obtener anterior
-    db.from('materiales').select('slug, nombre_comercial').lt('id', m.id).order('id', {ascending: false}).limit(1)
-      .then(function(r) {
-        if (r.data && r.data.length) {
-          var prev = r.data[0];
-          el('nav-prev').href = 'material.html?id=' + esc(prev.slug);
-          el('nav-prev-name').textContent = prev.nombre_comercial;
-          el('nav-prev').style.display = 'flex';
-        }
-      });
-    // Obtener siguiente
-    db.from('materiales').select('slug, nombre_comercial').gt('id', m.id).order('id', {ascending: true}).limit(1)
-      .then(function(r) {
-        if (r.data && r.data.length) {
-          var next = r.data[0];
-          el('nav-next').href = 'material.html?id=' + esc(next.slug);
-          el('nav-next-name').textContent = next.nombre_comercial;
-          el('nav-next').style.display = 'flex';
-        }
-      });
+    sbGetAdj('lt', m.id, function(prev) {
+      if (prev) {
+        el('nav-prev').href = 'material.html?id=' + esc(prev.slug);
+        el('nav-prev-name').textContent = prev.nombre_comercial;
+        el('nav-prev').style.display = 'flex';
+      }
+    });
+    sbGetAdj('gt', m.id, function(next) {
+      if (next) {
+        el('nav-next').href = 'material.html?id=' + esc(next.slug);
+        el('nav-next-name').textContent = next.nombre_comercial;
+        el('nav-next').style.display = 'flex';
+      }
+    });
   }
 
   // ── 404 ────────────────────────────────────────────────────────────────────
@@ -477,7 +497,8 @@ nav {
   // ── Auth nav ───────────────────────────────────────────────────────────────
   var navAuth = el('nav-auth-item');
   if (navAuth) {
-    db.auth.getSession().then(function(r) {
+    var db2 = supabase.createClient(SB_URL, SB_KEY);
+    db2.auth.getSession().then(function(r) {
       var s = r.data && r.data.session;
       navAuth.innerHTML = s
         ? '<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Mi Panel</a>'
