@@ -1454,6 +1454,9 @@ function buildModal(s) {
     proyHtml + certHtml +
     '<div class="modal-section"><div class="modal-section-title">Tags de búsqueda</div><div class="seo-tags">' + tagsHtml + '</div></div>' +
     buildProviderSection(s) +
+    '<div style="padding:24px 28px 28px;border-top:1px solid #e2e0dc;">' +
+      '<a href="material.html?id=' + slugifyJS(s.nombre_comercial) + '" style="display:block;background:#A67C52;color:white;text-align:center;padding:12px 20px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:3px;">Ver ficha completa →</a>' +
+    '</div>' +
   '</div>';
 }
 
