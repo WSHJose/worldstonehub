@@ -558,7 +558,7 @@ nav {
         slot.style.cssText='display:flex;align-items:center;justify-content:center;width:100%;height:100%;';
         var wrapper=slot.closest('[id^="hdr-ad-"]');
         if(wrapper) wrapper.style.display='';
-        slot.innerHTML='<a href="'+ad.url_destino+'" target="_blank" rel="noopener sponsored" style="display:block;width:100%;height:100%;"><img src="'+ad.imagen_url+'" alt="'+(ad.texto_alt||ad.anunciante||'')+'" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"></a>';
+        slot.innerHTML='<a href="'+ad.url_destino+'" target="_blank" rel="noopener sponsored" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#1a1917;"><img src="'+ad.imagen_url+'" alt="'+(ad.texto_alt||ad.anunciante||'')+'" style="width:100%;height:100%;object-fit:contain;display:block;background:#1a1917;" loading="lazy"></a>';
       });
     });
   }).catch(function(){});
