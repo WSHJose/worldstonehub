@@ -123,6 +123,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;background:var(-
   .breadcrumb{padding:12px 20px}
   .site-footer{flex-direction:column;gap:8px;text-align:center;padding:24px 20px}
 }
+
+.mat-linked-list{display:flex;flex-direction:column;gap:8px}
+.mat-linked-item{padding:10px 14px;background:var(--bg-soft);border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:border-color .2s}
+.mat-linked-item:hover{border-color:var(--gold)}
+.mat-linked-name{font-size:.8rem;font-weight:500}
+.mat-linked-sub{font-size:.68rem;color:var(--ink-muted);margin-top:2px}
+
 </style>
 </head>
 <body>
@@ -222,6 +229,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;background:var(-
       <div class="sidebar-card">
         <div class="sidebar-card-title">Información</div>
         <div class="sidebar-meta" id="sidebarMeta"></div>
+      </div>
+
+      <!-- Materiales vinculados -->
+      <div class="sidebar-card" id="sec-mat-vinculados" style="display:none">
+        <div class="sidebar-card-title">Materiales extraídos</div>
+        <div class="mat-linked-list" id="mat-linked-list"></div>
+        <a href="lapidis-materiales.html" id="mat-ver-todos" style="display:block;margin-top:10px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)">Ver catálogo →</a>
       </div>
 
       <!-- CTA directorio -->
@@ -360,6 +374,7 @@ function render(c){
   }
 
   // Mostrar
+  cargarMateriasVinculadas(c.id);
   document.getElementById('stateLoading').style.display='none';
   document.getElementById('stateContent').style.display='block';
 }
@@ -386,6 +401,26 @@ function show404(){
   document.getElementById('state404').style.display='block';
 }
 }());
+
+function cargarMateriasVinculadas(canteraId) {
+  db.from('material_cantera')
+    .select('material_id, materiales(id,slug,nombre_comercial,categoria,color_principal)')
+    .eq('cantera_id', canteraId)
+    .then(function(r) {
+      if (!r.data || !r.data.length) return;
+      var list = document.getElementById('mat-linked-list');
+      list.innerHTML = r.data.map(function(row) {
+        var m = row.materiales;
+        if (!m) return '';
+        return '<div class="mat-linked-item" onclick="location.href=\'material.html?id='+m.slug+'\'">'
+          + '<div class="mat-linked-name">' + (m.nombre_comercial||'') + '</div>'
+          + '<div class="mat-linked-sub">' + (m.categoria||'') + (m.color_principal?' · '+m.color_principal:'') + '</div>'
+          + '</div>';
+      }).join('');
+      document.getElementById('sec-mat-vinculados').style.display = 'block';
+    });
+}
+
 </script>
 </body>
 </html>

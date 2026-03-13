@@ -168,6 +168,25 @@ nav {
   .nav-links { gap: 16px; }
   .site-footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
 }
+
+/* Proveedores en ficha material */
+.prov-list{display:flex;flex-direction:column;gap:10px}
+.prov-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg-soft);border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:border-color .2s}
+.prov-item:hover{border-color:var(--gold)}
+.prov-item-left{display:flex;flex-direction:column;gap:2px}
+.prov-item-name{font-size:.8rem;font-weight:500}
+.prov-item-loc{font-size:.68rem;color:var(--ink-muted)}
+.prov-tier{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px}
+.tier-elite{background:#1a1917;color:#C9A84C}
+.tier-profesional{background:#f0efed;color:#4a4845}
+.tier-presencia{background:#f8f7f5;color:#8a8784;border:1px solid var(--border)}
+/* Canteras de origen */
+.canteras-orig-list{display:flex;flex-direction:column;gap:8px}
+.cantera-orig-item{padding:10px 14px;background:var(--bg-soft);border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:border-color .2s;font-size:.8rem}
+.cantera-orig-item:hover{border-color:var(--gold)}
+.cantera-orig-name{font-weight:500}
+.cantera-orig-sub{font-size:.68rem;color:var(--ink-muted);margin-top:2px}
+
 </style>
 </head>
 <body>
@@ -460,7 +479,23 @@ nav {
       '</div>' +
       (certsHtml ? '<div class="sidebar-card"><div class="sidebar-card-title">Certificaciones</div>' + certsHtml + '</div>' : '') +
       (m.sostenibilidad ? '<div class="sidebar-card"><div class="sidebar-card-title">Sostenibilidad</div><div class="sost-text">' + esc(m.sostenibilidad) + '</div></div>' : '');
+    // Añadir placeholders para canteras y proveedores (se cargan async)
+    sidebarHtml +=
+      '<div class="sidebar-card" id="sec-canteras-orig" style="display:none">' +
+        '<div class="sidebar-card-title">Canteras de origen</div>' +
+        '<div id="canteras-orig-list"></div>' +
+      '</div>' +
+      '<div class="sidebar-card" id="sec-proveedores" style="display:none">' +
+        '<div class="sidebar-card-title">Proveedores que lo trabajan</div>' +
+        '<div style="font-size:.72rem;color:var(--ink-muted);margin-bottom:10px">Empresas del directorio con este material</div>' +
+        '<div id="prov-list"></div>' +
+        '<a id="prov-ver-todos" href="lapidis-proveedores.html" style="display:block;margin-top:10px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)">Ver todos →</a>' +
+      '</div>';
     el('ficha-sidebar').innerHTML = sidebarHtml;
+
+    // Cargar vínculos async
+    cargarCanterasOrigen(m.id);
+    cargarProveedoresMaterial(m.nombre_comercial);
 
     // Mostrar contenido, ocultar loader
     el('stateLoading').style.display = 'none';
@@ -505,6 +540,57 @@ nav {
   }
 
 }());
+
+// ── Cargar canteras de origen ─────────────────────────────
+function cargarCanterasOrigen(materialId) {
+  db.from('material_cantera')
+    .select('cantera_id, canteras(id,slug,nombre,pais,tipo_piedra)')
+    .eq('material_id', materialId)
+    .then(function(r) {
+      if (!r.data || !r.data.length) return;
+      var list = document.getElementById('canteras-orig-list');
+      list.innerHTML = r.data.map(function(row) {
+        var c = row.canteras;
+        if (!c) return '';
+        return '<div class="cantera-orig-item" onclick="location.href=\'cantera.html?id='+c.slug+'\'">'
+          + '<div class="cantera-orig-name">' + (c.nombre||'') + '</div>'
+          + '<div class="cantera-orig-sub">' + (c.pais||'') + (c.tipo_piedra?' · '+c.tipo_piedra:'') + '</div>'
+          + '</div>';
+      }).join('');
+      document.getElementById('sec-canteras-orig').style.display = 'block';
+    });
+}
+
+// ── Cargar proveedores que trabajan este material ──────────
+function cargarProveedoresMaterial(nombreMaterial) {
+  var TIER_ORDER = { 'elite': 1, 'profesional': 2, 'presencia': 3, 'free': 4 };
+  db.from('proveedores')
+    .select('id,slug,nombre_empresa,pais,plan,verificado,logo_url')
+    .eq('plan_activo', true)
+    .contains('materiales', [nombreMaterial])
+    .order('plan', { ascending: true })
+    .limit(5)
+    .then(function(r) {
+      if (!r.data || !r.data.length) return;
+      var list = document.getElementById('prov-list');
+      var tierLabel = { 'elite': 'Élite', 'profesional': 'Profesional', 'presencia': 'Presencia', 'free': '' };
+      var tierClass = { 'elite': 'tier-elite', 'profesional': 'tier-profesional', 'presencia': 'tier-presencia', 'free': '' };
+      list.innerHTML = r.data.map(function(p) {
+        return '<div class="prov-item" onclick="location.href=\'proveedor.html?id='+p.slug+'\'">'
+          + '<div class="prov-item-left">'
+          + '<div class="prov-item-name">' + (p.nombre_empresa||'') + '</div>'
+          + '<div class="prov-item-loc">' + (p.pais||'') + '</div>'
+          + '</div>'
+          + (p.plan && p.plan !== 'free' ? '<span class="prov-tier '+tierClass[p.plan]+'">'+(tierLabel[p.plan]||p.plan)+'</span>' : '')
+          + '</div>';
+      }).join('');
+      document.getElementById('sec-proveedores').style.display = 'block';
+      // Actualizar enlace ver todos
+      var linkTodos = document.getElementById('prov-ver-todos');
+      if (linkTodos) linkTodos.href = 'lapidis-proveedores.html?q=' + encodeURIComponent(nombreMaterial);
+    });
+}
+
 </script>
 </body>
 </html>

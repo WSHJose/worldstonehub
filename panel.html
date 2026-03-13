@@ -299,6 +299,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5 3.5.5-2.5 2.5.5 3.5L7 9.5 4 11l.5-3.5L2 5l3.5-.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
         Plan
       </div>
+      <span class="pn-label">Contribuir</span>
+      <div class="pn-item" data-screen="propuestas">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4.5v3M7 9.5v.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        Mis propuestas
+      </div>
       <div class="pn-spacer"></div>
       <div class="pn-plan-chip">
         <div class="ppc-label">Plan activo</div>
@@ -533,6 +538,32 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
         <div id="planContent"></div>
       </div>
 
+      <!-- PROPUESTAS -->
+      <div class="screen" id="screen-propuestas">
+        <div class="screen-header">
+          <div class="screen-eyebrow">Contribuir al directorio</div>
+          <h2 class="screen-title">Mis <em>propuestas</em></h2>
+          <p class="screen-desc">Propón materiales y canteras para enriquecer el catálogo global.</p>
+        </div>
+        <div style="display:flex;gap:12px;margin-bottom:32px">
+          <a href="proponer-material.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:var(--ink);color:white;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background .2s" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='var(--ink)'">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3.5v5M3.5 6h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            Proponer material
+          </a>
+          <a href="proponer-cantera.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:transparent;color:var(--ink);border:1px solid var(--border-mid);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border-mid)';this.style.color='var(--ink)'">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3.5v5M3.5 6h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            Proponer cantera
+          </a>
+        </div>
+
+        <div id="propuestasContent">
+          <div style="text-align:center;padding:48px;color:var(--ink-faint)">
+            <div style="font-size:1.5rem;margin-bottom:8px">◇</div>
+            <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Cargando propuestas…</div>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 </div>
@@ -647,6 +678,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
     if(item) item.classList.add('active');
     if(name === 'stats') renderStats();
     if(name === 'plan') renderPlan();
+    if(name === 'propuestas') cargarPropuestas();;
   };
 
   document.querySelectorAll('.pn-item').forEach(function(item){
@@ -1077,6 +1109,67 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
   // Catálogo de materiales WSH para autocomplete
   var WSH_MATERIALES_CAT = [{"id":"001","nombre":"Bianco Carrara C","categoria":"mármol"},{"id":"002","nombre":"Statuario","categoria":"mármol"},{"id":"003","nombre":"Calacatta Gold","categoria":"mármol"},{"id":"004","nombre":"Nero Marquina","categoria":"mármol"},{"id":"005","nombre":"Rosso Verona","categoria":"mármol"},{"id":"006","nombre":"Crema Marfil","categoria":"mármol"},{"id":"007","nombre":"Emperador Dark","categoria":"mármol"},{"id":"008","nombre":"Blanco Macael","categoria":"mármol"},{"id":"009","nombre":"Rojo Alicante","categoria":"mármol"},{"id":"010","nombre":"Makrana White","categoria":"mármol"},{"id":"011","nombre":"Thassos Super White","categoria":"mármol"},{"id":"012","nombre":"Pentélico","categoria":"mármol"},{"id":"013","nombre":"Afyon White","categoria":"mármol"},{"id":"014","nombre":"Marmara White","categoria":"mármol"},{"id":"015","nombre":"Verde Tinos","categoria":"mármol"},{"id":"016","nombre":"Travertino Romano Classico","categoria":"travertino"},{"id":"017","nombre":"Silver Travertine","categoria":"travertino"},{"id":"018","nombre":"Noce Travertine","categoria":"travertino"},{"id":"019","nombre":"Gold Travertine","categoria":"travertino"},{"id":"020","nombre":"Travertino Walnut Brushed","categoria":"travertino"},{"id":"021","nombre":"Travertino Alabastrino","categoria":"travertino"},{"id":"022","nombre":"Black Galaxy","categoria":"granito"},{"id":"023","nombre":"Absolute Black","categoria":"granito"},{"id":"024","nombre":"Blue Pearl","categoria":"granito"},{"id":"025","nombre":"Balmoral Red","categoria":"granito"},{"id":"026","nombre":"Rosa Porrino","categoria":"granito"},{"id":"027","nombre":"Barre Gray","categoria":"granito"},{"id":"028","nombre":"Bianco Sardo","categoria":"granito"},{"id":"029","nombre":"Labrador Antique","categoria":"granito"},{"id":"030","nombre":"G654 Padang Dark","categoria":"granito"},{"id":"031","nombre":"Taj Mahal Quartzite","categoria":"cuarcita"},{"id":"032","nombre":"Blue Bahia","categoria":"granito"},{"id":"033","nombre":"Macaubus Cristallo","categoria":"cuarcita"},{"id":"034","nombre":"Fusion White","categoria":"cuarcita"},{"id":"035","nombre":"Van Gogh Quartzite","categoria":"cuarcita"},{"id":"036","nombre":"Patagonia Quartzite","categoria":"cuarcita"},{"id":"037","nombre":"Portland Stone","categoria":"caliza"},{"id":"038","nombre":"Jura Beige","categoria":"caliza"},{"id":"039","nombre":"Pierre de Bourgogne","categoria":"caliza"},{"id":"040","nombre":"Limestone Azul Valverde","categoria":"caliza"},{"id":"041","nombre":"Limestone Jerusalem Gold","categoria":"caliza"},{"id":"042","nombre":"Indiana Limestone","categoria":"caliza"},{"id":"043","nombre":"Welsh Slate Penrhyn","categoria":"pizarra"},{"id":"044","nombre":"Pizarra Gallega CUPA","categoria":"pizarra"},{"id":"045","nombre":"Pizarra Multicolor","categoria":"pizarra"},{"id":"046","nombre":"Pizarra Verdete","categoria":"pizarra"},{"id":"047","nombre":"Persian Gold Onyx","categoria":"ónix"},{"id":"048","nombre":"Green Onyx","categoria":"ónix"},{"id":"049","nombre":"Ónix Tecali","categoria":"ónix"},{"id":"050","nombre":"White Onyx","categoria":"ónix"},{"id":"051","nombre":"Red Sandstone Agra","categoria":"arenisca"},{"id":"052","nombre":"York Stone","categoria":"arenisca"},{"id":"053","nombre":"Arenisca Salamanca","categoria":"arenisca"},{"id":"054","nombre":"Sandstone Buff","categoria":"arenisca"},{"id":"055","nombre":"Sandstone Kota Blue","categoria":"arenisca"},{"id":"056","nombre":"Basalto Negro Mexicano","categoria":"basalto"},{"id":"057","nombre":"Bali Andesite","categoria":"basalto"},{"id":"058","nombre":"Basalto Azul Hainan","categoria":"basalto"},{"id":"059","nombre":"Pietra Serena","categoria":"basalto"},{"id":"060","nombre":"Lava Volcanic Black","categoria":"basalto"},{"id":"061","nombre":"Silestone White Storm","categoria":"cuarzo engineered"},{"id":"062","nombre":"Silestone Calacatta Gold","categoria":"cuarzo engineered"},{"id":"063","nombre":"Caesarstone Statuario Nuvo","categoria":"cuarzo engineered"},{"id":"064","nombre":"Quantra by Pokarna","categoria":"cuarzo engineered"},{"id":"065","nombre":"LG Viatera","categoria":"cuarzo engineered"},{"id":"066","nombre":"Dekton Calacatta Laza","categoria":"piedra sinterizada"},{"id":"067","nombre":"Dekton Sirius","categoria":"piedra sinterizada"},{"id":"068","nombre":"Techlam Calacatta Gold","categoria":"piedra sinterizada"},{"id":"069","nombre":"Neolith Estatuario","categoria":"piedra sinterizada"},{"id":"070","nombre":"Laminam Fokos","categoria":"piedra sinterizada"},{"id":"071","nombre":"Gres Porcelánico Mármol Blanco","categoria":"porcelánico"},{"id":"072","nombre":"Porcelánico Exterior Antideslizante","categoria":"porcelánico"},{"id":"073","nombre":"Porcelánico Gran Formato","categoria":"porcelánico"},{"id":"074","nombre":"Porcelánico Efecto Madera","categoria":"porcelánico"},{"id":"075","nombre":"Porcelánico Efecto Cemento","categoria":"porcelánico"},{"id":"076","nombre":"Pietra di Luserna","categoria":"otro"},{"id":"077","nombre":"Porfido Trentino","categoria":"otro"},{"id":"078","nombre":"Gneis Multicolor","categoria":"otro"},{"id":"079","nombre":"Serpentinita Verde","categoria":"otro"},{"id":"080","nombre":"Piatra Lavica","categoria":"otro"},{"id":"081","nombre":"Ceppo di Gré","categoria":"otro"},{"id":"082","nombre":"Quartzite Montblanc","categoria":"cuarcita"},{"id":"083","nombre":"Green Sukabumi","categoria":"otro"},{"id":"084","nombre":"Lepidolita Violeta","categoria":"otro"},{"id":"085","nombre":"Sodalite Blue","categoria":"otro"},{"id":"086","nombre":"Rainforest Green","categoria":"mármol"},{"id":"087","nombre":"Pietre di Cardoso","categoria":"pizarra"},{"id":"088","nombre":"Granito Azul Imperial","categoria":"granito"},{"id":"089","nombre":"Caliza Lumaquela","categoria":"caliza"},{"id":"090","nombre":"Pietra Pece","categoria":"caliza"},{"id":"091","nombre":"Gris Pulpis","categoria":"mármol"},{"id":"092","nombre":"Nero Portoro","categoria":"mármol"},{"id":"093","nombre":"Bianco Lasa","categoria":"mármol"},{"id":"094","nombre":"Fior di Bosco","categoria":"mármol"},{"id":"095","nombre":"Azul Macauba","categoria":"mármol"},{"id":"096","nombre":"Rosa Aurora","categoria":"mármol"},{"id":"097","nombre":"Nero Assoluto Zimbabue","categoria":"granito"},{"id":"098","nombre":"Perlatino","categoria":"mármol"},{"id":"099","nombre":"Arabescato Cervaiole","categoria":"mármol"},{"id":"100","nombre":"Palissandro","categoria":"mármol"},{"id":"101","nombre":"Giallo Veneziano","categoria":"granito"},{"id":"102","nombre":"Steel Gray","categoria":"granito"},{"id":"103","nombre":"Ubatuba","categoria":"granito"},{"id":"104","nombre":"Monte Bianco Granite","categoria":"granito"},{"id":"105","nombre":"Tropic Brown","categoria":"granito"},{"id":"106","nombre":"Juparana Colombo","categoria":"granito"},{"id":"107","nombre":"New Kashmir White","categoria":"granito"},{"id":"108","nombre":"Tan Brown","categoria":"granito"},{"id":"109","nombre":"Tiger Skin White","categoria":"granito"},{"id":"110","nombre":"Verde Labrador","categoria":"granito"},{"id":"111","nombre":"Fantasy Brown","categoria":"cuarcita"},{"id":"112","nombre":"White Quartzite Brazil","categoria":"cuarcita"},{"id":"113","nombre":"Acqua Quartzite","categoria":"cuarcita"},{"id":"114","nombre":"Persa Avorio","categoria":"cuarcita"},{"id":"115","nombre":"Lumix Bianco","categoria":"cuarcita"},{"id":"116","nombre":"Limestone Beige Navarre","categoria":"caliza"},{"id":"117","nombre":"Cotham Stone","categoria":"caliza"},{"id":"118","nombre":"Rojo Emperador Light","categoria":"mármol"},{"id":"119","nombre":"Limestone Cream Jerusalem","categoria":"caliza"},{"id":"120","nombre":"Pierre de Lens","categoria":"caliza"},{"id":"121","nombre":"Sandstone Autumn Brown","categoria":"arenisca"},{"id":"122","nombre":"Sandstone Teakwood","categoria":"arenisca"},{"id":"123","nombre":"Sandstone White","categoria":"arenisca"},{"id":"124","nombre":"Petra Rose Sandstone","categoria":"arenisca"},{"id":"125","nombre":"Obsidiana Negra","categoria":"basalto"},{"id":"126","nombre":"Tufa Volcánica","categoria":"basalto"},{"id":"127","nombre":"Pumita Decorativa","categoria":"basalto"},{"id":"128","nombre":"Ardesia Ligure","categoria":"pizarra"},{"id":"129","nombre":"Kuppam Green","categoria":"granito"},{"id":"130","nombre":"Cristallo Quartzite Brazil","categoria":"cuarcita"},{"id":"131","nombre":"Porcelánico Efecto Piedra Natural","categoria":"porcelánico"},{"id":"132","nombre":"Porcelánico Antracita Grip","categoria":"porcelánico"},{"id":"133","nombre":"Rectificado Blanco Mate 120x120","categoria":"porcelánico"},{"id":"134","nombre":"Porcelánico Terracota","categoria":"porcelánico"},{"id":"135","nombre":"Porcelánico Ultra Negro 320x160","categoria":"porcelánico"},{"id":"136","nombre":"Compac Calacatta","categoria":"cuarzo engineered"},{"id":"137","nombre":"MSI Q Premium Quartz","categoria":"cuarzo engineered"},{"id":"138","nombre":"Hanstone Quartz","categoria":"cuarzo engineered"},{"id":"139","nombre":"Nero Zimbabwe Extra","categoria":"granito"},{"id":"140","nombre":"Moca Cream","categoria":"caliza"},{"id":"141","nombre":"Rosa Pinhel","categoria":"granito"},{"id":"142","nombre":"Azul Valverde Belga","categoria":"caliza"},{"id":"143","nombre":"Limestone Sahara Noir","categoria":"caliza"},{"id":"144","nombre":"Ágata Azul Brasileña","categoria":"otro"},{"id":"145","nombre":"Cuarzo Rosa","categoria":"otro"},{"id":"146","nombre":"Malachita","categoria":"otro"},{"id":"147","nombre":"Lápiz Lázuli","categoria":"otro"},{"id":"148","nombre":"Mármol Rojo de Languedoc","categoria":"mármol"},{"id":"149","nombre":"Bardiglio Imperiale","categoria":"mármol"},{"id":"150","nombre":"Breccia Capraia","categoria":"mármol"},{"id":"151","nombre":"Onyx Marble Iran","categoria":"ónix"},{"id":"152","nombre":"Vishwa White","categoria":"mármol"},{"id":"153","nombre":"Katni Brown","categoria":"mármol"},{"id":"154","nombre":"Emperador Brown Turkey","categoria":"mármol"},{"id":"155","nombre":"Crema Valencia","categoria":"mármol"},{"id":"156","nombre":"Bohus Gray","categoria":"granito"},{"id":"157","nombre":"Ekeberga Red","categoria":"granito"},{"id":"158","nombre":"Granito Gris Quintana","categoria":"granito"},{"id":"159","nombre":"Granite Noir de Soignies","categoria":"granito"},{"id":"160","nombre":"Granito Azul Noche","categoria":"granito"},{"id":"161","nombre":"Travertine Persian Vein Cut","categoria":"travertino"},{"id":"162","nombre":"Travertine Ivory","categoria":"travertino"},{"id":"163","nombre":"Red Travertine","categoria":"travertino"},{"id":"164","nombre":"Travertine Dark Walnut","categoria":"travertino"},{"id":"165","nombre":"Rainforest Brown","categoria":"mármol"},{"id":"166","nombre":"Fantasy Quartzite Brown","categoria":"cuarcita"},{"id":"167","nombre":"Hawk Eye","categoria":"otro"},{"id":"168","nombre":"Tiger Eye Gold","categoria":"otro"},{"id":"169","nombre":"Petrified Wood","categoria":"otro"},{"id":"170","nombre":"Azurita","categoria":"otro"},{"id":"171","nombre":"Gotland Limestone","categoria":"caliza"},{"id":"172","nombre":"Caliza Gris Bilbao","categoria":"caliza"},{"id":"173","nombre":"Dolomie des Alpes","categoria":"caliza"},{"id":"174","nombre":"Limestone Azul Macael","categoria":"caliza"},{"id":"175","nombre":"Moleanos Limestone","categoria":"caliza"},{"id":"176","nombre":"Sandstone Pink Jodhpur","categoria":"arenisca"},{"id":"177","nombre":"Sandstone Mint","categoria":"arenisca"},{"id":"178","nombre":"Calcarenite Sicily","categoria":"arenisca"},{"id":"179","nombre":"G603 Sesame White","categoria":"granito"},{"id":"180","nombre":"G664 Lilac","categoria":"granito"},{"id":"181","nombre":"Shandong Rust","categoria":"granito"},{"id":"182","nombre":"Padang Light","categoria":"granito"},{"id":"183","nombre":"Eco Quartz Recycled","categoria":"cuarzo engineered"},{"id":"184","nombre":"Recycled Glass Terrazzo","categoria":"otro"},{"id":"185","nombre":"Cork Stone","categoria":"otro"},{"id":"186","nombre":"Cipollino Verde","categoria":"mármol"},{"id":"187","nombre":"Bianco Sivec","categoria":"mármol"},{"id":"188","nombre":"Verde Guatemala","categoria":"otro"},{"id":"189","nombre":"Rocas Verdes Valachia","categoria":"otro"},{"id":"190","nombre":"Fossil Black Limestone","categoria":"caliza"},{"id":"191","nombre":"Phantasie Quartzite","categoria":"cuarcita"},{"id":"192","nombre":"Cosmic Black","categoria":"granito"},{"id":"193","nombre":"Verde Peacock","categoria":"granito"},{"id":"194","nombre":"Marron Cohiba","categoria":"granito"},{"id":"195","nombre":"Bianco Cristal Brasil","categoria":"granito"},{"id":"196","nombre":"Juperana Crema","categoria":"granito"},{"id":"197","nombre":"Atlantic Blue","categoria":"granito"},{"id":"198","nombre":"Limestone Mocha","categoria":"caliza"},{"id":"199","nombre":"Quartzite Silver White","categoria":"cuarcita"},{"id":"200","nombre":"Calacatta Viola","categoria":"mármol"}];
 
+
+  // ── Propuestas ──────────────────────────────────────────
+  function cargarPropuestas() {
+    var el = document.getElementById('propuestasContent');
+    if (!el) return;
+    var uid = currentUser && currentUser.id;
+    if (!uid) return;
+
+    var ESTADO_BADGE = {
+      'pendiente':  '<span style="padding:2px 10px;background:#fff3e0;color:#e65100;font-size:10px;letter-spacing:1px;text-transform:uppercase;border-radius:2px">Pendiente</span>',
+      'aprobado':   '<span style="padding:2px 10px;background:#e8f5e9;color:#2e7d32;font-size:10px;letter-spacing:1px;text-transform:uppercase;border-radius:2px">Aprobado</span>',
+      'rechazado':  '<span style="padding:2px 10px;background:#fce4e4;color:#c62828;font-size:10px;letter-spacing:1px;text-transform:uppercase;border-radius:2px">Rechazado</span>'
+    };
+
+    Promise.all([
+      db.from('propuestas_materiales').select('id,nombre_comercial,categoria,estado,created_at').eq('user_id', uid).order('created_at', {ascending: false}),
+      db.from('propuestas_canteras').select('id,nombre,tipo_piedra,estado,created_at').eq('user_id', uid).order('created_at', {ascending: false})
+    ]).then(function(results) {
+      var mats = results[0].data || [];
+      var cants = results[1].data || [];
+
+      if (!mats.length && !cants.length) {
+        el.innerHTML = '<div style="text-align:center;padding:48px;color:var(--ink-faint)">'
+          + '<div style="font-size:1.5rem;margin-bottom:8px">◇</div>'
+          + '<div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px">Sin propuestas todavía</div>'
+          + '<div style="font-size:12px;color:var(--ink-muted)">Usa los botones de arriba para proponer materiales o canteras.</div>'
+          + '</div>';
+        return;
+      }
+
+      var html = '';
+
+      if (mats.length) {
+        html += '<div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px">Materiales propuestos</div>';
+        html += mats.map(function(m) {
+          return '<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:2px;margin-bottom:8px">'
+            + '<div>'
+            + '<div style="font-size:13px;font-weight:500;margin-bottom:3px">' + (m.nombre_comercial||'') + '</div>'
+            + '<div style="font-size:11px;color:var(--ink-muted)">' + (m.categoria||'') + ' · ' + new Date(m.created_at).toLocaleDateString('es-ES') + '</div>'
+            + '</div>'
+            + (ESTADO_BADGE[m.estado] || '')
+            + '</div>';
+        }).join('');
+      }
+
+      if (cants.length) {
+        html += '<div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px;margin-top:24px">Canteras propuestas</div>';
+        html += cants.map(function(m) {
+          return '<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:2px;margin-bottom:8px">'
+            + '<div>'
+            + '<div style="font-size:13px;font-weight:500;margin-bottom:3px">' + (m.nombre||'') + '</div>'
+            + '<div style="font-size:11px;color:var(--ink-muted)">' + (m.tipo_piedra||'') + ' · ' + new Date(m.created_at).toLocaleDateString('es-ES') + '</div>'
+            + '</div>'
+            + (ESTADO_BADGE[m.estado] || '')
+            + '</div>';
+        }).join('');
+      }
+
+      el.innerHTML = html;
+    });
+  }
 </script>
 </body>
 </html>
