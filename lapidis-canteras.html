@@ -330,7 +330,7 @@ function buildCard(c){
     +'</div>'
     +(c.proyectos_clave?'<div class="card-proyectos"><div class="card-proyectos-label">Proyectos & monumentos</div>'+esc(c.proyectos_clave)+'</div>':'');
   div.style.cursor='pointer';
-  div.addEventListener('click',function(){ window.location.href='cantera.html?id='+c.slug; });
+  (function(slug){ div.addEventListener('click',function(){ window.location.href='cantera.html?id='+slug; }); })(c.slug);
   return div;
 }
 
