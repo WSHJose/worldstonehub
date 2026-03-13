@@ -168,35 +168,17 @@ nav {
   .nav-links { gap: 16px; }
   .site-footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
 }
-
-/* Proveedores en ficha material */
-.prov-list{display:flex;flex-direction:column;gap:10px}
-.prov-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg-soft);border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:border-color .2s}
-.prov-item:hover{border-color:var(--gold)}
-.prov-item-left{display:flex;flex-direction:column;gap:2px}
-.prov-item-name{font-size:.8rem;font-weight:500}
-.prov-item-loc{font-size:.68rem;color:var(--ink-muted)}
-.prov-tier{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px}
-.tier-elite{background:#1a1917;color:#C9A84C}
-.tier-profesional{background:#f0efed;color:#4a4845}
-.tier-presencia{background:#f8f7f5;color:#8a8784;border:1px solid var(--border)}
-/* Canteras de origen */
-.canteras-orig-list{display:flex;flex-direction:column;gap:8px}
-.cantera-orig-item{padding:10px 14px;background:var(--bg-soft);border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:border-color .2s;font-size:.8rem}
-.cantera-orig-item:hover{border-color:var(--gold)}
-.cantera-orig-name{font-weight:500}
-.cantera-orig-sub{font-size:.68rem;color:var(--ink-muted);margin-top:2px}
-
 </style>
 </head>
 <body>
 
 <!-- NAV (se activa Materiales via JS) -->
 <nav>
-  <a href="index.html" class="logo">
-    <span class="logo-main">World Stone<span class="logo-hub"> Hub</span></span>
-    <span class="logo-sub">Where Stone Meets The World</span>
-  </a>
+  <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub">
+  <text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#1A1410">WORLD STONE</text>
+  <line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.65"/>
+  <text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text>
+</svg></a>
   <ul class="nav-links">
     <li><a href="index.html">Inicio</a></li>
     <li><a href="lapidis-canteras.html">Canteras</a></li>
@@ -295,41 +277,12 @@ nav {
   <a href="lapidis-materiales.html" style="color:var(--gold);">← Volver al catálogo</a>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function() {
   var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-  var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
-
-  // Fetch directo sin librería — más robusto
-  function sbGet(slug, callback) {
-    var url = SB_URL + '/rest/v1/materiales?select=*&slug=eq.' + encodeURIComponent(slug);
-    fetch(url, {
-      headers: {
-        'apikey': SB_KEY,
-        'Authorization': 'Bearer ' + SB_KEY,
-        'Accept': 'application/json'
-      }
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (Array.isArray(data) && data.length > 0) callback(null, data[0]);
-      else callback('not_found', null);
-    })
-    .catch(function(e) { callback(e, null); });
-  }
-
-  function sbGetAdj(op, id, callback) {
-    var op_str = op === 'lt' ? 'lt' : 'gt';
-    var order  = op === 'lt' ? 'id.desc' : 'id.asc';
-    var url = SB_URL + '/rest/v1/materiales?select=slug,nombre_comercial&id=' + op_str + '.' + encodeURIComponent(id) + '&order=' + order + '&limit=1';
-    fetch(url, {
-      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Accept': 'application/json' }
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(data) { callback(Array.isArray(data) && data.length ? data[0] : null); })
-    .catch(function() { callback(null); });
-  }
+  var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk0NTQ2MDUsImV4cCI6MjA1NTAzMDYwNX0.T2sT_dtajyJI8SRiRxjBKrHJlXH3gD7C7bORMSfb6vU';
+  var db = supabase.createClient(SB_URL, SB_KEY);
 
   // ── Helpers ────────────────────────────────────────────────────────────────
   function esc(s) {
@@ -369,11 +322,16 @@ nav {
   }
 
   // ── Cargar material desde Supabase ─────────────────────────────────────────
-  sbGet(slug, function(err, data) {
-    if (err || !data) { show404(); return; }
-    renderFicha(data);
-    loadAdyacentes(data);
-  });
+  db.from('materiales')
+    .select('*')
+    .eq('slug', slug)
+    .single()
+    .then(function(res) {
+      if (res.error || !res.data) { show404(); return; }
+      renderFicha(res.data);
+      // Cargar prev/next
+      loadAdyacentes(res.data);
+    });
 
   // ── Render ficha ──────────────────────────────────────────────────────────
   function renderFicha(m) {
@@ -479,45 +437,35 @@ nav {
       '</div>' +
       (certsHtml ? '<div class="sidebar-card"><div class="sidebar-card-title">Certificaciones</div>' + certsHtml + '</div>' : '') +
       (m.sostenibilidad ? '<div class="sidebar-card"><div class="sidebar-card-title">Sostenibilidad</div><div class="sost-text">' + esc(m.sostenibilidad) + '</div></div>' : '');
-    // Añadir placeholders para canteras y proveedores (se cargan async)
-    sidebarHtml +=
-      '<div class="sidebar-card" id="sec-canteras-orig" style="display:none">' +
-        '<div class="sidebar-card-title">Canteras de origen</div>' +
-        '<div id="canteras-orig-list"></div>' +
-      '</div>' +
-      '<div class="sidebar-card" id="sec-proveedores" style="display:none">' +
-        '<div class="sidebar-card-title">Proveedores que lo trabajan</div>' +
-        '<div style="font-size:.72rem;color:var(--ink-muted);margin-bottom:10px">Empresas del directorio con este material</div>' +
-        '<div id="prov-list"></div>' +
-        '<a id="prov-ver-todos" href="lapidis-proveedores.html" style="display:block;margin-top:10px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)">Ver todos →</a>' +
-      '</div>';
     el('ficha-sidebar').innerHTML = sidebarHtml;
-
-    // Cargar vínculos async
-    cargarCanterasOrigen(m.id);
-    cargarProveedoresMaterial(m.nombre_comercial);
 
     // Mostrar contenido, ocultar loader
     el('stateLoading').style.display = 'none';
     el('fichaContent').style.display = 'block';
   }
 
-  // ── Prev / Next ────────────────────────────────────────────────────────────
+  // ── Prev / Next (por id numérico) ──────────────────────────────────────────
   function loadAdyacentes(m) {
-    sbGetAdj('lt', m.id, function(prev) {
-      if (prev) {
-        el('nav-prev').href = 'material.html?id=' + esc(prev.slug);
-        el('nav-prev-name').textContent = prev.nombre_comercial;
-        el('nav-prev').style.display = 'flex';
-      }
-    });
-    sbGetAdj('gt', m.id, function(next) {
-      if (next) {
-        el('nav-next').href = 'material.html?id=' + esc(next.slug);
-        el('nav-next-name').textContent = next.nombre_comercial;
-        el('nav-next').style.display = 'flex';
-      }
-    });
+    // Obtener anterior
+    db.from('materiales').select('slug, nombre_comercial').lt('id', m.id).order('id', {ascending: false}).limit(1)
+      .then(function(r) {
+        if (r.data && r.data.length) {
+          var prev = r.data[0];
+          el('nav-prev').href = 'material.html?id=' + esc(prev.slug);
+          el('nav-prev-name').textContent = prev.nombre_comercial;
+          el('nav-prev').style.display = 'flex';
+        }
+      });
+    // Obtener siguiente
+    db.from('materiales').select('slug, nombre_comercial').gt('id', m.id).order('id', {ascending: true}).limit(1)
+      .then(function(r) {
+        if (r.data && r.data.length) {
+          var next = r.data[0];
+          el('nav-next').href = 'material.html?id=' + esc(next.slug);
+          el('nav-next-name').textContent = next.nombre_comercial;
+          el('nav-next').style.display = 'flex';
+        }
+      });
   }
 
   // ── 404 ────────────────────────────────────────────────────────────────────
@@ -530,8 +478,7 @@ nav {
   // ── Auth nav ───────────────────────────────────────────────────────────────
   var navAuth = el('nav-auth-item');
   if (navAuth) {
-    var db2 = supabase.createClient(SB_URL, SB_KEY);
-    db2.auth.getSession().then(function(r) {
+    db.auth.getSession().then(function(r) {
       var s = r.data && r.data.session;
       navAuth.innerHTML = s
         ? '<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Mi Panel</a>'
@@ -540,54 +487,6 @@ nav {
   }
 
 }());
-
-// ── Cargar canteras de origen (fetch directo) ─────────────
-function cargarCanterasOrigen(materialId) {
-  var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-  var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
-  fetch(SB_URL + '/rest/v1/material_cantera?select=cantera_id,canteras(id,slug,nombre,pais,tipo_piedra)&material_id=eq.' + encodeURIComponent(materialId), {
-    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Accept': 'application/json' }
-  }).then(function(r){ return r.json(); }).then(function(rows) {
-    if (!Array.isArray(rows) || !rows.length) return;
-    var list = document.getElementById('canteras-orig-list');
-    if (!list) return;
-    list.innerHTML = rows.map(function(row) {
-      var c = row.canteras;
-      if (!c) return '';
-      return '<div class="cantera-orig-item" style="padding:10px 14px;background:var(--bg-soft);border:1px solid var(--border);border-radius:2px;cursor:pointer;margin-bottom:6px" onclick="location.href=\'cantera.html?id='+c.slug+'\'">'
-        + '<div style="font-size:.8rem;font-weight:500">' + (c.nombre||'') + '</div>'
-        + '<div style="font-size:.68rem;color:var(--ink-muted);margin-top:2px">' + (c.pais||'') + (c.tipo_piedra?' · '+c.tipo_piedra:'') + '</div>'
-        + '</div>';
-    }).join('');
-    document.getElementById('sec-canteras-orig').style.display = 'block';
-  }).catch(function(){});
-}
-
-// ── Cargar proveedores que trabajan este material ──────────
-function cargarProveedoresMaterial(nombreMaterial) {
-  var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-  var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
-  var tierLabel = { 'elite': 'Élite', 'profesional': 'Profesional', 'presencia': 'Presencia', 'free': '' };
-  var tierClass = { 'elite': 'tier-elite', 'profesional': 'tier-profesional', 'presencia': 'tier-presencia', 'free': '' };
-  fetch(SB_URL + '/rest/v1/proveedores?select=id,slug,nombre_empresa,pais,plan,verificado&plan_activo=eq.true&materiales=cs.{"' + encodeURIComponent(nombreMaterial) + '"}&order=plan.asc&limit=5', {
-    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Accept': 'application/json' }
-  }).then(function(r){ return r.json(); }).then(function(rows) {
-    if (!Array.isArray(rows) || !rows.length) return;
-    var list = document.getElementById('prov-list');
-    if (!list) return;
-    list.innerHTML = rows.map(function(p) {
-      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg-soft);border:1px solid var(--border);border-radius:2px;cursor:pointer;margin-bottom:6px" onclick="location.href=\'proveedor.html?id='+p.slug+'\'">'
-        + '<div><div style="font-size:.8rem;font-weight:500">' + (p.nombre_empresa||'') + '</div>'
-        + '<div style="font-size:.68rem;color:var(--ink-muted)">' + (p.pais||'') + '</div></div>'
-        + (p.plan && p.plan !== 'free' ? '<span style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;background:'+(p.plan==='elite'?'#1a1917':'#f0efed')+';color:'+(p.plan==='elite'?'#C9A84C':'#4a4845')+'">'+(tierLabel[p.plan]||p.plan)+'</span>' : '')
-        + '</div>';
-    }).join('');
-    document.getElementById('sec-proveedores').style.display = 'block';
-    var linkTodos = document.getElementById('prov-ver-todos');
-    if (linkTodos) linkTodos.href = 'lapidis-proveedores.html?q=' + encodeURIComponent(nombreMaterial);
-  }).catch(function(){});
-}
-
 </script>
 </body>
 </html>

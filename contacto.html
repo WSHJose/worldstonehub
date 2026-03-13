@@ -152,10 +152,11 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
 <body>
 
 <nav>
-  <a href="index.html" class="logo">
-    <span>World Stone<span class="logo-hub"> Hub</span></span>
-    <span class="logo-sub">Where Stone Meets The World</span>
-  </a>
+  <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub">
+  <text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#1A1410">WORLD STONE</text>
+  <line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.65"/>
+  <text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text>
+</svg></a>
   <ul class="nav-links">
     <li><a href="index.html">Inicio</a></li>
     <li><a href="lapidis-canteras.html">Canteras</a></li>
@@ -184,7 +185,7 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
 <div class="page-hero">
   <div class="ph-eyebrow">Escríbenos</div>
   <h1 class="ph-title"><em>Hablemos</em></h1>
-  <div class="ph-sub">hello@worldstonehub.com · &lt; 24h respuesta</div>
+  <div class="ph-sub"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dfb7bab3b3b09fa8b0adb3bbacabb0b1bab7aabdf1bcb0b2">[email&#160;protected]</a> · &lt; 24h respuesta</div>
   <div class="ph-deco">C</div>
 </div>
 
@@ -235,7 +236,7 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
     <div class="form-success" id="form-success">
       <div class="form-success-icon">✓</div>
       <h3>Mensaje <em>recibido</em></h3>
-      <p>Gracias por escribirnos. Revisaremos tu mensaje y te responderemos en menos de 24 horas en días laborables.<br><br>También puedes escribirnos directamente a <strong>hello@worldstonehub.com</strong></p>
+      <p>Gracias por escribirnos. Revisaremos tu mensaje y te responderemos en menos de 24 horas en días laborables.<br><br>También puedes escribirnos directamente a <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="86eee3eaeae9c6f1e9f4eae2f5f2e9e8e3eef3e4a8e5e9eb">[email&#160;protected]</a></strong></p>
     </div>
   </div>
 
@@ -243,7 +244,7 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
   <div class="info-side">
     <div>
       <div class="info-block-title">Email directo</div>
-      <a href="mailto:hello@worldstonehub.com" class="info-email">hello@worldstonehub.com</a>
+      <a href="/cdn-cgi/l/email-protection#fa929f969695ba8d9588969e898e95949f928f98d4999597" class="info-email"><span class="__cf_email__" data-cfemail="234b464f4f4c63544c514f4750574c4d464b56410d404c4e">[email&#160;protected]</span></a>
       <p class="info-detail">Bandeja revisada cada día laborable. Para consultas urgentes sobre publicación de empresa usa el formulario con asunto "Quiero publicar mi empresa".</p>
     </div>
     <div class="info-divider"></div>
@@ -297,10 +298,11 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <a href="index.html" class="logo" style="text-decoration:none;">
-        <span class="logo-main">World Stone<span class="logo-hub"> Hub</span></span>
-        <span class="logo-sub">Where Stone Meets The World</span>
-      </a>
+      <a href="index.html" class="logo" style="text-decoration:none;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub">
+  <text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#F0EDE8">WORLD STONE</text>
+  <line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.6"/>
+  <text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text>
+</svg></a>
       <p class="footer-tagline">El portal internacional de referencia para todos los profesionales del sector de la piedra natural y artificial.</p>
     </div>
     <div class="footer-col">
@@ -346,7 +348,7 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 function sendForm(){
   var nombre=document.getElementById('f-nombre').value.trim();
@@ -375,15 +377,4 @@ function sendForm(){
     if(menu){menu.addEventListener('mouseenter',function(){if(closeTimer){clearTimeout(closeTimer);closeTimer=null;}});
     menu.addEventListener('mouseleave',function(){closeTimer=setTimeout(function(){el.classList.remove('open');},250);});}
   });
-  var db=supabase.createClient("https://whcptmdapnavcxcszwwk.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8");
-  db.auth.getSession().then(function(r){
-    var s=r.data&&r.data.session;
-    var el=document.getElementById("nav-auth-item");
-    if(!el)return;
-    if(s){el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Mi Panel</a>';}
-    else{el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-acceso">Acceso</a>';}
-  });
-})();
-</script>
-</body>
-</html>
+  var db=supabase.createClient("https://whcptmdapnavcxcszwwk.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtC

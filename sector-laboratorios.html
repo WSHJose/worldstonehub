@@ -240,10 +240,11 @@ nav {
 <body>
 
 <nav>
-  <a href="index.html" class="logo">
-    <span class="logo-main">World Stone<span class="logo-hub"> Hub</span></span>
-    <span class="logo-sub">Where Stone Meets The World</span>
-  </a>
+  <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub">
+  <text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#1A1410">WORLD STONE</text>
+  <line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.65"/>
+  <text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text>
+</svg></a>
   <ul class="nav-links">
     <li><a href="index.html">Inicio</a></li>
     <li><a href="lapidis-canteras.html">Canteras</a></li>
@@ -274,8 +275,23 @@ nav {
     <p class="ph-desc">Laboratorios de ensayo acreditados, organismos de certificación y entidades de normalización especializados en piedra natural. Ensayos de resistencia, absorción, durabilidad y certificaciones medioambientales.</p>
     <div class="ph-stats"><div><div class="ph-stat-n">60+</div><div class="ph-stat-l">Laboratorios</div></div><div><div class="ph-stat-n">28</div><div class="ph-stat-l">Países</div></div><div><div class="ph-stat-n">ISO</div><div class="ph-stat-l">Acreditados</div></div></div>
   </div>
-  <div class="page-hdr-right" id="hdr-ad-sector-lab" style="display:none;">
-    <div class="wsh-ad" data-espacio="SECTOR-LAB" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
+  <div class="page-hdr-right">
+    <div class="hdr-deco">
+    <div class="hdr-deco-bg" style="background:linear-gradient(135deg,#1e2820 0%,#1e2820cc 60%,#1e282088 100%);"></div>
+    <div style="position:absolute;inset:0;opacity:0.06;" >
+      <svg width="100%" height="100%" viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice">
+        <g stroke="rgba(255,255,255,0.8)" stroke-width="0.6" fill="none">
+          <path d="M40,80 Q120,20 220,100 T380,140"/>
+          <path d="M0,200 Q80,160 180,220 T400,200"/>
+          <path d="M60,0 Q80,120 120,240 T100,480"/>
+          <path d="M220,0 Q240,140 260,280 T240,480"/>
+          <path d="M340,0 Q360,160 320,320 T360,480"/>
+        </g>
+      </svg>
+    </div>
+    <div class="hdr-deco-letter" style="color:rgba(255,255,255,0.07);">L</div>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:72px;z-index:3;line-height:1;">🔬</div>
+    <div class="hdr-deco-label" style="color:rgba(255,255,255,0.35);">WORLD STONE HUB · LABORATORIOS Y CERTIFICACIÓN</div>
   </div>
   </div>
 </div>
@@ -402,10 +418,11 @@ nav {
 <footer class="site-footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="index.html" class="logo">
-        <span class="logo-main">World Stone<span class="logo-hub"> Hub</span></span>
-        <span class="logo-sub">Where Stone Meets The World</span>
-      </a>
+      <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub">
+  <text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#F0EDE8">WORLD STONE</text>
+  <line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.6"/>
+  <text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text>
+</svg></a>
       <p class="footer-tagline">El portal internacional de referencia para todos los profesionales del sector de la piedra natural y artificial.</p>
     </div>
     <div class="footer-col">
@@ -535,33 +552,6 @@ nav {
       el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-acceso">Acceso</a>';
     }
   });
-})();
-</script>
-
-<!-- WSH Ad Loader -->
-<script>
-(function(){
-  var SB_URL="https://whcptmdapnavcxcszwwk.supabase.co";
-  var SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8";
-  var today=new Date().toISOString().slice(0,10);
-  var slots=document.querySelectorAll('.wsh-ad[data-espacio]');
-  if(!slots.length)return;
-  var codigos=Array.from(slots).map(function(s){return s.dataset.espacio;});
-  var query=codigos.map(function(c){return 'espacio_codigo.eq.'+c;}).join(',');
-  fetch(SB_URL+'/rest/v1/anuncios?select=espacio_codigo,anunciante,imagen_url,url_destino,texto_alt&activo=eq.true&or=('+query+')&fecha_fin=gte.'+today,{
-    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
-  }).then(function(r){return r.json();}).then(function(data){
-    if(!data||!data.length)return;
-    data.forEach(function(ad){
-      slots.forEach(function(slot){
-        if(slot.dataset.espacio!==ad.espacio_codigo)return;
-        slot.style.cssText='display:flex;align-items:center;justify-content:center;width:100%;height:100%;';
-        var wrapper=slot.closest('[id^="hdr-ad-"]');
-        if(wrapper) wrapper.style.display='';
-        slot.innerHTML='<a href="'+ad.url_destino+'" target="_blank" rel="noopener sponsored" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#1a1917;"><img src="'+ad.imagen_url+'" alt="'+(ad.texto_alt||ad.anunciante||'')+'" style="width:100%;height:100%;object-fit:contain;display:block;background:#1a1917;" loading="lazy"></a>';
-      });
-    });
-  }).catch(function(){});
 })();
 </script>
 </body>
