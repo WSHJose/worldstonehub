@@ -444,6 +444,8 @@ nav a:hover,nav a.active{color:#A67C52;}
   color:var(--acc,#A67C52);transition:all .2s;
 }
 .pr-upgrade-btn:hover{background:rgba(var(--acc-rgb),.15);}
+.ver-ficha-btn{display:inline-block;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#A67C52;padding:8px 18px;border:1px solid rgba(166,124,82,0.35);text-decoration:none;transition:background 0.2s,color 0.2s;font-family:"Instrument Sans",sans-serif;font-weight:500;white-space:nowrap;}
+.ver-ficha-btn:hover{background:#A67C52;color:#f8f7f5;}
 
 /* ════════════════════════════════════════════
    TIER 1 — DIRECTORIO
@@ -2279,6 +2281,71 @@ function filterCards(btn) {
       });
     });
   }).catch(function(){});
+})();
+</script>
+
+<!-- Carga slugs de proveedores desde Supabase y añade botones "Ver ficha" -->
+<script>
+(function(){
+  var SB_URL = "https://whcptmdapnavcxcszwwk.supabase.co";
+  var SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8";
+
+  function norm(s) {
+    return (s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
+  function addVerBtn(article, slug) {
+    var btn = document.createElement('a');
+    btn.className = 'ver-ficha-btn';
+    btn.href = 'proveedor.html?id=' + encodeURIComponent(slug);
+    btn.textContent = 'Ver ficha \u2192';
+
+    var cls = article.className || '';
+    if (cls.indexOf('profile-elite') !== -1) {
+      var eLinks = article.querySelector('.e-links');
+      if (eLinks) { eLinks.parentNode.insertBefore(btn, eLinks.nextSibling); return; }
+    }
+    if (cls.indexOf('profile-pro') !== -1) {
+      var pFooter = article.querySelector('.p-footer');
+      if (pFooter) { pFooter.appendChild(btn); return; }
+    }
+    if (cls.indexOf('profile-pres') !== -1) {
+      var upgradeBtn = article.querySelector('.pr-upgrade-btn');
+      if (upgradeBtn) { upgradeBtn.parentNode.insertBefore(btn, upgradeBtn); return; }
+    }
+    if (cls.indexOf('profile-dir') !== -1) {
+      var dRight = article.querySelector('.d-right');
+      if (dRight) { dRight.insertBefore(btn, dRight.firstChild); return; }
+    }
+    article.appendChild(btn);
+  }
+
+  fetch(SB_URL + '/rest/v1/proveedores?select=nombre_empresa,slug&estado=eq.activo', {
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    if (!Array.isArray(data)) return;
+    // Build lookup maps: by slug and by normalized name
+    var bySlug = {}, byName = {};
+    data.forEach(function(p){
+      if (!p.slug) return;
+      bySlug[p.slug] = p.slug;
+      bySlug[norm(p.slug)] = p.slug;
+      if (p.nombre_empresa) byName[norm(p.nombre_empresa)] = p.slug;
+    });
+
+    document.querySelectorAll('article[id][data-tags]').forEach(function(article){
+      var id = article.id;
+      var slug = bySlug[id] || bySlug[norm(id)];
+      if (!slug) {
+        var h2 = article.querySelector('h2');
+        if (h2) slug = byName[norm(h2.textContent)];
+      }
+      if (slug) addVerBtn(article, slug);
+    });
+  })
+  .catch(function(){});
 })();
 </script>
 </body>
