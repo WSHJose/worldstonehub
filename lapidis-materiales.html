@@ -216,26 +216,26 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
   <!-- IZQUIERDA -->
   <div class="ph-left">
     <div>
-      <p class="ph-eyebrow">Lapidis · Directorio técnico</p>
-      <h1>Materiales de<br><em>Piedra Natural</em></h1>
-      <p class="ph-desc">Fichas técnicas completas de materiales de piedra natural y superficies. Propiedades, acabados, formatos, origen y proyectos de referencia.</p>
+      <p class="ph-eyebrow" data-i18n="hero.materiales.eyebrow">Lapidis · Directorio técnico</p>
+      <h1><span data-i18n="hero.materiales.title">Materiales de</span><br><em data-i18n="hero.materiales.titleItalic">Piedra Natural</em></h1>
+      <p class="ph-desc" data-i18n="hero.materiales.desc">Fichas técnicas completas de materiales de piedra natural y superficies. Propiedades, acabados, formatos, origen y proyectos de referencia.</p>
     </div>
     <div class="ph-stats">
       <div class="stat-block">
         <span class="stat-n" id="statMateriales">—</span>
-        <span class="stat-l">Materiales</span>
+        <span class="stat-l" data-i18n="stats.materiales">Materiales</span>
       </div>
       <div class="stat-block">
         <span class="stat-n">13</span>
-        <span class="stat-l">Categorías</span>
+        <span class="stat-l" data-i18n="stats.categorias">Categorías</span>
       </div>
       <div class="stat-block">
         <span class="stat-n" id="statPaises">—</span>
-        <span class="stat-l">Países</span>
+        <span class="stat-l" data-i18n="stats.paises">Países</span>
       </div>
       <div class="stat-block">
         <span class="stat-n" id="statColores">—</span>
-        <span class="stat-l">Colores</span>
+        <span class="stat-l" data-i18n="stats.colores">Colores</span>
       </div>
     </div>
   </div>
@@ -247,11 +247,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
         <svg class="ad-placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
         </svg>
-        <span class="ad-placeholder-text">Espacio publicitario</span>
+        <span class="ad-placeholder-text" data-i18n="ad.placeholder">Espacio publicitario</span>
         <span class="ad-placeholder-sub">MATERIALES-TOP</span>
       </div>
     </div>
-    <div class="ad-label">Publicidad</div>
+    <div class="ad-label" data-i18n="ad.label">Publicidad</div>
   </div>
 </header>
 
@@ -261,36 +261,36 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
     <div class="search-row">
       <div class="search-wrap">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" id="searchInput" placeholder="Buscar material, color, país, acabado…">
+        <input type="text" id="searchInput" placeholder="Buscar material, color, país, acabado…" data-i18n-attr="placeholder:search.placeholderMateriales">
       </div>
       <span class="results-count" id="resultsCount"></span>
     </div>
     <div class="filter-row">
-      <span class="filter-label">Categoría</span>
-      <button class="filter-chip" data-group="cat" data-val="mármol">Mármol</button>
-      <button class="filter-chip" data-group="cat" data-val="granito">Granito</button>
-      <button class="filter-chip" data-group="cat" data-val="cuarcita">Cuarcita</button>
-      <button class="filter-chip" data-group="cat" data-val="travertino">Travertino</button>
-      <button class="filter-chip" data-group="cat" data-val="caliza">Caliza</button>
-      <button class="filter-chip" data-group="cat" data-val="pizarra">Pizarra</button>
-      <button class="filter-chip" data-group="cat" data-val="ónix">Ónix</button>
-      <button class="filter-chip" data-group="cat" data-val="basalto">Basalto</button>
-      <button class="filter-chip" data-group="cat" data-val="arenisca">Arenisca</button>
-      <button class="filter-chip" data-group="cat" data-val="porcelánico">Porcelánico</button>
-      <button class="filter-chip" data-group="cat" data-val="piedra sinterizada">Sinterizada</button>
+      <span class="filter-label" data-i18n="filter.categoria">Categoría</span>
+      <button class="filter-chip" data-group="cat" data-val="mármol" data-i18n="materiales.cat.marmol">Mármol</button>
+      <button class="filter-chip" data-group="cat" data-val="granito" data-i18n="materiales.cat.granito">Granito</button>
+      <button class="filter-chip" data-group="cat" data-val="cuarcita" data-i18n="materiales.cat.cuarcita">Cuarcita</button>
+      <button class="filter-chip" data-group="cat" data-val="travertino" data-i18n="materiales.cat.travertino">Travertino</button>
+      <button class="filter-chip" data-group="cat" data-val="caliza" data-i18n="materiales.cat.caliza">Caliza</button>
+      <button class="filter-chip" data-group="cat" data-val="pizarra" data-i18n="materiales.cat.pizarra">Pizarra</button>
+      <button class="filter-chip" data-group="cat" data-val="ónix" data-i18n="materiales.cat.onix">Ónix</button>
+      <button class="filter-chip" data-group="cat" data-val="basalto" data-i18n="materiales.cat.basalto">Basalto</button>
+      <button class="filter-chip" data-group="cat" data-val="arenisca" data-i18n="materiales.cat.arenisca">Arenisca</button>
+      <button class="filter-chip" data-group="cat" data-val="porcelánico" data-i18n="materiales.cat.porcelanico">Porcelánico</button>
+      <button class="filter-chip" data-group="cat" data-val="piedra sinterizada" data-i18n="materiales.cat.sinterizada">Sinterizada</button>
       <div class="filter-sep"></div>
-      <span class="filter-label">Color</span>
-      <button class="filter-chip" data-group="color" data-val="Blanco">Blanco</button>
-      <button class="filter-chip" data-group="color" data-val="Beige">Beige</button>
-      <button class="filter-chip" data-group="color" data-val="Gris">Gris</button>
-      <button class="filter-chip" data-group="color" data-val="Negro">Negro</button>
-      <button class="filter-chip" data-group="color" data-val="Verde">Verde</button>
-      <button class="filter-chip" data-group="color" data-val="Rojo">Rojo</button>
-      <button class="filter-chip" data-group="color" data-val="Azul">Azul</button>
-      <button class="filter-chip" data-group="color" data-val="Dorado">Dorado</button>
-      <button class="filter-chip" data-group="color" data-val="Marrón">Marrón</button>
+      <span class="filter-label" data-i18n="filter.color">Color</span>
+      <button class="filter-chip" data-group="color" data-val="Blanco" data-i18n="materiales.color.blanco">Blanco</button>
+      <button class="filter-chip" data-group="color" data-val="Beige" data-i18n="materiales.color.beige">Beige</button>
+      <button class="filter-chip" data-group="color" data-val="Gris" data-i18n="materiales.color.gris">Gris</button>
+      <button class="filter-chip" data-group="color" data-val="Negro" data-i18n="materiales.color.negro">Negro</button>
+      <button class="filter-chip" data-group="color" data-val="Verde" data-i18n="materiales.color.verde">Verde</button>
+      <button class="filter-chip" data-group="color" data-val="Rojo" data-i18n="materiales.color.rojo">Rojo</button>
+      <button class="filter-chip" data-group="color" data-val="Azul" data-i18n="materiales.color.azul">Azul</button>
+      <button class="filter-chip" data-group="color" data-val="Dorado" data-i18n="materiales.color.dorado">Dorado</button>
+      <button class="filter-chip" data-group="color" data-val="Marrón" data-i18n="materiales.color.marron">Marrón</button>
       <div class="filter-sep"></div>
-      <button class="clear-btn" id="clearFilters">Limpiar filtros</button>
+      <button class="clear-btn" id="clearFilters" data-i18n="filter.limpiar">Limpiar filtros</button>
     </div>
   </div>
 </div>
@@ -301,7 +301,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
     <div id="gridContainer">
       <div class="loading-state">
         <div class="spinner"></div>
-        <p>Cargando materiales</p>
+        <p data-i18n="materiales.loading">Cargando materiales</p>
       </div>
     </div>
   </div>
@@ -311,7 +311,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-logo">World<span>Stone</span>Hub</div>
-    <div class="footer-note">© 2025 WorldStoneHub · Directorio global de piedra natural</div>
+    <div class="footer-note" data-i18n="footer.note">© 2025 WorldStoneHub · Directorio global de piedra natural</div>
   </div>
 </footer>
 

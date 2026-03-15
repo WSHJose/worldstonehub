@@ -264,26 +264,26 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 <header class="page-header">
   <div class="ph-left">
     <div>
-      <p class="ph-eyebrow">Lapidis · Directorio comercial</p>
-      <h1>Proveedores<br><em>y Distribuidores</em></h1>
-      <p>Empresas del sector de la piedra natural con perfil verificado. Los perfiles <strong style="color:var(--gold);font-weight:500;">Elite</strong> y <strong style="color:var(--gold);font-weight:500;">Profesional</strong> incluyen ficha completa, materiales, certificaciones y contacto directo.</p>
+      <p class="ph-eyebrow" data-i18n="hero.proveedores.eyebrow">Lapidis · Directorio comercial</p>
+      <h1><span data-i18n="hero.proveedores.title">Proveedores</span><br><em data-i18n="hero.proveedores.titleItalic">y Distribuidores</em></h1>
+      <p data-i18n-html="proveedores.descHTML">Empresas del sector de la piedra natural con perfil verificado. Los perfiles <strong style="color:var(--gold);font-weight:500;">Elite</strong> y <strong style="color:var(--gold);font-weight:500;">Profesional</strong> incluyen ficha completa, materiales, certificaciones y contacto directo.</p>
     </div>
     <div class="ph-stats">
       <div class="stat-block">
         <span class="stat-n" id="statTotal">—</span>
-        <span class="stat-l">Empresas</span>
+        <span class="stat-l" data-i18n="stats.empresas">Empresas</span>
       </div>
       <div class="stat-block">
         <span class="stat-n" id="statElite">—</span>
-        <span class="stat-l">Elite</span>
+        <span class="stat-l" data-i18n="stats.elite">Elite</span>
       </div>
       <div class="stat-block">
         <span class="stat-n" id="statPaises">—</span>
-        <span class="stat-l">Países</span>
+        <span class="stat-l" data-i18n="stats.paises">Países</span>
       </div>
       <div class="stat-block">
         <span class="stat-n" id="statVerif">—</span>
-        <span class="stat-l">Verificados</span>
+        <span class="stat-l" data-i18n="proveedores.statVerificados">Verificados</span>
       </div>
     </div>
   </div>
@@ -292,11 +292,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
     <div class="ad-container" id="heroAdSlot">
       <div class="ad-placeholder">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        <span class="ad-placeholder-text">Espacio publicitario</span>
+        <span class="ad-placeholder-text" data-i18n="ad.placeholder">Espacio publicitario</span>
         <span class="ad-placeholder-sub">PROVEEDORES-TOP</span>
       </div>
     </div>
-    <div class="ad-label">Publicidad</div>
+    <div class="ad-label" data-i18n="ad.label">Publicidad</div>
   </div>
 </header>
 
@@ -305,20 +305,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
   <div class="toolbar-inner">
     <div class="search-wrap">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" id="searchInput" placeholder="Buscar empresa, país, material…">
+      <input type="text" id="searchInput" placeholder="Buscar empresa, país, material…" data-i18n-attr="placeholder:search.placeholderProveedores">
     </div>
-    <span class="filter-label">Plan</span>
-    <button class="filter-chip" data-group="plan" data-val="elite">Elite</button>
-    <button class="filter-chip" data-group="plan" data-val="profesional">Profesional</button>
-    <button class="filter-chip" data-group="plan" data-val="presencia">Presencia</button>
+    <span class="filter-label" data-i18n="proveedores.filterPlan">Plan</span>
+    <button class="filter-chip" data-group="plan" data-val="elite" data-i18n="proveedores.planElite">Elite</button>
+    <button class="filter-chip" data-group="plan" data-val="profesional" data-i18n="proveedores.planProfesional">Profesional</button>
+    <button class="filter-chip" data-group="plan" data-val="presencia" data-i18n="proveedores.planPresencia">Presencia</button>
     <div class="filter-sep"></div>
-    <span class="filter-label">Sector</span>
-    <button class="filter-chip" data-group="sector" data-val="Fabricantes">Fabricantes</button>
-    <button class="filter-chip" data-group="sector" data-val="Distribuidores">Distribuidores</button>
-    <button class="filter-chip" data-group="sector" data-val="Exportadores">Exportadores</button>
-    <button class="filter-chip" data-group="sector" data-val="Importadores">Importadores</button>
+    <span class="filter-label" data-i18n="proveedores.filterSector">Sector</span>
+    <button class="filter-chip" data-group="sector" data-val="Fabricantes" data-i18n="proveedores.sectorFabricantes">Fabricantes</button>
+    <button class="filter-chip" data-group="sector" data-val="Distribuidores" data-i18n="proveedores.sectorDistribuidores">Distribuidores</button>
+    <button class="filter-chip" data-group="sector" data-val="Exportadores" data-i18n="proveedores.sectorExportadores">Exportadores</button>
+    <button class="filter-chip" data-group="sector" data-val="Importadores" data-i18n="proveedores.sectorImportadores">Importadores</button>
     <div class="filter-sep"></div>
-    <button class="clear-btn" id="clearFilters">Limpiar</button>
+    <button class="clear-btn" id="clearFilters" data-i18n="proveedores.limpiar">Limpiar</button>
     <span class="results-count" id="resultsCount"></span>
   </div>
 </div>
@@ -327,7 +327,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 <main class="main-content" id="mainContent">
   <div class="loading-state">
     <div class="spinner"></div>
-    <p>Cargando directorio</p>
+    <p data-i18n="proveedores.loading">Cargando directorio</p>
   </div>
 </main>
 
@@ -335,7 +335,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-logo">World<span>Stone</span>Hub</div>
-    <div class="footer-note">© 2025 WorldStoneHub · Directorio global de piedra natural</div>
+    <div class="footer-note" data-i18n="footer.note">© 2025 WorldStoneHub · Directorio global de piedra natural</div>
   </div>
 </footer>
 

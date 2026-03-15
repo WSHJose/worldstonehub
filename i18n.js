@@ -65,6 +65,7 @@
       stats: {
         empresas:'Empresas', canteras:'Canteras', materiales:'Materiales',
         paises:'Países', elite:'Elite', verificadas:'Verificadas',
+        verificados:'Verificados',
         categorias:'Categorías', colores:'Colores'
       },
       card: {
@@ -224,13 +225,16 @@
       /* ── Footer ── */
       footer: {
         tagline:'El portal internacional de referencia para todos los profesionales del sector de la piedra natural y artificial.',
+        note:'© 2025 WorldStoneHub · Directorio global de piedra natural',
         col: {
-          directorio:'Directorio', sectores:'Sectores', portal:'Portal'
+          directorio:'Directorio', sectores:'Sectores', portal:'Portal', publicar:'Publicar'
         },
         links: {
           canteras:'Canteras del mundo', mapa:'Mapa de canteras',
           materiales:'Materiales', directorio:'Directorio',
-          publicar:'Publicar mi empresa', sobre:'Sobre World Stone Hub',
+          publicar:'Publicar mi empresa', planes:'Planes y precios',
+          reclamar:'Reclamar cantera',
+          sobre:'Sobre World Stone Hub',
           contacto:'Contacto', blog:'Blog del sector', legal:'Aviso legal'
         },
         copyright:'© 2025 World Stone Hub · Where Stone Meets The World',
@@ -348,6 +352,97 @@
         }
       },
 
+      /* ── Index (homepage) ── */
+      index: {
+        hero: {
+          eyebrow:'The Global Stone Hub · Where Stone Meets The World',
+          titlePre:'El mundo de la',
+          titleEm:'piedra',
+          titleSuf:' al alcance',
+          accent:'del sector',
+          sub:'La plataforma de referencia para profesionales de la piedra natural y artificial. Canteras, proveedores, distribuidores, fabricantes y arquitectos en un único ecosistema.',
+          stat1:'Canteras registradas', stat2:'Tipos de piedra',
+          stat3:'Países cubiertos', stat4:'Empresas en directorio'
+        },
+        search: {
+          eyebrow:'Búsqueda inteligente',
+          titlePre:'Encuentra la piedra,',
+          titleEm:'cantera o proveedor',
+          titleSuf:' perfecto',
+          subtitle:'200 materiales · 180 canteras · 7 empresas en directorio · todo en tiempo real',
+          esc:'ESC para cerrar',
+          pillTodos:'Todos', pillMateriales:'Materiales',
+          pillCanteras:'Canteras', pillProveedores:'Proveedores',
+          resultsHint:'Haz clic para ir a la ficha completa',
+          verMas:'Ver más resultados', sinResultados:'Sin resultados',
+          emptySub:'Prueba con: blanco, Italia, granito, Carrara, Levantina...',
+          sugLabel:'Búsquedas populares'
+        },
+        professionals: {
+          eyebrow:'Ecosistema completo',
+          titlePre:'Todos los actores',
+          titleEm:'del sector',
+          desc:'Cada perfil profesional está diseñado específicamente para el rol dentro del sector de la piedra natural y artificial.',
+          count:'350+ operadores',
+          c1:{ title:'Propietarios de canteras', desc:'Extractores y productores de piedra natural en origen, con fichas técnicas, capacidad y certificaciones.', link:'Ver canteras →' },
+          c2:{ title:'Distribuidores', desc:'Red de distribución internacional que conecta productores con arquitectos, interioristas y constructores.', link:'Ver distribuidores →' },
+          c3:{ title:'Fabricantes y talleres', desc:'Serrerías, talleres y fábricas que transforman el bloque en producto acabado para obra e interiorismo.', link:'Ver fabricantes →' },
+          c4:{ title:'Estudios de arquitectura', desc:'Estudios que prescriben y especifican piedra natural en proyectos residenciales, hoteleros y comerciales.', link:'Ver estudios →' },
+          c5:{ title:'Constructoras', desc:'Empresas constructoras e instaladoras que trabajan con piedra natural en proyectos de cualquier escala.', link:'Ver constructoras →' },
+          c6:{ title:'Maquinaria industrial', desc:'Fabricantes y distribuidores de maquinaria especializada en extracción, corte y transformación de piedra.', link:'Ver maquinaria →' },
+          c7:{ title:'Laboratorios y certificación', desc:'Laboratorios de ensayo, organismos de certificación y entidades normativas del sector de la piedra.', link:'Ver laboratorios →' },
+          c8:{ title:'Logística', desc:'Operadores logísticos, transportistas y agentes de aduanas especializados en el movimiento de piedra natural.', link:'Ver logística →' }
+        },
+        quarries: {
+          eyebrow:'Canteras del mundo',
+          titlePre:'La base de datos',
+          titleEm:'más completa',
+          titleSuf:'del planeta',
+          desc:'Cada cantera documentada con ficha técnica completa: tipos de piedra extraída, capacidad de producción, contacto directo y certificaciones disponibles.',
+          verMapa:'Ver mapa completo →',
+          feat1Title:'Fichas técnicas detalladas',
+          feat1Desc:'Absorción, densidad, resistencia al desgaste y acabados disponibles para cada tipo de piedra.',
+          feat2Title:'Galería de muestras fotográficas',
+          feat2Desc:'Imágenes de alta resolución de losas, bloques y aplicaciones reales en proyectos.',
+          feat3Title:'Contacto directo verificado',
+          feat3Desc:'Datos de contacto comprobados, con posibilidad de solicitar muestras desde la ficha.',
+          feat4Title:'Filtros avanzados de búsqueda',
+          feat4Desc:'Por país, tipo de roca, color, uso recomendado, certificaciones y disponibilidad.',
+          btnDirectorio:'Ver directorio de canteras →',
+          btnMapa:'Ver mapa interactivo →'
+        },
+        membership: {
+          eyebrow:'Subscripciones profesionales',
+          titlePre:'Haz visible',
+          titleEm:'tu empresa',
+          desc:'Los profesionales que quieren ser encontrados invierten en visibilidad. Elige el plan que mejor se adapta a tus objetivos de negocio.',
+          period:'/ mes · facturación anual',
+          badge:'Más popular',
+          presencia:{ f1:'Ficha básica verificada', f2:'Aparición en búsquedas', f3:'Hasta 10 fotos de catálogo', f4:'Datos de contacto visibles', f5:'Estadísticas básicas de visitas', btn:'Empezar →' },
+          profesional:{ f1:'Ficha premium destacada', f2:'Posicionamiento prioritario', f3:'Catálogo ilimitado de productos', f4:'Galería de proyectos realizados', f5:'Formulario de solicitud de muestras', f6:'Estadísticas avanzadas + leads', f7:'Badge verificado de confianza', btn:'Empezar ahora →' },
+          elite:{ f1:'Todo lo del plan Profesional', f2:'Posición destacada en homepage', f3:'Artículos editoriales del sector', f4:'Integración de catálogo API/feed', f5:'Múltiples usuarios del panel', f6:'Gestor de cuenta dedicado', f7:'Informes mensuales de mercado', btn:'Contactar →' }
+        }
+      },
+
+      /* ── Materiales page specific ── */
+      materiales: {
+        loading:'Cargando materiales',
+        cat:{ marmol:'Mármol', granito:'Granito', cuarcita:'Cuarcita', travertino:'Travertino', caliza:'Caliza', pizarra:'Pizarra', onix:'Ónix', basalto:'Basalto', arenisca:'Arenisca', porcelanico:'Porcelánico', sinterizada:'Sinterizada' },
+        color:{ blanco:'Blanco', beige:'Beige', gris:'Gris', negro:'Negro', verde:'Verde', rojo:'Rojo', azul:'Azul', dorado:'Dorado', marron:'Marrón' }
+      },
+
+      /* ── Proveedores page specific ── */
+      proveedores: {
+        loading:'Cargando directorio',
+        filterPlan:'Plan', filterSector:'Sector',
+        planElite:'Elite', planProfesional:'Profesional', planPresencia:'Presencia',
+        sectorFabricantes:'Fabricantes', sectorDistribuidores:'Distribuidores',
+        sectorExportadores:'Exportadores', sectorImportadores:'Importadores',
+        limpiar:'Limpiar',
+        statVerificados:'Verificados',
+        descHTML:'Empresas del sector de la piedra natural con perfil verificado. Los perfiles <strong style="color:var(--gold);font-weight:500;">Elite</strong> y <strong style="color:var(--gold);font-weight:500;">Profesional</strong> incluyen ficha completa, materiales, certificaciones y contacto directo.'
+      },
+
       /* ── Lang switcher labels ── */
       lang: { es:'Español', en:'English', cambiar:'Cambiar idioma' }
     },
@@ -381,6 +476,7 @@
       stats: {
         empresas:'Companies', canteras:'Quarries', materiales:'Materials',
         paises:'Countries', elite:'Elite', verificadas:'Verified',
+        verificados:'Verified',
         categorias:'Categories', colores:'Colours'
       },
       card: {
@@ -538,13 +634,16 @@
       /* ── Footer ── */
       footer: {
         tagline:'The global reference platform for all professionals in the natural and engineered stone industry.',
+        note:'© 2025 WorldStoneHub · Global natural stone directory',
         col: {
-          directorio:'Directory', sectores:'Sectors', portal:'Company'
+          directorio:'Directory', sectores:'Sectors', portal:'Company', publicar:'List'
         },
         links: {
           canteras:'World quarry directory', mapa:'Quarry map',
           materiales:'Materials', directorio:'Directory',
-          publicar:'List your company', sobre:'About World Stone Hub',
+          publicar:'List your company', planes:'Plans & pricing',
+          reclamar:'Claim quarry',
+          sobre:'About World Stone Hub',
           contacto:'Contact', blog:'Industry blog', legal:'Legal notice'
         },
         copyright:'© 2025 World Stone Hub · Where Stone Meets The World',
@@ -660,6 +759,97 @@
           q4:'How can I propose a collaboration or partnership?',
           a4:'We are open to collaborations with industry associations, specialist media, trade fairs and B2B content distributors. Use the contact form with subject "Collaboration or partnership" and tell us your proposal.'
         }
+      },
+
+      /* ── Index (homepage) ── */
+      index: {
+        hero: {
+          eyebrow:'The Global Stone Hub · Where Stone Meets The World',
+          titlePre:'The world of',
+          titleEm:'stone',
+          titleSuf:' at your fingertips',
+          accent:'in the industry',
+          sub:'The reference platform for natural and engineered stone professionals. Quarries, suppliers, distributors, manufacturers and architects in a single ecosystem.',
+          stat1:'Registered quarries', stat2:'Stone types',
+          stat3:'Countries covered', stat4:'Companies in directory'
+        },
+        search: {
+          eyebrow:'Smart search',
+          titlePre:'Find the perfect',
+          titleEm:'stone, quarry or provider',
+          titleSuf:'',
+          subtitle:'200 materials · 180 quarries · 7 companies in directory · all in real time',
+          esc:'ESC to close',
+          pillTodos:'All', pillMateriales:'Materials',
+          pillCanteras:'Quarries', pillProveedores:'Providers',
+          resultsHint:'Click to view full profile',
+          verMas:'View more results', sinResultados:'No results',
+          emptySub:'Try: white, Italy, granite, Carrara, Levantina...',
+          sugLabel:'Popular searches'
+        },
+        professionals: {
+          eyebrow:'Complete ecosystem',
+          titlePre:'All the players',
+          titleEm:'in the industry',
+          desc:'Each professional profile is designed specifically for the role within the natural and engineered stone sector.',
+          count:'350+ operators',
+          c1:{ title:'Quarry owners', desc:'Extractors and producers of natural stone at source, with technical data sheets, capacity and certifications.', link:'View quarries →' },
+          c2:{ title:'Distributors', desc:'International distribution network connecting producers with architects, interior designers and construction firms.', link:'View distributors →' },
+          c3:{ title:'Manufacturers & workshops', desc:'Sawmills, workshops and factories that transform blocks into finished products for construction and interior design.', link:'View manufacturers →' },
+          c4:{ title:'Architecture studios', desc:'Studios that prescribe and specify natural stone in residential, hospitality and commercial projects.', link:'View studios →' },
+          c5:{ title:'Construction firms', desc:'Construction and installation companies working with natural stone in projects of any scale.', link:'View construction →' },
+          c6:{ title:'Industrial machinery', desc:'Manufacturers and distributors of machinery specialised in extraction, cutting and processing of stone.', link:'View machinery →' },
+          c7:{ title:'Laboratories & certification', desc:'Testing laboratories, certification bodies and regulatory entities in the natural stone sector.', link:'View laboratories →' },
+          c8:{ title:'Logistics', desc:'Logistics operators, carriers and customs agents specialised in the movement of natural stone.', link:'View logistics →' }
+        },
+        quarries: {
+          eyebrow:'World quarries',
+          titlePre:'The most complete',
+          titleEm:'database',
+          titleSuf:'on the planet',
+          desc:'Every quarry documented with a complete technical profile: stone types extracted, production capacity, direct contact and available certifications.',
+          verMapa:'View full map →',
+          feat1Title:'Detailed technical data sheets',
+          feat1Desc:'Absorption, density, wear resistance and available finishes for each stone type.',
+          feat2Title:'Photo sample gallery',
+          feat2Desc:'High-resolution images of slabs, blocks and real project applications.',
+          feat3Title:'Verified direct contact',
+          feat3Desc:'Verified contact details, with the option to request samples directly from the profile.',
+          feat4Title:'Advanced search filters',
+          feat4Desc:'By country, rock type, colour, recommended use, certifications and availability.',
+          btnDirectorio:'View quarry directory →',
+          btnMapa:'View interactive map →'
+        },
+        membership: {
+          eyebrow:'Professional subscriptions',
+          titlePre:'Make your',
+          titleEm:'business visible',
+          desc:'Professionals who want to be found invest in visibility. Choose the plan that best fits your business goals.',
+          period:'/ mo · billed annually',
+          badge:'Most popular',
+          presencia:{ f1:'Verified basic profile', f2:'Appear in searches', f3:'Up to 10 catalogue photos', f4:'Visible contact details', f5:'Basic visit statistics', btn:'Get started →' },
+          profesional:{ f1:'Featured premium profile', f2:'Priority positioning', f3:'Unlimited product catalogue', f4:'Completed projects gallery', f5:'Sample request form', f6:'Advanced statistics + leads', f7:'Verified trust badge', btn:'Get started now →' },
+          elite:{ f1:'Everything in Professional', f2:'Featured position on homepage', f3:'Industry editorial articles', f4:'API/feed catalogue integration', f5:'Multiple panel users', f6:'Dedicated account manager', f7:'Monthly market reports', btn:'Contact us →' }
+        }
+      },
+
+      /* ── Materiales page specific ── */
+      materiales: {
+        loading:'Loading materials',
+        cat:{ marmol:'Marble', granito:'Granite', cuarcita:'Quartzite', travertino:'Travertine', caliza:'Limestone', pizarra:'Slate', onix:'Onyx', basalto:'Basalt', arenisca:'Sandstone', porcelanico:'Porcelain', sinterizada:'Sintered' },
+        color:{ blanco:'White', beige:'Beige', gris:'Grey', negro:'Black', verde:'Green', rojo:'Red', azul:'Blue', dorado:'Gold', marron:'Brown' }
+      },
+
+      /* ── Proveedores page specific ── */
+      proveedores: {
+        loading:'Loading directory',
+        filterPlan:'Plan', filterSector:'Sector',
+        planElite:'Elite', planProfesional:'Professional', planPresencia:'Presence',
+        sectorFabricantes:'Manufacturers', sectorDistribuidores:'Distributors',
+        sectorExportadores:'Exporters', sectorImportadores:'Importers',
+        limpiar:'Clear',
+        statVerificados:'Verified',
+        descHTML:'Verified natural stone industry companies. <strong style="color:var(--gold);font-weight:500;">Elite</strong> and <strong style="color:var(--gold);font-weight:500;">Professional</strong> profiles include full data sheet, materials, certifications and direct contact.'
       },
 
       /* ── Lang switcher labels ── */
