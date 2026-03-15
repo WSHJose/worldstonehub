@@ -1,0 +1,222 @@
+{
+  "nav": {
+    "inicio":            "Home",
+    "canteras":          "Quarries",
+    "materiales":        "Materials",
+    "directorio":        "Directory",
+    "publicar":          "List Now",
+    "acceso":            "Sign In",
+    "miPanel":           "My Panel",
+    "mapaAriaLabel":     "World Quarry Map",
+    "todosProveedores":  "All providers",
+    "distribuidores":    "Distributors",
+    "fabricantes":       "Manufacturers",
+    "arquitectura":      "Architecture",
+    "constructoras":     "Construction",
+    "maquinaria":        "Machinery",
+    "laboratorios":      "Laboratories",
+    "logistica":         "Logistics"
+  },
+
+  "search": {
+    "placeholder":         "Search quarries, materials, companies...",
+    "placeholderCanteras": "Search by name, material, country...",
+    "placeholderMapa":     "Search quarry or material",
+    "resultados":          "results",
+    "resultado":           "result",
+    "sinResultados":       "No results for this search",
+    "limpiar":             "Clear"
+  },
+
+  "filter": {
+    "label":      "Filter by",
+    "todos":      "All",
+    "tipo":       "Type",
+    "pais":       "Country",
+    "material":   "Material",
+    "plan":       "Plan",
+    "limpiar":    "Clear filters",
+    "aplicar":    "Apply",
+    "activos":    "Active filters"
+  },
+
+  "stats": {
+    "empresas":    "Companies",
+    "canteras":    "Quarries",
+    "materiales":  "Materials",
+    "paises":      "Countries",
+    "elite":       "Elite",
+    "verificadas": "Verified"
+  },
+
+  "card": {
+    "verFicha":   "View profile",
+    "verPerfil":  "View profile",
+    "website":    "Website",
+    "contactar":  "Contact",
+    "fundada":    "Founded",
+    "empleados":  "Employees",
+    "verificado": "Verified",
+    "materiales": "Materials",
+    "sectores":   "Sectors",
+    "mas":        "more"
+  },
+
+  "plan": {
+    "elite":       "Elite",
+    "profesional": "Professional",
+    "presencia":   "Presence"
+  },
+
+  "sector": {
+    "distribuidores": "Distributors",
+    "fabricantes":    "Manufacturers & Workshops",
+    "arquitectura":   "Architecture & Interior Design",
+    "constructoras":  "Construction & Development",
+    "maquinaria":     "Stone Machinery",
+    "laboratorios":   "Laboratories & Certification",
+    "logistica":      "Logistics & Transport"
+  },
+
+  "hero": {
+    "eyebrow":        "Global directory",
+    "distribuidores": {
+      "eyebrow":      "Commercial network · Global directory",
+      "title":        "Natural Stone",
+      "titleItalic":  "Distributors",
+      "desc":         "Importers, exporters and distributors of natural stone with global reach. Verified profiles with geographic coverage, materials and direct contact."
+    },
+    "fabricantes": {
+      "eyebrow":      "Sawmills, workshops & processors · Global directory",
+      "title":        "Manufacturers",
+      "titleItalic":  "& Workshops",
+      "desc":         "Natural stone processing and manufacturing companies. Full production capacity, technology and technical profiles."
+    },
+    "arquitectura": {
+      "eyebrow":      "Design, projects & specification · Global directory",
+      "title":        "Architecture",
+      "titleItalic":  "& Interior Design",
+      "desc":         "Architecture and interior design studios specialised in natural stone. Reference projects and specified materials."
+    },
+    "constructoras": {
+      "eyebrow":      "Civil works, building & development · Global directory",
+      "title":        "Construction",
+      "titleItalic":  "& Development",
+      "desc":         "Construction and real estate development companies working with natural stone in residential and civil projects."
+    },
+    "maquinaria": {
+      "eyebrow":      "Industrial equipment & technology · Global directory",
+      "title":        "Stone",
+      "titleItalic":  "Machinery",
+      "desc":         "Manufacturers and distributors of machinery, tools and technology for natural stone extraction and processing."
+    },
+    "laboratorios": {
+      "eyebrow":      "Testing, certification & quality control · Global directory",
+      "title":        "Laboratories",
+      "titleItalic":  "& Certification",
+      "desc":         "Specialised laboratories for testing, analysis and certification of natural stone. EN, ASTM and international standards."
+    },
+    "logistica": {
+      "eyebrow":      "Transport, customs & warehousing · Global directory",
+      "title":        "Logistics",
+      "titleItalic":  "& Transport",
+      "desc":         "Logistics operators, freight forwarders and transport companies specialised in natural stone. International coverage and customs management."
+    },
+    "canteras": {
+      "eyebrow":      "Lapidis · Global directory",
+      "title":        "World",
+      "titleItalic":  "Quarry Directory",
+      "desc":         "Global directory of natural stone quarries. Explore production, materials, location and full technical profile of each deposit."
+    },
+    "materiales": {
+      "eyebrow":      "Lapidis · Technical directory",
+      "title":        "Natural Stone",
+      "titleItalic":  "Materials",
+      "desc":         "Complete technical data sheets for natural stone and surface materials. Properties, finishes, formats, origin and reference projects."
+    },
+    "proveedores": {
+      "eyebrow":      "Lapidis · Trade directory",
+      "title":        "Providers",
+      "titleItalic":  "& Distributors",
+      "desc":         "Verified natural stone industry companies. Elite and Professional profiles include full data sheet, materials, certifications and direct contact."
+    }
+  },
+
+  "mapa": {
+    "titulo":           "World Quarry Map",
+    "subtitulo":        "World directory",
+    "buscar":           "Search quarry or material",
+    "placeholderMapa":  "Carrara, Granite, White...",
+    "limpiar":          "✕",
+    "filtros": {
+      "tipoPiedra":     "Stone type",
+      "color":          "Primary colour",
+      "pais":           "Country of origin",
+      "relevancia":     "Historical relevance",
+      "limpiar":        "Clear"
+    },
+    "canteras":         "quarries",
+    "enDirectorio":     "in the directory"
+  },
+
+  "state": {
+    "cargando":         "Loading...",
+    "cargandoFicha":    "Loading profile…",
+    "sinResultados":    "No results",
+    "sinResultadosSub": "Try different filters or search terms",
+    "error":            "Error loading data",
+    "errorSub":         "Please try again in a moment",
+    "noEncontrado":     "Not found",
+    "noEncontradoSub":  "This profile does not exist or has been removed"
+  },
+
+  "cta": {
+    "publicarEmpresa":    "List your company",
+    "explorarDirectorio": "Explore directory",
+    "verTodos":           "View all",
+    "verMas":             "View more",
+    "registro":           "Create account",
+    "upgrade":            "Upgrade plan",
+    "contactar":          "Contact",
+    "verFicha":           "View full profile"
+  },
+
+  "registro": {
+    "titulo":         "List your company",
+    "subtitulo":      "Global visibility for your natural stone business",
+    "nombre":         "Company name",
+    "email":          "Contact email",
+    "tipo":           "Company type",
+    "pais":           "Country",
+    "ciudad":         "City",
+    "descripcion":    "Description",
+    "website":        "Website",
+    "enviar":         "Submit",
+    "enviando":       "Sending...",
+    "exito":          "Request received. We will contact you within 24 h.",
+    "error":          "Failed to send. Please try again."
+  },
+
+  "footer": {
+    "tagline":      "The global reference platform for the natural stone industry.",
+    "directorio":   "Directory",
+    "empresa":      "Company",
+    "legal":        "Legal notice",
+    "privacidad":   "Privacy",
+    "contacto":     "Contact",
+    "nosotros":     "About WSH",
+    "copyright":    "© 2026 World Stone Hub. All rights reserved."
+  },
+
+  "ad": {
+    "label":        "Advertisement",
+    "placeholder":  "Advertising space available",
+    "cta":          "Advertise on WSH"
+  },
+
+  "lang": {
+    "es": "Español",
+    "en": "English",
+    "cambiar": "Change language"
+  }
+}

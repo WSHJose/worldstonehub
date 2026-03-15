@@ -1,0 +1,222 @@
+{
+  "nav": {
+    "inicio":            "Inicio",
+    "canteras":          "Canteras",
+    "materiales":        "Materiales",
+    "directorio":        "Directorio",
+    "publicar":          "Publicar",
+    "acceso":            "Acceso",
+    "miPanel":           "Mi Panel",
+    "mapaAriaLabel":     "Mapa Mundial de Canteras",
+    "todosProveedores":  "Todos los proveedores",
+    "distribuidores":    "Distribuidores",
+    "fabricantes":       "Fabricantes",
+    "arquitectura":      "Arquitectura",
+    "constructoras":     "Constructoras",
+    "maquinaria":        "Maquinaria",
+    "laboratorios":      "Laboratorios",
+    "logistica":         "Logística"
+  },
+
+  "search": {
+    "placeholder":         "Buscar canteras, materiales, empresas...",
+    "placeholderCanteras": "Buscar por nombre, material, país...",
+    "placeholderMapa":     "Buscar cantera o material",
+    "resultados":          "resultados",
+    "resultado":           "resultado",
+    "sinResultados":       "Sin resultados para esta búsqueda",
+    "limpiar":             "Limpiar"
+  },
+
+  "filter": {
+    "label":      "Filtrar por",
+    "todos":      "Todos",
+    "tipo":       "Tipo",
+    "pais":       "País",
+    "material":   "Material",
+    "plan":       "Plan",
+    "limpiar":    "Limpiar filtros",
+    "aplicar":    "Aplicar",
+    "activos":    "Filtros activos"
+  },
+
+  "stats": {
+    "empresas":   "Empresas",
+    "canteras":   "Canteras",
+    "materiales": "Materiales",
+    "paises":     "Países",
+    "elite":      "Elite",
+    "verificadas":"Verificadas"
+  },
+
+  "card": {
+    "verFicha":   "Ver ficha",
+    "verPerfil":  "Ver perfil",
+    "website":    "Sitio web",
+    "contactar":  "Contactar",
+    "fundada":    "Fundada",
+    "empleados":  "Empleados",
+    "verificado": "Verificado",
+    "materiales": "Materiales",
+    "sectores":   "Sectores",
+    "mas":        "más"
+  },
+
+  "plan": {
+    "elite":       "Elite",
+    "profesional": "Profesional",
+    "presencia":   "Presencia"
+  },
+
+  "sector": {
+    "distribuidores": "Distribuidores",
+    "fabricantes":    "Fabricantes y Talleres",
+    "arquitectura":   "Arquitectura e Interiorismo",
+    "constructoras":  "Constructoras y Promotoras",
+    "maquinaria":     "Maquinaria para Piedra",
+    "laboratorios":   "Laboratorios y Certificación",
+    "logistica":      "Logística y Transporte"
+  },
+
+  "hero": {
+    "eyebrow":        "Directorio global",
+    "distribuidores": {
+      "eyebrow":      "Red comercial · Directorio global",
+      "title":        "Distribuidores",
+      "titleItalic":  "de Piedra Natural",
+      "desc":         "Importadores, exportadores y distribuidores de piedra natural con presencia global. Perfiles verificados con cobertura geográfica, materiales y contacto directo."
+    },
+    "fabricantes": {
+      "eyebrow":      "Serrerías, talleres y transformadores · Directorio global",
+      "title":        "Fabricantes",
+      "titleItalic":  "y Talleres",
+      "desc":         "Empresas de transformación y fabricación de piedra natural. Capacidad productiva, tecnología y ficha técnica completa."
+    },
+    "arquitectura": {
+      "eyebrow":      "Diseño, proyectos y especificación · Directorio global",
+      "title":        "Arquitectura",
+      "titleItalic":  "e Interiorismo",
+      "desc":         "Estudios de arquitectura e interiorismo especializados en piedra natural. Proyectos de referencia y materiales especificados."
+    },
+    "constructoras": {
+      "eyebrow":      "Obra civil, edificación y promoción · Directorio global",
+      "title":        "Constructoras",
+      "titleItalic":  "y Promotoras",
+      "desc":         "Empresas de construcción y promoción inmobiliaria que trabajan con piedra natural en obra residencial y civil."
+    },
+    "maquinaria": {
+      "eyebrow":      "Equipamiento y tecnología industrial · Directorio global",
+      "title":        "Maquinaria",
+      "titleItalic":  "para Piedra",
+      "desc":         "Fabricantes y distribuidores de maquinaria, herramientas y tecnología para la extracción y transformación de piedra natural."
+    },
+    "laboratorios": {
+      "eyebrow":      "Análisis, certificación y control de calidad · Directorio global",
+      "title":        "Laboratorios",
+      "titleItalic":  "y Certificación",
+      "desc":         "Laboratorios especializados en ensayos, análisis y certificación de piedra natural. Normas UNE, EN y estándares internacionales."
+    },
+    "logistica": {
+      "eyebrow":      "Transporte, aduanas y almacenaje · Directorio global",
+      "title":        "Logística",
+      "titleItalic":  "y Transporte",
+      "desc":         "Operadores logísticos, transitarios y empresas de transporte especializados en piedra natural. Cobertura internacional y gestión aduanera."
+    },
+    "canteras": {
+      "eyebrow":      "Lapidis · Directorio global",
+      "title":        "Canteras",
+      "titleItalic":  "del Mundo",
+      "desc":         "Directorio global de canteras de piedra natural. Explora producción, materiales, localización y ficha técnica completa de cada yacimiento."
+    },
+    "materiales": {
+      "eyebrow":      "Lapidis · Directorio técnico",
+      "title":        "Materiales de",
+      "titleItalic":  "Piedra Natural",
+      "desc":         "Fichas técnicas completas de materiales de piedra natural y superficies. Propiedades, acabados, formatos, origen y proyectos de referencia."
+    },
+    "proveedores": {
+      "eyebrow":      "Lapidis · Directorio comercial",
+      "title":        "Proveedores",
+      "titleItalic":  "y Distribuidores",
+      "desc":         "Empresas del sector de la piedra natural con perfil verificado. Los perfiles Elite y Profesional incluyen ficha completa, materiales, certificaciones y contacto directo."
+    }
+  },
+
+  "mapa": {
+    "titulo":           "Mapa Mundial de Canteras",
+    "subtitulo":        "Directorio mundial",
+    "buscar":           "Buscar cantera o material",
+    "placeholderMapa":  "Carrara, Granito, Blanco...",
+    "limpiar":          "✕",
+    "filtros": {
+      "tipoPiedra":     "Tipo de piedra",
+      "color":          "Color predominante",
+      "pais":           "País de origen",
+      "relevancia":     "Relevancia histórica",
+      "limpiar":        "Limpiar"
+    },
+    "canteras":         "canteras",
+    "enDirectorio":     "en el directorio"
+  },
+
+  "state": {
+    "cargando":         "Cargando...",
+    "cargandoFicha":    "Cargando ficha…",
+    "sinResultados":    "No hay resultados",
+    "sinResultadosSub": "Prueba con otros filtros o términos de búsqueda",
+    "error":            "Error al cargar datos",
+    "errorSub":         "Inténtalo de nuevo en unos momentos",
+    "noEncontrado":     "No encontrado",
+    "noEncontradoSub":  "Esta ficha no existe o ha sido eliminada"
+  },
+
+  "cta": {
+    "publicarEmpresa":    "Publicar mi empresa",
+    "explorarDirectorio": "Explorar directorio",
+    "verTodos":           "Ver todos",
+    "verMas":             "Ver más",
+    "registro":           "Crear cuenta",
+    "upgrade":            "Mejorar plan",
+    "contactar":          "Contactar",
+    "verFicha":           "Ver ficha completa"
+  },
+
+  "registro": {
+    "titulo":         "Publica tu empresa",
+    "subtitulo":      "Visibilidad global para tu negocio en piedra natural",
+    "nombre":         "Nombre de empresa",
+    "email":          "Email de contacto",
+    "tipo":           "Tipo de empresa",
+    "pais":           "País",
+    "ciudad":         "Ciudad",
+    "descripcion":    "Descripción",
+    "website":        "Sitio web",
+    "enviar":         "Enviar solicitud",
+    "enviando":       "Enviando...",
+    "exito":          "Solicitud recibida. Te contactaremos en 24 h.",
+    "error":          "Error al enviar. Inténtalo de nuevo."
+  },
+
+  "footer": {
+    "tagline":      "La plataforma global de referencia para el sector de la piedra natural.",
+    "directorio":   "Directorio",
+    "empresa":      "Empresa",
+    "legal":        "Aviso legal",
+    "privacidad":   "Privacidad",
+    "contacto":     "Contacto",
+    "nosotros":     "Sobre WSH",
+    "copyright":    "© 2026 World Stone Hub. Todos los derechos reservados."
+  },
+
+  "ad": {
+    "label":        "Publicidad",
+    "placeholder":  "Espacio publicitario disponible",
+    "cta":          "Anunciarse en WSH"
+  },
+
+  "lang": {
+    "es": "Español",
+    "en": "English",
+    "cambiar": "Cambiar idioma"
+  }
+}

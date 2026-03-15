@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WSH i18n — Integration Example</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+/* ── Design tokens ── */
+:root {
+  --gold:      #A67C52;
+  --ink:       #1a1917;
+  --ink-3:     #4a4845;
+  --ink-4:     #8a8784;
+  --bg-soft:   #f8f7f5;
+  --bg:        #ffffff;
+  --border:    #e2e0dc;
+  --border-md: #c8c5bf;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg-soft); color: var(--ink); font-family: 'Instrument Sans', sans-serif; font-size: 14px; line-height: 1.6; }
+
+/* ── NAV (standard WSH) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  padding: 16px 60px; display: flex; justify-content: space-between; align-items: center;
+  background: rgba(255,255,255,0.96); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.logo { text-decoration: none; display: flex; align-items: center; }
+.nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+.nav-links a {
+  font-size: 14px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--ink-3); text-decoration: none; transition: color .3s; position: relative;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--gold); }
+.nav-links a.active::after {
+  content: ''; position: absolute; bottom: -5px; left: 0; right: 0;
+  height: 1px; background: var(--gold); opacity: 0.5;
+}
+.nav-cta { background: var(--gold) !important; color: #f8f7f5 !important; padding: 10px 24px; font-weight: 500 !important; }
+.nav-cta:hover { background: var(--ink) !important; }
+.nav-auth-sep { display: inline-block; width: 1px; height: 14px; background: var(--border-md); opacity: .5; margin: 0 16px 0 4px; vertical-align: middle; }
+.nav-auth-link { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none; transition: all .25s; vertical-align: middle; color: var(--ink-4); }
+.nav-auth-link:hover { color: var(--ink); }
+.nav-dropdown { position: relative; }
+.dropdown-menu { display: none; position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: #fff; border: 1px solid var(--border); min-width: 210px; box-shadow: 0 8px 32px rgba(0,0,0,.08); z-index: 9999; padding: 0; list-style: none; }
+.dropdown-menu::before { content: ''; position: absolute; top: -10px; left: 0; right: 0; height: 10px; }
+.nav-dropdown:hover .dropdown-menu, .nav-dropdown.open .dropdown-menu { display: block; }
+.dropdown-menu li a { display: flex !important; align-items: center; padding: 10px 20px; font-size: 10px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3) !important; text-decoration: none; transition: background .15s, color .15s; border-bottom: 1px solid #f0efed; white-space: nowrap; }
+.dropdown-menu li:last-child a { border-bottom: none; }
+.dropdown-menu li a:hover { background: var(--bg-soft) !important; color: var(--gold) !important; }
+
+/* ── Lang switcher ── */
+.lang-switcher { display: flex; align-items: center; gap: 0; margin-left: 12px; }
+.lang-btn {
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 400;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink-4);
+  background: none; border: none; padding: 5px 7px; cursor: pointer;
+  transition: color .2s; line-height: 1; border-radius: 2px;
+}
+.lang-btn:hover { color: var(--ink); }
+.lang-btn.active { color: var(--gold); }
+.lang-btn.active::after { content: ''; display: block; height: 1px; background: var(--gold); margin-top: 2px; opacity: .6; }
+.lang-sep { width: 1px; height: 10px; background: var(--border-md); opacity: .45; flex-shrink: 0; }
+
+/* ── Map icon ── */
+.nav-map-item { display: flex; align-items: center; }
+.nav-map-link { display: flex; align-items: center; color: var(--ink-4); text-decoration: none; transition: color .3s; padding: 2px 4px; }
+.nav-map-link:hover, .nav-map-link.active { color: var(--gold) !important; }
+
+@media(max-width: 900px) { nav { padding: 14px 20px; } .nav-links { display: none; } .lang-switcher { display: none; } }
+
+/* ── Page content ── */
+.page-wrap { max-width: 880px; margin: 0 auto; padding: 120px 48px 80px; }
+.section { margin-bottom: 72px; }
+.eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+}
+h1 {
+  font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300;
+  line-height: 1.05; letter-spacing: -.5px; margin-bottom: 20px;
+}
+h1 em { font-style: italic; color: var(--gold); }
+h2 {
+  font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300;
+  line-height: 1.2; margin-bottom: 20px;
+}
+.lead { font-size: 15px; color: var(--ink-3); max-width: 600px; line-height: 1.75; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+/* ── Code blocks ── */
+.code-block {
+  background: var(--ink); border-radius: 4px; padding: 24px 28px; margin: 24px 0;
+  overflow-x: auto;
+}
+.code-block pre {
+  font-family: 'DM Mono', monospace; font-size: 12px; line-height: 1.8;
+  color: rgba(255,255,255,.75); white-space: pre;
+}
+.code-block pre .comment { color: rgba(201,185,154,.45); }
+.code-block pre .attr    { color: #C9B99A; }
+.code-block pre .val     { color: rgba(255,255,255,.55); }
+.code-block pre .tag     { color: rgba(166,124,82,.9); }
+.code-block pre .key     { color: #e8c89a; }
+
+/* ── Demo boxes ── */
+.demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 24px 0; }
+.demo-cell {
+  background: var(--bg); border: 1px solid var(--border); padding: 28px 32px;
+}
+.demo-cell:first-child { border-right: none; }
+.demo-label {
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--ink-4); margin-bottom: 16px;
+}
+.demo-stat { display: flex; gap: 32px; margin-top: 12px; }
+.stat-n { font-family: 'DM Mono', monospace; font-size: 28px; color: var(--ink); display: block; }
+.stat-l { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-4); display: block; margin-top: 4px; }
+
+/* ── Search demo ── */
+.search-demo { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
+.search-input {
+  flex: 1; max-width: 360px; height: 40px; padding: 0 16px;
+  border: 1px solid var(--border-md); border-radius: 3px;
+  font-size: 13px; font-family: inherit; background: var(--bg-soft);
+  color: var(--ink); outline: none; transition: border .2s;
+}
+.search-input:focus { border-color: var(--gold); background: #fff; }
+
+/* ── CTA demo ── */
+.btn-primary {
+  display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 2.5px;
+  text-transform: uppercase; text-decoration: none; color: #f8f7f5;
+  background: var(--gold); padding: 12px 28px; transition: background .2s;
+}
+.btn-primary:hover { background: var(--ink); }
+
+/* ── Pill badge ── */
+.plan-pill {
+  display: inline-block; font-family: 'DM Mono', monospace; font-size: 8px;
+  letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px;
+  border: 1px solid var(--border); border-radius: 30px; color: var(--ink-4);
+}
+
+/* ── Event log ── */
+.event-log {
+  background: var(--ink); border-radius: 4px; padding: 16px 20px; margin-top: 16px;
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: rgba(201,185,154,.6); min-height: 52px; line-height: 1.8;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     NAV — Standard WSH nav with i18n + lang switcher
+     ══════════════════════════════════════════════════════ -->
+<nav>
+  <!-- Logo (no i18n needed — it's a brand mark) -->
+  <a href="index.html" class="logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48"
+         style="height:38px;width:auto;display:block;" aria-label="World Stone Hub">
+      <text x="0" y="30" font-family="'Cormorant Garamond',Georgia,serif"
+            font-weight="300" font-size="18" letter-spacing="6" fill="#1A1410">WORLD STONE</text>
+      <line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.65"/>
+      <text x="220" y="34" font-family="'Cormorant Garamond',Georgia,serif"
+            font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text>
+    </svg>
+  </a>
+
+  <ul class="nav-links">
+    <!-- data-i18n sets textContent from the JSON key -->
+    <li><a href="index.html"               data-i18n="nav.inicio">Inicio</a></li>
+    <li><a href="lapidis-canteras.html"    data-i18n="nav.canteras">Canteras</a></li>
+    <li><a href="lapidis-materiales.html"  data-i18n="nav.materiales">Materiales</a></li>
+
+    <!-- Dropdown: translate the parent link + all items -->
+    <li class="nav-dropdown">
+      <a href="lapidis-proveedores.html" data-i18n="nav.directorio">Directorio</a>
+      <ul class="dropdown-menu">
+        <li><a href="lapidis-proveedores.html" data-i18n="nav.todosProveedores">Todos los proveedores</a></li>
+        <li><a href="sector-distribuidores.html" data-i18n="nav.distribuidores">Distribuidores</a></li>
+        <li><a href="sector-fabricantes.html"    data-i18n="nav.fabricantes">Fabricantes</a></li>
+        <li><a href="sector-arquitectura.html"   data-i18n="nav.arquitectura">Arquitectura</a></li>
+        <li><a href="sector-constructoras.html"  data-i18n="nav.constructoras">Constructoras</a></li>
+        <li><a href="sector-maquinaria.html"     data-i18n="nav.maquinaria">Maquinaria</a></li>
+        <li><a href="sector-laboratorios.html"   data-i18n="nav.laboratorios">Laboratorios</a></li>
+        <li><a href="sector-logistica.html"      data-i18n="nav.logistica">Logística</a></li>
+      </ul>
+    </li>
+
+    <!-- Map icon: translate only the aria-label attribute -->
+    <li class="nav-map-item">
+      <a href="lapidis-mapa.html" class="nav-map-link"
+         title="Mapa Mundial de Canteras"
+         data-i18n-attr="title:nav.mapaAriaLabel,aria-label:nav.mapaAriaLabel">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+             width="17" height="17" fill="none" stroke="currentColor"
+             stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="10" cy="10" r="8"/>
+          <path d="M10 2 Q6.5 10 10 18"/>
+          <path d="M10 2 Q13.5 10 10 18"/>
+          <line x1="2" y1="10" x2="18" y2="10"/>
+          <path d="M3 6.5 Q10 8.5 17 6.5"/>
+          <path d="M3 13.5 Q10 11.5 17 13.5"/>
+        </svg>
+      </a>
+    </li>
+
+    <!-- CTA button -->
+    <li><a href="registro.html" class="nav-cta" data-i18n="nav.publicar">Publicar</a></li>
+
+    <!-- Auth item (populated by JS) -->
+    <li id="nav-auth-item"></li>
+  </ul>
+
+  <!-- ── Lang switcher — add this to every page nav ── -->
+  <div class="lang-switcher" role="group" data-i18n-attr="aria-label:lang.cambiar">
+    <button class="lang-btn active" data-lang="es"
+            aria-pressed="true"
+            data-i18n-attr="aria-label:lang.es">ES</button>
+    <span class="lang-sep" aria-hidden="true"></span>
+    <button class="lang-btn" data-lang="en"
+            aria-pressed="false"
+            data-i18n-attr="aria-label:lang.en">EN</button>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════════════
+     PAGE CONTENT — Integration examples
+     ══════════════════════════════════════════════════════ -->
+<div class="page-wrap">
+
+  <!-- Cover -->
+  <div class="section">
+    <p class="eyebrow">WSH i18n · Integration reference</p>
+    <h1>Sistema de<br><em>traducción</em></h1>
+    <p class="lead">
+      Demostración del sistema i18n para World Stone Hub.
+      Cambia el idioma con el selector de la barra de navegación
+      y observa cómo todos los textos marcados se actualizan al instante,
+      sin recargar la página.
+    </p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 1. Text content -->
+  <div class="section">
+    <h2>1 · Texto simple — <code>data-i18n</code></h2>
+    <p class="lead" style="margin-bottom:20px;">
+      Añade <code>data-i18n="clave.ruta"</code> a cualquier elemento.
+      El motor reemplaza su <code>textContent</code> con la traducción.
+    </p>
+
+    <div class="demo-grid">
+      <div class="demo-cell">
+        <div class="demo-label">Live demo</div>
+        <div class="demo-stat">
+          <div>
+            <span class="stat-n">247</span>
+            <span class="stat-l" data-i18n="stats.empresas">Empresas</span>
+          </div>
+          <div>
+            <span class="stat-n">38</span>
+            <span class="stat-l" data-i18n="stats.paises">Países</span>
+          </div>
+          <div>
+            <span class="stat-n">12</span>
+            <span class="stat-l" data-i18n="stats.elite">Elite</span>
+          </div>
+        </div>
+        <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+          <span class="plan-pill" data-i18n="plan.elite">Elite</span>
+          <span class="plan-pill" data-i18n="plan.profesional">Profesional</span>
+          <span class="plan-pill" data-i18n="plan.presencia">Presencia</span>
+        </div>
+        <div style="margin-top:20px;">
+          <a href="registro.html" class="btn-primary" data-i18n="cta.publicarEmpresa">Publicar mi empresa</a>
+        </div>
+      </div>
+      <div class="demo-cell">
+        <div class="demo-label">HTML source</div>
+        <div class="code-block" style="margin:0;">
+<pre><span class="tag">&lt;span</span> <span class="attr">class</span><span class="val">="stat-l"</span>
+      <span class="attr">data-i18n</span><span class="val">="stats.empresas"</span><span class="tag">&gt;</span>
+  Empresas
+<span class="tag">&lt;/span&gt;</span>
+
+<span class="tag">&lt;span</span> <span class="attr">data-i18n</span><span class="val">="plan.elite"</span><span class="tag">&gt;</span>Elite<span class="tag">&lt;/span&gt;</span>
+
+<span class="tag">&lt;a</span> <span class="attr">data-i18n</span><span class="val">="cta.publicarEmpresa"</span><span class="tag">&gt;</span>
+  Publicar mi empresa
+<span class="tag">&lt;/a&gt;</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Attributes -->
+  <div class="section">
+    <h2>2 · Atributos — <code>data-i18n-attr</code></h2>
+    <p class="lead" style="margin-bottom:20px;">
+      Para traducir <code>placeholder</code>, <code>title</code>,
+      <code>aria-label</code> u otros atributos, usa
+      <code>data-i18n-attr="atributo:clave[,atributo2:clave2]"</code>.
+    </p>
+
+    <div class="demo-grid">
+      <div class="demo-cell">
+        <div class="demo-label">Live demo</div>
+        <div class="search-demo">
+          <input type="text" class="search-input"
+                 placeholder="Buscar canteras, materiales, empresas..."
+                 data-i18n-attr="placeholder:search.placeholder">
+        </div>
+        <div style="margin-top:16px;">
+          <a href="lapidis-mapa.html"
+             title="Mapa Mundial de Canteras"
+             data-i18n-attr="title:nav.mapaAriaLabel,aria-label:nav.mapaAriaLabel"
+             style="font-size:12px;color:var(--gold);text-decoration:none;">
+            ← Hover / inspect este enlace para ver title y aria-label
+          </a>
+        </div>
+      </div>
+      <div class="demo-cell">
+        <div class="demo-label">HTML source</div>
+        <div class="code-block" style="margin:0;">
+<pre><span class="tag">&lt;input</span>
+  <span class="attr">placeholder</span><span class="val">="Buscar..."</span>
+  <span class="attr">data-i18n-attr</span><span class="val">="placeholder:search.placeholder"</span>
+<span class="tag">&gt;</span>
+
+<span class="comment">&lt;!-- Multiple attrs, comma-separated --&gt;</span>
+<span class="tag">&lt;a</span>
+  <span class="attr">data-i18n-attr</span><span class="val">="title:nav.mapaAriaLabel,
+             aria-label:nav.mapaAriaLabel"</span>
+<span class="tag">&gt;...&lt;/a&gt;</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. JS API -->
+  <div class="section">
+    <h2>3 · API JavaScript</h2>
+    <p class="lead" style="margin-bottom:20px;">
+      Usa <code>WSH_i18n.t(key)</code> para obtener traducciones en código JS
+      (útil en renderizadores Supabase, mensajes de error, etc.).
+    </p>
+
+    <div class="code-block">
+<pre><span class="comment">// Get translated string</span>
+<span class="key">const</span> label = WSH_i18n.t(<span class="val">'stats.empresas'</span>);
+<span class="comment">// ES → "Empresas"   EN → "Companies"</span>
+
+<span class="comment">// With fallback if key missing</span>
+<span class="key">const</span> txt = WSH_i18n.t(<span class="val">'state.cargando'</span>, <span class="val">'...'</span>);
+
+<span class="comment">// Current language</span>
+<span class="key">const</span> lang = WSH_i18n.getLang(); <span class="comment">// 'es' or 'en'</span>
+
+<span class="comment">// Switch language (returns Promise)</span>
+WSH_i18n.setLang(<span class="val">'en'</span>).then(<span class="key">function</span>() {
+  console.log(<span class="val">'Language switched'</span>);
+});
+
+<span class="comment">// Translate a freshly-rendered Supabase card</span>
+<span class="key">function</span> renderCard(data) {
+  <span class="key">const</span> el = document.createElement(<span class="val">'div'</span>);
+  el.innerHTML = <span class="val">`
+    &lt;span data-i18n="card.verFicha"&gt;Ver ficha&lt;/span&gt;
+    &lt;span data-i18n="card.verificado"&gt;Verificado&lt;/span&gt;
+  `</span>;
+  WSH_i18n.applyTo(el);   <span class="comment">// ← translates only this fragment</span>
+  document.body.appendChild(el);
+}
+
+<span class="comment">// React to language changes (e.g. re-render dynamic content)</span>
+document.addEventListener(<span class="val">'wsh:langchange'</span>, <span class="key">function</span>(e) {
+  console.log(<span class="val">'New lang:'</span>, e.detail.lang);
+  <span class="comment">// re-fetch or re-render Supabase content if needed</span>
+});</pre>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div class="demo-label" style="margin-bottom:8px;">Live output — evento <code>wsh:langchange</code></div>
+      <div class="event-log" id="event-log">Esperando cambio de idioma…</div>
+      <div style="margin-top:12px;display:flex;gap:8px;">
+        <span style="font-size:13px;color:var(--ink-4);">
+          <strong style="color:var(--ink);" data-i18n="stats.empresas">Empresas</strong>:
+          <code id="demo-t-output">WSH_i18n.t('stats.empresas')</code>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Dynamic content -->
+  <div class="section">
+    <h2>4 · Contenido dinámico (Supabase)</h2>
+    <p class="lead" style="margin-bottom:20px;">
+      Cuando el contenido de las tarjetas se genera con JS desde Supabase,
+      llama a <code>WSH_i18n.applyTo(el)</code> sobre el fragmento recién insertado
+      para que se traduzcan los atributos estáticos de la UI.
+    </p>
+
+    <div class="code-block">
+<pre><span class="comment">/* In your Supabase render function */</span>
+<span class="key">function</span> renderProveedores(rows) {
+  <span class="key">const</span> grid = document.getElementById(<span class="val">'cards-grid'</span>);
+  grid.innerHTML = rows.map(<span class="key">function</span>(p) {
+    <span class="key">return</span> <span class="val">`
+    &lt;div class="card"&gt;
+      &lt;div class="card-nombre"&gt;${p.nombre_empresa}&lt;/div&gt;
+      &lt;span class="card-tipo"&gt;${p.tipo_empresa}&lt;/span&gt;
+
+      &lt;!-- Static UI labels → translate with data-i18n --&gt;
+      &lt;span class="label" data-i18n="card.fundada"&gt;Fundada&lt;/span&gt;
+      &lt;span&gt;${p.ano_fundacion}&lt;/span&gt;
+
+      &lt;a href="proveedor.html?id=${p.slug}"
+         data-i18n="card.verFicha"&gt;Ver ficha&lt;/a&gt;
+    &lt;/div&gt;
+    `</span>;
+  }).join(<span class="val">''</span>);
+
+  <span class="comment">/* Apply i18n to the freshly rendered HTML */</span>
+  WSH_i18n.applyTo(grid);
+}</pre>
+    </div>
+  </div>
+
+  <!-- 5. Setup -->
+  <div class="section">
+    <h2>5 · Añadir a una página existente</h2>
+    <p class="lead" style="margin-bottom:20px;">
+      Tres pasos para integrar i18n en cualquier página HTML de WSH.
+    </p>
+
+    <div class="code-block">
+<pre><span class="comment">&lt;!-- PASO 1: Cargar el script antes de &lt;/body&gt;
+     (después de tu JS de Supabase) --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span><span class="val">="/i18n.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="comment">&lt;!-- Si tu repo está en un subdirectorio (GitHub Pages sin dominio propio),
+     configura el basePath antes de cargar el script: --&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+  window.WSH_i18n_config = { basePath: <span class="val">'/worldstonehub/'</span> };
+<span class="tag">&lt;/script&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span><span class="val">="/worldstonehub/i18n.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="comment">&lt;!-- PASO 2: Añadir el selector al nav, después de &lt;/ul&gt; --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span><span class="val">="lang-switcher"</span>
+     <span class="attr">role</span><span class="val">="group"</span>
+     <span class="attr">data-i18n-attr</span><span class="val">="aria-label:lang.cambiar"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">class</span><span class="val">="lang-btn active"</span> <span class="attr">data-lang</span><span class="val">="es"</span>
+          <span class="attr">aria-pressed</span><span class="val">="true"</span>
+          <span class="attr">data-i18n-attr</span><span class="val">="aria-label:lang.es"</span><span class="tag">&gt;</span>ES<span class="tag">&lt;/button&gt;</span>
+  <span class="tag">&lt;span</span> <span class="attr">class</span><span class="val">="lang-sep"</span> <span class="attr">aria-hidden</span><span class="val">="true"</span><span class="tag">&gt;&lt;/span&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">class</span><span class="val">="lang-btn"</span> <span class="attr">data-lang</span><span class="val">="en"</span>
+          <span class="attr">aria-pressed</span><span class="val">="false"</span>
+          <span class="attr">data-i18n-attr</span><span class="val">="aria-label:lang.en"</span><span class="tag">&gt;</span>EN<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">&lt;!-- PASO 3: Añadir CSS del selector a tu &lt;style&gt; --&gt;</span>
+<span class="comment">&lt;!-- (Copiado del bloque de comentarios en i18n.js) --&gt;</span></pre>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+
+<!-- ══════════════════════════════════════════════════════
+     SCRIPTS
+     ══════════════════════════════════════════════════════ -->
+
+<!-- Nav dropdown JS (standard) -->
+<script>
+(function(){
+  var closeTimer = null;
+  document.querySelectorAll('.nav-dropdown').forEach(function(el){
+    el.addEventListener('mouseenter', function(){ if(closeTimer){ clearTimeout(closeTimer); closeTimer = null; } el.classList.add('open'); });
+    el.addEventListener('mouseleave', function(){ closeTimer = setTimeout(function(){ el.classList.remove('open'); }, 250); });
+    var menu = el.querySelector('.dropdown-menu');
+    if(menu){
+      menu.addEventListener('mouseenter', function(){ if(closeTimer){ clearTimeout(closeTimer); closeTimer = null; } });
+      menu.addEventListener('mouseleave', function(){ closeTimer = setTimeout(function(){ el.classList.remove('open'); }, 250); });
+    }
+  });
+  /* Auth state */
+  var authEl = document.getElementById('nav-auth-item');
+  if(authEl){
+    var has = false;
+    try{ var ks = Object.keys(localStorage); for(var i=0;i<ks.length;i++){ if(ks[i].indexOf('supabase')!==-1){ var v=JSON.parse(localStorage.getItem(ks[i])); if(v&&(v.access_token||v.user)){ has=true; break; } } } }catch(e){}
+    authEl.innerHTML = has
+      ? '<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link" style="color:#A67C52;border:1px solid rgba(166,124,82,.35);padding:6px 14px;" data-i18n="nav.miPanel">Mi Panel</a>'
+      : '<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link" data-i18n="nav.acceso">Acceso</a>';
+  }
+})();
+</script>
+
+<!-- i18n engine — load LAST -->
+<script src="i18n.js"></script>
+
+<!-- Demo: event log + live t() output -->
+<script>
+document.addEventListener('wsh:langchange', function(e) {
+  var log  = document.getElementById('event-log');
+  var out  = document.getElementById('demo-t-output');
+  var lang = e.detail.lang;
+  var ts   = new Date().toLocaleTimeString();
+  if(log) log.textContent = ts + ' · wsh:langchange fired → lang = "' + lang + '"';
+  if(out && window.WSH_i18n) out.textContent = '"' + WSH_i18n.t('stats.empresas') + '"';
+});
+</script>
+
+</body>
+</html>

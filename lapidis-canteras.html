@@ -162,6 +162,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
   .ph-stats{flex-wrap:wrap;}
   .stat-block{flex:0 0 50%;}
 }
+
+/* Lang Switcher */
+.lang-switcher{display:flex;align-items:center;gap:0;margin-left:12px;}
+.lang-btn{font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:#8a8784;background:none;border:none;padding:5px 7px;cursor:pointer;transition:color .2s;line-height:1;border-radius:2px;}
+.lang-btn:hover{color:#1a1917;}
+.lang-btn.active{color:#A67C52;}
+.lang-btn.active::after{content:'';display:block;height:1px;background:#A67C52;margin-top:2px;opacity:.6;}
+.lang-sep{width:1px;height:10px;background:#c8c5bf;opacity:.45;flex-shrink:0;}
+@media(max-width:900px){.lang-switcher{display:none;}}
 </style>
 </head>
 <body>
@@ -170,26 +179,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 <nav>
   <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub"><text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#1A1410">WORLD STONE</text><line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.65"/><text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text></svg></a>
   <ul class="nav-links">
-    <li><a href="index.html">Inicio</a></li>
-    <li><a href="lapidis-canteras.html" class="active">Canteras</a></li>
-    <li><a href="lapidis-materiales.html">Materiales</a></li>
+    <li><a href="index.html" data-i18n="nav.inicio">Inicio</a></li>
+    <li><a href="lapidis-canteras.html" class="active" data-i18n="nav.canteras">Canteras</a></li>
+    <li><a href="lapidis-materiales.html" data-i18n="nav.materiales">Materiales</a></li>
     <li class="nav-dropdown">
-      <a href="lapidis-proveedores.html">Directorio</a>
+      <a href="lapidis-proveedores.html" data-i18n="nav.directorio">Directorio</a>
       <ul class="dropdown-menu">
-        <li><a href="lapidis-proveedores.html">Todos los proveedores</a></li>
-        <li><a href="sector-distribuidores.html">Distribuidores</a></li>
-        <li><a href="sector-fabricantes.html">Fabricantes</a></li>
-        <li><a href="sector-arquitectura.html">Arquitectura</a></li>
-        <li><a href="sector-constructoras.html">Constructoras</a></li>
-        <li><a href="sector-maquinaria.html">Maquinaria</a></li>
-        <li><a href="sector-laboratorios.html">Laboratorios</a></li>
-        <li><a href="sector-logistica.html">Logística</a></li>
+        <li><a href="lapidis-proveedores.html" data-i18n="nav.todosProveedores">Todos los proveedores</a></li>
+        <li><a href="sector-distribuidores.html" data-i18n="nav.distribuidores">Distribuidores</a></li>
+        <li><a href="sector-fabricantes.html" data-i18n="nav.fabricantes">Fabricantes</a></li>
+        <li><a href="sector-arquitectura.html" data-i18n="nav.arquitectura">Arquitectura</a></li>
+        <li><a href="sector-constructoras.html" data-i18n="nav.constructoras">Constructoras</a></li>
+        <li><a href="sector-maquinaria.html" data-i18n="nav.maquinaria">Maquinaria</a></li>
+        <li><a href="sector-laboratorios.html" data-i18n="nav.laboratorios">Laboratorios</a></li>
+        <li><a href="sector-logistica.html" data-i18n="nav.logistica">Logística</a></li>
       </ul>
     </li>
-    <li class="nav-map-item"><a href="lapidis-mapa.html" class="nav-map-link" title="Mapa Mundial de Canteras" aria-label="Mapa"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M10 2 Q6.5 10 10 18"/><path d="M10 2 Q13.5 10 10 18"/><line x1="2" y1="10" x2="18" y2="10"/><path d="M3 6.5 Q10 8.5 17 6.5"/><path d="M3 13.5 Q10 11.5 17 13.5"/></svg></a></li>
-    <li><a href="registro.html" class="nav-cta">Publicar</a></li>
+    <li class="nav-map-item"><a href="lapidis-mapa.html" class="nav-map-link" title="Mapa Mundial de Canteras" aria-label="Mapa" data-i18n-attr="title:nav.mapaAriaLabel,aria-label:nav.mapaAriaLabel"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M10 2 Q6.5 10 10 18"/><path d="M10 2 Q13.5 10 10 18"/><line x1="2" y1="10" x2="18" y2="10"/><path d="M3 6.5 Q10 8.5 17 6.5"/><path d="M3 13.5 Q10 11.5 17 13.5"/></svg></a></li>
+    <li><a href="registro.html" class="nav-cta" data-i18n="nav.publicar">Publicar</a></li>
     <li id="nav-auth-item"></li>
   </ul>
+  <div class="lang-switcher" role="group" aria-label="Seleccionar idioma">
+    <button class="lang-btn active" data-lang="es" aria-pressed="true" data-i18n-attr="aria-label:lang.es">ES</button>
+    <span class="lang-sep" aria-hidden="true"></span>
+    <button class="lang-btn" data-lang="en" aria-pressed="false" data-i18n-attr="aria-label:lang.en">EN</button>
+  </div>
 </nav>
 
 <!-- PAGE HEADER -->
@@ -596,5 +610,6 @@ document.getElementById('clearFilters').addEventListener('click', function() {
   }
 })();
 </script>
+<script src="i18n.js"></script>
 </body>
 </html>
