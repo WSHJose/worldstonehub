@@ -211,26 +211,26 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
   <!-- IZQUIERDA: título + stats -->
   <div class="ph-left">
     <div>
-      <p class="ph-eyebrow">Lapidis · Directorio global</p>
-      <h1>Canteras<br><em>del Mundo</em></h1>
-      <p>Directorio global de canteras de piedra natural. Explora producción, materiales, localización y ficha técnica completa de cada yacimiento.</p>
+      <p class="ph-eyebrow" data-i18n="hero.canteras.eyebrow">Lapidis · Directorio global</p>
+      <h1><span data-i18n="hero.canteras.title">Canteras</span><br><em data-i18n="hero.canteras.titleItalic">del Mundo</em></h1>
+      <p data-i18n="hero.canteras.desc">Directorio global de canteras de piedra natural. Explora producción, materiales, localización y ficha técnica completa de cada yacimiento.</p>
     </div>
     <div class="ph-stats">
       <div class="stat-block">
         <span class="stat-n" id="statCanteras">—</span>
-        <span class="stat-l">Canteras</span>
+        <span class="stat-l" data-i18n="stats.canteras">Canteras</span>
       </div>
       <div class="stat-block">
         <span class="stat-n" id="statPaises">—</span>
-        <span class="stat-l">Países</span>
+        <span class="stat-l" data-i18n="stats.paises">Países</span>
       </div>
       <div class="stat-block">
         <span class="stat-n">6</span>
-        <span class="stat-l">Continentes</span>
+        <span class="stat-l" data-i18n="canteras.stats.continentes">Continentes</span>
       </div>
       <div class="stat-block">
         <span class="stat-n">31</span>
-        <span class="stat-l">Tipos</span>
+        <span class="stat-l" data-i18n="canteras.stats.tipos">Tipos</span>
       </div>
     </div>
   </div>
@@ -241,11 +241,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
         </svg>
-        <span class="ad-placeholder-text">Espacio publicitario</span>
+        <span class="ad-placeholder-text" data-i18n="ad.placeholder">Espacio publicitario</span>
         <span class="ad-placeholder-sub">CANTERAS-TOP</span>
       </div>
     </div>
-    <div class="ad-label">Publicidad</div>
+    <div class="ad-label" data-i18n="ad.label">Publicidad</div>
   </div>
 </header>
 
@@ -255,33 +255,33 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
     <div class="search-row">
       <div class="search-wrap">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" id="searchInput" placeholder="Buscar cantera, país, material…">
+        <input type="text" id="searchInput" placeholder="Buscar cantera, país, material…" data-i18n-attr="placeholder:search.placeholderCanteras">
       </div>
       <span class="results-count" id="resultsCount"></span>
     </div>
     <div class="filter-row">
-      <span class="filter-label">Continente</span>
-      <button class="filter-chip" data-group="continente" data-val="Europa">Europa</button>
-      <button class="filter-chip" data-group="continente" data-val="Asia">Asia</button>
-      <button class="filter-chip" data-group="continente" data-val="América">América</button>
-      <button class="filter-chip" data-group="continente" data-val="África">África</button>
-      <button class="filter-chip" data-group="continente" data-val="Oceanía">Oceanía</button>
+      <span class="filter-label" data-i18n="canteras.filter.continente">Continente</span>
+      <button class="filter-chip" data-group="continente" data-val="Europa" data-i18n="canteras.continentes.europa">Europa</button>
+      <button class="filter-chip" data-group="continente" data-val="Asia" data-i18n="canteras.continentes.asia">Asia</button>
+      <button class="filter-chip" data-group="continente" data-val="América" data-i18n="canteras.continentes.america">América</button>
+      <button class="filter-chip" data-group="continente" data-val="África" data-i18n="canteras.continentes.africa">África</button>
+      <button class="filter-chip" data-group="continente" data-val="Oceanía" data-i18n="canteras.continentes.oceania">Oceanía</button>
       <div class="filter-sep"></div>
-      <span class="filter-label">Tipo</span>
-      <button class="filter-chip" data-group="tipo" data-val="Mármol">Mármol</button>
-      <button class="filter-chip" data-group="tipo" data-val="Granito">Granito</button>
-      <button class="filter-chip" data-group="tipo" data-val="Cuarcita">Cuarcita</button>
-      <button class="filter-chip" data-group="tipo" data-val="Travertino">Travertino</button>
-      <button class="filter-chip" data-group="tipo" data-val="Caliza">Caliza</button>
-      <button class="filter-chip" data-group="tipo" data-val="Pizarra">Pizarra</button>
-      <button class="filter-chip" data-group="tipo" data-val="Ónix">Ónix</button>
+      <span class="filter-label" data-i18n="canteras.filter.tipo">Tipo</span>
+      <button class="filter-chip" data-group="tipo" data-val="Mármol" data-i18n="canteras.tipos.marmol">Mármol</button>
+      <button class="filter-chip" data-group="tipo" data-val="Granito" data-i18n="canteras.tipos.granito">Granito</button>
+      <button class="filter-chip" data-group="tipo" data-val="Cuarcita" data-i18n="canteras.tipos.cuarcita">Cuarcita</button>
+      <button class="filter-chip" data-group="tipo" data-val="Travertino" data-i18n="canteras.tipos.travertino">Travertino</button>
+      <button class="filter-chip" data-group="tipo" data-val="Caliza" data-i18n="canteras.tipos.caliza">Caliza</button>
+      <button class="filter-chip" data-group="tipo" data-val="Pizarra" data-i18n="canteras.tipos.pizarra">Pizarra</button>
+      <button class="filter-chip" data-group="tipo" data-val="Ónix" data-i18n="canteras.tipos.onix">Ónix</button>
       <div class="filter-sep"></div>
-      <span class="filter-label">Estado</span>
-      <button class="filter-chip" data-group="estado" data-val="Activa">Activa</button>
-      <button class="filter-chip" data-group="estado" data-val="Selectiva">Selectiva</button>
-      <button class="filter-chip" data-group="estado" data-val="Histórica">Histórica</button>
+      <span class="filter-label" data-i18n="canteras.filter.estado">Estado</span>
+      <button class="filter-chip" data-group="estado" data-val="Activa" data-i18n="canteras.estados.activa">Activa</button>
+      <button class="filter-chip" data-group="estado" data-val="Selectiva" data-i18n="canteras.estados.selectiva">Selectiva</button>
+      <button class="filter-chip" data-group="estado" data-val="Histórica" data-i18n="canteras.estados.historica">Histórica</button>
       <div class="filter-sep"></div>
-      <button class="clear-btn" id="clearFilters">Limpiar filtros</button>
+      <button class="clear-btn" id="clearFilters" data-i18n="filter.limpiar">Limpiar filtros</button>
     </div>
   </div>
 </div>
@@ -292,7 +292,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
     <div id="gridContainer">
       <div class="loading-state">
         <div class="spinner"></div>
-        <p>Cargando canteras</p>
+        <p data-i18n="canteras.loading">Cargando canteras</p>
       </div>
     </div>
   </div>

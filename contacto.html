@@ -196,9 +196,9 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
 
 <!-- HERO -->
 <div class="page-hero">
-  <div class="ph-eyebrow">Escríbenos</div>
-  <h1 class="ph-title"><em>Hablemos</em></h1>
-  <div class="ph-sub"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dfb7bab3b3b09fa8b0adb3bbacabb0b1bab7aabdf1bcb0b2">[email&#160;protected]</a> · &lt; 24h respuesta</div>
+  <div class="ph-eyebrow" data-i18n="contacto.hero.eyebrow">Escríbenos</div>
+  <h1 class="ph-title"><em data-i18n="contacto.hero.title">Hablemos</em></h1>
+  <div class="ph-sub"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dfb7bab3b3b09fa8b0adb3bbacabb0b1bab7aabdf1bcb0b2">[email&#160;protected]</a><span data-i18n="contacto.hero.sub"> · &lt; 24h respuesta</span></div>
   <div class="ph-deco">C</div>
 </div>
 
@@ -206,49 +206,49 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
 <div class="contact-wrap">
   <!-- FORM -->
   <div class="form-side">
-    <div class="form-label">Formulario de contacto</div>
-    <h2 class="form-title">¿En qué podemos<br><em>ayudarte?</em></h2>
+    <div class="form-label" data-i18n="contacto.form.label">Formulario de contacto</div>
+    <h2 class="form-title"><span data-i18n="contacto.form.title">¿En qué podemos<br></span><em data-i18n="contacto.form.titleEm">ayudarte?</em></h2>
 
     <div id="contact-form">
       <div class="form-row">
         <div class="form-group">
-          <label>Nombre *</label>
-          <input type="text" id="f-nombre" placeholder="Tu nombre completo" required>
+          <label data-i18n="contacto.form.nombre">Nombre *</label>
+          <input type="text" id="f-nombre" placeholder="Tu nombre completo" required data-i18n-attr="placeholder:contacto.form.nombrePh">
         </div>
         <div class="form-group">
-          <label>Email *</label>
-          <input type="email" id="f-email" placeholder="tu@empresa.com" required>
+          <label data-i18n="contacto.form.email">Email *</label>
+          <input type="email" id="f-email" placeholder="tu@empresa.com" required data-i18n-attr="placeholder:contacto.form.emailPh">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label>Empresa</label>
-          <input type="text" id="f-empresa" placeholder="Nombre de tu empresa">
+          <label data-i18n="contacto.form.empresa">Empresa</label>
+          <input type="text" id="f-empresa" placeholder="Nombre de tu empresa" data-i18n-attr="placeholder:contacto.form.empresaPh">
         </div>
         <div class="form-group">
-          <label>Asunto *</label>
+          <label data-i18n="contacto.form.asunto">Asunto *</label>
           <select id="f-asunto">
-            <option value="">Selecciona un asunto</option>
-            <option value="publicar">Quiero publicar mi empresa</option>
-            <option value="info">Información sobre planes</option>
-            <option value="prensa">Prensa y medios</option>
-            <option value="colaboracion">Colaboración o partnership</option>
-            <option value="soporte">Soporte técnico</option>
-            <option value="otro">Otro</option>
+            <option value="" data-i18n="contacto.form.asuntoPh">Selecciona un asunto</option>
+            <option value="publicar" data-i18n="contacto.form.opPublicar">Quiero publicar mi empresa</option>
+            <option value="info" data-i18n="contacto.form.opInfo">Información sobre planes</option>
+            <option value="prensa" data-i18n="contacto.form.opPrensa">Prensa y medios</option>
+            <option value="colaboracion" data-i18n="contacto.form.opColaboracion">Colaboración o partnership</option>
+            <option value="soporte" data-i18n="contacto.form.opSoporte">Soporte técnico</option>
+            <option value="otro" data-i18n="contacto.form.opOtro">Otro</option>
           </select>
         </div>
       </div>
       <div class="form-group">
-        <label>Mensaje *</label>
-        <textarea id="f-mensaje" placeholder="Cuéntanos en qué podemos ayudarte..."></textarea>
+        <label data-i18n="contacto.form.mensaje">Mensaje *</label>
+        <textarea id="f-mensaje" placeholder="Cuéntanos en qué podemos ayudarte..." data-i18n-attr="placeholder:contacto.form.mensajePh"></textarea>
       </div>
-      <button class="form-submit" id="form-btn" onclick="sendForm()">Enviar mensaje</button>
+      <button class="form-submit" id="form-btn" onclick="sendForm()" data-i18n="contacto.form.enviar">Enviar mensaje</button>
       <p class="form-note">Al enviar este formulario aceptas nuestra <a href="legal.html">política de privacidad</a>. Respondemos en menos de 24 horas en días laborables.</p>
     </div>
 
     <div class="form-success" id="form-success">
       <div class="form-success-icon">✓</div>
-      <h3>Mensaje <em>recibido</em></h3>
+      <h3><span data-i18n="contacto.success.title">Mensaje </span><em data-i18n="contacto.success.titleEm">recibido</em></h3>
       <p>Gracias por escribirnos. Revisaremos tu mensaje y te responderemos en menos de 24 horas en días laborables.<br><br>También puedes escribirnos directamente a <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="86eee3eaeae9c6f1e9f4eae2f5f2e9e8e3eef3e4a8e5e9eb">[email&#160;protected]</a></strong></p>
     </div>
   </div>
@@ -256,53 +256,53 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
   <!-- INFO -->
   <div class="info-side">
     <div>
-      <div class="info-block-title">Email directo</div>
+      <div class="info-block-title" data-i18n="contacto.info.emailLabel">Email directo</div>
       <a href="/cdn-cgi/l/email-protection#fa929f969695ba8d9588969e898e95949f928f98d4999597" class="info-email"><span class="__cf_email__" data-cfemail="234b464f4f4c63544c514f4750574c4d464b56410d404c4e">[email&#160;protected]</span></a>
-      <p class="info-detail">Bandeja revisada cada día laborable. Para consultas urgentes sobre publicación de empresa usa el formulario con asunto "Quiero publicar mi empresa".</p>
+      <p class="info-detail" data-i18n="contacto.info.emailDetail">Bandeja revisada cada día laborable. Para consultas urgentes sobre publicación de empresa usa el formulario con asunto "Quiero publicar mi empresa".</p>
     </div>
     <div class="info-divider"></div>
     <div class="response-badge">
       <div class="response-badge-dot"></div>
       <div class="response-badge-text">
-        <strong>Tiempo de respuesta</strong>
-        Menos de 24 horas en días laborables.
+        <strong data-i18n="contacto.info.responseLabel">Tiempo de respuesta</strong>
+        <span data-i18n="contacto.info.responseVal">Menos de 24 horas en días laborables.</span>
       </div>
     </div>
     <div class="info-divider"></div>
     <div>
-      <div class="info-block-title">Ubicación</div>
+      <div class="info-block-title" data-i18n="contacto.info.ubicacionLabel">Ubicación</div>
       <p class="info-detail" style="font-size:15px;color:var(--ink-mid);font-weight:400;">Petrer, Alicante<br>España · UE</p>
       <p class="info-detail" style="margin-top:8px;">Operamos 100% en remoto y atendemos consultas de cualquier parte del mundo.</p>
     </div>
     <div class="info-divider"></div>
     <div>
-      <div class="info-block-title">Quiero publicar mi empresa</div>
-      <p class="info-detail">Si quieres publicar tu empresa en el directorio, puedes empezar directamente desde el formulario de registro o escribirnos para que te guiemos.</p>
-      <a href="registro.html" style="display:inline-block;margin-top:16px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(166,124,82,.3);padding-bottom:2px;">Ver planes y precios →</a>
+      <div class="info-block-title" data-i18n="contacto.info.publicarLabel">Quiero publicar mi empresa</div>
+      <p class="info-detail" data-i18n="contacto.info.publicarDesc">Si quieres publicar tu empresa en el directorio, puedes empezar directamente desde el formulario de registro o escribirnos para que te guiemos.</p>
+      <a href="registro.html" style="display:inline-block;margin-top:16px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(166,124,82,.3);padding-bottom:2px;" data-i18n="contacto.info.publicarLink">Ver planes y precios →</a>
     </div>
   </div>
 </div>
 
 <!-- FAQ -->
 <section class="faq-section">
-  <div class="faq-label">Preguntas frecuentes</div>
-  <h2 class="faq-title">Lo que más nos <em>preguntan</em></h2>
+  <div class="faq-label" data-i18n="contacto.faq.label">Preguntas frecuentes</div>
+  <h2 class="faq-title"><span data-i18n="contacto.faq.title">Lo que más nos </span><em data-i18n="contacto.faq.titleEm">preguntan</em></h2>
   <div class="faq-grid">
     <div class="faq-item">
-      <div class="faq-q">¿Cuánto tiempo tarda en publicarse mi empresa?</div>
-      <div class="faq-a">Una vez completado el registro y activado el pago, tu perfil es revisado manualmente y publicado en un plazo de 24-48 horas laborables. Te enviamos un email de confirmación cuando esté activo.</div>
+      <div class="faq-q" data-i18n="contacto.faq.q1">¿Cuánto tiempo tarda en publicarse mi empresa?</div>
+      <div class="faq-a" data-i18n="contacto.faq.a1">Una vez completado el registro y activado el pago, tu perfil es revisado manualmente y publicado en un plazo de 24-48 horas laborables. Te enviamos un email de confirmación cuando esté activo.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">¿Puedo cambiar de plan más adelante?</div>
-      <div class="faq-a">Sí. Puedes hacer upgrade o downgrade en cualquier momento desde tu panel de control. El cambio se aplica en el siguiente ciclo de facturación. Escríbenos si necesitas ayuda con el proceso.</div>
+      <div class="faq-q" data-i18n="contacto.faq.q2">¿Puedo cambiar de plan más adelante?</div>
+      <div class="faq-a" data-i18n="contacto.faq.a2">Sí. Puedes hacer upgrade o downgrade en cualquier momento desde tu panel de control. El cambio se aplica en el siguiente ciclo de facturación. Escríbenos si necesitas ayuda con el proceso.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">¿En qué idiomas está disponible el portal?</div>
-      <div class="faq-a">Actualmente el portal está en español. Las versiones en inglés, italiano y portugués están en desarrollo y estarán disponibles próximamente. Puedes seguir la actualización en nuestro <a href="blog.html">blog</a>.</div>
+      <div class="faq-q" data-i18n="contacto.faq.q3">¿En qué idiomas está disponible el portal?</div>
+      <div class="faq-a" data-i18n="contacto.faq.a3">Actualmente el portal está en español. Las versiones en inglés, italiano y portugués están en desarrollo y estarán disponibles próximamente. Puedes seguir la actualización en nuestro <a href="blog.html">blog</a>.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">¿Cómo puedo proponer una colaboración o partnership?</div>
-      <div class="faq-a">Estamos abiertos a colaboraciones con asociaciones del sector, medios especializados, ferias y distribuidores de contenido B2B. Usa el formulario de contacto con el asunto "Colaboración o partnership" y cuéntanos tu propuesta.</div>
+      <div class="faq-q" data-i18n="contacto.faq.q4">¿Cómo puedo proponer una colaboración o partnership?</div>
+      <div class="faq-a" data-i18n="contacto.faq.a4">Estamos abiertos a colaboraciones con asociaciones del sector, medios especializados, ferias y distribuidores de contenido B2B. Usa el formulario de contacto con el asunto "Colaboración o partnership" y cuéntanos tu propuesta.</div>
     </div>
   </div>
 </section>
@@ -316,19 +316,19 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
   <line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.6"/>
   <text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text>
 </svg></a>
-      <p class="footer-tagline">El portal internacional de referencia para todos los profesionales del sector de la piedra natural y artificial.</p>
+      <p class="footer-tagline" data-i18n="footer.tagline">El portal internacional de referencia para todos los profesionales del sector de la piedra natural y artificial.</p>
     </div>
     <div class="footer-col">
-      <div class="footer-col-title">Directorio</div>
+      <div class="footer-col-title" data-i18n="footer.col.directorio">Directorio</div>
       <ul>
-        <li><a href="lapidis-canteras.html">Canteras del mundo</a></li>
-        <li><a href="lapidis-mapa.html">Mapa de canteras</a></li>
+        <li><a href="lapidis-canteras.html" data-i18n="footer.links.canteras">Canteras del mundo</a></li>
+        <li><a href="lapidis-mapa.html" data-i18n="footer.links.mapa">Mapa de canteras</a></li>
         <li><a href="lapidis-materiales.html" data-i18n="nav.materiales">Materiales</a></li>
         <li><a href="lapidis-proveedores.html" data-i18n="nav.directorio">Directorio</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <div class="footer-col-title">Sectores</div>
+      <div class="footer-col-title" data-i18n="footer.col.sectores">Sectores</div>
       <ul>
         <li><a href="sector-distribuidores.html" data-i18n="nav.distribuidores">Distribuidores</a></li>
         <li><a href="sector-fabricantes.html" data-i18n="nav.fabricantes">Fabricantes</a></li>
@@ -340,13 +340,13 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
       </ul>
     </div>
     <div class="footer-col">
-      <div class="footer-col-title">Portal</div>
+      <div class="footer-col-title" data-i18n="footer.col.portal">Portal</div>
       <ul>
-        <li><a href="registro.html">Publicar mi empresa</a></li>
-        <li><a href="nosotros.html">Sobre World Stone Hub</a></li>
-        <li><a href="contacto.html">Contacto</a></li>
-        <li><a href="blog.html">Blog del sector</a></li>
-        <li><a href="legal.html">Aviso legal</a></li>
+        <li><a href="registro.html" data-i18n="footer.links.publicar">Publicar mi empresa</a></li>
+        <li><a href="nosotros.html" data-i18n="footer.links.sobre">Sobre World Stone Hub</a></li>
+        <li><a href="contacto.html" data-i18n="footer.links.contacto">Contacto</a></li>
+        <li><a href="blog.html" data-i18n="footer.links.blog">Blog del sector</a></li>
+        <li><a href="legal.html" data-i18n="footer.links.legal">Aviso legal</a></li>
       </ul>
     </div>
   </div>
