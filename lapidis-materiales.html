@@ -1,1861 +1,656 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>World Stone Hub — Directorio de Materiales</title>
+<title>World Stone Hub — Materiales de Piedra Natural</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<style>:root{
+<style>
+:root {
   --bg:        #ffffff;
   --bg-soft:   #f8f7f5;
-  --bg-mid:    #f0efed;
+  --bg-warm:   #f2ede8;
   --border:    #e2e0dc;
-  --border-mid:#c8c5bf;
+  --border-md: #d4d0cb;
   --ink:       #1a1917;
-  --ink-mid:   #4a4845;
-  --ink-muted: #8a8784;
-  --ink-faint: #b8b5b0;
+  --ink-2:     #3d3b38;
+  --ink-3:     #6b6760;
+  --ink-4:     #9c9893;
   --gold:      #A67C52;
-  --gold-lt:   #F5EFEA;
-  --accent:    #1a1917;
-  --font-disp: 'Cormorant Garamond', serif;
-  --font-head: 'Instrument Sans', sans-serif;
-  --font-body: 'Instrument Sans', sans-serif;
+  --gold-lt:   #c4a882;
+  --gold-bg:   rgba(166,124,82,0.08);
+  --radius:    4px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.05);
+  --shadow:    0 2px 16px rgba(0,0,0,0.07);
+  --shadow-md: 0 8px 32px rgba(0,0,0,0.12);
 }
-
-  .logo {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 26px;
-    letter-spacing: 6px;
-    color:#1a1917;
-    text-decoration: none;
-    display: block;
-  }
-  .logo span {
-    color:#A67C52;
-  }
-  .logo-main { display: block; }
-  .logo-sub { font-family:'Instrument Sans',sans-serif; font-size:8px; letter-spacing:4px; text-transform:uppercase; color:#8a8784; font-weight:400; margin-top:3px; display:block; }
-
-
-*{margin:0;padding:0;box-sizing:border-box;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:#f8f7f5;color:#1a1917;font-family:'Instrument Sans',sans-serif;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.35;}
-nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:flex;justify-content:space-between;align-items:center;background: #ffffff; overflow:visible;}
-.logo span{color:#A67C52;font-style:italic;}
-.nav-links{display:flex;gap:36px;list-style:none;}
-.nav-links a{font-size: 14px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#4a4845;text-decoration:none;transition:color 0.3s;}
+body{background:var(--bg-soft);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:14px;line-height:1.5;min-height:100vh;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Instrument Sans',sans-serif;font-size:26px;letter-spacing:6px;color:#1a1917;text-decoration:none;display:flex;flex-direction:column;line-height:1;}
+.nav-links{display:flex;gap:36px;list-style:none;align-items:center;}
+.nav-links a{font-size:14px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#4a4845;text-decoration:none;transition:color .3s;position:relative;}
 .nav-links a:hover,.nav-links a.active{color:#A67C52;}
-.nav-cta{background:#A67C52;color:#f8f7f5 !important;padding:10px 24px;font-weight:500 !important;transition:background 0.3s !important;}
-.nav-cta:hover{background:#1a1917 !important;}
-.page-header{padding:140px 60px 60px;background:linear-gradient(135deg,#f8f7f5 0%,#f2f0ec 60%,#f8f7f5 100%);}
-.page-header-inner{max-width:1400px;margin:0 auto;}
-.header-eyebrow{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:#A67C52;margin-bottom:16px;}
-.header-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,72px);font-weight:300;line-height:1.1;color:#1a1917;margin-bottom:20px;}
-.header-title em{color:#A67C52;font-style:italic;}
-.header-desc{font-size:14px;color:#8a8784;max-width:560px;line-height:1.8;}
-.header-stats{display:flex;gap:48px;margin-top:40px;}
-.stat-item{display:flex;flex-direction:column;gap:4px;}
-.stat-num{font-family:'Cormorant Garamond',serif;font-size:36px;color:#A67C52;font-weight:300;}
-.stat-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#8a8784;}
-.search-zone{position:sticky;top:64px;z-index:800;background:rgba(248,247,245,0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);border-top:1px solid var(--border);padding:24px 60px;}
-.search-inner{max-width:1400px;margin:0 auto;}
-.search-bar-wrap{position:relative;margin-bottom:20px;}
-.search-icon{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-size:20px;color:#A67C52;pointer-events:none;}
-#searchInput{width:100%;background:#f0efed;border:1px solid #e2e0dc;color:#1a1917;font-family:'Instrument Sans',sans-serif;font-size:15px;padding:16px 20px 16px 52px;outline:none;transition:border-color 0.3s;}
-#searchInput:focus{border-color:#A67C52;}
-#searchInput::placeholder{color:#8a8784;}
-.search-hint{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a8784;}
-.filters-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
-.filter-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#8a8784;margin-right:8px;}
-.filter-btn{background:transparent;border:1px solid #e2e0dc;color:#4a4845;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;cursor:pointer;transition:all 0.2s;font-family:'Instrument Sans',sans-serif;}
-.filter-btn:hover{border-color:#4a4845;color:#1a1917;}
-.filter-btn.active{background:#A67C52;border-color:#A67C52;color:#f8f7f5;}
-.filter-divider{width:1px;height:24px;background:var(--border);margin:0 4px;}
-.results-count{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a8784;margin-left:auto;}
-.materials-section{padding:40px 60px 80px;}
-.materials-inner{max-width:1400px;margin:0 auto;}
-.materials-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;}
-.no-results{text-align:center;padding:80px 20px;color:#8a8784;grid-column:1/-1;}
-.no-results h3{font-family:'Cormorant Garamond',serif;font-size:28px;color:#4a4845;margin-bottom:12px;}
-.loading{text-align:center;padding:80px;color:#8a8784;font-size:13px;letter-spacing:3px;text-transform:uppercase;grid-column:1/-1;}
-.material-card{background:#f0efed;cursor:pointer;transition:transform 0.3s,background 0.3s;overflow:hidden;position:relative;border:1px solid transparent;}
-.material-card:hover{background:#f0efed;border-color:var(--border);transform:translateY(-2px);z-index:2;}
-.card-color-bar{height:4px;width:100%;}
-.card-body{padding:24px;}
-.card-category{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#A67C52;margin-bottom:8px;}
-.card-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:#1a1917;margin-bottom:4px;line-height:1.2;}
-.card-sci{font-size:11px;color:#8a8784;font-style:italic;margin-bottom:12px;}
-.card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
-.tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border:1px solid #e2e0dc;color:#8a8784;}
-.tag.origin{border-color:rgba(201,168,76,0.2);color:#4a4845;}
-.card-props{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
-.prop-item{display:flex;flex-direction:column;gap:2px;}
-.prop-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8a8784;}
-.prop-value{font-size:12px;color:#4a4845;}
-.card-price{position:absolute;top:16px;right:16px;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;}
-.price-economico{background:rgba(100,160,100,0.15);color:#7db87d;border:1px solid rgba(100,160,100,0.2);}
-.price-medio{background:rgba(30,25,20,0.08);color:#4a4845;border:1px solid #e2e0dc;}
-.price-alto{background:rgba(160,120,60,0.08);color:#A67C52;border:1px solid rgba(201,168,76,0.2);}
-.price-premium{background:rgba(185,130,80,0.12);color:#d4914a;border:1px solid rgba(185,130,80,0.2);}
-.price-ultra-premium{background:rgba(220,180,120,0.15);color:#e8c87a;border:1px solid rgba(220,180,120,0.25);}
-.card-ver-btn{display:block;text-align:center;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#A67C52;padding:10px 0 4px;margin-top:12px;border-top:1px solid var(--border);transition:color 0.2s;text-decoration:none;font-family:'Instrument Sans',sans-serif;font-weight:500;}
-.card-ver-btn:hover{color:#1a1917;}
-.modal-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(10,8,6,0.92);backdrop-filter:blur(8px);}
-.modal-overlay.open{display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 20px;}
-.modal{background:#f8f7f5;border:1px solid #e2e0dc;width:100%;max-width:900px;position:relative;animation:slideUp 0.35s cubic-bezier(0.22,1,0.36,1);}
-@keyframes slideUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
-.modal-close{position:absolute;top:20px;right:20px;background:none;border:none;color:#8a8784;font-size:20px;cursor:pointer;z-index:10;padding:8px;transition:color 0.2s;}
-.modal-close:hover{color:#1a1917;}
-.modal-header{padding:48px 48px 32px;}
-.modal-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
-.modal-cat{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#A67C52;}
-.modal-id{font-size:9px;color:#8a8784;letter-spacing:2px;}
-.modal-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:300;color:#1a1917;line-height:1.1;margin-bottom:8px;}
-.modal-alt{font-size:12px;color:#8a8784;font-style:italic;margin-bottom:4px;}
-.modal-sci{font-size:13px;color:#4a4845;font-style:italic;}
-.modal-subcat{font-size:11px;color:#8a8784;letter-spacing:2px;text-transform:uppercase;margin-top:8px;}
-.modal-color-strip{height:6px;width:100%;}
-.modal-body{padding:0 48px 48px;}
-.modal-section{margin-top:36px;}
-.modal-section-title{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#A67C52;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border);}
-.origin-block{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.origin-item{display:flex;flex-direction:column;gap:4px;}
-.origin-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#8a8784;}
-.origin-value{font-size:14px;color:#1a1917;}
-.color-palette{display:flex;flex-direction:column;gap:10px;}
-.color-row{display:flex;align-items:center;gap:12px;}
-.color-circle{width:28px;height:28px;border-radius:50%;border:1px solid #e2e0dc;flex-shrink:0;}
-.color-name{font-size:13px;color:#4a4845;}
-.color-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8a8784;min-width:80px;}
-.pattern-row{display:flex;align-items:center;gap:12px;margin-top:6px;}
-.pattern-badge{font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border:1px solid #e2e0dc;color:#4a4845;}
-.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
-.acabado-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border:1px solid rgba(201,168,76,0.2);color:#4a4845;}
-.specs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-.spec-card{background:#f0efed;padding:16px;border:1px solid #e2e0dc;}
-.spec-card-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8a8784;margin-bottom:6px;}
-.spec-card-value{font-family:'Cormorant Garamond',serif;font-size:24px;color:#A67C52;line-height:1;}
-.spec-card-unit{font-size:10px;color:#8a8784;margin-top:2px;}
-.spec-res-row{display:flex;align-items:center;gap:12px;margin-top:10px;}
-.spec-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.dot-alta,.dot-si{background:#7db87d;}
-.dot-media,.dot-condicionada{background:#d4914a;}
-.dot-baja,.dot-no{background:#c07070;}
-.spec-res-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8a8784;min-width:180px;}
-.spec-res-text{font-size:13px;color:#4a4845;}
-.usos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;}
-.uso-item{background:#f0efed;border:1px solid #e2e0dc;padding:10px 14px;font-size:11px;color:#4a4845;letter-spacing:1px;}
-.formatos-wrap{display:flex;flex-wrap:wrap;gap:8px;}
-.formato-badge{background:rgba(139,115,85,0.12);border:1px solid rgba(139,115,85,0.2);padding:6px 14px;font-size:11px;color:#4a4845;letter-spacing:1px;}
-.espesor-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
-.espesor-chip{background:#f0efed;border:1px solid #e2e0dc;padding:8px 16px;font-size:12px;color:#4a4845;}
-.proyectos-list{display:flex;flex-direction:column;gap:8px;}
-.proyecto-item{display:flex;align-items:center;gap:12px;font-size:13px;color:#4a4845;}
-.cert-wrap{display:flex;flex-wrap:wrap;gap:8px;}
-.cert-badge{background:rgba(100,160,100,0.08);border:1px solid rgba(100,160,100,0.2);color:#7db87d;padding:6px 14px;font-size:10px;letter-spacing:2px;}
-.seo-tags{display:flex;flex-wrap:wrap;gap:6px;}
-.seo-tag{font-size:9px;letter-spacing:1px;padding:4px 10px;border:1px solid #e2e0dc;color:#8a8784;}
-.sost-badge{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid rgba(100,160,100,0.2);background:rgba(100,160,100,0.06);}
-.sost-dot{width:8px;height:8px;border-radius:50%;background:#7db87d;}
-.sost-text{font-size:12px;color:#7db87d;letter-spacing:1px;}
-.precio-disp-row{display:flex;gap:20px;flex-wrap:wrap;}
-.precio-block,.disp-block{flex:1;min-width:160px;background:#f0efed;border:1px solid #e2e0dc;padding:20px;}
-.precio-block-label,.disp-block-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#8a8784;margin-bottom:8px;}
-.precio-block-value,.disp-block-value{font-family:'Cormorant Garamond',serif;font-size:22px;color:#A67C52;}
-
-  /* ── CARD IMAGE ── */
-  .card-img-wrap {
-    width: 100%;
-    height: 180px;
-    overflow: hidden;
-    position: relative;
-    background: #f0efed;
-  }
-  .card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
-    display: block;
-  }
-  .material-card:hover .card-img {
-    transform: scale(1.06);
-  }
-  .card-img-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #f0efed 0%, #2a241c 100%);
-  }
-  .card-img-cat-label {
-    font-size: 9px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: rgba(160,120,60,0.25);
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 16px;
-  }
-
-  /* ── MODAL IMAGE ── */
-  .modal-img-wrap {
-    width: 100%;
-    height: 320px;
-    overflow: hidden;
-    position: relative;
-    background: #f0efed;
-  }
-  .modal-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-
-  /* ── Providers in material modal ── */
-  .modal-prov-section {
-    border-top: 1px solid var(--border);
-    padding: 28px 48px 0;
-    margin-bottom: 0;
-  }
-  .modal-prov-title {
-    font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
-    color:#A67C52; margin-bottom: 16px; display: flex;
-    align-items: center; gap: 10px;
-  }
-  .modal-prov-title::after {
-    content:''; flex:1; height:1px; background:var(--border);
-  }
-  .modal-prov-subtitle {
-    font-size: 10px; color:#8a8784; margin-bottom: 14px; margin-top: -10px;
-  }
-  .modal-prov-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 2px;
-    margin-bottom: 16px;
-  }
-  .mprov-card {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 14px 16px; background: #f0efed;
-    position: relative; overflow: hidden;
-    transition: background 0.2s;
-  }
-  .mprov-card:hover { background: #f0efed; }
-  .mprov-accent-bar {
-    position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-  }
-  .mprov-avatar {
-    width: 38px; height: 38px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 600;
-    border-radius: 2px;
-  }
-  .mprov-body { flex: 1; min-width: 0; }
-  .mprov-name {
-    font-size: 12px; font-weight: 600; color: #ffffff;
-    margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .mprov-meta { font-size: 10px; color:#8a8784; margin-bottom: 5px; }
-  .mprov-tipo { font-size: 9px; color:#8a8784; }
-  .mprov-tier {
-    font-size: 7px; letter-spacing: 2px; text-transform: uppercase;
-    padding: 2px 6px; border: 1px solid; display: inline-block; margin-bottom: 4px;
-  }
-  .mprov-web {
-    font-size: 9px; color:#A67C52; text-decoration: none;
-    letter-spacing: 1px; display: inline-block; margin-top: 2px;
-  }
-  .mprov-web:hover { text-decoration: underline; }
-  .mprov-elite .mprov-tier { color: #A67C52; border-color: rgba(160,120,60,0.40); background: rgba(201,168,76,0.06); }
-  .mprov-profesional .mprov-tier { color: #90c0e0; border-color: rgba(144,192,224,0.4); background: rgba(144,192,224,0.06); }
-  .mprov-presencia .mprov-tier { color: #90c090; border-color: rgba(144,192,144,0.4); background: rgba(144,192,144,0.06); }
-  .mprov-cta {
-    text-align: right; padding: 10px 0;
-  }
-  .mprov-cta a {
-    font-size: 9px; color:#A67C52; letter-spacing: 2px;
-    text-transform: uppercase; text-decoration: none;
-  }
-  .mprov-cta a:hover { text-decoration: underline; }
-  .mprov-empty {
-    padding: 20px; text-align: center; background: #f0efed;
-    font-size: 11px; color:#8a8784; font-style: italic;
-  }
-
-
-/* ════════════════════════════════
-   GLOBAL NAV & LOGO
-   ════════════════════════════════ */
-
-.logo {
-  font-family: var(--font-head);
-  font-size: 26px;
-  letter-spacing: 6px;
-  color:#1a1917;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-}
-.logo-main { display: block; }
-.logo-hub { color:#A67C52; font-style:italic; }
-.logo-sub { font-family:'Instrument Sans',sans-serif; font-size:8px; letter-spacing:4px; text-transform:uppercase; color:#8a8784; font-weight:400; margin-top:3px; display:block; }
-.nav-links { display: flex; gap: 24px; list-style: none; align-items: center; }
-.nav-links a {
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #4a4845;
-  text-decoration: none;
-  transition: color 0.25s;
-}
-.nav-links a:hover, .nav-links a.active { color:#A67C52; }
-.nav-cta {
-  background: #A67C52 !important;
-  color: #f8f7f5 !important;
-  padding: 9px 22px;
-  font-weight: 500 !important;
-}
-.nav-cta:hover { opacity: 0.85; }
-@media (max-width: 960px) {
-  
-  .nav-links { display: none; }
-}
-/* ════════════════════════════════
-   GLOBAL FOOTER
-   ════════════════════════════════ */
-.site-footer {
-  background: #111110;
-  border-top: 1px solid var(--border);
-  padding: 72px 60px 36px;
-  position: relative; z-index: 1;
-}
-.site-footer::before {
-  content: 'WORLD STONE HUB';
-  position: absolute; right: 50px; bottom: 20px;
-  font-family: var(--font-head); font-size: 80px; letter-spacing: 8px;
-  color: rgba(196,168,130,0.025); pointer-events: none; line-height: 1;
-}
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 60px;
-  padding-bottom: 48px;
-  border-bottom: 1px solid rgba(30,25,20,0.06);
-  margin-bottom: 32px;
-}
-.footer-brand .logo { margin-bottom: 16px; }
-.footer-tagline {
-  font-size: 13px; line-height: 1.75;
-  color:#8a8784; max-width: 280px; margin-top: 12px;
-}
-.footer-col-title {
-  font-size: 8px; letter-spacing: 4px; text-transform: uppercase;
-  color: #4a4845; margin-bottom: 20px; font-weight: 500;
-}
-.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.footer-col a {
-  font-size: 13px; color:#8a8784;
-  text-decoration: none; transition: color 0.25s;
-}
-.footer-col a:hover { color: #4a4845; }
-.footer-bottom {
-  display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 12px;
-}
-.footer-copy { font-size: 11px; color:#8a8784; letter-spacing: 1px; }
-.footer-langs { display: flex; gap: 18px; }
-.footer-langs a {
-  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-  color:#8a8784; text-decoration: none; transition: color 0.25s;
-}
-.footer-langs a:hover, .footer-langs a.active { color:#A67C52; }
-@media (max-width: 960px) {
-  .site-footer { padding: 48px 20px 28px; }
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-}
-@media (max-width: 600px) {
-  .footer-grid { grid-template-columns: 1fr; }
-}
-/* ════════════════════════════════
-   GLOBAL TYPOGRAPHY SCALE
-   ════════════════════════════════ */
-.t-hero    { font-family: var(--font-disp); font-size: clamp(52px,6vw,88px); font-weight: 300; line-height: 0.92; }
-.t-section { font-family: var(--font-disp); font-size: clamp(32px,4vw,56px); font-weight: 300; line-height: 1.0; }
-.t-card-lg { font-family: var(--font-disp); font-size: clamp(18px,2vw,28px); font-weight: 300; line-height: 1.1; }
-.t-card-sm { font-family: var(--font-disp); font-size: 14px; font-weight: 300; line-height: 1.2; }
-.t-eyebrow { font-family: var(--font-body); font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color:#A67C52; }
-.t-body    { font-family: var(--font-body); font-size: 13.5px; line-height: 1.75; color:#8a8784; }
-.t-meta    { font-family: var(--font-body); font-size: 8px;  letter-spacing: 3px; text-transform: uppercase; }
-.t-badge   { font-family: var(--font-body); font-size: 8px;  letter-spacing: 2px; text-transform: uppercase; }
-
-/* ── Page header spacing (compensates fixed nav) ── */
-.page-header { padding: 120px 60px 60px; }
-@media (max-width: 960px) { .page-header { padding: 100px 20px 40px; } }
-.add-btn{
-  display:inline-flex;align-items:center;gap:7px;
-  padding:8px 18px;font-size:9px;letter-spacing:3px;text-transform:uppercase;
-  font-family:'Instrument Sans',sans-serif;font-weight:500;cursor:pointer;
-  background:transparent;border:1px solid var(--gold,#A67C52);
-  color:var(--gold,#A67C52);transition:all .25s;white-space:nowrap;
-}
-.add-btn:hover{background:var(--gold,#A67C52);color:#f8f7f5;}
-.add-btn-icon{font-size:14px;line-height:1;}
-
-.modal-overlay2{position:fixed;inset:0;z-index:2000;background:rgba(26,25,23,0.55);
-  backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;}
-.modal-overlay2.open{display:flex;}
-.modal2{background:#ffffff;border:1px solid rgba(30,25,20,0.10);
-  border-top:3px solid #A67C52;width:100%;max-width:580px;max-height:85vh;
-  overflow-y:auto;padding:36px 40px;position:relative;}
-.modal2::-webkit-scrollbar{width:3px;}
-.modal2::-webkit-scrollbar-thumb{background:#8a8784;}
-.modal2-close{position:absolute;top:14px;right:14px;width:30px;height:30px;
-  background:#f0efed;border:none;cursor:pointer;color:#6b6865;font-size:13px;
-  display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.modal2-close:hover{background:#A67C52;color:#f8f7f5;}
-.modal2-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;
-  color:#1a1917;margin-bottom:4px;}
-.modal2-sub{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#8a8784;margin-bottom:28px;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.form-grid.full{grid-template-columns:1fr;}
-.form-field{display:flex;flex-direction:column;gap:5px;}
-.form-label{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#8a8784;}
-.form-input,.form-select,.form-textarea{
-  background:rgba(255,255,255,.04);border:1px solid rgba(30,25,20,0.08);
-  color:#1a1917;font-family:'Instrument Sans',sans-serif;font-size:12px;
-  padding:8px 12px;outline:none;transition:border-color .2s;width:100%;}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:rgba(160,120,60,0.45);}
-.form-textarea{resize:vertical;min-height:70px;}
-.form-select option{background:#ffffff;}
-.form-divider{height:1px;background:rgba(30,25,20,0.06);margin:8px 0;}
-.form-section-label{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:#A67C52;margin-bottom:2px;}
-.form-submit{width:100%;padding:12px;font-size:9px;letter-spacing:3px;text-transform:uppercase;
-  background:#A67C52;border:none;color:#f8f7f5;font-family:'Instrument Sans',sans-serif;
-  font-weight:500;cursor:pointer;transition:all .25s;margin-top:8px;}
-.form-submit:hover{background:#d4b86a;}
-.form-note{font-size:9px;color:#8a8784;text-align:center;margin-top:8px;line-height:1.5;}
-
-/* ── LIGHT THEME OVERRIDES ── */
-*{-webkit-font-smoothing:antialiased;}
-html,body{background:#ffffff;color:#1a1917;}
-body{background:#ffffff!important;}
-
-/* Nav */
-
-nav::before,nav::after{display:none!important;}
-.logo{color:#1a1917!important;font-family:'Instrument Sans',sans-serif!important;font-weight:700!important;letter-spacing:1.5px!important;font-size:14px!important;text-transform:uppercase!important;}
-.logo-hub { color:#A67C52; font-style:italic; }
-.logo-sub { font-family:'Instrument Sans',sans-serif; font-size:8px; letter-spacing:4px; text-transform:uppercase; color:#8a8784; font-weight:400; margin-top:3px; display:block; }
-.logo-main{color:#1a1917;}
-.nav-links a{color:#4a4845!important;}
-.nav-links a:hover,.nav-links a.active{color:#1a1917!important;border-bottom:none!important;}
-.nav-cta{background:#1a1917!important;color:#ffffff!important;padding:7px 18px!important;}
-.nav-cta:hover{background:#A67C52!important;}
-
-/* Page headers → light */
-.page-header,.page-hero{
-  background:linear-gradient(135deg,#f8f7f5 0%,#f2f0ec 100%)!important;
-  color:#1a1917!important;
-  border-bottom:1px solid #e2e0dc;
-}
-.header-eyebrow,.eyebrow,.page-eyebrow{color:#A67C52!important;}
-h1,.header-title,.page-title{color:#1a1917!important;}
-h2,h3,h4{color:#1a1917!important;}
-.header-desc,.page-desc{color:#4a4845!important;}
-em{color:#A67C52;}
-
-/* Stats in header */
-.stat-num,.stat-item .stat-num{color:#1a1917!important;font-family:'Instrument Sans',sans-serif!important;}
-.stat-label,.stat-item .stat-label{color:#8a8784!important;}
-.stat-divider{background:#e2e0dc!important;}
-
-/* Sticky bars / filters */
-.search-zone,.controls,.filters-zone,.filter-bar{
-  background:rgba(255,255,255,0.97)!important;
-  border-bottom:1px solid #e2e0dc!important;
-  backdrop-filter:blur(12px)!important;
-}
-
-/* Search inputs */
-.search-input,input[type="text"],input[type="email"],input[type="search"],select,textarea{
-  background:#ffffff!important;
-  border:1px solid #e2e0dc!important;
-  color:#1a1917!important;
-}
-.search-input:focus,input:focus,select:focus,textarea:focus{
-  border-color:#A67C52!important;
-  outline:none!important;
-  box-shadow:0 0 0 2px rgba(160,120,60,0.10)!important;
-}
-input::placeholder{color:#b8b5b0!important;}
-
-/* Filter buttons / chips */
-.filter-btn,.chip,.cchip{
-  background:#ffffff!important;
-  border:1px solid #e2e0dc!important;
-  color:#4a4845!important;
-}
-.filter-btn:hover,.chip:hover,.cchip:hover{
-  background:#f8f7f5!important;
-  border-color:#c8c5bf!important;
-  color:#1a1917!important;
-}
-.filter-btn.active,.chip.on,.cchip.on{
-  background:#1a1917!important;
-  border-color:#1a1917!important;
-  color:#ffffff!important;
-}
-
-/* Select dropdowns */
-select{background:#ffffff!important;color:#1a1917!important;}
-select option{background:#ffffff;color:#1a1917;}
-.filter-sel{background:#ffffff!important;border:1px solid #e2e0dc!important;color:#1a1917!important;}
-
-/* Cards — quarries, materials, suppliers */
-.cantera-card,.material-card,.supplier-card,.card,
-.item-card,.result-card,.feature-card{
-  background:#ffffff!important;
-  border:1px solid #e2e0dc!important;
-  color:#1a1917!important;
-  box-shadow:none!important;
-}
-.cantera-card:hover,.material-card:hover,.card:hover{
-  border-color:#c8c5bf!important;
-  box-shadow:0 4px 20px rgba(26,25,23,0.08)!important;
-  transform:translateY(-1px);
-}
-
-/* Card text */
-.card-name,.cantera-name,.material-name,.mat-name{color:#1a1917!important;font-weight:500!important;}
-.card-sub,.cantera-country,.material-cat,.card-meta{color:#8a8784!important;}
-.card-type,.badge,.tag{
-  background:#f0efed!important;
-  border:1px solid #e2e0dc!important;
-  color:#4a4845!important;
-}
-.card-fame,.fame-text{color:#4a4845!important;font-size:11px!important;}
-
-/* Tier/relevance dots */
-.tier-dot,.tier-badge{background:#d4d1cc!important;}
-.tier-1,.tier-dot.t1{background:#A67C52!important;}
-.tier-2,.tier-dot.t2{background:#C4A05A!important;}
-.tier-3,.tier-dot.t3{background:#d4d1cc!important;}
-
-/* Results count */
-.results-count,#resultsCount{color:#8a8784!important;}
-
-/* View toggle buttons */
-.view-btn{background:#f0efed!important;border:1px solid #e2e0dc!important;color:#4a4845!important;}
-.view-btn.active{background:#1a1917!important;border-color:#1a1917!important;color:#ffffff!important;}
-
-/* Continent tabs */
-.cont-tab{
-  background:transparent!important;border:none!important;border-bottom:2px solid transparent!important;
-  color:#8a8784!important;font-family:'Instrument Sans',sans-serif!important;
-}
-.cont-tab:hover{color:#1a1917!important;}
-.cont-tab.active{color:#1a1917!important;border-bottom-color:#1a1917!important;}
-.continent-section,.cont-tabs{border-bottom:1px solid #e2e0dc!important;background:#ffffff!important;}
-
-/* Modal overlays */
-.modal-overlay,.modal-nc,.modal-overlay2{background:rgba(26,25,23,0.50)!important;}
-.modal,.modal-box,.modal2,.modal-nc-box{
-  background:#ffffff!important;
-  border:1px solid #e2e0dc!important;
-  border-top:3px solid #1a1917!important;
-  color:#1a1917!important;
-  box-shadow:0 20px 60px rgba(26,25,23,0.15)!important;
-}
-.modal-title,.modal2-title,.modal-nc-title{color:#1a1917!important;font-family:'Cormorant Garamond',serif!important;font-weight:300!important;}
-.modal-sub,.modal2-sub,.modal-nc-sub{color:#8a8784!important;}
-.modal-close,.modal2-close,.modal-nc-close,.p-x{
-  background:#f0efed!important;color:#4a4845!important;border:1px solid #e2e0dc!important;
-}
-.modal-close:hover,.modal2-close:hover,.modal-nc-close:hover,.p-x:hover{
-  background:#1a1917!important;color:#ffffff!important;
-}
-
-/* Form fields in modals */
-.form-input,.form-select,.form-textarea,.nc-input,.nc-select,.nc-textarea{
-  background:#f8f7f5!important;border:1px solid #e2e0dc!important;color:#1a1917!important;
-}
-.form-input:focus,.nc-input:focus,.nc-select:focus,.nc-textarea:focus{
-  border-color:#A67C52!important;background:#ffffff!important;
-}
-.form-label,.nc-label{color:#8a8784!important;}
-.form-section-label,.nc-section-lbl{color:#A67C52!important;}
-.form-submit,.nc-submit{background:#1a1917!important;color:#ffffff!important;}
-.form-submit:hover,.nc-submit:hover{background:#A67C52!important;}
-.form-note,.nc-note{color:#8a8784!important;}
-
-/* CTAs / buttons */
-.cta-btn,.btn-primary,.add-btn{
-  border-color:#1a1917!important;color:#1a1917!important;background:transparent!important;
-}
-.cta-btn:hover,.btn-primary:hover,.add-btn:hover{
-  background:#1a1917!important;color:#ffffff!important;
-}
-.btn-gold,.cta-gold{background:#A67C52!important;color:#ffffff!important;border-color:#A67C52!important;}
-
-/* Dividers */
-hr,.divider,.p-ln,.p-div{background:#e2e0dc!important;}
-
-/* Scrollbars */
-::-webkit-scrollbar{width:5px;height:5px;}
-::-webkit-scrollbar-track{background:#f0efed;}
-::-webkit-scrollbar-thumb{background:#c8c5bf;border-radius:2px;}
-::-webkit-scrollbar-thumb:hover{background:#A67C52;}
-
-/* Remove dark noise texture overlays */
-body::after{display:none!important;}
-body::before{display:none!important;}
-
-.materials-sect,.materials-section{background:#f8f7f5!important;}
-.material-card{
-  background:#ffffff!important;border:1px solid #e2e0dc!important;
-}
-.mat-header{background:linear-gradient(135deg,#f8f7f5,#f0efed)!important;}
-.mat-cat-tag{background:#f0efed!important;color:#4a4845!important;border:1px solid #e2e0dc!important;}
-.mat-price{color:#A67C52!important;}
-.mat-country-flag{border:1px solid #e2e0dc!important;}
-.filter-label{color:#8a8784!important;font-family:'Instrument Sans',sans-serif!important;}
-.filter-divider{background:#e2e0dc!important;}
-.search-hint{color:#b8b5b0!important;}
-.materials-grid{background:#f8f7f5!important;}
-
-
-/* ── BRONZE CORPORATE SYSTEM ── */
-
-/* Section eyebrows / labels */
-.eyebrow,.section-eyebrow,.page-eyebrow,.header-eyebrow,
-.eyebrow-tag,.label-tag,.sp-eyebrow,.cat-eyebrow{
-  color:#A67C52!important;
-  letter-spacing:4px!important;
-}
-
-/* Decorative horizontal rule before eyebrows */
-.section-eyebrow::before,.eyebrow::before,.sp-eyebrow::before{
-  background:#A67C52!important;
-}
-
-/* Active nav link */
-.nav-links a.active{
-  color:#A67C52!important;
-  border-bottom:1px solid #A67C52!important;
-}
-
-/* Primary CTA → solid bronze */
-.btn-primary,.cta-primary,.nav-cta,
-button[class*="primary"]{
-  background:#A67C52!important;
-  color:#ffffff!important;
-  border:none!important;
-}
-.btn-primary:hover,.cta-primary:hover,.nav-cta:hover{
-  background:#8B6A40!important;
-}
-
-/* Secondary CTA → ink outline, bronze on hover */
-.btn-secondary,.cta-secondary{
-  background:transparent!important;
-  color:#1a1917!important;
-  border:1px solid #c8c5bf!important;
-}
-.btn-secondary:hover,.cta-secondary:hover{
-  border-color:#A67C52!important;
-  color:#A67C52!important;
-}
-
-/* Stat numbers — bronze accent */
-.stat-num,.stat .stat-num,
-.sb-count-num,#rnum,
-.hero-stats .stat-num{
-  color:#1a1917!important;
-}
-.stat-num span,.sb-count-num span{
-  color:#A67C52!important;
+.nav-links a.active::after{content:'';position:absolute;bottom:-5px;left:0;right:0;height:1px;background:#A67C52;opacity:0.5;}
+.nav-cta{background:#A67C52!important;color:#f8f7f5!important;padding:10px 24px;font-weight:500!important;}
+.nav-cta:hover{background:#1a1917!important;}
+.nav-auth-sep{display:inline-block;width:1px;height:14px;background:#c8c5bf;opacity:.5;margin:0 16px 0 4px;vertical-align:middle;}
+.nav-auth-link{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:all .25s;vertical-align:middle;}
+.state-acceso{color:#8a8784;}.state-acceso:hover{color:#1a1917;}
+.state-panel{color:#A67C52;border:1px solid rgba(166,124,82,.35);padding:6px 14px;display:inline-flex;align-items:center;gap:7px;}
+.state-panel:hover{background:#A67C52;color:#f8f7f5;}
+.nav-auth-dot{width:5px;height:5px;border-radius:50%;background:#A67C52;display:inline-block;flex-shrink:0;}
+.nav-dropdown{position:relative;}
+.dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#fff;border:1px solid #e2e0dc;min-width:210px;box-shadow:0 8px 32px rgba(0,0,0,.08);z-index:9999;padding:0;list-style:none;}
+.dropdown-menu::before{content:'';position:absolute;top:-10px;left:0;right:0;height:10px;}
+.nav-dropdown:hover .dropdown-menu,.nav-dropdown.open .dropdown-menu{display:block;}
+.dropdown-menu li{list-style:none;}
+.dropdown-menu li a{display:flex!important;align-items:center;padding:10px 20px;font-size:10px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:#4a4845!important;text-decoration:none;transition:background .15s,color .15s;border-bottom:1px solid #f0efed;white-space:nowrap;}
+.dropdown-menu li:last-child a{border-bottom:none;}
+.dropdown-menu li a:hover{background:#f8f7f5!important;color:#A67C52!important;}
+.nav-map-item{display:flex;align-items:center;}
+.nav-map-link{display:flex;align-items:center;color:#8a8784;text-decoration:none;transition:color .3s;padding:2px 4px;}
+.nav-map-link:hover,.nav-map-link.active{color:#A67C52!important;}
+
+/* ── PAGE HEADER 50/50 ── */
+.page-header{background:var(--bg);border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;min-height:280px;margin-top:70px;}
+.ph-left{padding:52px 56px 44px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--border);}
+.ph-eyebrow{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-family:'DM Mono',monospace;}
+.ph-left h1{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;line-height:1.0;letter-spacing:-1px;color:var(--ink);}
+.ph-left h1 em{font-style:italic;color:var(--gold);}
+.ph-desc{margin-top:12px;font-size:13px;color:var(--ink-3);max-width:420px;line-height:1.75;flex:1;padding-top:12px;}
+.ph-stats{display:flex;gap:0;margin-top:32px;border-top:1px solid var(--border);}
+.stat-block{flex:1;padding:16px 20px 0;border-right:1px solid var(--border);}
+.stat-block:last-child{border-right:none;}
+.stat-n{font-family:'DM Mono',monospace;font-size:24px;font-weight:400;color:var(--ink);display:block;line-height:1;}
+.stat-l{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-4);display:block;margin-top:5px;}
+
+/* ── AD SLOT ── */
+.ph-right{position:relative;background:var(--bg-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;}
+.ad-container{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.ad-link{display:block;width:100%;height:100%;max-height:216px;}
+.ad-link img{width:100%;height:100%;max-height:216px;object-fit:cover;border-radius:4px;display:block;}
+.ad-placeholder{width:100%;height:100%;min-height:180px;border:1px dashed var(--border-md);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--bg);padding:24px;}
+.ad-placeholder-icon{width:32px;height:32px;opacity:.25;}
+.ad-placeholder-text{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-4);text-align:center;}
+.ad-placeholder-sub{font-size:11px;color:var(--ink-4);text-align:center;}
+.ad-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);margin-top:8px;text-align:center;}
+
+/* ── TOOLBAR ── */
+.toolbar{background:var(--bg);border-bottom:1px solid var(--border);padding:18px 48px;position:sticky;top:70px;z-index:90;}
+.toolbar-inner{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
+.search-row{display:flex;gap:12px;align-items:center;}
+.search-wrap{flex:1;position:relative;max-width:480px;}
+.search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.35;pointer-events:none;}
+#searchInput{width:100%;height:40px;padding:0 14px 0 42px;border:1px solid var(--border-md);border-radius:var(--radius);font-size:13px;font-family:inherit;background:var(--bg-soft);color:var(--ink);outline:none;transition:border .2s,box-shadow .2s;}
+#searchInput:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(166,124,82,0.10);background:#fff;}
+#searchInput::placeholder{color:var(--ink-4);}
+.results-count{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);white-space:nowrap;}
+.filter-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.filter-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-4);margin-right:2px;white-space:nowrap;}
+.filter-chip{display:inline-flex;align-items:center;height:28px;padding:0 12px;border:1px solid var(--border-md);border-radius:30px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);background:transparent;cursor:pointer;transition:all .2s;font-family:'Instrument Sans',sans-serif;font-weight:500;white-space:nowrap;}
+.filter-chip:hover{border-color:var(--gold);color:var(--gold);}
+.filter-chip.active{background:var(--gold);border-color:var(--gold);color:#fff;}
+.filter-sep{width:1px;height:16px;background:var(--border);margin:0 4px;}
+.clear-btn{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);background:none;border:none;cursor:pointer;padding:4px 8px;font-family:inherit;transition:color .2s;}
+.clear-btn:hover{color:var(--gold);}
+
+/* ── GRID ── */
+.grid-section{padding:36px 48px 80px;}
+.grid-inner{max-width:1280px;margin:0 auto;}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+
+/* ── CARD ── */
+.material-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:box-shadow .25s,transform .2s,border-color .2s;display:flex;flex-direction:column;cursor:pointer;}
+.material-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);border-color:var(--border-md);}
+
+/* swatch */
+.card-swatch{height:96px;position:relative;overflow:hidden;flex-shrink:0;}
+.card-swatch::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");mix-blend-mode:multiply;pointer-events:none;}
+.card-cat-pill{position:absolute;top:10px;right:10px;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border-radius:30px;background:rgba(255,255,255,0.88);color:var(--ink-2);font-family:'Instrument Sans',sans-serif;font-weight:600;backdrop-filter:blur(4px);}
+.card-disp-dot{position:absolute;top:10px;left:10px;width:8px;height:8px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.7);}
+.card-disp-dot.dot-alta{background:#4caf50;}
+.card-disp-dot.dot-media{background:#ff9800;}
+.card-disp-dot.dot-baja{background:#f44336;}
+.card-disp-dot.dot-pedido{background:#2196f3;}
+.card-disp-dot.dot-default{background:#9e9e9e;}
+
+/* body */
+.card-body{padding:18px 20px 14px;flex:1;display:flex;flex-direction:column;gap:8px;}
+.card-nombre{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;line-height:1.15;color:var(--ink);}
+.card-subcat{font-size:11px;color:var(--ink-4);font-style:italic;line-height:1.3;}
+.card-origen{font-size:11px;color:var(--ink-3);display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:2px;}
+.card-flag{font-size:15px;line-height:1;}
+.card-origen-sep{color:var(--border-md);}
+.card-acabados{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;}
+.acabado-pill{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);padding:2px 7px;background:var(--bg-soft);border:1px solid var(--border);border-radius:2px;font-family:'Instrument Sans',sans-serif;}
+.acabado-more{font-size:8px;letter-spacing:1px;color:var(--ink-4);padding:2px 4px;font-style:italic;}
+
+/* footer */
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-top:1px solid var(--border);background:var(--bg-soft);margin-top:auto;}
+.card-precio{font-size:10px;color:var(--ink-4);font-family:'DM Mono',monospace;letter-spacing:.5px;}
+.card-ver-btn{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);padding:6px 12px;border:1px solid rgba(166,124,82,0.3);border-radius:var(--radius);text-decoration:none;transition:background .2s,color .2s,border-color .2s;font-family:'Instrument Sans',sans-serif;font-weight:600;white-space:nowrap;}
+.card-ver-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* ── EMPTY / LOADING ── */
+.empty-state{padding:80px 0;text-align:center;}
+.empty-state svg{opacity:.15;margin-bottom:20px;}
+.empty-state p{font-size:18px;color:var(--ink-4);font-family:'Cormorant Garamond',serif;font-style:italic;}
+.empty-state small{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-4);display:block;margin-top:10px;}
+.loading-state{padding:80px 0;text-align:center;}
+.spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-state p{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-4);}
+
+/* ── FOOTER ── */
+.site-footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:40px 48px;}
+.footer-inner{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:24px;}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:15px;color:rgba(255,255,255,0.7);letter-spacing:1px;}
+.footer-logo span{color:var(--gold-lt);}
+.footer-note{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .page-header{grid-template-columns:1fr;}
+  .ph-right{min-height:200px;border-top:1px solid var(--border);}
+  .ph-left{border-right:none;}
+  .page-header,.toolbar,.grid-section{padding-left:24px;padding-right:24px;}
+  nav{padding:14px 20px;}
+}
+@media(max-width:640px){
+  .ph-left h1{font-size:36px;}
+  .cards-grid{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+  .ph-stats{flex-wrap:wrap;}
+  .stat-block{flex:0 0 50%;}
 }
-
-/* Card top accent on hover */
-.cantera-card:hover,.material-card:hover,.cat-card:hover,
-.feature-card:hover,.pro-card:hover,.plan-card:hover{
-  border-top:2px solid #A67C52!important;
-}
-
-/* Active filter chips */
-.filter-btn.active,.chip.on,.cchip.on,
-.cont-tab.active,.view-btn.active{
-  background:#A67C52!important;
-  border-color:#A67C52!important;
-  color:#ffffff!important;
-}
-
-/* Form submit buttons */
-.form-submit,.nc-submit,.add-btn{
-  background:#A67C52!important;
-  color:#ffffff!important;
-  border-color:#A67C52!important;
-}
-.form-submit:hover,.nc-submit:hover,.add-btn:hover{
-  background:#8B6A40!important;
-}
-
-/* Add buttons (outline style) */
-.add-btn{
-  background:transparent!important;
-  color:#A67C52!important;
-  border:1px solid #A67C52!important;
-}
-.add-btn:hover{
-  background:#A67C52!important;
-  color:#ffffff!important;
-}
-
-/* Plan cards featured */
-.plan-card.featured,.plan-popular{
-  border-top:3px solid #A67C52!important;
-}
-.plan-cta{background:#A67C52!important;color:#ffffff!important;}
-.plan-cta:hover{background:#8B6A40!important;}
-
-/* Modal top bar */
-.modal,.modal-box,.modal2,.modal-nc-box{
-  border-top:3px solid #A67C52!important;
-}
-
-/* Scrollbar accent */
-::-webkit-scrollbar-thumb:hover{background:#A67C52!important;}
-
-/* Bronze hairline rule before key sections */
-.section-rule,.bronze-rule{
-  width:40px;height:2px;
-  background:#A67C52;
-  display:block;margin-bottom:16px;
-}
-
-/* Legend tier 1 */
-.ld1,.tier-1-dot{background:#A67C52!important;}
-
-
-/* ── COHERENCE PASS ── */
-
-/* Ensure white body on ALL pages */
-html{background:#ffffff;}
-body{background:#f8f7f5!important;}
-
-/* Nav: clean white, bronze active */
-
-.logo-main,.logo{color:#1a1917!important;}
-
-/* Section backgrounds — alternating white and off-white only */
-.cat-section,.pro-section,.features,.stats,
-.section-alt,.section-light{
-  background:#f8f7f5!important;
-  border-top:1px solid #e8e6e2!important;
-  border-bottom:1px solid #e8e6e2!important;
-}
-
-/* search-preview — use off-white, no brown */
-.search-preview,.sp-section{
-  background:#f8f7f5!important;
-  border-top:1px solid #e8e6e2!important;
-}
-
-/* Category cards */
-.cat-card,.cat-card-inner{
-  background:#ffffff!important;
-  border:1px solid #e2e0dc!important;
-  color:#1a1917!important;
-}
-.cat-card:hover .cat-card-inner{
-  border-color:#c8c5bf!important;
-}
-.cat-card-name,.cat-name{color:#1a1917!important;}
-.cat-card-count,.cat-count{color:#A67C52!important;}
-.cat-card-icon,.cat-icon{color:#A67C52!important;}
-
-/* Provider/pro cards */
-.pro-card{
-  background:#ffffff!important;
-  border:1px solid #e2e0dc!important;
-}
-.pro-card::after{background:#A67C52!important;}
-.pro-name{color:#1a1917!important;}
-.pro-meta{color:#8a8784!important;}
-.pro-tag{
-  background:#F5EFEA!important;
-  border:1px solid rgba(160,120,60,0.20)!important;
-  color:#A67C52!important;
-}
-
-/* Search bar demo in index */
-.search-bar-demo,.search-bar{
-  background:#ffffff!important;
-  border:1px solid #e2e0dc!important;
-  box-shadow:0 4px 20px rgba(26,25,23,0.06)!important;
-}
-.search-tag{
-  background:#F5EFEA!important;
-  border:1px solid rgba(160,120,60,0.18)!important;
-  color:#A67C52!important;
-}
-
-/* Feature cards */
-.feature-card,.feature-item{
-  background:#ffffff!important;
-  border:1px solid #e2e0dc!important;
-}
-.feature-num,.feature-number{
-  color:#A67C52!important;
-  font-family:'Cormorant Garamond',serif!important;
-  font-size:42px!important;font-weight:300!important;
-}
-.feature-title{color:#1a1917!important;}
-.feature-desc{color:#4a4845!important;}
-
-/* Canteras: controls sticky bar */
-.controls{
-  background:rgba(255,255,255,0.97)!important;
-  border-bottom:1px solid #e8e6e2!important;
-  backdrop-filter:blur(12px)!important;
-}
-.cont-tabs,.continent-section{
-  background:#ffffff!important;
-  border-bottom:1px solid #e8e6e2!important;
-}
-.cont-tab{
-  color:#8a8784!important;
-  border-bottom:2px solid transparent!important;
-  font-family:'Instrument Sans',sans-serif!important;
-  font-size:10px!important;letter-spacing:1px!important;
-  padding:14px 20px!important;
-  background:transparent!important;border-top:none!important;border-left:none!important;border-right:none!important;
-}
-.cont-tab:hover{color:#1a1917!important;}
-.cont-tab.active{color:#A67C52!important;border-bottom-color:#A67C52!important;}
-
-/* Main content area */
-.main-content,.page-content{background:#f8f7f5!important;}
-
-/* Materiales scroll-wrap */
-.materials-sect,.materials-section{background:#f8f7f5!important;}
-
-/* Bronze thin rule decorators */
-.section-eyebrow{
-  display:flex;align-items:center;gap:12px;
-}
-.section-eyebrow::before{
-  content:'';display:inline-block;
-  width:32px;height:1px;
-  background:#A67C52;flex-shrink:0;
-}
-
-/* Registration plans */
-.plans-section,.plan-grid-wrap{background:#f8f7f5!important;}
-.plan-card{
-  background:#ffffff!important;
-  border:1px solid #e2e0dc!important;
-  border-top:2px solid transparent!important;
-  transition:border-top-color .25s, box-shadow .25s!important;
-}
-.plan-card.featured,.plan-popular,.plan-card:hover{
-  border-top-color:#A67C52!important;
-}
-
-/* Proveedor/levantina */
-.company-badge,.verified-badge{
-  background:#F5EFEA!important;
-  border:1px solid rgba(160,120,60,0.25)!important;
-  color:#A67C52!important;
-}
-.tab-btn.active{
-  color:#A67C52!important;
-  border-bottom:2px solid #A67C52!important;
-}
-
-/* Footer — always dark as anchor */
-footer{background:#111110!important;color:#e8e6e2!important;}
-.footer-col-title,.footer-col-title{color:#A67C52!important;}
-.footer-col a:hover,.footer-links a:hover{color:#A67C52!important;}
-.footer-langs a.active{color:#A67C52!important;}
-
-/* ═══════════════════════════════════════════════
-   HEADER 50/50 LAYOUT
-   ═══════════════════════════════════════════════ */
-
-/* Neutralizar hero original que interfería */
-.hero {
-  height: auto !important;
-  min-height: 0 !important;
-  position: static !important;
-  display: block !important;
-  overflow: visible !important;
-  padding: 0 !important;
-  background: none !important;
-}
-.hero-bg, .hero-stone-pattern {
-  display: none !important;
-}
-.hero-scroll {
-  display: none !important;
-}
-.hero-content {
-  position: static !important;
-  padding: 0 !important;
-  max-width: none !important;
-  animation: none !important;
-}
-
-/* El contenedor flex del header */
-.page-hdr {
-  display: flex;
-  align-items: stretch;
-  min-height: 500px;
-  margin-top: 64px;
-  overflow: hidden;
-}
-
-/* Columna izquierda — título */
-.page-hdr-left {
-  flex: 0 0 50%;
-  max-width: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 64px 60px 56px;
-  box-sizing: border-box;
-  background: #f8f7f5;
-}
-
-/* Columna derecha — carousel */
-.page-hdr-right {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  min-height: 500px;
-  background: #1a1917;
-}
-
-.adbtn {
-  width: 32px; height: 32px;
-  background: rgba(0,0,0,.5);
-  border: 1px solid rgba(255,255,255,.2);
-  color: #fff;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .2s;
-  flex-shrink: 0;
-}
-.adbtn:hover { background: rgba(160,120,60,.9); }
-.addots { display: flex; gap: 6px; align-items: center; }
-.addot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.3);
-  cursor: pointer;
-  transition: background .25s, width .25s, border-radius .25s;
-}
-.addot.on { background: #C4A05A; width: 20px; border-radius: 3px; }
-
-@media (max-width: 900px) {
-  .page-hdr { flex-direction: column; margin-top: 56px; min-height: auto; }
-  .page-hdr-left { flex: none; max-width: 100%; padding: 48px 24px 36px; }
-  .page-hdr-right { flex: none; width: 100%; min-height: 260px; }
-}
-
-/* >>WSH-SCROLL-FIX<< */
-html, body {
-  overflow: auto !important;
-  overflow-x: hidden !important;
-  height: auto !important;
-}
-.search-zone {
-  position: sticky;
-  top: 0;
-  z-index: 800;
-}
-
-  /* NAV DROPDOWN */
-  
-
-  .nav-dropdown { position:relative; }
-.nav-dropdown > a { display:flex; align-items:center; gap:5px; cursor:pointer; }
-.nav-dropdown > a::after { content:'▾'; font-size:9px; opacity:0.6; transition:transform .2s; }
-.nav-dropdown:hover > a::after { transform:rotate(180deg); }
-.dropdown-menu {
-  display:none; position:absolute; top:calc(100% + 8px); left:50%; transform:translateX(-50%);
-  background:#fff; border:1px solid #e2e0dc; min-width:210px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.08); z-index:9999;
-  padding:0; list-style:none;
-}
-.dropdown-menu::before {
-  content:''; position:absolute;
-  top:-10px; left:0; right:0; height:10px;
-}
-.nav-dropdown:hover .dropdown-menu,
-.nav-dropdown.open .dropdown-menu { display:block; }
-.dropdown-menu li { list-style:none; }
-.dropdown-menu li a {
-  display:flex !important; align-items:center;
-  padding:10px 20px;
-  font-family:'Instrument Sans',sans-serif; font-size:10px; font-weight:400;
-  letter-spacing:2px; text-transform:uppercase; color:#4a4845 !important;
-  text-decoration:none; transition:background .15s, color .15s;
-  border-bottom:1px solid #f0efed;
-  white-space:nowrap;
-}
-.dropdown-menu li:last-child a { border-bottom:none; }
-.dropdown-menu li a:hover { background:#f8f7f5 !important; color:#A67C52 !important; }
-
-  /* ── WSH BRAND BOOK ─── */
-  .section-eyebrow, .hero-eyebrow { font-family: 'DM Mono', monospace !important; letter-spacing: 3px; }
-  .stat-num, .map-stat-num, .pro-num { font-family: 'DM Mono', monospace !important; }
-  .logo-sub { font-family: 'DM Mono', monospace !important; font-size: 7.5px; letter-spacing: 3.5px; }
-  .plan-period, .footer-copy { font-family: 'DM Mono', monospace !important; font-size: 11px; letter-spacing: 1.5px; }
-  .hero-title-accent { font-family: 'Cormorant Garamond', serif !important; font-style: italic; }
-  /* ── END WSH ─── */
 </style>
-<!-- Google Analytics GA4 — REPLACE G-Z386REXEZF with your real Measurement ID -->
-<!-- Steps: analytics.google.com → Admin → Create Property → Get Measurement ID -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z386REXEZF"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-Z386REXEZF');
-</script>
-<!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1917'/><text x='50%25' y='54%25' font-family='serif' font-size='20' fill='%23A67C52' text-anchor='middle' dominant-baseline='middle'>W</text></svg>">
-<!-- Open Graph / Social sharing -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://worldstonehub.com/lapidis-materiales.html">
-<meta property="og:title" content="Materiales de Piedra Natural — World Stone Hub">
-<meta property="og:description" content="200+ materiales de piedra natural con fichas técnicas completas: propiedades, precios, aplicaciones y certificaciones.">
-<meta property="og:image" content="https://worldstonehub.com/og-image.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="description" content="200+ materiales de piedra natural con fichas técnicas completas: propiedades, precios, aplicaciones y certificaciones.">
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub">
-  <text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#1A1410">WORLD STONE</text>
-  <line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.65"/>
-  <text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text>
-</svg></a>
+  <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub"><text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#1A1410">WORLD STONE</text><line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.65"/><text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text></svg></a>
   <ul class="nav-links">
-    <li><a href="index.html" data-es="Inicio" data-en="Home">Inicio</a></li>
-    <li><a href="lapidis-canteras.html" data-es="Canteras" data-en="Quarries">Canteras</a></li>
-    <li><a href="lapidis-mapa.html" data-es="Mapa" data-en="Map">Mapa</a></li>
-    <li><a href="lapidis-materiales.html" class="active" data-es="Materiales" data-en="Materials">Materiales</a></li>
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="lapidis-canteras.html">Canteras</a></li>
+    <li><a href="lapidis-materiales.html" class="active">Materiales</a></li>
     <li class="nav-dropdown">
       <a href="lapidis-proveedores.html">Directorio</a>
       <ul class="dropdown-menu">
         <li><a href="lapidis-proveedores.html">Todos los proveedores</a></li>
-        <li><a href="sector-distribuidores.html"><svg viewBox="0 0 40 40" style="width:16px;height:16px;vertical-align:middle;margin-right:8px;flex-shrink:0" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="8" r="3" stroke="#A67C52" stroke-width="1.4"/><circle cx="8" cy="30" r="3" stroke="#A67C52" stroke-width="1.4"/><circle cx="32" cy="30" r="3" stroke="#A67C52" stroke-width="1.4"/><line x1="20" y1="11" x2="9.5" y2="27.4" stroke="#A67C52" stroke-width="1.4"/><line x1="20" y1="11" x2="30.5" y2="27.4" stroke="#A67C52" stroke-width="1.4"/><line x1="11" y1="30" x2="29" y2="30" stroke="#A67C52" stroke-width="1.4"/><circle cx="20" cy="20" r="2" stroke="#A67C52" stroke-width="1.4"/></svg>Distribuidores</a></li>
-        <li><a href="sector-fabricantes.html"><svg viewBox="0 0 40 40" style="width:16px;height:16px;vertical-align:middle;margin-right:8px;flex-shrink:0" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="14" width="19" height="12" stroke="#A67C52" stroke-width="1.4" rx="1"/><line x1="8" y1="14" x2="8" y2="26" stroke="#A67C52" stroke-width="1.4"/><line x1="12" y1="14" x2="12" y2="26" stroke="#A67C52" stroke-width="1.4"/><line x1="16" y1="14" x2="16" y2="26" stroke="#A67C52" stroke-width="1.4"/><line x1="20" y1="14" x2="20" y2="26" stroke="#A67C52" stroke-width="1.4"/><circle cx="30" cy="20" r="7" stroke="#A67C52" stroke-width="1.4"/><circle cx="30" cy="20" r="2.5" stroke="#A67C52" stroke-width="1.4"/><line x1="30" y1="13" x2="30" y2="11" stroke="#A67C52" stroke-width="1.4"/><line x1="30" y1="27" x2="30" y2="29" stroke="#A67C52" stroke-width="1.4"/><line x1="23" y1="20" x2="21" y2="20" stroke="#A67C52" stroke-width="1.4"/><line x1="37" y1="20" x2="35" y2="20" stroke="#A67C52" stroke-width="1.4"/><line x1="25.1" y1="15.1" x2="23.7" y2="13.7" stroke="#A67C52" stroke-width="1.4"/><line x1="34.9" y1="24.9" x2="33.5" y2="23.5" stroke="#A67C52" stroke-width="1.4"/></svg>Fabricantes</a></li>
-        <li><a href="sector-arquitectura.html"><svg viewBox="0 0 40 40" style="width:16px;height:16px;vertical-align:middle;margin-right:8px;flex-shrink:0" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 L20 34" stroke="#A67C52" stroke-width="1.4" stroke-linecap="round"/><path d="M20 6 L8 31" stroke="#A67C52" stroke-width="1.4" stroke-linecap="round"/><path d="M20 6 L32 31" stroke="#A67C52" stroke-width="1.4" stroke-linecap="round"/><circle cx="20" cy="6" r="2.5" stroke="#A67C52" stroke-width="1.4"/><line x1="9.5" y1="27" x2="30.5" y2="27" stroke="#A67C52" stroke-width="1.4" stroke-dasharray="2.5 2"/><path d="M13 32 Q20 23 27 32" stroke="#A67C52" stroke-width="1.4" stroke-linecap="round"/></svg>Arquitectura</a></li>
-        <li><a href="sector-constructoras.html"><svg viewBox="0 0 40 40" style="width:16px;height:16px;vertical-align:middle;margin-right:8px;flex-shrink:0" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="32" width="28" height="3" stroke="#A67C52" stroke-width="1.4" rx="0.5"/><rect x="6" y="6" width="28" height="3.5" stroke="#A67C52" stroke-width="1.4" rx="0.5"/><rect x="10" y="9.5" width="5" height="22.5" stroke="#A67C52" stroke-width="1.4"/><rect x="25" y="9.5" width="5" height="22.5" stroke="#A67C52" stroke-width="1.4"/><path d="M15 21 L25 21" stroke="#A67C52" stroke-width="1.4" stroke-dasharray="2 2"/></svg>Constructoras</a></li>
-        <li><a href="sector-maquinaria.html"><svg viewBox="0 0 40 40" style="width:16px;height:16px;vertical-align:middle;margin-right:8px;flex-shrink:0" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="6.5" stroke="#A67C52" stroke-width="1.4"/><circle cx="20" cy="20" r="2.5" stroke="#A67C52" stroke-width="1.4"/><path d="M19 7.5 L21 7.5 L20.5 12 L19.5 12 Z" stroke="#A67C52" stroke-width="1.4" stroke-linejoin="round"/><path d="M19 32.5 L21 32.5 L20.5 28 L19.5 28 Z" stroke="#A67C52" stroke-width="1.4" stroke-linejoin="round"/><path d="M7.5 19 L7.5 21 L12 20.5 L12 19.5 Z" stroke="#A67C52" stroke-width="1.4" stroke-linejoin="round"/><path d="M32.5 19 L32.5 21 L28 20.5 L28 19.5 Z" stroke="#A67C52" stroke-width="1.4" stroke-linejoin="round"/><path d="M10.8 10.8 L12.2 9.4 L15.2 13.2 L14.5 13.9 Z" stroke="#A67C52" stroke-width="1.4" stroke-linejoin="round"/><path d="M29.2 29.2 L27.8 30.6 L24.8 26.8 L25.5 26.1 Z" stroke="#A67C52" stroke-width="1.4" stroke-linejoin="round"/><path d="M29.2 10.8 L30.6 12.2 L26.8 15.2 L26.1 14.5 Z" stroke="#A67C52" stroke-width="1.4" stroke-linejoin="round"/><path d="M10.8 29.2 L9.4 27.8 L13.2 24.8 L13.9 25.5 Z" stroke="#A67C52" stroke-width="1.4" stroke-linejoin="round"/></svg>Maquinaria</a></li>
-        <li><a href="sector-laboratorios.html"><svg viewBox="0 0 40 40" style="width:16px;height:16px;vertical-align:middle;margin-right:8px;flex-shrink:0" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 7 L15 19 L8 33 L32 33 L25 19 L25 7" stroke="#A67C52" stroke-width="1.4" stroke-linejoin="round"/><line x1="13" y1="7" x2="27" y2="7" stroke="#A67C52" stroke-width="1.4"/><line x1="11" y1="25" x2="29" y2="25" stroke="#A67C52" stroke-width="1.4" stroke-dasharray="2 1.5"/><circle cx="16.5" cy="29" r="1.5" stroke="#A67C52" stroke-width="1.4"/><circle cx="22" cy="29" r="1" stroke="#A67C52" stroke-width="1.4"/><circle cx="26.5" cy="29" r="1.5" stroke="#A67C52" stroke-width="1.4"/></svg>Laboratorios</a></li>
-        <li><a href="sector-logistica.html"><svg viewBox="0 0 40 40" style="width:16px;height:16px;vertical-align:middle;margin-right:8px;flex-shrink:0" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="13" stroke="#A67C52" stroke-width="1.4"/><path d="M20 7 Q14 20 20 33" stroke="#A67C52" stroke-width="1.4" stroke-linecap="round"/><path d="M20 7 Q26 20 20 33" stroke="#A67C52" stroke-width="1.4" stroke-linecap="round"/><line x1="7" y1="20" x2="33" y2="20" stroke="#A67C52" stroke-width="1.4"/><path d="M7.5 14 Q20 10.5 32.5 14" stroke="#A67C52" stroke-width="1.4" stroke-linecap="round"/><path d="M7.5 26 Q20 29.5 32.5 26" stroke="#A67C52" stroke-width="1.4" stroke-linecap="round"/><path d="M27 20 L31 17 M27 20 L31 23" stroke="#A67C52" stroke-width="1.4" stroke-linecap="round"/></svg>Logística</a></li>
+        <li><a href="sector-distribuidores.html">Distribuidores</a></li>
+        <li><a href="sector-fabricantes.html">Fabricantes</a></li>
+        <li><a href="sector-arquitectura.html">Arquitectura</a></li>
+        <li><a href="sector-constructoras.html">Constructoras</a></li>
+        <li><a href="sector-maquinaria.html">Maquinaria</a></li>
+        <li><a href="sector-laboratorios.html">Laboratorios</a></li>
+        <li><a href="sector-logistica.html">Logística</a></li>
       </ul>
     </li>
-    <li><a href="registro.html" class="nav-cta" data-es="Publicar" data-en="Publish">Publicar</a></li>
-  </ul>
+    <li class="nav-map-item"><a href="lapidis-mapa.html" class="nav-map-link" title="Mapa Mundial de Canteras" aria-label="Mapa"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M10 2 Q6.5 10 10 18"/><path d="M10 2 Q13.5 10 10 18"/><line x1="2" y1="10" x2="18" y2="10"/><path d="M3 6.5 Q10 8.5 17 6.5"/><path d="M3 13.5 Q10 11.5 17 13.5"/></svg></a></li>
+    <li><a href="registro.html" class="nav-cta">Publicar</a></li>
     <li id="nav-auth-item"></li>
+  </ul>
 </nav>
-<div class="page-hdr">
-  <div class="page-hdr-left">
-<div class="page-header-inner">
-    <div class="header-eyebrow">World Stone Hub &middot; Directorio Global</div>
-    <h1 class="header-title">200 Materiales<br><em>de Piedra Natural</em><br>y Engineered</h1>
-    <p class="header-desc">Base de datos completa de piedra natural, cuarcita, mármol, granito, travertino, ónix y materiales técnicos. Especificaciones técnicas completas, origen, acabados y proyectos históricos de referencia.</p>
-    <div class="header-stats">
-      <div class="stat-item"><span class="stat-num">200</span><span class="stat-label" data-es="Materiales" data-en="Materials">Materiales</span></div>
-      <div class="stat-item"><span class="stat-num">13</span><span class="stat-label" data-es="Categorías" data-en="Categories">Categorías</span></div>
-      <div class="stat-item"><span class="stat-num">30+</span><span class="stat-label">Países origen</span></div>
-      <div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Datos técnicos</span></div>
+
+<!-- PAGE HEADER: título izquierda / anuncio derecha -->
+<header class="page-header">
+  <!-- IZQUIERDA -->
+  <div class="ph-left">
+    <div>
+      <p class="ph-eyebrow">Lapidis · Directorio técnico</p>
+      <h1>Materiales de<br><em>Piedra Natural</em></h1>
+      <p class="ph-desc">Fichas técnicas completas de materiales de piedra natural y superficies. Propiedades, acabados, formatos, origen y proyectos de referencia.</p>
+    </div>
+    <div class="ph-stats">
+      <div class="stat-block">
+        <span class="stat-n" id="statMateriales">—</span>
+        <span class="stat-l">Materiales</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-n">13</span>
+        <span class="stat-l">Categorías</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-n" id="statPaises">—</span>
+        <span class="stat-l">Países</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-n" id="statColores">—</span>
+        <span class="stat-l">Colores</span>
+      </div>
     </div>
   </div>
+
+  <!-- DERECHA: slot anuncio MATERIALES-TOP -->
+  <div class="ph-right">
+    <div class="ad-container" id="heroAdSlot">
+      <div class="ad-placeholder">
+        <svg class="ad-placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+        </svg>
+        <span class="ad-placeholder-text">Espacio publicitario</span>
+        <span class="ad-placeholder-sub">MATERIALES-TOP</span>
+      </div>
+    </div>
+    <div class="ad-label">Publicidad</div>
   </div>
-  <div class="page-hdr-right" id="hdr-ad-materiales" style="display:none;">
-    <div class="wsh-ad" data-espacio="MATERIALES-TOP" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
+</header>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <div class="search-row">
+      <div class="search-wrap">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="Buscar material, color, país, acabado…">
+      </div>
+      <span class="results-count" id="resultsCount"></span>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Categoría</span>
+      <button class="filter-chip" data-group="cat" data-val="mármol">Mármol</button>
+      <button class="filter-chip" data-group="cat" data-val="granito">Granito</button>
+      <button class="filter-chip" data-group="cat" data-val="cuarcita">Cuarcita</button>
+      <button class="filter-chip" data-group="cat" data-val="travertino">Travertino</button>
+      <button class="filter-chip" data-group="cat" data-val="caliza">Caliza</button>
+      <button class="filter-chip" data-group="cat" data-val="pizarra">Pizarra</button>
+      <button class="filter-chip" data-group="cat" data-val="ónix">Ónix</button>
+      <button class="filter-chip" data-group="cat" data-val="basalto">Basalto</button>
+      <button class="filter-chip" data-group="cat" data-val="arenisca">Arenisca</button>
+      <button class="filter-chip" data-group="cat" data-val="porcelánico">Porcelánico</button>
+      <button class="filter-chip" data-group="cat" data-val="piedra sinterizada">Sinterizada</button>
+      <div class="filter-sep"></div>
+      <span class="filter-label">Color</span>
+      <button class="filter-chip" data-group="color" data-val="Blanco">Blanco</button>
+      <button class="filter-chip" data-group="color" data-val="Beige">Beige</button>
+      <button class="filter-chip" data-group="color" data-val="Gris">Gris</button>
+      <button class="filter-chip" data-group="color" data-val="Negro">Negro</button>
+      <button class="filter-chip" data-group="color" data-val="Verde">Verde</button>
+      <button class="filter-chip" data-group="color" data-val="Rojo">Rojo</button>
+      <button class="filter-chip" data-group="color" data-val="Azul">Azul</button>
+      <button class="filter-chip" data-group="color" data-val="Dorado">Dorado</button>
+      <button class="filter-chip" data-group="color" data-val="Marrón">Marrón</button>
+      <div class="filter-sep"></div>
+      <button class="clear-btn" id="clearFilters">Limpiar filtros</button>
+    </div>
   </div>
 </div>
 
-
-<div class="search-zone">
-  <div class="search-inner">
-    <div class="search-bar-wrap">
-      <span class="search-icon">&#8981;</span>
-      <input type="text" id="searchInput" placeholder="Buscar por nombre, color, país, uso, acabado, proyecto... ej: blanco italiano encimera"/>
-      <span class="search-hint">Búsqueda inteligente</span>
-    </div>
-    <div class="filters-row">
-      <span class="filter-label">Categoría:</span>
-      <button class="filter-btn active" data-filter="cat" data-val="all" data-es="Todos" data-en="All">Todos</button>
-      <button class="filter-btn" data-filter="cat" data-val="mármol">Mármol</button>
-      <button class="filter-btn" data-filter="cat" data-val="granito">Granito</button>
-      <button class="filter-btn" data-filter="cat" data-val="cuarcita">Cuarcita</button>
-      <button class="filter-btn" data-filter="cat" data-val="travertino">Travertino</button>
-      <button class="filter-btn" data-filter="cat" data-val="caliza">Caliza</button>
-      <button class="filter-btn" data-filter="cat" data-val="pizarra">Pizarra</button>
-      <button class="filter-btn" data-filter="cat" data-val="ónix">Ónix</button>
-      <button class="filter-btn" data-filter="cat" data-val="arenisca">Arenisca</button>
-      <button class="filter-btn" data-filter="cat" data-val="basalto">Basalto</button>
-      <button class="filter-btn" data-filter="cat" data-val="cuarzo engineered">Engineered</button>
-      <button class="filter-btn" data-filter="cat" data-val="piedra sinterizada">Sinterizada</button>
-      <button class="filter-btn" data-filter="cat" data-val="porcelánico">Porcelánico</button>
-      <button class="filter-btn" data-filter="cat" data-val="otro">Especial</button>
-      <div class="filter-divider"></div>
-      <span class="filter-label">Precio:</span>
-      <button class="filter-btn" data-filter="precio" data-val="all" data-es="Todos" data-en="All">Todos</button>
-      <button class="filter-btn" data-filter="precio" data-val="económico">Económico</button>
-      <button class="filter-btn" data-filter="precio" data-val="medio">Medio</button>
-      <button class="filter-btn" data-filter="precio" data-val="alto">Alto</button>
-      <button class="filter-btn" data-filter="precio" data-val="premium" data-es="Premium" data-en="Premium">Premium</button>
-      <button class="filter-btn" data-filter="precio" data-val="ultra-premium">Ultra Premium</button>
-      <span class="results-count" id="resultsCount">Cargando...</span>
+<!-- GRID -->
+<section class="grid-section">
+  <div class="grid-inner">
+    <div id="gridContainer">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando materiales</p>
+      </div>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;padding:8px 0 0;">
-    <button class="add-btn" onclick="openAddMaterial()">
-      <span class="add-btn-icon">+</span> Nuevo material
-    </button>
-  </div>
-</div>
-</div>
+</section>
 
-<div class="materials-section">
-  <div class="materials-inner">
-    <div class="materials-grid" id="materialsGrid">
-      <div class="loading">Cargando base de datos...</div>
-    </div>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">World<span>Stone</span>Hub</div>
+    <div class="footer-note">© 2025 WorldStoneHub · Directorio global de piedra natural</div>
   </div>
-</div>
+</footer>
 
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" id="modal">
-    <button class="modal-close" id="modalClose">&#10005;</button>
-    <div id="modalContent"></div>
-  </div>
-</div>
 <script>
+var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
+var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
+
 var DB = [];
-
-var PROVIDERS_DB = [{"id":"levantina","nombre":"Levantina Group","tipo":["Fabricante","Exportador","Distribuidor"],"pais":"Espa\u00f1a","ciudad":"Novelda, Alicante","fundacion":1959,"tier":4,"tier_label":"\u00c9lite","web":"https://www.levantina.com","tagline":"L\u00edder mundial en piedra natural y sinterizada","accent":"#c9a84c","canteras_nombres":["Cantera Crema Marfil Novelda","Sierra Minera","Cavanilles"],"materiales":["Crema Marfil","Rojo Alicante","Blanco Macael","Gris Pulpis","Crema Valencia","Travertino Romano Classico","Dekton Calacatta Laza","Dekton Sirius","Techlam Calacatta Gold"]},{"id":"antolini","nombre":"Antolini Luigi & C.","tipo":["Distribuidor","Fabricante"],"pais":"Italia","ciudad":"Sega di Cavaion, Verona","fundacion":1956,"tier":4,"tier_label":"\u00c9lite","web":"https://www.antolini.com","tagline":"Referencia mundial en piedra de lujo y materiales ex\u00f3ticos","accent":"#8090b0","canteras_nombres":["Cava Fantiscritti","Cava Michelangelo / Cervaiole","Cava Ravaccione","Cava Corchia","Cave Altissimo \u2013 Henraux"],"materiales":["Bianco Carrara C","Statuario","Calacatta Gold","Nero Marquina","Rosso Verona","Nero Portoro","Arabescato Cervaiole","Sodalite Blue","L\u00e1piz L\u00e1zuli","Malachita","Tiger Eye Gold","\u00c1gata Azul Brasile\u00f1a","Calacatta Viola","Bardiglio Imperiale"]},{"id":"cosentino","nombre":"Cosentino Group","tipo":["Fabricante","Distribuidor"],"pais":"Espa\u00f1a","ciudad":"Cantoria, Almer\u00eda","fundacion":1979,"tier":4,"tier_label":"\u00c9lite","web":"https://www.cosentino.com","tagline":"Innovaci\u00f3n global en superficies de cuarzo y sinterizado","accent":"#5090c0","canteras_nombres":[],"materiales":["Silestone White Storm","Silestone Calacatta Gold","Dekton Calacatta Laza","Dekton Sirius","Neolith Estatuario"]},{"id":"cupa","nombre":"CUPA Stone","tipo":["Fabricante","Exportador","Distribuidor"],"pais":"Espa\u00f1a","ciudad":"Ourense, Galicia","fundacion":1892,"tier":3,"tier_label":"Profesional","web":"https://www.cupastone.com","tagline":"Mayor productor mundial de pizarra natural","accent":"#506070","canteras_nombres":["Canteras Pizarre\u00f1o \u2013 Bierzo","Cantera Villar del Rey","Cantera Valdeorras (Pizarra)","Cantera Penrhyn (participaci\u00f3n)"],"materiales":["Pizarra Gallega CUPA","Pizarra Multicolor","Pizarra Verdete","Welsh Slate Penrhyn","Ardesia Ligure"]},{"id":"pokarna","nombre":"Pokarna Limited","tipo":["Fabricante","Exportador"],"pais":"India","ciudad":"Hyderabad","fundacion":1991,"tier":3,"tier_label":"Profesional","web":"https://www.pokarna.com","tagline":"Mayor exportador de granito de India","accent":"#c07840","canteras_nombres":["Pokarna Jhansi Granite Quarry","AP Black Granite Belt","Karimnagar Black Quarry"],"materiales":["G654 Padang Dark","Steel Gray","Black Galaxy","Tan Brown","Quantra by Pokarna","New Kashmir White","Kuppam Green"]},{"id":"pietre_rapolano","nombre":"Pietre di Rapolano","tipo":["Fabricante","Exportador"],"pais":"Italia","ciudad":"Rapolano Terme, Siena","fundacion":1962,"tier":3,"tier_label":"Profesional","web":"#","tagline":"Travertino romano de primera calidad desde la Toscana","accent":"#c8a860","canteras_nombres":["Cave di Rapolano Terme","Cava Baccinello Travertino","Cave di Saturnia"],"materiales":["Travertino Romano Classico","Travertino Alabastrino","Silver Travertine","Noce Travertine","Gold Travertine","Red Travertine"]},{"id":"stonewrx","nombre":"StoneWrx International","tipo":["Distribuidor"],"pais":"EEUU","ciudad":"Dallas, Texas","fundacion":2003,"tier":2,"tier_label":"Presencia","web":"#","tagline":"Cuarcitas y m\u00e1rmoles brasile\u00f1os para el mercado americano","accent":"#907060","canteras_nombres":[],"materiales":["Taj Mahal Quartzite","Macaubus Cristallo","Patagonia Quartzite","Van Gogh Quartzite","Fusion White","Fantasy Brown","Acqua Quartzite"]},{"id":"tenerife_marmol","nombre":"Tenerife M\u00e1rmol","tipo":["Distribuidor","Fabricante"],"pais":"Espa\u00f1a","ciudad":"Santa Cruz de Tenerife","fundacion":1985,"tier":2,"tier_label":"Presencia","web":"#","tagline":"Especialistas en m\u00e1rmoles y granitos para el Atl\u00e1ntico","accent":"#4a8060","canteras_nombres":[],"materiales":["Nero Marquina","Crema Marfil","Emperador Dark","Bianco Carrara C","Black Galaxy","Absolute Black"]},{"id":"naturamia","nombre":"Naturamia Brasil","tipo":["Fabricante","Exportador"],"pais":"Brasil","ciudad":"Cachoeiro de Itapemirim, ES","fundacion":1998,"tier":2,"tier_label":"Presencia","web":"#","tagline":"Cuarcitas y granitos ex\u00f3ticos directos del origen","accent":"#20a060","canteras_nombres":["Quarry Bahia Blue","Minas Gerais Quartzite Belt","Esp\u00edrito Santo Granite Quarry"],"materiales":["Blue Bahia","Taj Mahal Quartzite","Van Gogh Quartzite","Granito Azul Imperial","Cosmic Black","Verde Peacock","Giallo Veneziano","Ubatuba"]},{"id":"henraux","nombre":"Henraux S.p.A.","tipo":["Fabricante","Exportador"],"pais":"Italia","ciudad":"Querceta, Lucca","fundacion":1820,"tier":2,"tier_label":"Presencia","web":"https://www.henraux.com","tagline":"Elaboraci\u00f3n art\u00edstica del m\u00e1rmol de Carrara desde 1820","accent":"#d0d0c0","canteras_nombres":["Cava Michelangelo / Cervaiole","Cave Altissimo \u2013 Henraux"],"materiales":["Statuario","Calacatta Gold","Bianco Carrara C","Arabescato Cervaiole","Bianco Lasa"]}];
-
-var filtered = [];
-var activeFilters = {cat:'all', precio:'all'};
+var activeFilters = { cat: null, color: null };
 var searchQuery = '';
 
-var CAT_COLORS = {
-  'marmol': 'linear-gradient(90deg,#c4a882,#8b7355)',
-  'granito': 'linear-gradient(90deg,#6e6e6e,#4a4a4a)',
-  'cuarcita': 'linear-gradient(90deg,#a89060,#7a6840)',
-  'travertino': 'linear-gradient(90deg,#c8a878,#9a7848)',
-  'caliza': 'linear-gradient(90deg,#d4b896,#a88c6a)',
-  'pizarra': 'linear-gradient(90deg,#5c6878,#3c4858)',
-  'onix': 'linear-gradient(90deg,#d4a840,#a88020)',
-  'arenisca': 'linear-gradient(90deg,#c89060,#a07040)',
-  'basalto': 'linear-gradient(90deg,#383838,#202020)',
-  'cuarzo': 'linear-gradient(90deg,#8899aa,#5577aa)',
-  'piedra': 'linear-gradient(90deg,#7788aa,#4466aa)',
-  'porcelanico': 'linear-gradient(90deg,#aaaaaa,#888888)',
-  'otro': 'linear-gradient(90deg,#c9a84c,#a08030)'
+/* ══════════════════════════════════════
+   COLOR → GRADIENTE
+══════════════════════════════════════ */
+var COLOR_MAP = {
+  'blanco':     ['#f7f5f2','#ece9e4'],
+  'negro':      ['#2c2a27','#1a1917'],
+  'antracita':  ['#4a4845','#2c2a27'],
+  'gris':       ['#b0aaa4','#8a8480'],
+  'plateado':   ['#c8c4be','#a8a49e'],
+  'beige':      ['#d9c4a8','#c4a87e'],
+  'crema':      ['#f0e4cc','#e0ccaa'],
+  'arena':      ['#d8c498','#c0a870'],
+  'miel':       ['#d4a84c','#b88830'],
+  'marrón':     ['#9a7456','#7a5438'],
+  'marron':     ['#9a7456','#7a5438'],
+  'chocolate':  ['#6d4c3a','#4e3428'],
+  'café':       ['#8a6450','#6a4438'],
+  'verde':      ['#7ab07e','#4a8a50'],
+  'esmeralda':  ['#3a9a70','#1a7a50'],
+  'rojo':       ['#c06050','#903838'],
+  'rosa':       ['#d898a8','#b86880'],
+  'burdeos':    ['#8a3848','#6a2030'],
+  'coral':      ['#e08868','#c06040'],
+  'azul':       ['#6090c0','#3060a0'],
+  'azul celeste':['#80b0e0','#5090c8'],
+  'azul imperial':['#3050a0','#183080'],
+  'amarillo':   ['#e8d060','#c8a830'],
+  'dorado':     ['#c89830','#a87010'],
+  'naranja':    ['#e09050','#c06820'],
+  'morado':     ['#9060b0','#703090'],
+  'violeta':    ['#7858a8','#503880'],
+  'lila':       ['#b090c8','#9068a8'],
+  'translúcido':['#a8d8e0','#78b8c8'],
 };
 
-var PRICE_CLASS = {
-  'economico':'price-economico',
-  'medio':'price-medio',
-  'alto':'price-alto',
-  'premium':'price-premium',
-  'ultra-premium':'price-ultra-premium'
+function getSwatchGradient(colorPrincipal) {
+  if (!colorPrincipal) return ['#c8c4be','#a8a49e'];
+  var c = colorPrincipal.toLowerCase();
+  var keys = Object.keys(COLOR_MAP);
+  for (var i = 0; i < keys.length; i++) {
+    if (c.indexOf(keys[i]) !== -1) return COLOR_MAP[keys[i]];
+  }
+  return ['#c8c4be','#a8a49e'];
+}
+
+/* ══════════════════════════════════════
+   COLOR GROUP (para filtros)
+══════════════════════════════════════ */
+function getColorGroup(cp) {
+  if (!cp) return '';
+  var c = cp.toLowerCase();
+  if (c.indexOf('blanco') !== -1) return 'Blanco';
+  if (c.indexOf('negro') !== -1 || c.indexOf('antracita') !== -1) return 'Negro';
+  if (c.indexOf('gris') !== -1 || c.indexOf('plateado') !== -1) return 'Gris';
+  if (c.indexOf('beige') !== -1 || c.indexOf('crema') !== -1 || c.indexOf('arena') !== -1 || c.indexOf('miel') !== -1) return 'Beige';
+  if (c.indexOf('marrón') !== -1 || c.indexOf('marron') !== -1 || c.indexOf('chocolate') !== -1 || c.indexOf('café') !== -1) return 'Marrón';
+  if (c.indexOf('verde') !== -1 || c.indexOf('esmeralda') !== -1) return 'Verde';
+  if (c.indexOf('rojo') !== -1 || c.indexOf('rosa') !== -1 || c.indexOf('burdeos') !== -1 || c.indexOf('coral') !== -1) return 'Rojo';
+  if (c.indexOf('azul') !== -1) return 'Azul';
+  if (c.indexOf('dorado') !== -1 || c.indexOf('amarillo') !== -1 || c.indexOf('oro') !== -1) return 'Dorado';
+  return '';
+}
+
+/* ══════════════════════════════════════
+   FLAGS
+══════════════════════════════════════ */
+var FLAGS = {
+  'España':'🇪🇸','Italia':'🇮🇹','Portugal':'🇵🇹','Grecia':'🇬🇷','Turquía':'🇹🇷',
+  'Francia':'🇫🇷','Alemania':'🇩🇪','Austria':'🇦🇹','Bélgica':'🇧🇪','Suecia':'🇸🇪',
+  'Noruega':'🇳🇴','Finlandia':'🇫🇮','Polonia':'🇵🇱','Ucrania':'🇺🇦','Rusia':'🇷🇺',
+  'India':'🇮🇳','China':'🇨🇳','Brasil':'🇧🇷','Estados Unidos':'🇺🇸','México':'🇲🇽',
+  'Canadá':'🇨🇦','Argentina':'🇦🇷','Chile':'🇨🇱','Perú':'🇵🇪','Colombia':'🇨🇴',
+  'Australia':'🇦🇺','Sudáfrica':'🇿🇦','Marruecos':'🇲🇦','Egipto':'🇪🇬','Irán':'🇮🇷',
+  'Pakistán':'🇵🇰','Vietnam':'🇻🇳','Indonesia':'🇮🇩','Tailandia':'🇹🇭','Japón':'🇯🇵',
+  'Israel':'🇮🇱','Bolivia':'🇧🇴','Ecuador':'🇪🇨','Venezuela':'🇻🇪',
+  'Eslovenia':'🇸🇮','Croacia':'🇭🇷','Rumanía':'🇷🇴','Bulgaria':'🇧🇬','Hungría':'🇭🇺',
+  'República Checa':'🇨🇿','Suiza':'🇨🇭','Reino Unido':'🇬🇧','Sri Lanka':'🇱🇰',
 };
+function getFlag(p) {
+  if (!p) return '';
+  if (Array.isArray(p)) p = p[0] || '';
+  return FLAGS[p] || '';
+}
 
-function getCatColor(cat) {
-  if (!cat) return CAT_COLORS['otro'];
-  var c = cat.toLowerCase()
-    .replace(/á/g,'a').replace(/é/g,'e').replace(/í/g,'i')
-    .replace(/ó/g,'o').replace(/ú/g,'u').replace(/ñ/g,'n');
-  for (var key in CAT_COLORS) {
-    if (c.indexOf(key) === 0) return CAT_COLORS[key];
+/* ══════════════════════════════════════
+   DISPONIBILIDAD
+══════════════════════════════════════ */
+function getDispDot(disp) {
+  if (!disp) return 'dot-default';
+  var d = disp.toLowerCase();
+  if (d.indexOf('alta') !== -1 || d.indexOf('amplia') !== -1) return 'dot-alta';
+  if (d.indexOf('media') !== -1 || d.indexOf('buena') !== -1) return 'dot-media';
+  if (d.indexOf('baja') !== -1 || d.indexOf('limitada') !== -1) return 'dot-baja';
+  if (d.indexOf('pedido') !== -1 || d.indexOf('encargo') !== -1) return 'dot-pedido';
+  return 'dot-default';
+}
+
+/* ══════════════════════════════════════
+   HELPERS
+══════════════════════════════════════ */
+function esc(s) {
+  return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function trunc(s, n) {
+  s = (s||'').toString();
+  return s.length > n ? s.slice(0,n)+'…' : s;
+}
+function arr(v) {
+  if (!v) return [];
+  if (Array.isArray(v)) return v;
+  return [v];
+}
+
+/* ══════════════════════════════════════
+   BUILD CARD
+══════════════════════════════════════ */
+function buildCard(m) {
+  var colors = getSwatchGradient(m.color_principal);
+  var gradient = 'linear-gradient(135deg,' + colors[0] + ' 0%,' + colors[1] + ' 100%)';
+  var dotClass = getDispDot(m.disponibilidad);
+  var paises  = arr(m.origen_pais);
+  var regions = arr(m.origen_region);
+  var flag    = getFlag(paises[0]);
+  var paisStr = paises.slice(0,2).join(' · ');
+  var regionStr = regions[0] ? trunc(regions[0], 28) : '';
+  var acabados = arr(m.acabados_disponibles);
+  var MAX_ACAB = 4;
+  var acabHtml = '';
+  for (var i = 0; i < Math.min(acabados.length, MAX_ACAB); i++) {
+    acabHtml += '<span class="acabado-pill">' + esc(acabados[i]) + '</span>';
   }
-  return CAT_COLORS['otro'];
-}
-
-function getPriceClass(p) {
-  if (!p) return 'price-medio';
-  var key = p.toLowerCase().replace(/é/g,'e').replace(/ó/g,'o');
-  return PRICE_CLASS[key] || 'price-medio';
-}
-
-function colorToHex(name) {
-  if (!name) return '#8b7355';
-  var n = name.toLowerCase();
-  var map = [
-    ['blanco','#f5f0e8'],['negro','#1a1a1a'],['gris','#888888'],['beige','#d4b896'],
-    ['crema','#f0e0c0'],['dorado','#c9a84c'],['marron','#8B5E3C'],['rojo','#b84040'],
-    ['rosa','#e8a0a0'],['azul','#4870a0'],['verde','#4a7a4a'],['amarillo','#d4c040'],
-    ['naranja','#d47840'],['violeta','#8870c0'],['lila','#a08098'],['caramelo','#c87840'],
-    ['plateado','#a0a8b0'],['antracita','#383838'],['terracota','#c07050'],['ocre','#c09040'],
-    ['turquesa','#40a0a0'],['esmeralda','#2a8060'],['burdeos','#8a2030'],['tabaco','#8a6040'],
-    ['miel','#d4a040'],['marfil','#f0e8c8'],['coral','#d07060'],['salmon','#e09080'],
-    ['grafito','#484848'],['chocolate','#5a3020']
-  ];
-  // Normalize input
-  var normalized = n
-    .replace(/á/g,'a').replace(/é/g,'e').replace(/í/g,'i')
-    .replace(/ó/g,'o').replace(/ú/g,'u').replace(/ñ/g,'n');
-  for (var i = 0; i < map.length; i++) {
-    if (normalized.indexOf(map[i][0]) >= 0) return map[i][1];
+  if (acabados.length > MAX_ACAB) {
+    acabHtml += '<span class="acabado-more">+' + (acabados.length - MAX_ACAB) + ' más</span>';
   }
-  return '#8b7355';
+
+  var precio = m.precio_rango ? trunc(m.precio_rango, 26) : '';
+
+  // "Ver ficha" sólo si existe slug — vinculado a material.html?id=<slug>
+  var verBtn = m.slug
+    ? '<a class="card-ver-btn" href="material.html?id=' + esc(m.slug) + '" onclick="event.stopPropagation()">Ver ficha →</a>'
+    : '';
+
+  return '<div class="material-card" onclick="' + (m.slug ? 'location.href=\'material.html?id=' + esc(m.slug) + '\'' : '') + '">' +
+    '<div class="card-swatch" style="background:' + gradient + '">' +
+      '<span class="card-disp-dot ' + dotClass + '" title="' + esc(m.disponibilidad||'') + '"></span>' +
+      '<span class="card-cat-pill">' + esc(m.categoria||'') + '</span>' +
+    '</div>' +
+    '<div class="card-body">' +
+      '<div class="card-nombre">' + esc(m.nombre_comercial||'Sin nombre') + '</div>' +
+      (m.subcategoria ? '<div class="card-subcat">' + esc(trunc(m.subcategoria,56)) + '</div>' : '') +
+      ((paisStr||regionStr) ? '<div class="card-origen">' +
+        (flag ? '<span class="card-flag">' + flag + '</span>' : '') +
+        (paisStr ? '<span>' + esc(paisStr) + '</span>' : '') +
+        (regionStr ? '<span class="card-origen-sep">·</span><span style="color:var(--ink-4)">' + esc(regionStr) + '</span>' : '') +
+      '</div>' : '') +
+      (acabHtml ? '<div class="card-acabados">' + acabHtml + '</div>' : '') +
+    '</div>' +
+    '<div class="card-footer">' +
+      '<span class="card-precio">' + esc(precio) + '</span>' +
+      verBtn +
+    '</div>' +
+  '</div>';
 }
 
-function esc(str) {
-  if (!str && str !== 0) return '';
-  return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+/* ══════════════════════════════════════
+   RENDER
+══════════════════════════════════════ */
+function renderGrid(list) {
+  var container = document.getElementById('gridContainer');
+  if (!list.length) {
+    container.innerHTML =
+      '<div class="empty-state">' +
+        '<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>' +
+        '<p>Sin resultados</p>' +
+        '<small>Prueba con otros filtros o términos</small>' +
+      '</div>';
+    return;
+  }
+  var html = '<div class="cards-grid">';
+  for (var i = 0; i < list.length; i++) html += buildCard(list[i]);
+  html += '</div>';
+  container.innerHTML = html;
 }
 
-function arr(a) { return Array.isArray(a) ? a : []; }
-
+/* ══════════════════════════════════════
+   FILTROS
+══════════════════════════════════════ */
 function applyFilters() {
-  var q = searchQuery.toLowerCase().trim();
-  filtered = DB.filter(function(s) {
-    if (activeFilters.cat !== 'all' && s.categoria !== activeFilters.cat) return false;
-    if (activeFilters.precio !== 'all' && s.precio_rango !== activeFilters.precio) return false;
+  var q  = searchQuery.trim().toLowerCase();
+  var fc = activeFilters.cat;
+  var fcolor = activeFilters.color;
+
+  var result = DB.filter(function(m) {
+    if (fc && (m.categoria||'').toLowerCase() !== fc) return false;
+    if (fcolor && getColorGroup(m.color_principal) !== fcolor) return false;
     if (q) {
-      var parts = [
-        s.nombre_comercial, s.nombre_cientifico, s.categoria, s.subcategoria,
-        s.color_principal, s.patron_vetado, s.precio_rango, s.disponibilidad, s.sostenibilidad
-      ].concat(arr(s.nombres_alternativos))
-       .concat(arr(s.colores_secundarios))
-       .concat(arr(s.origen_pais))
-       .concat(arr(s.origen_region))
-       .concat(arr(s.usos_recomendados))
-       .concat(arr(s.acabados_disponibles))
-       .concat(arr(s.proyectos_referencia))
-       .concat(arr(s.tags_busqueda));
-      var haystack = parts.filter(Boolean).join(' ').toLowerCase();
-      var words = q.split(/\s+/);
-      for (var i = 0; i < words.length; i++) {
-        if (words[i] && haystack.indexOf(words[i]) < 0) return false;
-      }
+      var names = arr(m.nombres_alternativos).join(' ');
+      var usos  = arr(m.usos_recomendados).join(' ');
+      var acab  = arr(m.acabados_disponibles).join(' ');
+      var pais  = arr(m.origen_pais).join(' ');
+      var reg   = arr(m.origen_region).join(' ');
+      var tags  = arr(m.tags_busqueda).join(' ');
+      var hay = [
+        m.nombre_comercial, names, m.nombre_cientifico,
+        m.categoria, m.subcategoria,
+        m.color_principal, m.colores_secundarios,
+        m.patron_vetado, m.fondo,
+        pais, reg, usos, acab, tags,
+        m.proyectos_referencia
+      ].join(' ').toLowerCase();
+      if (hay.indexOf(q) === -1) return false;
     }
     return true;
   });
-  renderGrid();
-  var el = document.getElementById('resultsCount');
-  if (el) el.textContent = filtered.length + ' resultado' + (filtered.length !== 1 ? 's' : '');
+
+  renderGrid(result);
+  document.getElementById('resultsCount').textContent =
+    result.length === DB.length
+      ? DB.length + ' materiales'
+      : result.length + ' de ' + DB.length;
 }
 
-function renderGrid() {
-  var grid = document.getElementById('materialsGrid');
-  if (!grid) return;
-  if (filtered.length === 0) {
-    grid.innerHTML = '<div class="no-results"><h3 data-es="Sin resultados" data-en="No results">Sin resultados</h3><p>Prueba con otros términos</p></div>';
-    return;
-  }
-  var html = '';
-  for (var i = 0; i < filtered.length; i++) {
-    html += buildCard(filtered[i]);
-  }
-  grid.innerHTML = html;
-  var cards = grid.querySelectorAll('.material-card');
-  for (var j = 0; j < cards.length; j++) {
-    cards[j].addEventListener('click', (function(slug){ return function(){ window.open('material.html?id=' + encodeURIComponent(slug), '_blank'); }; })(cards[j].getAttribute('data-slug')));
-  }
-}
+/* ══════════════════════════════════════
+   EVENTOS UI
+══════════════════════════════════════ */
+document.getElementById('searchInput').addEventListener('input', function() {
+  searchQuery = this.value;
+  applyFilters();
+});
 
-function buildCard(s) {
-  var t = s.propiedades_tecnicas || {};
-  var bar = getCatColor(s.categoria);
-  var pc = getPriceClass(s.precio_rango);
-  var pais = arr(s.origen_pais).map(function(p){ return '<span class="tag origin">' + esc(p) + '</span>'; }).join('');
-  var colTag = s.color_principal ? '<span class="tag">' + esc(s.color_principal) + '</span>' : '';
-  var patTag = s.patron_vetado ? '<span class="tag">' + esc(s.patron_vetado) + '</span>' : '';
-  var dureza = (t.dureza_mohs !== null && t.dureza_mohs !== undefined) ? t.dureza_mohs : '—';
-  var densidad = t.densidad_kg_m3 ? t.densidad_kg_m3 + ' kg/m³' : '—';
-  var acidos = t.resistencia_acidos || '—';
-  var helada = t.resistencia_helada || '—';
-  var imgUrl = s.imagen_url_principal || '';
-  var imgHtml = imgUrl
-    ? ['<div class="card-img-wrap"><img class="card-img" src="', imgUrl,
-       '" alt="', esc(s.nombre_comercial),
-       '" loading="lazy" onerror="this.style.display=&#39;none&#39;"/></div>'].join('')
-    : '<div class="card-img-wrap card-img-placeholder"><div class="card-img-cat-label">' + esc(s.categoria) + '</div></div>';
-  return '<div class="material-card" data-id="' + esc(s.id) + '" data-slug="' + esc(s.slug || s.id) + '" style="cursor:pointer">' +
-    '<div class="card-color-bar" style="background:' + bar + '"></div>' +
-    imgHtml +
-    '<span class="card-price ' + pc + '">' + esc(s.precio_rango) + '</span>' +
-    '<div class="card-body">' +
-      '<div class="card-category">' + esc(s.categoria) + '</div>' +
-      '<div class="card-name">' + esc(s.nombre_comercial) + '</div>' +
-      '<div class="card-sci">' + esc(s.nombre_cientifico || '') + '</div>' +
-      '<div class="card-meta">' + pais + colTag + patTag + '</div>' +
-      '<div class="card-props">' +
-        '<div class="prop-item"><span class="prop-label">Dureza Mohs</span><span class="prop-value">' + dureza + '</span></div>' +
-        '<div class="prop-item"><span class="prop-label" data-es="Densidad" data-en="Density">Densidad</span><span class="prop-value">' + densidad + '</span></div>' +
-        '<div class="prop-item"><span class="prop-label">R. Ácidos</span><span class="prop-value">' + esc(acidos) + '</span></div>' +
-        '<div class="prop-item"><span class="prop-label">Helada</span><span class="prop-value">' + esc(helada) + '</span></div>' +
-      '</div>' +
-      '<a class="card-ver-btn" href="material.html?id=' + esc(s.slug || s.id) + '" onclick="event.stopPropagation()">Ver ficha →</a>' +
-    '</div>' +
-  '</div>';
-}
-
-
-function buildModal(s) {
-  var t = s.propiedades_tecnicas || {};
-  var bar = getCatColor(s.categoria);
-  var alts = arr(s.nombres_alternativos).length ? '<div class="modal-alt">También: ' + esc(arr(s.nombres_alternativos).join(' · ')) + '</div>' : '';
-  var sci = s.nombre_cientifico ? '<div class="modal-sci">' + esc(s.nombre_cientifico) + '</div>' : '';
-  var subcat = s.subcategoria ? '<div class="modal-subcat">' + esc(s.subcategoria) + '</div>' : '';
-  
-  // Specs
-  var specsData = [
-    {label:'Densidad', val:t.densidad_kg_m3, unit:'kg/m³'},
-    {label:'Absorción agua', val:t.absorcion_agua_pct !== null && t.absorcion_agua_pct !== undefined ? t.absorcion_agua_pct+'%' : null, unit:''},
-    {label:'R. Compresión', val:t.resistencia_compresion_mpa, unit:'MPa'},
-    {label:'R. Flexión', val:t.resistencia_flexion_mpa, unit:'MPa'},
-    {label:'Dureza Mohs', val:t.dureza_mohs, unit:''},
-    {label:'Coef. Fricción', val:t.coeficiente_friccion, unit:''}
-  ];
-  var specsHtml = '';
-  for (var i=0; i<specsData.length; i++) {
-    var sp = specsData[i];
-    if (sp.val !== null && sp.val !== undefined) {
-      specsHtml += '<div class="spec-card">' +
-        '<div class="spec-card-label">' + esc(sp.label) + '</div>' +
-        '<div class="spec-card-value">' + esc(String(sp.val)) + '</div>' +
-        (sp.unit ? '<div class="spec-card-unit">' + esc(sp.unit) + '</div>' : '') +
-      '</div>';
+document.querySelectorAll('.filter-chip').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var group = this.dataset.group;
+    var val   = this.dataset.val;
+    if (activeFilters[group] === val) {
+      activeFilters[group] = null;
+      this.classList.remove('active');
+    } else {
+      document.querySelectorAll('[data-group="' + group + '"]').forEach(function(b) { b.classList.remove('active'); });
+      activeFilters[group] = val;
+      this.classList.add('active');
     }
-  }
-  var resData = [
-    {label:'Resistencia a la helada', val:t.resistencia_helada},
-    {label:'Resistencia a ácidos', val:t.resistencia_acidos},
-    {label:'Resistencia al desgaste', val:t.resistencia_desgaste}
-  ];
-  var resHtml = '';
-  for (var j=0; j<resData.length; j++) {
-    if (resData[j].val) {
-      resHtml += '<div class="spec-res-row">' +
-        '<div class="' + dotClass(resData[j].val) + '"></div>' +
-        '<span class="spec-res-label">' + esc(resData[j].label) + '</span>' +
-        '<span class="spec-res-text">' + esc(resData[j].val) + '</span>' +
-      '</div>';
-    }
-  }
-
-  // Colors
-  var mainHex = colorToHex(s.color_principal || '');
-  var colorsHtml = '<div class="color-row">' +
-    '<div class="color-circle" style="background:' + mainHex + '"></div>' +
-    '<span class="color-label">Principal</span>' +
-    '<span class="color-name">' + esc(s.color_principal || '—') + '</span>' +
-  '</div>';
-  var secs = arr(s.colores_secundarios);
-  for (var k=0; k<secs.length; k++) {
-    colorsHtml += '<div class="color-row">' +
-      '<div class="color-circle" style="background:' + colorToHex(secs[k]) + '"></div>' +
-      '<span class="color-label">Secundario</span>' +
-      '<span class="color-name">' + esc(secs[k]) + '</span>' +
-    '</div>';
-  }
-  colorsHtml += '<div class="pattern-row">' +
-    '<span class="color-label">Patrón</span>' +
-    '<span class="pattern-badge">' + esc(s.patron_vetado || '—') + '</span>' +
-    (s.fondo ? '<span class="color-name" style="font-style:italic;font-size:12px;">Fondo: ' + esc(s.fondo) + '</span>' : '') +
-  '</div>';
-
-  // Acabados
-  var acabHtml = arr(s.acabados_disponibles).map(function(a){ return '<span class="acabado-tag">' + esc(a) + '</span>'; }).join('');
-  // Usos
-  var usosHtml = arr(s.usos_recomendados).map(function(u){ return '<div class="uso-item">' + esc(u) + '</div>'; }).join('');
-  // Formatos
-  var fmtHtml = arr(s.formatos_habituales).map(function(f){ return '<span class="formato-badge">' + esc(f) + '</span>'; }).join('');
-  var espHtml = arr(s.espesores_cm).length ? '<div class="espesor-row">' + arr(s.espesores_cm).map(function(e){ return '<div class="espesor-chip">' + e + ' cm</div>'; }).join('') + '</div>' : '';
-  // Proyectos
-  var proyHtml = '';
-  if (arr(s.proyectos_referencia).length) {
-    proyHtml = '<div class="modal-section"><div class="modal-section-title">Proyectos y referencias históricas</div><div class="proyectos-list">' +
-      arr(s.proyectos_referencia).map(function(p){ return '<div class="proyecto-item">&#9670; ' + esc(p) + '</div>'; }).join('') +
-    '</div></div>';
-  }
-  // Certs
-  var certHtml = '';
-  if (arr(s.certificaciones_habituales).length) {
-    certHtml = '<div class="modal-section"><div class="modal-section-title">Certificaciones</div><div class="cert-wrap">' +
-      arr(s.certificaciones_habituales).map(function(c){ return '<span class="cert-badge">' + esc(c) + '</span>'; }).join('') +
-    '</div></div>';
-  }
-  // Tags
-  var tagsHtml = arr(s.tags_busqueda).map(function(t){ return '<span class="seo-tag">' + esc(t) + '</span>'; }).join('');
-  // Sost
-  var sostHtml = s.sostenibilidad ? '<div style="flex:1;min-width:160px;display:flex;align-items:center;"><div class="sost-badge"><div class="sost-dot"></div><span class="sost-text">' + esc(s.sostenibilidad) + '</span></div></div>' : '';
-
-  var modalImgHtml = s.imagen_url_principal
-    ? ['<div class="modal-img-wrap"><img class="modal-img" src="', s.imagen_url_principal,
-       '" alt="', esc(s.nombre_comercial),
-       '" loading="lazy" onerror="this.style.display=&#39;none&#39;"/></div>'].join('')
-    : '';
-  return '<div class="modal-color-strip" style="background:' + bar + '"></div>' +
-  '<div class="modal-header">' +
-    '<div class="modal-eyebrow"><span class="modal-cat">' + esc(s.categoria) + '</span><span class="modal-id">#' + esc(s.id) + '</span></div>' +
-    '<h2 class="modal-title">' + esc(s.nombre_comercial) + '</h2>' +
-    alts + sci + subcat +
-  '</div>' +
-  modalImgHtml +
-  '<div class="modal-body">' +
-    '<div class="precio-disp-row">' +
-      '<div class="precio-block"><div class="precio-block-label">Rango de precio</div><div class="precio-block-value">' + esc(s.precio_rango || '—') + '</div></div>' +
-      '<div class="disp-block"><div class="disp-block-label">Disponibilidad</div><div class="disp-block-value">' + esc(s.disponibilidad || '—') + '</div></div>' +
-      sostHtml +
-    '</div>' +
-    '<div class="modal-section"><div class="modal-section-title">Origen geológico</div>' +
-      '<div class="origin-block">' +
-        '<div class="origin-item"><span class="origin-label" data-es="País" data-en="Country">País</span><span class="origin-value">' + esc(arr(s.origen_pais).join(', ') || '—') + '</span></div>' +
-        '<div class="origin-item"><span class="origin-label">Región / Cantera</span><span class="origin-value">' + esc(arr(s.origen_region).join(', ') || '—') + '</span></div>' +
-      '</div>' +
-    '</div>' +
-    '<div class="modal-section"><div class="modal-section-title">Descripción cromática</div><div class="color-palette">' + colorsHtml + '</div></div>' +
-    '<div class="modal-section"><div class="modal-section-title" data-es="Acabados disponibles" data-en="Available finishes">Acabados disponibles</div><div class="tags-wrap">' + acabHtml + '</div></div>' +
-    '<div class="modal-section"><div class="modal-section-title">Especificaciones técnicas</div>' +
-      '<div class="specs-grid">' + specsHtml + '</div>' +
-      resHtml +
-    '</div>' +
-    '<div class="modal-section"><div class="modal-section-title">Usos recomendados</div><div class="usos-grid">' + usosHtml + '</div></div>' +
-    '<div class="modal-section"><div class="modal-section-title">Formatos habituales</div><div class="formatos-wrap">' + fmtHtml + '</div>' + (arr(s.espesores_cm).length ? '<div style="margin-top:12px;"><div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#8a8784;margin-bottom:8px;">Espesores (cm)</div>' + espHtml + '</div>' : '') + '</div>' +
-    proyHtml + certHtml +
-    '<div class="modal-section"><div class="modal-section-title">Tags de búsqueda</div><div class="seo-tags">' + tagsHtml + '</div></div>' +
-    buildProviderSection(s) +
-  '</div>';
-}
-
-function buildProviderSection(s) {
-  var name = (s.nombre_comercial || '').toLowerCase();
-  // Match providers who list this material (tier-ordered, highest first)
-  var matched = PROVIDERS_DB.filter(function(p) {
-    return p.tier > 0 && p.materiales.some(function(m) {
-      var ml = m.toLowerCase();
-      return name.includes(ml) || ml.includes(name) || ml === name;
-    });
-  }).sort(function(a,b){ return b.tier - a.tier; });
-
-  if (!matched.length) {
-    return '<div class="modal-prov-section">' +
-      '<div class="modal-prov-title">Proveedores y distribuidores</div>' +
-      '<div class="mprov-empty">Aún no hay empresas registradas para este material. ' +
-      '<a href="registro.html" style="color:#A67C52">Publica tu empresa →</a></div>' +
-      '</div>';
-  }
-
-  var tierClass = {4:'elite',3:'profesional',2:'presencia',1:'directorio'};
-  var cards = matched.map(function(p) {
-    var tc = tierClass[p.tier] || 'directorio';
-    var initials = p.nombre.split(' ').slice(0,2).map(function(w){return w[0];}).join('');
-    var tipos = p.tipo.slice(0,2).join(' · ');
-    return '<div class="mprov-card mprov-' + tc + '">' +
-      '<div class="mprov-accent-bar" style="background:' + p.accent + '"></div>' +
-      '<div class="mprov-avatar" style="background:' + p.accent + '18;color:' + p.accent + '">' + esc(initials) + '</div>' +
-      '<div class="mprov-body">' +
-        '<div class="mprov-name">' + esc(p.nombre) + '</div>' +
-        '<div class="mprov-meta">' + esc(p.ciudad) + ' · ' + esc(p.pais) + '</div>' +
-        '<span class="mprov-tier">' + esc(p.tier_label) + '</span>' +
-        '<div class="mprov-tipo">' + esc(tipos) + '</div>' +
-        (p.web && p.web !== '#' ? '<a href="' + p.web + '" target="_blank" class="mprov-web">↗ web</a>' : '') +
-      '</div>' +
-    '</div>';
-  }).join('');
-
-  var subtitle = matched.length > 3
-    ? 'Los ' + matched.length + ' proveedores con mayor suscripción aparecen primero'
-    : matched.length + ' proveedor' + (matched.length > 1 ? 'es' : '') + ' comercializa' + (matched.length > 1 ? 'n' : '') + ' este material';
-
-  return '<div class="modal-prov-section">' +
-    '<div class="modal-prov-title">Proveedores y distribuidores</div>' +
-    '<div class="modal-prov-subtitle">' + esc(subtitle) + '</div>' +
-    '<div class="modal-prov-grid">' + cards + '</div>' +
-    '<div class="mprov-cta"><a href="registro.html">+ Publicar mi empresa →</a></div>' +
-    '</div>';
-}
-
-function openModal(id) {
-  var s = null;
-  for (var i=0; i<DB.length; i++) { if (DB[i].id === id) { s = DB[i]; break; } }
-  if (!s) return;
-  document.getElementById('modalContent').innerHTML = buildModal(s);
-  document.getElementById('modalOverlay').classList.add('open');
-  /* document.body.style.overflow = 'hidden'; // disabled */
-  document.getElementById('modalOverlay').scrollTop = 0;
-}
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
-  /* document.body.style.overflow = ''; // disabled */
-}
-
-document.getElementById('modalClose').addEventListener('click', closeModal);
-document.getElementById('modalOverlay').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
-document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
-document.getElementById('searchInput').addEventListener('input', function(){ searchQuery=this.value; applyFilters(); });
-document.querySelectorAll('.filter-btn').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    var ft = this.getAttribute('data-filter');
-    var val = this.getAttribute('data-val');
-    activeFilters[ft] = val;
-    document.querySelectorAll('.filter-btn[data-filter="'+ft+'"]').forEach(function(b){ b.classList.remove('active'); });
-    this.classList.add('active');
     applyFilters();
   });
 });
 
-// Carga materiales desde Supabase
-(function(){
-  var SB_URL="https://whcptmdapnavcxcszwwk.supabase.co";
-  var SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8";
-  var grid = document.getElementById("materialsGrid");
-  if (grid) grid.innerHTML = "<div class=\"loading\">Cargando materiales...</div>";
-  fetch(SB_URL + "/rest/v1/materiales?select=*&order=nombre_comercial.asc", {
-    headers: { "apikey": SB_KEY, "Authorization": "Bearer " + SB_KEY }
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data){
-    DB = Array.isArray(data) ? data : [];
-    filtered = DB.slice();
-    applyFilters();
-  })
-  .catch(function(err){
-    console.error("Error cargando materiales:", err);
-    if (grid) grid.innerHTML = "<div class=\"no-results\"><h3>Error al cargar</h3><p>No se pudieron cargar los materiales.</p></div>";
-  });
-})();
+document.getElementById('clearFilters').addEventListener('click', function() {
+  activeFilters = { cat: null, color: null };
+  searchQuery   = '';
+  document.getElementById('searchInput').value = '';
+  document.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('active'); });
+  applyFilters();
+});
 
-function openAddMaterial(){document.getElementById('addMaterialModal').classList.add('open');}
-function closeAddMaterial(){document.getElementById('addMaterialModal').classList.remove('open');}
-document.getElementById('addMaterialModal').addEventListener('click',function(e){if(e.target===this)closeAddMaterial();});
-function submitNuevoMaterial(){
-  var nombre=document.getElementById('nm-nombre').value.trim();
-  var cat=document.getElementById('nm-cat').value;
-  if(!nombre||!cat){alert('Por favor, rellena al menos el nombre y la categoría.');return;}
-  alert('Solicitud enviada. El equipo de World Stone Hub publicará "'+nombre+'" en 24-48h. ¡Gracias!');
-  closeAddMaterial();
-}
+/* ══════════════════════════════════════
+   SUPABASE: cargar materiales
+   Filtro activo=true en query para enlace
+   correcto con slug de cada ficha
+══════════════════════════════════════ */
+(function loadMateriales() {
+  var url = SB_URL + '/rest/v1/materiales?select=slug,nombre_comercial,nombres_alternativos,nombre_cientifico,categoria,subcategoria,origen_pais,origen_region,color_principal,colores_secundarios,patron_vetado,fondo,acabados_disponibles,usos_recomendados,precio_rango,disponibilidad,proyectos_referencia,tags_busqueda,activo&activo=eq.true&order=nombre_comercial.asc&limit=500';
 
-</script>
-<footer class="site-footer">
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub">
-  <text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#F0EDE8">WORLD STONE</text>
-  <line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.6"/>
-  <text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text>
-</svg></a>
-      <p class="footer-tagline" data-es="El portal internacional de referencia para todos los profesionales del sector de la piedra natural y artificial." data-en="The international reference portal for all professionals in the natural and engineered stone industry.">El portal internacional de referencia para todos los profesionales del sector de la piedra natural y artificial.</p>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title" data-es="Directorio" data-en="Directory">Directorio</div>
-      <ul>
-        <li><a href="lapidis-canteras.html" data-es="Canteras del mundo" data-en="World quarries">Canteras del mundo</a></li>
-        <li><a href="lapidis-mapa.html" data-es="Mapa de canteras" data-en="Quarry map">Mapa de canteras</a></li>
-        <li><a href="lapidis-materiales.html" data-es="Materiales" data-en="Materials">Materiales</a></li>
-        <li class="nav-dropdown"><a href="lapidis-proveedores.html" data-es="Proveedores" data-en="Suppliers">Proveedores</a>
-      <ul class="dropdown-menu">
-        <li><a href="lapidis-proveedores.html" data-es="Todos los proveedores" data-en="All suppliers">Todos los proveedores</a></li>
-        <li><a href="lapidis-proveedores.html#fabricantes" data-es="Fabricantes" data-en="Manufacturers">Fabricantes</a></li>
-        <li><a href="lapidis-proveedores.html#distribuidores" data-es="Distribuidores" data-en="Distributors">Distribuidores</a></li>
-        <li><a href="lapidis-proveedores.html#arquitectos" data-es="Arquitectos" data-en="Architects">Arquitectos</a></li>
-        <li><a href="registro.html" data-es="Publicar empresa" data-en="List your company">Publicar empresa</a></li>
-      </ul>
-    </li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title" data-es="Publicar" data-en="Publish">Publicar</div>
-      <ul>
-        <li><a href="registro.html" data-es="Publicar mi empresa" data-en="List my company">Publicar mi empresa</a></li>
-        <li><a href="registro.html" data-es="Planes y precios" data-en="Plans & pricing">Planes y precios</a></li>
-        <li><a href="registro.html?tipo=cantera" data-es="Reclamar cantera" data-en="Claim quarry">Reclamar cantera</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title" data-es="Portal" data-en="Portal">Portal</div>
-      <ul>
-        <li><a href="nosotros.html" data-es="Sobre World Stone Hub" data-en="About World Stone Hub">Sobre World Stone Hub</a></li>
-        <li><a href="blog.html" data-es="Blog del sector" data-en="Industry blog">Blog del sector</a></li>
-        <li><a href="contacto.html" data-es="Contacto" data-en="Contact">Contacto</a></li>
-        <li><a href="legal.html" data-es="Aviso legal" data-en="Legal notice">Aviso legal</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="footer-copy" data-es="© 2025 World Stone Hub · Where Stone Meets The World" data-en="© 2025 World Stone Hub · International Natural Stone Portal">© 2025 World Stone Hub · Where Stone Meets The World · <a href="legal.html" style="color:inherit;opacity:0.6;">Aviso Legal &amp; Privacidad</a></div>
-    <div class="footer-langs">
-      <a href="#" data-lang="es">ES</a>
-      <a href="#" title="Próximamente" style="opacity:0.35;cursor:not-allowed;pointer-events:none;" data-lang="en">EN</a>
-    </div>
-  </div>
-</footer>
-</div><!-- /scroll-wrap -->
+  var hdrs = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Accept': 'application/json' };
 
-<div class="modal-overlay2" id="addMaterialModal">
-  <div class="modal2">
-    <button class="modal2-close" onclick="closeAddMaterial()">&#x2715;</button>
-    <div class="modal2-title" data-es="Nuevo Material" data-en="New Material">Nuevo Material</div>
-    <div class="modal2-sub">World Stone Hub &middot; Directorio colaborativo</div>
-    <div class="form-grid">
-      <div class="form-field">
-        <label class="form-label">Nombre del material *</label>
-        <input class="form-input" id="nm-nombre" type="text" placeholder="ej. Bianco Carrara C">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Categoría / Tipo *</label>
-        <select class="form-select" id="nm-cat">
-          <option value="">Seleccionar...</option>
-          <option>Mármol</option><option>Granito</option><option>Cuarcita</option>
-          <option>Travertino</option><option>Caliza</option><option>Pizarra</option>
-          <option>&#211;nix</option><option>Arenisca</option><option>Basalto</option>
-          <option>Cuarzo engineered</option><option>Piedra sinterizada</option>
-          <option>Porcelánico</option><option>Otro</option>
-        </select>
-      </div>
-      <div class="form-field">
-        <label class="form-label">País de origen *</label>
-        <input class="form-input" id="nm-pais" type="text" placeholder="ej. Italia">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Zona / Región</label>
-        <input class="form-input" id="nm-zona" type="text" placeholder="ej. Carrara, Toscana">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Color principal</label>
-        <select class="form-select" id="nm-color">
-          <option value="">Seleccionar...</option>
-          <option>Blanco</option><option>Crema</option><option>Beige</option>
-          <option>Gris</option><option>Negro</option><option>Rosa</option>
-          <option>Rojo</option><option>Verde</option><option>Azul</option>
-          <option>Dorado</option><option>Marrón</option><option>Multicolor</option>
-        </select>
-      </div>
-      <div class="form-field">
-        <label class="form-label">Rango de precio</label>
-        <select class="form-select" id="nm-precio">
-          <option value="">Seleccionar...</option>
-          <option>Económico</option><option>Medio</option>
-          <option>Alto</option><option>Premium</option><option>Ultra Premium</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-divider" style="margin:16px 0 12px;"></div>
-    <div class="form-section-label">Especificaciones técnicas</div>
-    <div class="form-grid" style="margin-top:10px;">
-      <div class="form-field">
-        <label class="form-label" data-es="Acabados disponibles" data-en="Available finishes">Acabados disponibles</label>
-        <input class="form-input" id="nm-acabados" type="text" placeholder="ej. Pulido, Mate, Cepillado">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Usos principales</label>
-        <input class="form-input" id="nm-usos" type="text" placeholder="ej. Encimeras, Pavimento, Fachada">
-      </div>
-    </div>
-    <div class="form-grid full" style="margin-top:10px;">
-      <div class="form-field">
-        <label class="form-label">Descripción / Curiosidades</label>
-        <textarea class="form-textarea" id="nm-desc" placeholder="Notas sobre el material, proyectos de referencia, características especiales..."></textarea>
-      </div>
-    </div>
-    <div class="form-divider" style="margin:16px 0 12px;"></div>
-    <div class="form-section-label">Tus datos (opcionales)</div>
-    <div class="form-grid" style="margin-top:10px;">
-      <div class="form-field">
-        <label class="form-label">Nombre / Empresa</label>
-        <input class="form-input" id="nm-empresa" type="text" placeholder="Tu nombre o empresa">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Email de contacto</label>
-        <input class="form-input" id="nm-email" type="email" placeholder="email@ejemplo.com">
-      </div>
-    </div>
-    <button class="form-submit" onclick="submitNuevoMaterial()">Enviar solicitud de alta</button>
-    <div class="form-note">El equipo de World Stone Hub revisará y publicará el material en 24-48h.</div>
-  </div>
-
-<script>
-/* World Stone Hub – i18n engine */
-(function(){
-  var KEY = 'wsh_lang';
-  function get(){ return localStorage.getItem(KEY) || 'es'; }
-  function set(l){ localStorage.setItem(KEY, l); }
-  function apply(lang){
-    document.documentElement.lang = lang;
-    document.querySelectorAll('[data-es]').forEach(function(el){
-      var v = el.getAttribute('data-' + lang);
-      if(v === null) return;
-      if(el.children.length === 0){ el.textContent = v; return; }
-      for(var i=0; i<el.childNodes.length; i++){
-        var n = el.childNodes[i];
-        if(n.nodeType === 3 && n.textContent.trim()){ n.textContent = v; break; }
+  fetch(url, { headers: hdrs })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!Array.isArray(data)) {
+        document.getElementById('gridContainer').innerHTML =
+          '<div class="empty-state"><p>Error al cargar</p><small>' + JSON.stringify(data).slice(0,100) + '</small></div>';
+        return;
       }
-    });
-    document.querySelectorAll('[data-placeholder-es]').forEach(function(el){
-      var v = el.getAttribute('data-placeholder-' + lang);
-      if(v !== null) el.placeholder = v;
-    });
-    document.querySelectorAll('[data-lang]').forEach(function(a){
-      a.classList.toggle('active', a.getAttribute('data-lang') === lang);
-    });
-  }
-  function init(){
-    var lang = get();
-    document.querySelectorAll('[data-lang]').forEach(function(a){
-      a.addEventListener('click', function(e){
-        e.preventDefault();
-        var l = a.getAttribute('data-lang');
-        if(l){ set(l); apply(l); }
+      DB = data;
+      // stats
+      var paises = {}, colores = {};
+      DB.forEach(function(m) {
+        arr(m.origen_pais).forEach(function(p) { if (p) paises[p] = 1; });
+        if (m.color_principal) colores[m.color_principal] = 1;
       });
+      document.getElementById('statMateriales').textContent = DB.length;
+      document.getElementById('statPaises').textContent     = Object.keys(paises).length;
+      document.getElementById('statColores').textContent    = Object.keys(colores).length;
+      applyFilters();
+    })
+    .catch(function(err) {
+      document.getElementById('gridContainer').innerHTML =
+        '<div class="empty-state"><p>No se pudo conectar</p><small>' + err.message + '</small></div>';
     });
-    apply(lang);
-  }
-  document.readyState === 'loading'
-    ? document.addEventListener('DOMContentLoaded', init)
-    : init();
 })();
-</script>
 
-<script>
+/* ══════════════════════════════════════
+   SUPABASE: cargar anuncio MATERIALES-TOP
+══════════════════════════════════════ */
+(function loadAd() {
+  var today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  var url = SB_URL + '/rest/v1/anuncios?espacio_codigo=eq.MATERIALES-TOP&activo=eq.true&select=imagen_url,url_destino,texto_alt,fecha_inicio,fecha_fin&limit=5';
+  var hdrs = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Accept': 'application/json' };
+
+  fetch(url, { headers: hdrs })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!Array.isArray(data) || !data.length) return;
+      // Filtrar por fechas
+      var valid = data.filter(function(a) {
+        var ok = true;
+        if (a.fecha_inicio && a.fecha_inicio > today) ok = false;
+        if (a.fecha_fin   && a.fecha_fin   < today) ok = false;
+        return ok;
+      });
+      if (!valid.length) return;
+      var ad = valid[0];
+      var slot = document.getElementById('heroAdSlot');
+      var href = ad.url_destino
+        ? (ad.url_destino.startsWith('http') ? ad.url_destino : 'https://' + ad.url_destino)
+        : '#';
+      slot.innerHTML =
+        '<a class="ad-link" href="' + href + '" target="_blank" rel="noopener">' +
+          '<img src="' + (ad.imagen_url||'') + '" alt="' + (ad.texto_alt||'Publicidad') + '" loading="lazy">' +
+        '</a>';
+    })
+    .catch(function() {}); // silencioso: si falla, queda el placeholder
+})();
+
+/* ── NAV ── */
 (function(){
-  var closeTimer = null;
+  var closeTimer=null;
   document.querySelectorAll('.nav-dropdown').forEach(function(el){
-    el.addEventListener('mouseenter', function(){
-      if(closeTimer){ clearTimeout(closeTimer); closeTimer=null; }
-      el.classList.add('open');
-    });
-    el.addEventListener('mouseleave', function(){
-      closeTimer = setTimeout(function(){ el.classList.remove('open'); }, 250);
-    });
-    var menu = el.querySelector('.dropdown-menu');
+    el.addEventListener('mouseenter',function(){if(closeTimer){clearTimeout(closeTimer);closeTimer=null;}el.classList.add('open');});
+    el.addEventListener('mouseleave',function(){closeTimer=setTimeout(function(){el.classList.remove('open');},250);});
+    var menu=el.querySelector('.dropdown-menu');
     if(menu){
-      menu.addEventListener('mouseenter', function(){
-        if(closeTimer){ clearTimeout(closeTimer); closeTimer=null; }
-      });
-      menu.addEventListener('mouseleave', function(){
-        closeTimer = setTimeout(function(){ el.classList.remove('open'); }, 250);
-      });
+      menu.addEventListener('mouseenter',function(){if(closeTimer){clearTimeout(closeTimer);closeTimer=null;}});
+      menu.addEventListener('mouseleave',function(){closeTimer=setTimeout(function(){el.classList.remove('open');},250);});
     }
   });
-})();
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-.nav-auth-sep {
-  display: inline-block;
-  width: 1px;
-  height: 18px;
-  background: #c8c5bf;
-  margin: 0 4px 0 8px;
-  vertical-align: middle;
-  opacity: 0.6;
-}
-.nav-auth-link {
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: color 0.25s, opacity 0.25s;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.nav-auth-link.state-acceso {
-  color: #8a8784;
-}
-.nav-auth-link.state-acceso:hover {
-  color: #1a1917;
-}
-.nav-auth-link.state-panel {
-  color: #A67C52;
-  border: 1px solid rgba(166,124,82,0.35);
-  padding: 6px 14px;
-  letter-spacing: 2px;
-}
-.nav-auth-link.state-panel:hover {
-  background: #A67C52;
-  color: #f8f7f5;
-  border-color: #A67C52;
-}
-.nav-auth-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #A67C52;
-  display: inline-block;
-  flex-shrink: 0;
-}
-</style>
-<script>
-(function(){
-  var SB_URL="https://whcptmdapnavcxcszwwk.supabase.co";
-  var SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8";
-  var db=supabase.createClient(SB_URL,SB_KEY);
-  db.auth.getSession().then(function(r){
-    var s=r.data&&r.data.session;
-    var el=document.getElementById("nav-auth-item");
-    if(!el)return;
-    if(s){
-      el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Mi Panel</a>';
-    } else {
-      el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-acceso">Acceso</a>';
-    }
-  });
-})();
-</script>
-<!-- WSH Ad Loader -->
-<script>
-(function(){
-  var SB_URL="https://whcptmdapnavcxcszwwk.supabase.co";
-  var SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8";
-  var today=new Date().toISOString().slice(0,10);
-  var slots=document.querySelectorAll('.wsh-ad[data-espacio]');
-  if(!slots.length)return;
-  var codigos=Array.from(slots).map(function(s){return s.dataset.espacio;});
-  var query=codigos.map(function(c){return 'espacio_codigo.eq.'+c;}).join(',');
-  fetch(SB_URL+'/rest/v1/anuncios?select=espacio_codigo,anunciante,imagen_url,url_destino,texto_alt&activo=eq.true&or=('+query+')&fecha_fin=gte.'+today,{
-    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
-  }).then(function(r){return r.json();}).then(function(data){
-    if(!data||!data.length)return;
-    data.forEach(function(ad){
-      slots.forEach(function(slot){
-        if(slot.dataset.espacio!==ad.espacio_codigo)return;
-        var wrapper=slot.closest('[id^="hdr-ad-"]');
-        if(wrapper){
-          // Slot en hero: mostrar wrapper y renderizar imagen full-size
-          wrapper.style.display='';
-          slot.style.cssText='width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;';
-          slot.innerHTML='<a href="'+ad.url_destino+'" target="_blank" rel="noopener sponsored" style="display:block;width:100%;height:100%;"><img src="'+ad.imagen_url+'" alt="'+(ad.texto_alt||ad.anunciante||'')+'" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"></a>';
-        } else {
-          // Slot de banner normal
-          slot.style.cssText='display:block;text-align:center;padding:16px 0;';
-          slot.innerHTML='<a href="'+ad.url_destino+'" target="_blank" rel="noopener sponsored" style="display:inline-block;max-width:100%;"><img src="'+ad.imagen_url+'" alt="'+(ad.texto_alt||ad.anunciante||'')+'" style="max-width:100%;height:auto;display:block;" loading="lazy"></a>';
-        }
-      });
-    });
-  }).catch(function(){});
+  var el=document.getElementById('nav-auth-item');
+  if(el){
+    var hasSession=false;
+    try{var keys=Object.keys(localStorage);for(var i=0;i<keys.length;i++){if(keys[i].indexOf('supabase')!==-1){var v=JSON.parse(localStorage.getItem(keys[i]));if(v&&(v.access_token||v.user)){hasSession=true;break;}}}}catch(e){}
+    if(hasSession){el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Mi Panel</a>';}
+    else{el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-acceso">Acceso</a>';}
+  }
 })();
 </script>
 </body>
