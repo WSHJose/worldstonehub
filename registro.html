@@ -1751,8 +1751,8 @@ label.plan-card input[type="radio"] { display: none !important; }
 // Obtén estos enlaces en: dashboard.stripe.com → Payment Links → Create
 var STRIPE_PAYMENT_LINKS = {
   presencia:   'https://buy.stripe.com/test_4gM28k7nd49w3dA3JjfYY01',
-  profesional: '',   // pegar URL cuando esté listo
-  elite:       ''    // pegar URL cuando esté listo
+  profesional: 'https://buy.stripe.com/test_cNiaEQ8rh8pM9BY1BbfYY00',
+  elite:       'https://buy.stripe.com/test_cNi8wI0YP35s3dAgw5fYY02'
 };
 
 // ── Estado global ───────────────────────────
@@ -2050,33 +2050,62 @@ function submitForm() {
     if (authResult.error) throw authResult.error;
     var userId = authResult.data.user ? authResult.data.user.id : null;
 
-    // 2) Insertar proveedor con mapeo completo
-    return wshDB.from('proveedores').insert({
-      user_id:             userId,
-      nombre:              nombreEmpresa,
-      nombre_comercial:    v('f_marca'),
-      nif:                 v('f_nif'),
-      slug:                makeSlug(nombreEmpresa) + '-' + Date.now().toString(36),
-      pais:                paisNombre(),
-      ciudad:              v('f_ciudad'),
-      fundacion:           v('f_fundacion') ? parseInt(v('f_fundacion')) : null,
-      plantilla:           v('f_empleados') || null,
-      descripcion:         v('f_desc'),
-      tipos_piedra:        getChecked('cg_tipos'),
-      usos:                getChecked('cg_usos'),
-      mercados:            v('f_mercados'),
-      produccion:          v('f_produccion'),
-      certificaciones:     v('f_certs'),
-      email:               v('f_email'),
-      telefono:            v('f_tel'),
-      website:             v('f_web'),
-      linkedin:            v('f_linkedin'),
-      responsable_nombre:  v('f_resp_nombre'),
-      responsable_cargo:   v('f_resp_cargo'),
-      tipo:                ST.actors || [],
-      tier:                ST.plan || 'free',
-      activo:              false
-    });
+    // 2) Insertar proveedor
+    // Payload completo (requiere migración SQL — ver abajo)
+    var fullPayload = {
+      user_id:            userId,
+      nombre:             nombreEmpresa,
+      nombre_comercial:   v('f_marca'),
+      nif:                v('f_nif'),
+      slug:               makeSlug(nombreEmpresa) + '-' + Date.now().toString(36),
+      descripcion:        v('f_desc'),
+      pais:               paisNombre(),
+      ciudad:             v('f_ciudad'),
+      fundacion:          v('f_fundacion') ? parseInt(v('f_fundacion')) : null,
+      plantilla:          v('f_empleados') || null,
+      tipos_piedra:       getChecked('cg_tipos'),
+      usos:               getChecked('cg_usos'),
+      mercados:           v('f_mercados'),
+      produccion:         v('f_produccion'),
+      certificaciones:    v('f_certs'),
+      email:              v('f_email'),
+      telefono:           v('f_tel'),
+      website:            v('f_web'),
+      linkedin:           v('f_linkedin'),
+      responsable_nombre: v('f_resp_nombre'),
+      responsable_cargo:  v('f_resp_cargo'),
+      tipo:               ST.actors || [],
+      tier:               ST.plan || 'free',
+      activo:             false,
+      plan:               ST.plan || 'free',
+      estado:             'pendiente'
+    };
+
+    // Payload mínimo de reserva (solo columnas originales seguras)
+    var safePayload = {
+      user_id:        userId,
+      nombre:         nombreEmpresa,
+      slug:           fullPayload.slug,
+      descripcion:    fullPayload.descripcion,
+      pais:           fullPayload.pais,
+      ciudad:         fullPayload.ciudad,
+      email:          fullPayload.email,
+      telefono:       fullPayload.telefono,
+      website:        fullPayload.website,
+      linkedin:       fullPayload.linkedin,
+      plan:           fullPayload.plan,
+      estado:         'pendiente'
+    };
+
+    return wshDB.from('proveedores').insert(fullPayload)
+      .then(function(r) {
+        // Si falla por columnas inexistentes, reintentar con payload mínimo
+        if (r.error && r.error.message && r.error.message.includes('column')) {
+          console.warn('WSH: columnas nuevas aún no migradas, usando payload mínimo.', r.error.message);
+          return wshDB.from('proveedores').insert(safePayload);
+        }
+        return r;
+      });
   })
   .then(function(insertResult) {
     if (insertResult.error) throw insertResult.error;
