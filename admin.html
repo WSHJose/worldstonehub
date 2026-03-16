@@ -497,6 +497,30 @@ tbody tr:last-child td{border-bottom:none;}
 }
 .empty-state-sub{font-size:13px;color:var(--ink-muted);}
 
+/* ── MATERIALES IMAGE GRID ── */
+.mat-view-toggle{display:flex;gap:6px;margin-left:auto;}
+.mat-view-btn{padding:6px 14px;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:600;border:1px solid var(--border);background:var(--bg-white);color:var(--ink-muted);cursor:pointer;transition:all .15s;}
+.mat-view-btn.active{background:var(--gold);border-color:var(--gold);color:#fff;}
+.mat-img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;padding:24px 0;}
+.mat-img-card{position:relative;border:1px solid var(--border);background:var(--bg-white);overflow:hidden;cursor:pointer;transition:box-shadow .2s,border-color .2s;}
+.mat-img-card:hover{border-color:var(--gold);box-shadow:0 4px 16px rgba(166,124,82,.15);}
+.mat-img-card input[type=file]{display:none;}
+.mat-img-thumb{width:100%;height:120px;object-fit:cover;display:block;background:var(--bg-soft);}
+.mat-img-empty{width:100%;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:var(--bg-soft);}
+.mat-img-empty svg{opacity:.25;}
+.mat-img-empty span{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-muted);}
+.mat-img-info{padding:10px 12px;border-top:1px solid var(--border);}
+.mat-img-name{font-size:12px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mat-img-cat{font-size:10px;color:var(--ink-muted);letter-spacing:.5px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mat-img-overlay{position:absolute;inset:0;background:rgba(26,25,23,.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;}
+.mat-img-card:hover .mat-img-overlay{opacity:1;}
+.mat-img-overlay-lbl{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#fff;font-weight:600;}
+.mat-img-uploading{position:absolute;inset:0;background:rgba(26,25,23,.7);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;}
+.mat-img-uploading-txt{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#fff;}
+.mat-img-spin{width:22px;height:22px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;}
+.mat-img-ok{position:absolute;top:6px;right:6px;background:var(--gold);color:#fff;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 7px;opacity:0;transition:opacity .4s;}
+.mat-img-ok.show{opacity:1;}
+
 /* ── INLINE TIER SELECT ── */
 .tier-select{
   padding:5px 8px;font-size:11px;
@@ -692,10 +716,19 @@ tbody tr:last-child td{border-bottom:none;}
         <div class="table-box">
           <div class="table-toolbar">
             <input class="toolbar-search" id="mat-search" type="text" placeholder="Buscar material…">
-            <button class="toolbar-btn gold" onclick="abrirModalMaterial(null)">+ Añadir material</button>
+            <div class="mat-view-toggle">
+              <button class="mat-view-btn active" id="mat-btn-lista"   onclick="toggleMatVista('lista')">☰ Lista</button>
+              <button class="mat-view-btn"         id="mat-btn-imagenes" onclick="toggleMatVista('imagenes')">⊞ Imágenes</button>
+            </div>
+            <button class="toolbar-btn gold" onclick="abrirModalMaterial(null)" style="margin-left:12px">+ Añadir material</button>
           </div>
+          <!-- Vista tabla -->
           <div id="mat-table-wrap">
             <div class="empty-state"><div class="empty-state-icon">⊙</div><div class="empty-state-title">Cargando…</div></div>
+          </div>
+          <!-- Vista cuadrícula de imágenes -->
+          <div id="mat-grid-wrap" style="display:none">
+            <div id="mat-grid-inner" class="mat-img-grid"></div>
           </div>
         </div>
       </div>
@@ -1996,6 +2029,128 @@ async function guardarMaterial() {
   toast(id ? 'Material actualizado' : 'Material añadido', 'success');
   document.getElementById('modal-material').classList.add('hidden');
   await cargarMateriales();
+}
+
+// ── MATERIALES: TOGGLE VISTA ──
+
+let _matVista = 'lista'; // 'lista' | 'imagenes'
+
+function toggleMatVista(vista) {
+  _matVista = vista;
+  document.getElementById('mat-btn-lista').classList.toggle('active', vista === 'lista');
+  document.getElementById('mat-btn-imagenes').classList.toggle('active', vista === 'imagenes');
+  document.getElementById('mat-table-wrap').style.display  = vista === 'lista'    ? '' : 'none';
+  document.getElementById('mat-grid-wrap').style.display   = vista === 'imagenes' ? '' : 'none';
+  if (vista === 'imagenes') renderGridMateriales(_materialesData);
+}
+
+// ── MATERIALES: CUADRÍCULA DE IMÁGENES ──
+
+function renderGridMateriales(mats) {
+  const wrap = document.getElementById('mat-grid-inner');
+  if (!mats || mats.length === 0) {
+    wrap.innerHTML = '<div class="empty-state"><div class="empty-state-icon">∅</div><div class="empty-state-title">Sin materiales</div></div>';
+    return;
+  }
+  wrap.innerHTML = mats.map(m => {
+    const nombre = escHtml(m.nombre_comercial || m.nombre || '—');
+    const cat    = escHtml(m.categoria || '');
+    const thumb  = m.imagen_url
+      ? `<img class="mat-img-thumb" src="${escHtml(m.imagen_url)}" alt="${nombre}" loading="lazy">`
+      : `<div class="mat-img-empty">
+           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+           <span>Sin imagen</span>
+         </div>`;
+    return `<div class="mat-img-card" id="mat-card-${m.id}" onclick="document.getElementById('mat-file-${m.id}').click()">
+      <input type="file" id="mat-file-${m.id}" accept="image/webp,image/jpeg,image/png" onchange="subirImagenGrid('${m.id}','${escHtml(m.slug || '')}',this)">
+      ${thumb}
+      <div class="mat-img-overlay"><span class="mat-img-overlay-lbl">${m.imagen_url ? '✎ Cambiar' : '+ Subir'}</span></div>
+      <div class="mat-img-info">
+        <div class="mat-img-name">${nombre}</div>
+        ${cat ? `<div class="mat-img-cat">${cat}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Buscar en la cuadrícula también
+document.addEventListener('DOMContentLoaded', () => {
+  const si = document.getElementById('mat-search');
+  if (si) {
+    const orig = si.oninput;
+    si.addEventListener('input', debounce(() => {
+      if (_matVista === 'imagenes') {
+        const q = si.value.toLowerCase();
+        const filtered = _materialesData.filter(m =>
+          [m.nombre_comercial, m.nombre, m.categoria, m.slug].join(' ').toLowerCase().includes(q)
+        );
+        renderGridMateriales(filtered);
+      }
+    }, 300));
+  }
+});
+
+async function subirImagenGrid(matId, slug, input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { toast('La imagen supera los 5 MB', 'error'); input.value = ''; return; }
+
+  const card = document.getElementById('mat-card-' + matId);
+
+  // Mostrar spinner sobre la card
+  const spin = document.createElement('div');
+  spin.className = 'mat-img-uploading';
+  spin.innerHTML = '<div class="mat-img-spin"></div><div class="mat-img-uploading-txt">Subiendo…</div>';
+  card.appendChild(spin);
+
+  try {
+    const ext  = file.name.split('.').pop().toLowerCase();
+    const path = `${slug || matId}.${ext}`;
+    const { error: upErr } = await db.storage
+      .from('materiales-media')
+      .upload(path, file, { upsert: true, contentType: file.type });
+    if (upErr) throw upErr;
+
+    const { data: urlData } = db.storage.from('materiales-media').getPublicUrl(path);
+    const publicUrl = urlData.publicUrl;
+
+    // Guardar en DB
+    const { error: dbErr } = await db.from('materiales').update({ imagen_url: publicUrl }).eq('id', matId);
+    if (dbErr) throw dbErr;
+
+    // Actualizar datos locales
+    const m = _matMap[matId];
+    if (m) m.imagen_url = publicUrl;
+
+    // Actualizar thumb en la card sin re-renderizar todo
+    spin.remove();
+    const oldThumb = card.querySelector('.mat-img-thumb, .mat-img-empty');
+    const img = document.createElement('img');
+    img.className = 'mat-img-thumb';
+    img.src = publicUrl;
+    img.alt = '';
+    img.loading = 'lazy';
+    if (oldThumb) oldThumb.replaceWith(img);
+
+    // Actualizar label overlay
+    const lbl = card.querySelector('.mat-img-overlay-lbl');
+    if (lbl) lbl.textContent = '✎ Cambiar';
+
+    // Badge de éxito
+    const ok = document.createElement('div');
+    ok.className = 'mat-img-ok';
+    ok.textContent = '✓ Guardado';
+    card.appendChild(ok);
+    requestAnimationFrame(() => ok.classList.add('show'));
+    setTimeout(() => ok.remove(), 2500);
+
+    toast('Imagen guardada — ' + (m ? (m.nombre_comercial || m.nombre) : slug), 'success');
+
+  } catch (err) {
+    spin.remove();
+    toast('Error: ' + err.message, 'error');
+  }
+  input.value = '';
 }
 
 // ── ANALÍTICAS ──
