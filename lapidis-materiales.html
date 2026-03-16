@@ -584,7 +584,7 @@ document.getElementById('clearFilters').addEventListener('click', function() {
    correcto con slug de cada ficha
 ══════════════════════════════════════ */
 (function loadMateriales() {
-  var url = SB_URL + '/rest/v1/materiales?select=slug,nombre_comercial,nombres_alternativos,nombre_cientifico,categoria,subcategoria,origen_pais,origen_region,color_principal,colores_secundarios,patron_vetado,fondo,acabados_disponibles,usos_recomendados,precio_rango,disponibilidad,proyectos_referencia,tags_busqueda,activo&activo=eq.true&order=nombre_comercial.asc&limit=500';
+  var url = SB_URL + '/rest/v1/materiales?select=slug,nombre_comercial,nombres_alternativos,nombre_cientifico,categoria,subcategoria,origen_pais,origen_region,color_principal,colores_secundarios,patron_vetado,fondo,acabados_disponibles,usos_recomendados,precio_rango,disponibilidad,proyectos_referencia,tags_busqueda,activo,imagen_url&activo=eq.true&order=nombre_comercial.asc&limit=500';
 
   var hdrs = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Accept': 'application/json' };
 
