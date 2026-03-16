@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — World Stone Hub</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --bg:#f8f7f5; --bg-soft:#f0efed; --bg-white:#ffffff;
+  --border:#e2e0dc; --border-mid:#c8c5bf;
+  --ink:#1a1917; --ink-mid:#4a4845; --ink-muted:#8a8784;
+  --gold:#A67C52; --gold-lt:#F5EFEA;
+  --green:#2d6a4f; --green-lt:#d8f3dc;
+  --red:#8b1a1a; --red-lt:#fde8e8;
+  --blue-lt:#e8f0fe; --blue:#2c5282;
+  --sidebar-w:240px;
+  --font-disp:'Cormorant Garamond',serif;
+  --font-body:'Instrument Sans',sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;font-family:var(--font-body);color:var(--ink);background:var(--bg);}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;font-family:var(--font-body);}
+input,select,textarea{font-family:var(--font-body);}
+
+/* ── LOGIN OVERLAY ── */
+#login-overlay {
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+}
+#login-overlay.hidden{display:none;}
+.login-box {
+  width:400px;background:var(--bg-white);
+  border:1px solid var(--border);
+  padding:48px 44px;
+}
+.login-logo {
+  font-family:var(--font-body);font-size:18px;letter-spacing:6px;
+  text-transform:uppercase;color:var(--ink);margin-bottom:4px;
+}
+.login-logo-hub{color:var(--gold);font-style:italic;}
+.login-sub{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-muted);margin-bottom:36px;}
+.login-title{font-family:var(--font-disp);font-size:28px;font-weight:300;margin-bottom:28px;color:var(--ink);}
+.login-label{display:block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px;}
+.login-input{
+  width:100%;padding:11px 14px;font-size:14px;
+  border:1px solid var(--border);background:var(--bg-white);
+  color:var(--ink);outline:none;margin-bottom:18px;
+  transition:border-color .2s;
+}
+.login-input:focus{border-color:var(--gold);}
+.login-btn{
+  width:100%;padding:13px;font-size:10px;letter-spacing:3px;
+  text-transform:uppercase;font-weight:600;
+  background:var(--gold);color:#fff;border:none;
+  transition:background .2s;margin-top:4px;
+}
+.login-btn:hover{background:#8a6030;}
+.login-error{
+  font-size:12px;color:var(--red);margin-top:14px;
+  min-height:18px;letter-spacing:.3px;
+}
+
+/* ── LAYOUT ── */
+#panel{display:flex;height:100vh;overflow:hidden;}
+#panel.hidden{display:none;}
+
+/* ── SIDEBAR ── */
+#sidebar{
+  width:var(--sidebar-w);min-width:var(--sidebar-w);
+  background:var(--ink);
+  display:flex;flex-direction:column;
+  height:100vh;position:fixed;left:0;top:0;z-index:100;
+  transition:transform .3s;
+}
+.sidebar-logo{
+  padding:28px 24px 20px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.sidebar-logo-text{
+  font-family:var(--font-body);font-size:16px;letter-spacing:5px;
+  text-transform:uppercase;color:#fff;
+}
+.sidebar-logo-hub{color:var(--gold);font-style:italic;}
+.sidebar-logo-sub{
+  font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.35);margin-top:3px;display:block;
+}
+.sidebar-nav{flex:1;padding:16px 0;overflow-y:auto;}
+.nav-item{
+  display:flex;align-items:center;gap:11px;
+  padding:11px 24px;
+  font-size:11px;letter-spacing:1.8px;text-transform:uppercase;
+  color:rgba(255,255,255,.55);cursor:pointer;
+  border-left:2px solid transparent;
+  transition:all .2s;position:relative;
+}
+.nav-item:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.04);}
+.nav-item.active{
+  color:#fff;background:rgba(166,124,82,.12);
+  border-left-color:var(--gold);
+}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:.8;}
+.nav-item.active svg{opacity:1;}
+.nav-badge{
+  margin-left:auto;background:var(--gold);color:#fff;
+  font-size:9px;font-weight:600;letter-spacing:0;
+  padding:2px 6px;border-radius:2px;
+  min-width:18px;text-align:center;
+}
+.sidebar-bottom{
+  padding:16px 24px 24px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.sidebar-user-email{
+  font-size:10px;color:rgba(255,255,255,.4);
+  letter-spacing:.5px;margin-bottom:10px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.sidebar-logout{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.4);background:none;border:none;
+  padding:0;transition:color .2s;display:block;
+}
+.sidebar-logout:hover{color:rgba(255,255,255,.8);}
+
+/* ── MAIN ── */
+#main{
+  margin-left:var(--sidebar-w);
+  flex:1;overflow-y:auto;
+  height:100vh;
+  background:var(--bg);
+}
+.main-header{
+  padding:28px 40px 20px;
+  border-bottom:1px solid var(--border);
+  background:var(--bg-white);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.main-title{
+  font-family:var(--font-disp);font-size:26px;font-weight:300;
+  letter-spacing:1px;
+}
+.main-content{padding:32px 40px;}
+
+/* ── SECTIONS ── */
+.section{display:none;}
+.section.active{display:block;}
+
+/* ── KPI CARDS ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:32px;}
+.kpi-card{
+  background:var(--bg-white);border:1px solid var(--border);
+  padding:24px;
+}
+.kpi-label{
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--ink-muted);margin-bottom:10px;
+}
+.kpi-value{
+  font-family:var(--font-disp);font-size:42px;font-weight:300;
+  line-height:1;color:var(--ink);
+}
+.kpi-sub{font-size:11px;color:var(--ink-muted);margin-top:6px;}
+
+/* ── TIER PILLS ROW ── */
+.tier-row{display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap;}
+.tier-pill{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 18px;border:1px solid var(--border);
+  background:var(--bg-white);font-size:11px;letter-spacing:1px;
+}
+.tier-pill-count{
+  font-family:var(--font-disp);font-size:22px;font-weight:300;
+  line-height:1;
+}
+
+/* ── CHART SECTION ── */
+.chart-box{
+  background:var(--bg-white);border:1px solid var(--border);
+  padding:24px;margin-bottom:32px;
+}
+.chart-title{
+  font-size:10px;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--ink-muted);margin-bottom:20px;
+}
+.chart-box svg{width:100%;display:block;}
+
+/* ── TABLE ── */
+.table-box{
+  background:var(--bg-white);border:1px solid var(--border);
+  overflow:hidden;
+}
+.table-toolbar{
+  padding:16px 20px;border-bottom:1px solid var(--border);
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+}
+.toolbar-search{
+  flex:1;min-width:180px;padding:9px 13px;
+  font-size:13px;border:1px solid var(--border);
+  background:var(--bg-white);color:var(--ink);outline:none;
+  transition:border-color .2s;
+}
+.toolbar-search:focus{border-color:var(--gold);}
+.toolbar-select{
+  padding:9px 13px;font-size:12px;letter-spacing:.5px;
+  border:1px solid var(--border);background:var(--bg-white);
+  color:var(--ink);outline:none;cursor:pointer;min-width:120px;
+}
+.toolbar-btn{
+  padding:9px 18px;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;font-weight:600;
+  background:var(--ink);color:#fff;border:none;
+  transition:background .2s;
+}
+.toolbar-btn:hover{background:var(--gold);}
+.toolbar-btn.gold{background:var(--gold);}
+.toolbar-btn.gold:hover{background:#8a6030;}
+
+table{width:100%;border-collapse:collapse;}
+thead tr{background:var(--bg-soft);}
+thead th{
+  padding:10px 16px;text-align:left;
+  font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--ink-muted);font-weight:600;white-space:nowrap;
+  border-bottom:1px solid var(--border);
+}
+tbody td{
+  padding:12px 16px;font-size:13px;
+  border-bottom:1px solid var(--border);
+  vertical-align:middle;
+}
+tbody tr:hover{background:var(--bg-soft);}
+tbody tr:last-child td{border-bottom:none;}
+
+/* ── BADGES ── */
+.badge{
+  display:inline-block;padding:3px 10px;
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  font-weight:600;border-radius:2px;
+}
+.badge-activo{background:var(--green-lt);color:var(--green);}
+.badge-pendiente{background:var(--gold-lt);color:var(--gold);}
+.badge-rechazado{background:var(--red-lt);color:var(--red);}
+.badge-free{background:#f0efed;color:var(--ink-muted);}
+.badge-presencia{background:var(--gold-lt);color:var(--gold);}
+.badge-profesional{background:var(--blue-lt);color:var(--blue);}
+.badge-elite{background:var(--ink);color:#fff;}
+
+/* ── TOGGLE ── */
+.toggle-btn{
+  width:44px;height:22px;border-radius:2px;
+  position:relative;border:none;
+  transition:background .2s;outline:none;
+}
+.toggle-btn.on{background:var(--gold);}
+.toggle-btn.off{background:#c8c5bf;}
+.toggle-dot{
+  position:absolute;top:3px;
+  width:16px;height:16px;background:#fff;
+  transition:left .2s;border-radius:1px;
+}
+.toggle-btn.on .toggle-dot{left:25px;}
+.toggle-btn.off .toggle-dot{left:3px;}
+
+/* ── PAGINATION ── */
+.pagination{
+  display:flex;align-items:center;gap:6px;
+  padding:16px 20px;border-top:1px solid var(--border);
+  justify-content:flex-end;
+}
+.page-btn{
+  padding:6px 11px;font-size:11px;letter-spacing:.5px;
+  border:1px solid var(--border);background:var(--bg-white);
+  color:var(--ink);transition:all .2s;min-width:32px;text-align:center;
+}
+.page-btn:hover{border-color:var(--gold);color:var(--gold);}
+.page-btn.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+.page-btn:disabled{opacity:.4;cursor:default;}
+
+/* ── CARDS (solicitudes) ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;}
+.sol-card{
+  background:var(--bg-white);border:1px solid var(--border);
+  padding:24px;
+}
+.sol-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.sol-name{font-family:var(--font-disp);font-size:20px;font-weight:400;}
+.sol-meta{font-size:12px;color:var(--ink-muted);margin-bottom:4px;}
+.sol-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
+.sol-btn{
+  padding:8px 14px;font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;font-weight:600;border:none;
+  transition:background .2s;
+}
+.sol-btn-aprobar{background:#d8f3dc;color:var(--green);}
+.sol-btn-aprobar:hover{background:var(--green);color:#fff;}
+.sol-btn-rechazar{background:var(--red-lt);color:var(--red);}
+.sol-btn-rechazar:hover{background:var(--red);color:#fff;}
+.sol-btn-detalle{background:var(--bg-soft);color:var(--ink);}
+.sol-btn-detalle:hover{background:var(--border);}
+
+/* ── MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(26,25,23,.6);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+}
+.modal-overlay.hidden{display:none;}
+.modal-box{
+  background:var(--bg-white);border:1px solid var(--border);
+  width:100%;max-width:640px;max-height:90vh;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.modal-box.wide{max-width:760px;}
+.modal-head{
+  padding:22px 28px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.modal-title{font-family:var(--font-disp);font-size:22px;font-weight:300;}
+.modal-close{
+  background:none;border:none;font-size:20px;
+  color:var(--ink-muted);line-height:1;padding:4px;
+  transition:color .2s;
+}
+.modal-close:hover{color:var(--ink);}
+.modal-body{padding:28px;overflow-y:auto;flex:1;}
+
+/* ── DETAIL GRID ── */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px;}
+.detail-field label{
+  display:block;font-size:9px;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--ink-muted);margin-bottom:4px;
+}
+.detail-field span{font-size:13px;color:var(--ink);word-break:break-word;}
+.detail-field.full{grid-column:1/-1;}
+
+/* ── FORM ── */
+.form-group{margin-bottom:18px;}
+.form-label{
+  display:block;font-size:9px;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px;
+}
+.form-input,.form-select,.form-textarea{
+  width:100%;padding:10px 13px;font-size:13px;
+  border:1px solid var(--border);background:var(--bg-white);
+  color:var(--ink);outline:none;transition:border-color .2s;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);}
+.form-textarea{resize:vertical;min-height:80px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.modal-footer{
+  padding:18px 28px;border-top:1px solid var(--border);
+  display:flex;justify-content:flex-end;gap:10px;flex-shrink:0;
+}
+.btn-cancel{
+  padding:10px 20px;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;font-weight:600;
+  background:var(--bg-soft);color:var(--ink-mid);border:none;
+  transition:background .2s;
+}
+.btn-cancel:hover{background:var(--border);}
+.btn-save{
+  padding:10px 22px;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;font-weight:600;
+  background:var(--gold);color:#fff;border:none;
+  transition:background .2s;
+}
+.btn-save:hover{background:#8a6030;}
+
+/* ── ANALYTICS ── */
+.analytics-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
+.top-list-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 0;border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+.top-list-item:last-child{border-bottom:none;}
+.top-bar-bg{flex:1;height:6px;background:var(--bg-soft);}
+.top-bar-fill{height:6px;background:var(--gold);transition:width .4s;}
+.top-bar-val{font-size:11px;color:var(--ink-muted);min-width:30px;text-align:right;}
+
+/* ── SETTINGS ── */
+.settings-card{
+  background:var(--bg-white);border:1px solid var(--border);
+  padding:28px;max-width:480px;
+}
+.settings-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;border-bottom:1px solid var(--border);
+  font-size:13px;
+}
+.settings-row:last-child{border-bottom:none;}
+.settings-key{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-muted);}
+.settings-val{color:var(--ink);font-size:12px;}
+
+/* ── TOASTS ── */
+#toast-container{
+  position:fixed;top:24px;right:24px;z-index:9000;
+  display:flex;flex-direction:column;gap:8px;
+  pointer-events:none;
+}
+.toast{
+  padding:13px 18px;font-size:12px;letter-spacing:.3px;
+  max-width:320px;pointer-events:auto;
+  transform:translateX(120%);transition:transform .3s;
+  display:flex;align-items:center;gap:10px;
+}
+.toast.show{transform:translateX(0);}
+.toast-success{background:#1a3a2a;color:#a8e6c0;}
+.toast-error{background:#3a1a1a;color:#f5b8b8;}
+.toast-info{background:var(--ink);color:rgba(255,255,255,.85);}
+
+/* ── SKELETON ── */
+.skeleton{
+  background:linear-gradient(90deg,var(--bg-soft) 25%,var(--border) 50%,var(--bg-soft) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.4s infinite;
+  border-radius:1px;
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ── EMPTY STATE ── */
+.empty-state{
+  text-align:center;padding:64px 32px;
+  color:var(--ink-muted);
+}
+.empty-state-icon{font-size:36px;margin-bottom:14px;opacity:.4;}
+.empty-state-title{
+  font-family:var(--font-disp);font-size:22px;font-weight:300;
+  margin-bottom:8px;color:var(--ink);
+}
+.empty-state-sub{font-size:13px;color:var(--ink-muted);}
+
+/* ── INLINE TIER SELECT ── */
+.tier-select{
+  padding:5px 8px;font-size:11px;
+  border:1px solid var(--border);background:var(--bg-white);
+  color:var(--ink);outline:none;cursor:pointer;
+}
+
+/* ── ROW ACTION BTNS ── */
+.act-btn{
+  padding:5px 10px;font-size:9px;letter-spacing:1.5px;
+  text-transform:uppercase;font-weight:600;
+  border:1px solid var(--border);background:var(--bg-white);
+  color:var(--ink-mid);transition:all .15s;
+  margin-right:4px;
+}
+.act-btn:hover{border-color:var(--gold);color:var(--gold);}
+.act-btn.danger:hover{border-color:var(--red);color:var(--red);}
+
+/* ── HAMBURGER ── */
+#hamburger{
+  display:none;position:fixed;top:14px;left:14px;z-index:200;
+  background:var(--ink);border:none;color:#fff;
+  padding:8px 10px;font-size:16px;line-height:1;
+}
+.sidebar-overlay{
+  display:none;position:fixed;inset:0;z-index:99;
+  background:rgba(0,0,0,.5);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  #sidebar{transform:translateX(-100%);}
+  #sidebar.open{transform:translateX(0);}
+  #main{margin-left:0;}
+  #hamburger{display:block;}
+  .sidebar-overlay{display:block;}
+  .sidebar-overlay.hidden{display:none;}
+  .kpi-grid{grid-template-columns:1fr 1fr;}
+  .analytics-row{grid-template-columns:1fr;}
+  .detail-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .main-content{padding:20px 16px;}
+  .main-header{padding:16px 20px;}
+  .cards-grid{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  .kpi-grid{grid-template-columns:1fr;}
+  .login-box{padding:32px 24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN OVERLAY ── -->
+<div id="login-overlay">
+  <div class="login-box">
+    <div class="login-logo">WORLD STONE <span class="login-logo-hub">Hub</span></div>
+    <div class="login-sub">Panel de administración</div>
+    <div class="login-title">Acceso restringido</div>
+    <label class="login-label" for="login-email">Correo electrónico</label>
+    <input class="login-input" id="login-email" type="email" placeholder="admin@worldstonehub.com" autocomplete="username">
+    <label class="login-label" for="login-pass">Contraseña</label>
+    <input class="login-input" id="login-pass" type="password" placeholder="••••••••" autocomplete="current-password">
+    <button class="login-btn" onclick="handleLogin()">Entrar</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- ── PANEL ── -->
+<div id="panel" class="hidden">
+
+  <!-- hamburger -->
+  <button id="hamburger" onclick="toggleSidebar()">&#9776;</button>
+  <div id="sidebar-overlay" class="sidebar-overlay hidden" onclick="closeSidebar()"></div>
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-text">WORLD STONE <span class="sidebar-logo-hub">Hub</span></div>
+      <span class="sidebar-logo-sub">Admin Panel</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" data-section="dashboard" onclick="navTo('dashboard')">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1v-4zm8-8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V4zm0 8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item" data-section="solicitudes" onclick="navTo('solicitudes')">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
+        Solicitudes
+        <span class="nav-badge" id="badge-pendientes" style="display:none">0</span>
+      </div>
+      <div class="nav-item" data-section="proveedores" onclick="navTo('proveedores')">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
+        Proveedores
+      </div>
+      <div class="nav-item" data-section="materiales" onclick="navTo('materiales')">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>
+        Materiales
+      </div>
+      <div class="nav-item" data-section="analiticas" onclick="navTo('analiticas')">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+        Analíticas
+      </div>
+      <div class="nav-item" data-section="ajustes" onclick="navTo('ajustes')">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
+        Ajustes
+      </div>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="sidebar-user-email" id="sidebar-email">—</div>
+      <button class="sidebar-logout" onclick="handleLogout()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div id="main">
+
+    <!-- DASHBOARD -->
+    <div id="section-dashboard" class="section active">
+      <div class="main-header">
+        <div class="main-title">Dashboard</div>
+      </div>
+      <div class="main-content">
+        <div class="kpi-grid" id="kpi-grid">
+          <div class="kpi-card"><div class="kpi-label">Proveedores activos</div><div class="kpi-value skeleton" style="height:42px;width:80px" id="kpi-activos">&nbsp;</div></div>
+          <div class="kpi-card"><div class="kpi-label">Pendientes</div><div class="kpi-value skeleton" style="height:42px;width:60px" id="kpi-pendientes">&nbsp;</div></div>
+          <div class="kpi-card"><div class="kpi-label">Visitas 30 días</div><div class="kpi-value skeleton" style="height:42px;width:80px" id="kpi-visitas">&nbsp;</div></div>
+          <div class="kpi-card"><div class="kpi-label">Total directorio</div><div class="kpi-value skeleton" style="height:42px;width:70px" id="kpi-total">&nbsp;</div></div>
+        </div>
+        <div class="tier-row" id="tier-row"></div>
+        <div class="chart-box">
+          <div class="chart-title">Altas por semana — últimas 8 semanas</div>
+          <svg id="chart-altas" viewBox="0 0 680 160" xmlns="http://www.w3.org/2000/svg" style="height:160px"></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOLICITUDES -->
+    <div id="section-solicitudes" class="section">
+      <div class="main-header">
+        <div class="main-title">Solicitudes pendientes</div>
+      </div>
+      <div class="main-content">
+        <div id="solicitudes-container"></div>
+      </div>
+    </div>
+
+    <!-- PROVEEDORES -->
+    <div id="section-proveedores" class="section">
+      <div class="main-header">
+        <div class="main-title">Proveedores</div>
+        <span id="prov-count-label" style="font-size:12px;color:var(--ink-muted)"></span>
+      </div>
+      <div class="main-content">
+        <div class="table-box">
+          <div class="table-toolbar">
+            <input class="toolbar-search" id="prov-search" type="text" placeholder="Buscar empresa, nombre…">
+            <select class="toolbar-select" id="prov-filter-tier" onchange="aplicarFiltrosProveedores()">
+              <option value="">Todos los tiers</option>
+              <option value="free">Free</option>
+              <option value="presencia">Presencia</option>
+              <option value="profesional">Profesional</option>
+              <option value="elite">Élite</option>
+            </select>
+            <select class="toolbar-select" id="prov-filter-estado" onchange="aplicarFiltrosProveedores()">
+              <option value="">Todos los estados</option>
+              <option value="activo">Activo</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="rechazado">Rechazado</option>
+            </select>
+            <select class="toolbar-select" id="prov-filter-pais" onchange="aplicarFiltrosProveedores()">
+              <option value="">Todos los países</option>
+            </select>
+          </div>
+          <div id="prov-table-wrap">
+            <div class="empty-state"><div class="empty-state-icon">⊙</div><div class="empty-state-title">Cargando…</div></div>
+          </div>
+          <div class="pagination" id="prov-pagination"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MATERIALES -->
+    <div id="section-materiales" class="section">
+      <div class="main-header">
+        <div class="main-title">Materiales</div>
+      </div>
+      <div class="main-content">
+        <div class="table-box">
+          <div class="table-toolbar">
+            <input class="toolbar-search" id="mat-search" type="text" placeholder="Buscar material…">
+            <button class="toolbar-btn gold" onclick="abrirModalMaterial(null)">+ Añadir material</button>
+          </div>
+          <div id="mat-table-wrap">
+            <div class="empty-state"><div class="empty-state-icon">⊙</div><div class="empty-state-title">Cargando…</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALÍTICAS -->
+    <div id="section-analiticas" class="section">
+      <div class="main-header">
+        <div class="main-title">Analíticas</div>
+      </div>
+      <div class="main-content">
+        <div class="analytics-row">
+          <div class="chart-box">
+            <div class="chart-title">Visitas diarias — últimos 30 días</div>
+            <svg id="chart-visitas" viewBox="0 0 500 140" xmlns="http://www.w3.org/2000/svg" style="height:140px"></svg>
+          </div>
+          <div class="chart-box">
+            <div class="chart-title">Top 10 proveedores</div>
+            <div id="top-prov-list"></div>
+          </div>
+        </div>
+        <div class="table-box">
+          <div class="table-toolbar"><span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-muted)">Visitas por proveedor</span></div>
+          <div id="analytics-table-wrap">
+            <div class="empty-state"><div class="empty-state-icon">⊙</div><div class="empty-state-title">Cargando…</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AJUSTES -->
+    <div id="section-ajustes" class="section">
+      <div class="main-header">
+        <div class="main-title">Ajustes</div>
+      </div>
+      <div class="main-content">
+        <div class="settings-card">
+          <div class="settings-row">
+            <span class="settings-key">Admin email</span>
+            <span class="settings-val" id="settings-email">—</span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">Supabase Project</span>
+            <span class="settings-val">whcptmdapnavcxcszwwk</span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">Versión panel</span>
+            <span class="settings-val">1.0.0</span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">Sesión</span>
+            <button class="toolbar-btn" style="font-size:9px;padding:7px 14px" onclick="handleLogout()">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /panel -->
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- MODAL: Detalle proveedor -->
+<div id="modal-detalle" class="modal-overlay hidden" onclick="cerrarModalDetalle(event)">
+  <div class="modal-box wide" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-detalle-title">Detalle proveedor</div>
+      <button class="modal-close" onclick="document.getElementById('modal-detalle').classList.add('hidden')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-grid" id="modal-detalle-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Editar proveedor -->
+<div id="modal-editar" class="modal-overlay hidden" onclick="cerrarModalEditar(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title">Editar proveedor</div>
+      <button class="modal-close" onclick="document.getElementById('modal-editar').classList.add('hidden')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-prov-id">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nombre</label>
+          <input class="form-input" id="edit-nombre" type="text">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Empresa</label>
+          <input class="form-input" id="edit-empresa" type="text">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" id="edit-email" type="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Teléfono</label>
+          <input class="form-input" id="edit-telefono" type="text">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Web</label>
+        <input class="form-input" id="edit-web" type="url">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">País</label>
+          <input class="form-input" id="edit-pais" type="text">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ciudad</label>
+          <input class="form-input" id="edit-ciudad" type="text">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-textarea" id="edit-descripcion" rows="3"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="document.getElementById('modal-editar').classList.add('hidden')">Cancelar</button>
+      <button class="btn-save" onclick="guardarEdicionProveedor()">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Añadir/editar material -->
+<div id="modal-material" class="modal-overlay hidden" onclick="cerrarModalMaterial(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-material-title">Añadir material</div>
+      <button class="modal-close" onclick="document.getElementById('modal-material').classList.add('hidden')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="mat-id">
+      <div class="form-group">
+        <label class="form-label">Nombre comercial</label>
+        <input class="form-input" id="mat-nombre" type="text" oninput="autoSlugMaterial()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nombre</label>
+        <input class="form-input" id="mat-nombre-base" type="text">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Slug</label>
+        <input class="form-input" id="mat-slug" type="text" placeholder="auto-generado">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Categoría</label>
+        <input class="form-input" id="mat-categoria" type="text">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-textarea" id="mat-descripcion" rows="3"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="document.getElementById('modal-material').classList.add('hidden')">Cancelar</button>
+      <button class="btn-save" onclick="guardarMaterial()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ──
+const SUPABASE_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
+const SUPABASE_KEY = 'TU_API_KEY_AQUI';
+const ADMIN_EMAIL = 'admin@worldstonehub.com';
+
+// ── SUPABASE INIT ──
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── GLOBAL STATE ──
+let _currentUser = null;
+let _proveedoresData = [];
+let _filteredProveedores = [];
+let _provMap = {};
+let _materialesData = [];
+let _matMap = {};
+let _provPage = 1;
+const PROV_PAGE_SIZE = 25;
+let _currentSection = 'dashboard';
+
+// ── UTILITIES ──
+
+function formatFecha(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${d.getDate()} ${meses[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function badgeEstado(estado) {
+  const map = {
+    activo: 'badge-activo',
+    pendiente: 'badge-pendiente',
+    rechazado: 'badge-rechazado'
+  };
+  const cls = map[estado] || 'badge-pendiente';
+  return `<span class="badge ${cls}">${estado || '—'}</span>`;
+}
+
+function badgeTier(tier) {
+  const map = {
+    free: 'badge-free',
+    presencia: 'badge-presencia',
+    profesional: 'badge-profesional',
+    elite: 'badge-elite',
+    élite: 'badge-elite'
+  };
+  const t = (tier || 'free').toLowerCase();
+  const cls = map[t] || 'badge-free';
+  const label = tier ? tier.charAt(0).toUpperCase() + tier.slice(1) : 'Free';
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+
+function debounce(fn, ms) {
+  let timer;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), ms);
+  };
+}
+
+function slugify(str) {
+  return (str || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function escHtml(str) {
+  if (str === null || str === undefined) return '—';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+// ── TOASTS ──
+
+function toast(msg, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const el = document.createElement('div');
+  el.className = `toast toast-${type}`;
+  el.textContent = msg;
+  container.appendChild(el);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => el.classList.add('show'));
+  });
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => el.remove(), 350);
+  }, 3000);
+}
+
+// ── AUTH ──
+
+async function verificarSesion() {
+  const { data: { session } } = await db.auth.getSession();
+  if (session && session.user.email === ADMIN_EMAIL) {
+    await iniciarPanel(session.user);
+  }
+}
+
+async function iniciarPanel(user) {
+  _currentUser = user;
+  document.getElementById('login-overlay').classList.add('hidden');
+  document.getElementById('panel').classList.remove('hidden');
+  document.getElementById('sidebar-email').textContent = user.email;
+  document.getElementById('settings-email').textContent = user.email;
+  await Promise.all([cargarDashboard(), actualizarBadgePendientes()]);
+}
+
+async function handleLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-error');
+  errEl.textContent = '';
+
+  if (!email || !pass) {
+    errEl.textContent = 'Por favor completa todos los campos.';
+    return;
+  }
+
+  const btn = document.querySelector('.login-btn');
+  btn.textContent = 'Comprobando…';
+  btn.disabled = true;
+
+  const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
+
+  btn.textContent = 'Entrar';
+  btn.disabled = false;
+
+  if (error) {
+    errEl.textContent = 'Credenciales incorrectas.';
+    return;
+  }
+
+  if (data.user.email !== ADMIN_EMAIL) {
+    await db.auth.signOut();
+    errEl.textContent = 'No tienes permisos de administrador.';
+    return;
+  }
+
+  await iniciarPanel(data.user);
+}
+
+async function handleLogout() {
+  await db.auth.signOut();
+  _currentUser = null;
+  document.getElementById('panel').classList.add('hidden');
+  document.getElementById('login-overlay').classList.remove('hidden');
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-error').textContent = '';
+}
+
+// ── NAVIGATION ──
+
+function navTo(section) {
+  _currentSection = section;
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.section === section);
+  });
+  document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+  document.getElementById('section-' + section).classList.add('active');
+  closeSidebar();
+
+  if (section === 'solicitudes') cargarSolicitudes();
+  if (section === 'proveedores') cargarProveedores();
+  if (section === 'materiales') cargarMateriales();
+  if (section === 'analiticas') cargarAnaliticas();
+}
+
+// ── SIDEBAR MOBILE ──
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('hidden');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.add('hidden');
+}
+
+// ── DASHBOARD ──
+
+async function cargarDashboard() {
+  try {
+    const [provRes, eventRes] = await Promise.all([
+      db.from('proveedores').select('id,tier,estado,activo,created_at'),
+      db.from('eventos').select('timestamp')
+    ]);
+
+    const provs = provRes.data || [];
+    const eventos = eventRes.data || [];
+
+    const activos = provs.filter(p => p.activo === true || p.estado === 'activo').length;
+    const pendientes = provs.filter(p => p.estado === 'pendiente').length;
+    const total = provs.length;
+
+    const hace30 = new Date(Date.now() - 30 * 86400000);
+    const visitas30 = eventos.filter(e => new Date(e.timestamp) >= hace30).length;
+
+    const kpiActivos = document.getElementById('kpi-activos');
+    kpiActivos.className = 'kpi-value';
+    kpiActivos.textContent = activos;
+
+    const kpiPend = document.getElementById('kpi-pendientes');
+    kpiPend.className = 'kpi-value';
+    kpiPend.textContent = pendientes;
+
+    const kpiVisitas = document.getElementById('kpi-visitas');
+    kpiVisitas.className = 'kpi-value';
+    kpiVisitas.textContent = visitas30;
+
+    const kpiTotal = document.getElementById('kpi-total');
+    kpiTotal.className = 'kpi-value';
+    kpiTotal.textContent = total;
+
+    renderTierPills(provs);
+    renderChartAltas(provs);
+  } catch(e) {
+    toast('Error cargando dashboard', 'error');
+  }
+}
+
+function renderTierPills(provs) {
+  const counts = { free: 0, presencia: 0, profesional: 0, elite: 0 };
+  provs.forEach(p => {
+    const t = (p.tier || 'free').toLowerCase();
+    if (counts.hasOwnProperty(t)) counts[t]++;
+    else counts['free']++;
+  });
+
+  const labels = { free: 'Free', presencia: 'Presencia', profesional: 'Profesional', elite: 'Élite' };
+  const colors = { free: 'var(--ink-muted)', presencia: 'var(--gold)', profesional: 'var(--blue)', elite: 'var(--ink)' };
+
+  let html = '';
+  for (const [key, label] of Object.entries(labels)) {
+    html += `<div class="tier-pill">
+      <span class="tier-pill-count" style="color:${colors[key]}">${counts[key]}</span>
+      <span style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-muted)">${label}</span>
+    </div>`;
+  }
+  document.getElementById('tier-row').innerHTML = html;
+}
+
+function renderChartAltas(provs) {
+  const svg = document.getElementById('chart-altas');
+  svg.innerHTML = '';
+
+  // Build last 8 weeks buckets
+  const now = new Date();
+  const weeks = [];
+  for (let i = 7; i >= 0; i--) {
+    const start = new Date(now);
+    start.setDate(start.getDate() - i * 7 - 6);
+    start.setHours(0,0,0,0);
+    const end = new Date(now);
+    end.setDate(end.getDate() - i * 7);
+    end.setHours(23,59,59,999);
+    weeks.push({ start, end, count: 0, label: `S${8-i}` });
+  }
+
+  provs.forEach(p => {
+    if (!p.created_at) return;
+    const d = new Date(p.created_at);
+    weeks.forEach(w => {
+      if (d >= w.start && d <= w.end) w.count++;
+    });
+  });
+
+  const maxVal = Math.max(...weeks.map(w => w.count), 1);
+  const W = 680, H = 160;
+  const padL = 30, padR = 10, padT = 10, padB = 30;
+  const barW = Math.floor((W - padL - padR) / weeks.length) - 6;
+  const chartH = H - padT - padB;
+
+  // Y-axis lines
+  for (let i = 0; i <= 4; i++) {
+    const y = padT + (chartH / 4) * i;
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1', padL);
+    line.setAttribute('x2', W - padR);
+    line.setAttribute('y1', y);
+    line.setAttribute('y2', y);
+    line.setAttribute('stroke', '#e2e0dc');
+    line.setAttribute('stroke-width', '1');
+    svg.appendChild(line);
+
+    const val = Math.round(maxVal - (maxVal / 4) * i);
+    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x', padL - 4);
+    t.setAttribute('y', y + 4);
+    t.setAttribute('font-size', '9');
+    t.setAttribute('fill', '#8a8784');
+    t.setAttribute('text-anchor', 'end');
+    t.setAttribute('font-family', 'Instrument Sans, sans-serif');
+    t.textContent = val;
+    svg.appendChild(t);
+  }
+
+  weeks.forEach((w, i) => {
+    const slotW = (W - padL - padR) / weeks.length;
+    const x = padL + i * slotW + (slotW - barW) / 2;
+    const barH = Math.max(2, (w.count / maxVal) * chartH);
+    const y = padT + chartH - barH;
+
+    const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    rect.setAttribute('x', x);
+    rect.setAttribute('y', y);
+    rect.setAttribute('width', barW);
+    rect.setAttribute('height', barH);
+    rect.setAttribute('fill', '#A67C52');
+    rect.setAttribute('opacity', '0.85');
+    svg.appendChild(rect);
+
+    // Count label above bar
+    if (w.count > 0) {
+      const vt = document.createElementNS('http://www.w3.org/2000/svg','text');
+      vt.setAttribute('x', x + barW / 2);
+      vt.setAttribute('y', y - 4);
+      vt.setAttribute('font-size', '9');
+      vt.setAttribute('fill', '#4a4845');
+      vt.setAttribute('text-anchor', 'middle');
+      vt.setAttribute('font-family', 'Instrument Sans, sans-serif');
+      vt.textContent = w.count;
+      svg.appendChild(vt);
+    }
+
+    // Week label
+    const lt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    lt.setAttribute('x', x + barW / 2);
+    lt.setAttribute('y', H - 8);
+    lt.setAttribute('font-size', '9');
+    lt.setAttribute('fill', '#8a8784');
+    lt.setAttribute('text-anchor', 'middle');
+    lt.setAttribute('font-family', 'Instrument Sans, sans-serif');
+    lt.textContent = w.label;
+    svg.appendChild(lt);
+  });
+}
+
+// ── BADGE PENDIENTES ──
+
+async function actualizarBadgePendientes() {
+  const { data } = await db.from('proveedores').select('id').eq('estado','pendiente');
+  const count = (data || []).length;
+  const badge = document.getElementById('badge-pendientes');
+  if (count > 0) {
+    badge.textContent = count;
+    badge.style.display = 'inline-block';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+// ── SOLICITUDES ──
+
+async function cargarSolicitudes() {
+  const container = document.getElementById('solicitudes-container');
+  container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⊙</div><div class="empty-state-title">Cargando solicitudes…</div></div>';
+
+  const { data, error } = await db
+    .from('proveedores')
+    .select('*')
+    .eq('estado','pendiente')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    toast('Error cargando solicitudes', 'error');
+    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠</div><div class="empty-state-title">Error al cargar</div><div class="empty-state-sub">'+error.message+'</div></div>';
+    return;
+  }
+
+  const provs = data || [];
+
+  // Populate map
+  provs.forEach(p => { _provMap[p.id] = p; });
+
+  if (provs.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✓</div><div class="empty-state-title">Sin solicitudes pendientes</div><div class="empty-state-sub">Todas las solicitudes han sido procesadas.</div></div>';
+    return;
+  }
+
+  let html = '<div class="cards-grid">';
+  provs.forEach(p => {
+    html += `<div class="sol-card" id="sol-card-${p.id}">
+      <div class="sol-card-header">
+        <div>
+          <div class="sol-name">${escHtml(p.nombre_empresa || p.nombre)}</div>
+          ${badgeTier(p.tier)}
+        </div>
+        ${badgeEstado(p.estado)}
+      </div>
+      <div class="sol-meta">${escHtml(p.nombre)}</div>
+      <div class="sol-meta">${escHtml(p.email)}</div>
+      <div class="sol-meta">${escHtml(p.pais)}${p.ciudad ? ' · ' + escHtml(p.ciudad) : ''}</div>
+      <div class="sol-meta" style="color:var(--ink-muted);font-size:11px">${formatFecha(p.created_at)}</div>
+      <div class="sol-actions">
+        <button class="sol-btn sol-btn-aprobar" onclick="aprobarSolicitud('${p.id}')">Aprobar</button>
+        <button class="sol-btn sol-btn-rechazar" onclick="rechazarSolicitud('${p.id}')">Rechazar</button>
+        <button class="sol-btn sol-btn-detalle" onclick="verDetalle('${p.id}')">Ver detalle</button>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+async function aprobarSolicitud(id) {
+  const { error } = await db
+    .from('proveedores')
+    .update({ estado: 'activo', activo: true })
+    .eq('id', id);
+
+  if (error) {
+    toast('Error al aprobar: ' + error.message, 'error');
+    return;
+  }
+
+  toast('Proveedor aprobado', 'success');
+  const card = document.getElementById('sol-card-' + id);
+  if (card) card.remove();
+  actualizarBadgePendientes();
+
+  // Update map
+  if (_provMap[id]) {
+    _provMap[id].estado = 'activo';
+    _provMap[id].activo = true;
+  }
+
+  // Check if grid is now empty
+  const grid = document.querySelector('.cards-grid');
+  if (grid && grid.children.length === 0) {
+    document.getElementById('solicitudes-container').innerHTML = '<div class="empty-state"><div class="empty-state-icon">✓</div><div class="empty-state-title">Sin solicitudes pendientes</div><div class="empty-state-sub">Todas las solicitudes han sido procesadas.</div></div>';
+  }
+}
+
+async function rechazarSolicitud(id) {
+  if (!confirm('¿Confirmas rechazar esta solicitud? Esta acción marcará al proveedor como rechazado.')) return;
+
+  const { error } = await db
+    .from('proveedores')
+    .update({ estado: 'rechazado', activo: false })
+    .eq('id', id);
+
+  if (error) {
+    toast('Error al rechazar: ' + error.message, 'error');
+    return;
+  }
+
+  toast('Solicitud rechazada', 'info');
+  const card = document.getElementById('sol-card-' + id);
+  if (card) card.remove();
+  actualizarBadgePendientes();
+
+  if (_provMap[id]) {
+    _provMap[id].estado = 'rechazado';
+    _provMap[id].activo = false;
+  }
+
+  const grid = document.querySelector('.cards-grid');
+  if (grid && grid.children.length === 0) {
+    document.getElementById('solicitudes-container').innerHTML = '<div class="empty-state"><div class="empty-state-icon">✓</div><div class="empty-state-title">Sin solicitudes pendientes</div><div class="empty-state-sub">Todas las solicitudes han sido procesadas.</div></div>';
+  }
+}
+
+// ── DETALLE MODAL ──
+
+function verDetalle(id) {
+  const p = _provMap[id];
+  if (!p) return;
+
+  document.getElementById('modal-detalle-title').textContent = p.nombre_empresa || p.nombre || 'Detalle';
+
+  const fields = [
+    { label: 'Nombre', val: p.nombre },
+    { label: 'Empresa', val: p.nombre_empresa },
+    { label: 'Slug', val: p.slug },
+    { label: 'Tier', val: badgeTier(p.tier) },
+    { label: 'Plan', val: p.plan },
+    { label: 'Estado', val: badgeEstado(p.estado) },
+    { label: 'Activo', val: p.activo ? 'Sí' : 'No' },
+    { label: 'País', val: p.pais },
+    { label: 'Ciudad', val: p.ciudad },
+    { label: 'Email', val: p.email },
+    { label: 'Teléfono', val: p.telefono },
+    { label: 'Web', val: p.web },
+    { label: 'Alta', val: formatFecha(p.created_at) },
+    { label: 'Materiales', val: Array.isArray(p.materiales) ? p.materiales.join(', ') : p.materiales, full: true },
+    { label: 'Descripción', val: p.descripcion, full: true },
+    { label: 'Logo URL', val: p.logo_url, full: true },
+  ];
+
+  let html = '';
+  fields.forEach(f => {
+    const val = (f.val !== null && f.val !== undefined && f.val !== '') ? f.val : '—';
+    html += `<div class="detail-field${f.full ? ' full' : ''}">
+      <label>${f.label}</label>
+      <span>${val}</span>
+    </div>`;
+  });
+
+  document.getElementById('modal-detalle-body').innerHTML = html;
+  document.getElementById('modal-detalle').classList.remove('hidden');
+}
+
+function cerrarModalDetalle(e) {
+  if (e.target === document.getElementById('modal-detalle')) {
+    document.getElementById('modal-detalle').classList.add('hidden');
+  }
+}
+
+// ── PROVEEDORES ──
+
+async function cargarProveedores() {
+  document.getElementById('prov-table-wrap').innerHTML = '<div class="empty-state"><div class="empty-state-icon">⊙</div><div class="empty-state-title">Cargando…</div></div>';
+
+  const { data, error } = await db
+    .from('proveedores')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    toast('Error cargando proveedores', 'error');
+    return;
+  }
+
+  _proveedoresData = data || [];
+  _provMap = {};
+  _proveedoresData.forEach(p => { _provMap[p.id] = p; });
+
+  // Populate country filter
+  const paises = [...new Set(_proveedoresData.map(p => p.pais).filter(Boolean))].sort();
+  const paisSel = document.getElementById('prov-filter-pais');
+  const currentPais = paisSel.value;
+  paisSel.innerHTML = '<option value="">Todos los países</option>' +
+    paises.map(pa => `<option value="${escHtml(pa)}"${pa === currentPais ? ' selected' : ''}>${escHtml(pa)}</option>`).join('');
+
+  aplicarFiltrosProveedores();
+}
+
+function aplicarFiltrosProveedores() {
+  const search = (document.getElementById('prov-search').value || '').toLowerCase();
+  const tier = document.getElementById('prov-filter-tier').value;
+  const estado = document.getElementById('prov-filter-estado').value;
+  const pais = document.getElementById('prov-filter-pais').value;
+
+  _filteredProveedores = _proveedoresData.filter(p => {
+    if (search) {
+      const haystack = [p.nombre, p.nombre_empresa, p.email, p.slug].join(' ').toLowerCase();
+      if (!haystack.includes(search)) return false;
+    }
+    if (tier && (p.tier || 'free').toLowerCase() !== tier) return false;
+    if (estado && p.estado !== estado) return false;
+    if (pais && p.pais !== pais) return false;
+    return true;
+  });
+
+  _provPage = 1;
+  renderTablaProveedores();
+}
+
+function renderTablaProveedores() {
+  const total = _filteredProveedores.length;
+  document.getElementById('prov-count-label').textContent = `${total} proveedor${total !== 1 ? 'es' : ''}`;
+
+  const start = (_provPage - 1) * PROV_PAGE_SIZE;
+  const page = _filteredProveedores.slice(start, start + PROV_PAGE_SIZE);
+
+  if (page.length === 0) {
+    document.getElementById('prov-table-wrap').innerHTML = '<div class="empty-state"><div class="empty-state-icon">∅</div><div class="empty-state-title">Sin resultados</div><div class="empty-state-sub">Prueba a cambiar los filtros.</div></div>';
+    document.getElementById('prov-pagination').innerHTML = '';
+    return;
+  }
+
+  let html = '<table><thead><tr>' +
+    '<th>Empresa</th><th>País</th><th>Tier</th><th>Estado</th><th>Activo</th><th>Alta</th><th>Acciones</th>' +
+    '</tr></thead><tbody>';
+
+  page.forEach(p => {
+    const tierVal = (p.tier || 'free').toLowerCase();
+    html += `<tr>
+      <td>
+        <div style="font-size:13px;font-weight:500">${escHtml(p.nombre_empresa || p.nombre || '—')}</div>
+        ${p.nombre_empresa && p.nombre ? `<div style="font-size:11px;color:var(--ink-muted)">${escHtml(p.nombre)}</div>` : ''}
+      </td>
+      <td>${escHtml(p.pais) || '—'}</td>
+      <td>${badgeTier(p.tier)}</td>
+      <td>${badgeEstado(p.estado)}</td>
+      <td>
+        <button class="toggle-btn ${p.activo ? 'on' : 'off'}" onclick="toggleActivo('${p.id}')" title="${p.activo ? 'Desactivar' : 'Activar'}">
+          <span class="toggle-dot"></span>
+        </button>
+      </td>
+      <td style="font-size:12px;color:var(--ink-muted)">${formatFecha(p.created_at)}</td>
+      <td>
+        <select class="tier-select" onchange="cambiarTier('${p.id}', this.value)">
+          <option value="free"${tierVal==='free'?' selected':''}>Free</option>
+          <option value="presencia"${tierVal==='presencia'?' selected':''}>Presencia</option>
+          <option value="profesional"${tierVal==='profesional'?' selected':''}>Profesional</option>
+          <option value="elite"${tierVal==='elite'?' selected':''}>Élite</option>
+        </select>
+        ${p.slug ? `<a href="proveedor.html?id=${escHtml(p.slug)}" target="_blank" class="act-btn" style="text-decoration:none;display:inline-block">↗</a>` : ''}
+        <button class="act-btn" onclick="abrirModalEditar('${p.id}')">Editar</button>
+        <button class="act-btn" onclick="verDetalle('${p.id}')">Detalle</button>
+      </td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  document.getElementById('prov-table-wrap').innerHTML = html;
+
+  renderPaginacionProveedores(total);
+}
+
+function renderPaginacionProveedores(total) {
+  const totalPages = Math.ceil(total / PROV_PAGE_SIZE);
+  if (totalPages <= 1) {
+    document.getElementById('prov-pagination').innerHTML = '';
+    return;
+  }
+
+  let html = `<button class="page-btn" onclick="goToProvPage(${_provPage - 1})" ${_provPage === 1 ? 'disabled' : ''}>&#8592;</button>`;
+
+  const range = [];
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || (i >= _provPage - 2 && i <= _provPage + 2)) {
+      range.push(i);
+    } else if (range[range.length - 1] !== '…') {
+      range.push('…');
+    }
+  }
+
+  range.forEach(r => {
+    if (r === '…') {
+      html += `<span style="padding:6px 4px;font-size:12px;color:var(--ink-muted)">…</span>`;
+    } else {
+      html += `<button class="page-btn${r === _provPage ? ' active' : ''}" onclick="goToProvPage(${r})">${r}</button>`;
+    }
+  });
+
+  html += `<button class="page-btn" onclick="goToProvPage(${_provPage + 1})" ${_provPage === totalPages ? 'disabled' : ''}>&#8594;</button>`;
+  document.getElementById('prov-pagination').innerHTML = html;
+}
+
+function goToProvPage(n) {
+  const total = _filteredProveedores.length;
+  const totalPages = Math.ceil(total / PROV_PAGE_SIZE);
+  if (n < 1 || n > totalPages) return;
+  _provPage = n;
+  renderTablaProveedores();
+  document.getElementById('section-proveedores').scrollTop = 0;
+}
+
+async function toggleActivo(id) {
+  const p = _provMap[id];
+  if (!p) return;
+  const nuevoActivo = !p.activo;
+
+  const { error } = await db
+    .from('proveedores')
+    .update({ activo: nuevoActivo })
+    .eq('id', id);
+
+  if (error) {
+    toast('Error actualizando estado', 'error');
+    return;
+  }
+
+  p.activo = nuevoActivo;
+  _proveedoresData.forEach((pr, i) => {
+    if (pr.id === id) _proveedoresData[i].activo = nuevoActivo;
+  });
+
+  toast(nuevoActivo ? 'Proveedor activado' : 'Proveedor desactivado', 'success');
+  renderTablaProveedores();
+}
+
+async function cambiarTier(id, nuevoTier) {
+  const { error } = await db
+    .from('proveedores')
+    .update({ tier: nuevoTier })
+    .eq('id', id);
+
+  if (error) {
+    toast('Error cambiando tier', 'error');
+    return;
+  }
+
+  if (_provMap[id]) _provMap[id].tier = nuevoTier;
+  _proveedoresData.forEach((pr, i) => {
+    if (pr.id === id) _proveedoresData[i].tier = nuevoTier;
+  });
+
+  toast('Tier actualizado a ' + nuevoTier, 'success');
+}
+
+// ── EDIT PROVEEDOR MODAL ──
+
+function abrirModalEditar(id) {
+  const p = _provMap[id];
+  if (!p) return;
+
+  document.getElementById('edit-prov-id').value = id;
+  document.getElementById('edit-nombre').value = p.nombre || '';
+  document.getElementById('edit-empresa').value = p.nombre_empresa || '';
+  document.getElementById('edit-email').value = p.email || '';
+  document.getElementById('edit-telefono').value = p.telefono || '';
+  document.getElementById('edit-web').value = p.web || '';
+  document.getElementById('edit-pais').value = p.pais || '';
+  document.getElementById('edit-ciudad').value = p.ciudad || '';
+  document.getElementById('edit-descripcion').value = p.descripcion || '';
+
+  document.getElementById('modal-editar').classList.remove('hidden');
+}
+
+function cerrarModalEditar(e) {
+  if (e.target === document.getElementById('modal-editar')) {
+    document.getElementById('modal-editar').classList.add('hidden');
+  }
+}
+
+async function guardarEdicionProveedor() {
+  const id = document.getElementById('edit-prov-id').value;
+  if (!id) return;
+
+  const updates = {
+    nombre: document.getElementById('edit-nombre').value.trim(),
+    nombre_empresa: document.getElementById('edit-empresa').value.trim(),
+    email: document.getElementById('edit-email').value.trim(),
+    telefono: document.getElementById('edit-telefono').value.trim(),
+    web: document.getElementById('edit-web').value.trim(),
+    pais: document.getElementById('edit-pais').value.trim(),
+    ciudad: document.getElementById('edit-ciudad').value.trim(),
+    descripcion: document.getElementById('edit-descripcion').value.trim(),
+  };
+
+  const btn = document.querySelector('#modal-editar .btn-save');
+  btn.textContent = 'Guardando…';
+  btn.disabled = true;
+
+  const { error } = await db
+    .from('proveedores')
+    .update(updates)
+    .eq('id', id);
+
+  btn.textContent = 'Guardar cambios';
+  btn.disabled = false;
+
+  if (error) {
+    toast('Error al guardar: ' + error.message, 'error');
+    return;
+  }
+
+  // Update local cache
+  Object.assign(_provMap[id], updates);
+  const idx = _proveedoresData.findIndex(p => p.id === id);
+  if (idx !== -1) Object.assign(_proveedoresData[idx], updates);
+
+  toast('Proveedor actualizado', 'success');
+  document.getElementById('modal-editar').classList.add('hidden');
+  renderTablaProveedores();
+}
+
+// ── MATERIALES ──
+
+async function cargarMateriales() {
+  document.getElementById('mat-table-wrap').innerHTML = '<div class="empty-state"><div class="empty-state-icon">⊙</div><div class="empty-state-title">Cargando…</div></div>';
+
+  const { data, error } = await db
+    .from('materiales')
+    .select('*')
+    .order('nombre_comercial');
+
+  if (error) {
+    toast('Error cargando materiales', 'error');
+    return;
+  }
+
+  _materialesData = data || [];
+  _matMap = {};
+  _materialesData.forEach(m => { _matMap[m.id] = m; });
+
+  renderTablaMateriales(_materialesData);
+
+  // Search
+  const searchInput = document.getElementById('mat-search');
+  searchInput.oninput = debounce(() => {
+    const q = searchInput.value.toLowerCase();
+    const filtered = _materialesData.filter(m =>
+      [m.nombre_comercial, m.nombre, m.categoria, m.slug].join(' ').toLowerCase().includes(q)
+    );
+    renderTablaMateriales(filtered);
+  }, 300);
+}
+
+function renderTablaMateriales(mats) {
+  if (mats.length === 0) {
+    document.getElementById('mat-table-wrap').innerHTML = '<div class="empty-state"><div class="empty-state-icon">∅</div><div class="empty-state-title">Sin materiales</div><div class="empty-state-sub">Añade el primer material.</div></div>';
+    return;
+  }
+
+  let html = '<table><thead><tr><th>Nombre</th><th>Categoría</th><th>Slug</th><th>Descripción</th><th>Acciones</th></tr></thead><tbody>';
+  mats.forEach(m => {
+    const desc = m.descripcion ? (m.descripcion.length > 60 ? m.descripcion.slice(0,60) + '…' : m.descripcion) : '—';
+    html += `<tr>
+      <td>
+        <div style="font-weight:500">${escHtml(m.nombre_comercial || m.nombre)}</div>
+        ${m.nombre_comercial && m.nombre ? `<div style="font-size:11px;color:var(--ink-muted)">${escHtml(m.nombre)}</div>` : ''}
+      </td>
+      <td><span style="font-size:12px">${escHtml(m.categoria) || '—'}</span></td>
+      <td><span style="font-size:11px;color:var(--ink-muted);font-family:monospace">${escHtml(m.slug) || '—'}</span></td>
+      <td style="max-width:220px;font-size:12px;color:var(--ink-mid)">${escHtml(desc)}</td>
+      <td>
+        <button class="act-btn" onclick="abrirModalMaterial('${m.id}')">Editar</button>
+      </td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('mat-table-wrap').innerHTML = html;
+}
+
+function autoSlugMaterial() {
+  const nombre = document.getElementById('mat-nombre').value;
+  const slugField = document.getElementById('mat-slug');
+  if (!slugField._userEdited) {
+    slugField.value = slugify(nombre);
+  }
+}
+
+function abrirModalMaterial(id) {
+  const modal = document.getElementById('modal-material');
+  const slugField = document.getElementById('mat-slug');
+  slugField._userEdited = false;
+  slugField.oninput = () => { slugField._userEdited = true; };
+
+  if (!id) {
+    document.getElementById('modal-material-title').textContent = 'Añadir material';
+    document.getElementById('mat-id').value = '';
+    document.getElementById('mat-nombre').value = '';
+    document.getElementById('mat-nombre-base').value = '';
+    document.getElementById('mat-slug').value = '';
+    document.getElementById('mat-categoria').value = '';
+    document.getElementById('mat-descripcion').value = '';
+  } else {
+    const m = _matMap[id];
+    if (!m) return;
+    document.getElementById('modal-material-title').textContent = 'Editar material';
+    document.getElementById('mat-id').value = id;
+    document.getElementById('mat-nombre').value = m.nombre_comercial || '';
+    document.getElementById('mat-nombre-base').value = m.nombre || '';
+    document.getElementById('mat-slug').value = m.slug || '';
+    document.getElementById('mat-categoria').value = m.categoria || '';
+    document.getElementById('mat-descripcion').value = m.descripcion || '';
+    slugField._userEdited = true;
+  }
+
+  modal.classList.remove('hidden');
+}
+
+function cerrarModalMaterial(e) {
+  if (e.target === document.getElementById('modal-material')) {
+    document.getElementById('modal-material').classList.add('hidden');
+  }
+}
+
+async function guardarMaterial() {
+  const id = document.getElementById('mat-id').value;
+  const nombre_comercial = document.getElementById('mat-nombre').value.trim();
+  const nombre = document.getElementById('mat-nombre-base').value.trim();
+  const slug = document.getElementById('mat-slug').value.trim() || slugify(nombre_comercial);
+  const categoria = document.getElementById('mat-categoria').value.trim();
+  const descripcion = document.getElementById('mat-descripcion').value.trim();
+
+  if (!nombre_comercial && !nombre) {
+    toast('El nombre es obligatorio', 'error');
+    return;
+  }
+
+  const payload = { nombre_comercial, nombre, slug, categoria, descripcion };
+
+  const btn = document.querySelector('#modal-material .btn-save');
+  btn.textContent = 'Guardando…';
+  btn.disabled = true;
+
+  let error;
+  if (id) {
+    ({ error } = await db.from('materiales').update(payload).eq('id', id));
+  } else {
+    ({ error } = await db.from('materiales').insert(payload));
+  }
+
+  btn.textContent = 'Guardar';
+  btn.disabled = false;
+
+  if (error) {
+    toast('Error: ' + error.message, 'error');
+    return;
+  }
+
+  toast(id ? 'Material actualizado' : 'Material añadido', 'success');
+  document.getElementById('modal-material').classList.add('hidden');
+  await cargarMateriales();
+}
+
+// ── ANALÍTICAS ──
+
+async function cargarAnaliticas() {
+  document.getElementById('analytics-table-wrap').innerHTML = '<div class="empty-state"><div class="empty-state-icon">⊙</div><div class="empty-state-title">Cargando…</div></div>';
+  document.getElementById('top-prov-list').innerHTML = '';
+
+  const hace30 = new Date(Date.now() - 30 * 86400000).toISOString();
+
+  const [evAll, ev30, provRes] = await Promise.all([
+    db.from('eventos').select('proveedor_id,timestamp'),
+    db.from('eventos').select('proveedor_id,timestamp').gte('timestamp', hace30),
+    db.from('proveedores').select('id,nombre_empresa,nombre,slug')
+  ]);
+
+  const todosEventos = evAll.data || [];
+  const eventos30 = ev30.data || [];
+  const proveedores = provRes.data || [];
+
+  const provNombreMap = {};
+  proveedores.forEach(p => { provNombreMap[p.id] = p.nombre_empresa || p.nombre || p.id; });
+
+  // Daily visits last 30 days
+  const dailyMap = {};
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0,10);
+    dailyMap[key] = 0;
+  }
+  eventos30.forEach(e => {
+    const key = (e.timestamp || '').slice(0,10);
+    if (dailyMap.hasOwnProperty(key)) dailyMap[key]++;
+  });
+
+  renderChartVisitas(dailyMap);
+
+  // Per proveedor totals
+  const totalMap = {};
+  const map30 = {};
+  todosEventos.forEach(e => {
+    const pid = e.proveedor_id;
+    if (!pid) return;
+    totalMap[pid] = (totalMap[pid] || 0) + 1;
+  });
+  eventos30.forEach(e => {
+    const pid = e.proveedor_id;
+    if (!pid) return;
+    map30[pid] = (map30[pid] || 0) + 1;
+  });
+
+  // Sort by total
+  const sorted = Object.entries(totalMap).sort((a,b) => b[1] - a[1]);
+
+  // Top 10 bar list
+  renderTop10(sorted.slice(0,10), provNombreMap);
+
+  // Table
+  renderTablaAnaliticas(sorted, totalMap, map30, provNombreMap);
+}
+
+function renderChartVisitas(dailyMap) {
+  const svg = document.getElementById('chart-visitas');
+  svg.innerHTML = '';
+
+  const days = Object.keys(dailyMap).sort();
+  const vals = days.map(d => dailyMap[d]);
+  const maxVal = Math.max(...vals, 1);
+  const W = 500, H = 140;
+  const padL = 30, padR = 10, padT = 12, padB = 24;
+  const chartW = W - padL - padR;
+  const chartH = H - padT - padB;
+  const n = days.length;
+
+  // Area fill
+  let pathD = '';
+  let lineD = '';
+  vals.forEach((v, i) => {
+    const x = padL + (i / (n - 1)) * chartW;
+    const y = padT + chartH - (v / maxVal) * chartH;
+    if (i === 0) {
+      pathD = `M ${x},${padT + chartH}`;
+      lineD = `M ${x},${y}`;
+    }
+    pathD += ` L ${x},${y}`;
+    lineD += ` L ${x},${y}`;
+  });
+  pathD += ` L ${padL + chartW},${padT + chartH} Z`;
+
+  // Grid lines
+  for (let i = 0; i <= 4; i++) {
+    const y = padT + (chartH / 4) * i;
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1', padL); line.setAttribute('x2', W - padR);
+    line.setAttribute('y1', y); line.setAttribute('y2', y);
+    line.setAttribute('stroke', '#e2e0dc'); line.setAttribute('stroke-width', '1');
+    svg.appendChild(line);
+
+    const val = Math.round(maxVal - (maxVal / 4) * i);
+    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x', padL - 4); t.setAttribute('y', y + 4);
+    t.setAttribute('font-size', '8'); t.setAttribute('fill', '#8a8784');
+    t.setAttribute('text-anchor', 'end');
+    t.setAttribute('font-family', 'Instrument Sans, sans-serif');
+    t.textContent = val;
+    svg.appendChild(t);
+  }
+
+  // Area
+  const area = document.createElementNS('http://www.w3.org/2000/svg','path');
+  area.setAttribute('d', pathD);
+  area.setAttribute('fill', '#A67C52');
+  area.setAttribute('opacity', '0.12');
+  svg.appendChild(area);
+
+  // Line
+  const linePth = document.createElementNS('http://www.w3.org/2000/svg','path');
+  linePth.setAttribute('d', lineD);
+  linePth.setAttribute('fill', 'none');
+  linePth.setAttribute('stroke', '#A67C52');
+  linePth.setAttribute('stroke-width', '1.5');
+  svg.appendChild(linePth);
+
+  // X labels (every 7 days)
+  days.forEach((d, i) => {
+    if (i % 7 !== 0 && i !== n - 1) return;
+    const x = padL + (i / (n - 1)) * chartW;
+    const label = d.slice(5); // MM-DD
+    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x', x); t.setAttribute('y', H - 6);
+    t.setAttribute('font-size', '8'); t.setAttribute('fill', '#8a8784');
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('font-family', 'Instrument Sans, sans-serif');
+    t.textContent = label;
+    svg.appendChild(t);
+  });
+}
+
+function renderTop10(sorted, provNombreMap) {
+  const container = document.getElementById('top-prov-list');
+  if (sorted.length === 0) {
+    container.innerHTML = '<div style="color:var(--ink-muted);font-size:12px;padding:16px 0">Sin datos de visitas.</div>';
+    return;
+  }
+
+  const maxVal = sorted[0][1];
+  let html = '';
+  sorted.forEach(([id, count]) => {
+    const name = provNombreMap[id] || id;
+    const pct = maxVal > 0 ? Math.round((count / maxVal) * 100) : 0;
+    html += `<div class="top-list-item">
+      <span style="font-size:12px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${escHtml(name)}">${escHtml(name)}</span>
+      <div class="top-bar-bg"><div class="top-bar-fill" style="width:${pct}%"></div></div>
+      <span class="top-bar-val">${count}</span>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function renderTablaAnaliticas(sorted, totalMap, map30, provNombreMap) {
+  if (sorted.length === 0) {
+    document.getElementById('analytics-table-wrap').innerHTML = '<div class="empty-state"><div class="empty-state-icon">∅</div><div class="empty-state-title">Sin datos</div><div class="empty-state-sub">Aún no hay eventos registrados.</div></div>';
+    return;
+  }
+
+  let html = '<table><thead><tr><th>Proveedor</th><th>Visitas totales</th><th>Últimos 30d</th></tr></thead><tbody>';
+  sorted.forEach(([id, total]) => {
+    const name = provNombreMap[id] || id;
+    const v30 = map30[id] || 0;
+    html += `<tr>
+      <td style="font-size:13px">${escHtml(name)}</td>
+      <td style="font-family:var(--font-disp);font-size:18px;font-weight:300">${total}</td>
+      <td style="font-size:13px">${v30}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('analytics-table-wrap').innerHTML = html;
+}
+
+// ── KEYBOARD SUPPORT ──
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    if (!document.getElementById('login-overlay').classList.contains('hidden')) {
+      handleLogin();
+    }
+  }
+  if (e.key === 'Escape') {
+    document.getElementById('modal-detalle').classList.add('hidden');
+    document.getElementById('modal-editar').classList.add('hidden');
+    document.getElementById('modal-material').classList.add('hidden');
+  }
+});
+
+// ── SEARCH DEBOUNCE SETUP ──
+
+document.addEventListener('DOMContentLoaded', () => {
+  const provSearch = document.getElementById('prov-search');
+  if (provSearch) {
+    provSearch.oninput = debounce(() => aplicarFiltrosProveedores(), 300);
+  }
+});
+
+// ── INIT ──
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await verificarSesion();
+});
+</script>
+</body>
+</html>
