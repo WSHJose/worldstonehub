@@ -467,6 +467,7 @@ function buildCard(m) {
 
   return '<div class="material-card" onclick="' + (m.slug ? 'location.href=\'material.html?id=' + esc(m.slug) + '\'' : '') + '">' +
     '<div class="card-swatch" style="background:' + gradient + '">' +
+      (m.imagen_url ? '<img src="' + esc(m.imagen_url) + '" alt="' + esc(m.nombre_comercial||'') + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy" onerror="this.remove()">' : '') +
       '<span class="card-disp-dot ' + dotClass + '" title="' + esc(m.disponibilidad||'') + '"></span>' +
       '<span class="card-cat-pill">' + esc(m.categoria||'') + '</span>' +
     '</div>' +

@@ -355,6 +355,32 @@ tbody tr:last-child td{border-bottom:none;}
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);}
 .form-textarea{resize:vertical;min-height:80px;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+/* ── UPLOAD IMAGEN ── */
+.img-upload-area{
+  border:1px dashed var(--border-mid);padding:16px;background:var(--bg-soft);
+  display:flex;align-items:center;gap:16px;cursor:pointer;transition:border-color .2s;
+}
+.img-upload-area:hover{border-color:var(--gold);}
+.img-preview{
+  width:80px;height:56px;object-fit:cover;display:block;
+  border:1px solid var(--border);flex-shrink:0;background:var(--bg);
+}
+.img-preview-placeholder{
+  width:80px;height:56px;flex-shrink:0;background:var(--bg);
+  border:1px solid var(--border);display:flex;align-items:center;
+  justify-content:center;color:var(--ink-muted);font-size:20px;
+}
+.img-upload-info{flex:1;min-width:0;}
+.img-upload-name{font-size:11px;color:var(--ink-mid);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.img-upload-hint{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-muted);}
+.img-upload-btn{
+  padding:7px 14px;font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  background:var(--bg-white);border:1px solid var(--border);color:var(--ink-mid);
+  cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;
+}
+.img-upload-btn:hover{border-color:var(--gold);color:var(--gold);}
+.img-upload-progress{font-size:10px;color:var(--gold);margin-top:6px;display:none;}
+.img-url-current{font-size:9px;color:var(--ink-muted);margin-top:6px;word-break:break-all;}
 .modal-footer{
   padding:18px 28px;border-top:1px solid var(--border);
   display:flex;justify-content:flex-end;gap:10px;flex-shrink:0;
@@ -793,6 +819,21 @@ tbody tr:last-child td{border-bottom:none;}
         <label class="form-label">Descripción</label>
         <textarea class="form-textarea" id="mat-descripcion" rows="3"></textarea>
       </div>
+      <div class="form-group">
+        <label class="form-label">Imagen / Miniatura</label>
+        <input type="file" id="mat-imagen-input" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="onMatImagenSeleccionada(this)">
+        <div class="img-upload-area" onclick="document.getElementById('mat-imagen-input').click()">
+          <div class="img-preview-placeholder" id="mat-img-placeholder">🖼</div>
+          <img id="mat-img-preview" class="img-preview" style="display:none" alt="Vista previa">
+          <div class="img-upload-info">
+            <div class="img-upload-name" id="mat-img-nombre">Ningún archivo seleccionado</div>
+            <div class="img-upload-hint">JPG · PNG · WEBP · Máx. 2MB</div>
+            <div class="img-url-current" id="mat-img-url-actual"></div>
+          </div>
+          <button type="button" class="img-upload-btn" onclick="event.stopPropagation();document.getElementById('mat-imagen-input').click()">Seleccionar</button>
+        </div>
+        <div class="img-upload-progress" id="mat-img-progress">Subiendo imagen…</div>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="document.getElementById('modal-material').classList.add('hidden')">Cancelar</button>
@@ -817,6 +858,8 @@ let _filteredProveedores = [];
 let _provMap = {};
 let _materialesData = [];
 let _matMap = {};
+let _matImagenUrl = '';       // URL de imagen actual/nueva del material en edición
+let _matImagenFile = null;    // Archivo seleccionado pendiente de subir
 let _provPage = 1;
 const PROV_PAGE_SIZE = 25;
 let _currentSection = 'dashboard';
@@ -1640,6 +1683,10 @@ function abrirModalMaterial(id) {
   slugField._userEdited = false;
   slugField.oninput = () => { slugField._userEdited = true; };
 
+  // Resetear estado de imagen
+  _matImagenFile = null;
+  document.getElementById('mat-imagen-input').value = '';
+
   if (!id) {
     document.getElementById('modal-material-title').textContent = 'Añadir material';
     document.getElementById('mat-id').value = '';
@@ -1648,6 +1695,8 @@ function abrirModalMaterial(id) {
     document.getElementById('mat-slug').value = '';
     document.getElementById('mat-categoria').value = '';
     document.getElementById('mat-descripcion').value = '';
+    _matImagenUrl = '';
+    _resetMatImagenUI();
   } else {
     const m = _matMap[id];
     if (!m) return;
@@ -1659,6 +1708,8 @@ function abrirModalMaterial(id) {
     document.getElementById('mat-categoria').value = m.categoria || '';
     document.getElementById('mat-descripcion').value = m.descripcion || '';
     slugField._userEdited = true;
+    _matImagenUrl = m.imagen_url || '';
+    _resetMatImagenUI(m.imagen_url);
   }
 
   modal.classList.remove('hidden');
@@ -1667,6 +1718,75 @@ function abrirModalMaterial(id) {
 function cerrarModalMaterial(e) {
   if (e.target === document.getElementById('modal-material')) {
     document.getElementById('modal-material').classList.add('hidden');
+  }
+}
+
+// ── IMAGEN MATERIAL: helpers de UI ──
+
+function _resetMatImagenUI(url) {
+  const preview     = document.getElementById('mat-img-preview');
+  const placeholder = document.getElementById('mat-img-placeholder');
+  const nombre      = document.getElementById('mat-img-nombre');
+  const urlActual   = document.getElementById('mat-img-url-actual');
+  const progress    = document.getElementById('mat-img-progress');
+  progress.style.display = 'none';
+  if (url) {
+    preview.src           = url;
+    preview.style.display = 'block';
+    placeholder.style.display = 'none';
+    nombre.textContent    = 'Imagen actual';
+    urlActual.textContent = url;
+  } else {
+    preview.style.display     = 'none';
+    placeholder.style.display = 'flex';
+    nombre.textContent        = 'Ningún archivo seleccionado';
+    urlActual.textContent     = '';
+  }
+}
+
+function onMatImagenSeleccionada(input) {
+  const file = input.files[0];
+  if (!file) return;
+  // Validar tamaño (2MB max)
+  if (file.size > 2 * 1024 * 1024) {
+    toast('La imagen supera los 2MB', 'error');
+    input.value = '';
+    return;
+  }
+  _matImagenFile = file;
+  // Mostrar preview local
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const preview     = document.getElementById('mat-img-preview');
+    const placeholder = document.getElementById('mat-img-placeholder');
+    preview.src           = e.target.result;
+    preview.style.display = 'block';
+    placeholder.style.display = 'none';
+    document.getElementById('mat-img-nombre').textContent = file.name;
+    document.getElementById('mat-img-url-actual').textContent = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function subirImagenMaterial(file, slug) {
+  const progress = document.getElementById('mat-img-progress');
+  progress.style.display = 'block';
+  try {
+    const ext      = file.name.split('.').pop().toLowerCase();
+    const path     = `${slug || Date.now()}.${ext}`;
+    // Sobreescribir si ya existe
+    const { error: uploadError } = await db.storage
+      .from('materiales-media')
+      .upload(path, file, { upsert: true, contentType: file.type });
+    if (uploadError) throw uploadError;
+    // Obtener URL pública
+    const { data } = db.storage.from('materiales-media').getPublicUrl(path);
+    progress.style.display = 'none';
+    return data.publicUrl;
+  } catch (err) {
+    progress.style.display = 'none';
+    toast('Error al subir imagen: ' + err.message, 'error');
+    return null;
   }
 }
 
@@ -1683,11 +1803,17 @@ async function guardarMaterial() {
     return;
   }
 
-  const payload = { nombre_comercial, nombre, slug, categoria, descripcion };
-
   const btn = document.querySelector('#modal-material .btn-save');
   btn.textContent = 'Guardando…';
   btn.disabled = true;
+
+  // Subir imagen si hay un archivo nuevo seleccionado
+  if (_matImagenFile) {
+    const urlSubida = await subirImagenMaterial(_matImagenFile, slug);
+    if (urlSubida) _matImagenUrl = urlSubida;
+  }
+
+  const payload = { nombre_comercial, nombre, slug, categoria, descripcion, imagen_url: _matImagenUrl || null };
 
   let error;
   if (id) {
