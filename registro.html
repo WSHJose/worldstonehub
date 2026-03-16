@@ -2050,6 +2050,13 @@ function submitForm() {
     if (authResult.error) throw authResult.error;
     var userId = authResult.data.user ? authResult.data.user.id : null;
 
+    // Si identities está vacío, el email ya existe en auth.users
+    // (Supabase devuelve un UUID falso para evitar enumeración de emails)
+    var identities = (authResult.data.user && authResult.data.user.identities) ? authResult.data.user.identities : [];
+    if (identities.length === 0) {
+      throw new Error('User already registered');
+    }
+
     // 2) Insertar proveedor
     // Campos de array se añaden dinámicamente solo cuando tienen valores
     // para evitar "malformed array literal" en PostgreSQL
