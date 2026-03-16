@@ -68,16 +68,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 .stat-n{font-family:'DM Mono',monospace;font-size:24px;font-weight:400;color:var(--ink);display:block;line-height:1;}
 .stat-l{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-4);display:block;margin-top:5px;}
 
-/* ── AD SLOT ── */
-.ph-right{position:relative;background:var(--bg-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;}
-.ad-container{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
-.ad-link{display:block;width:100%;height:100%;max-height:216px;}
-.ad-link img{width:100%;height:100%;max-height:216px;object-fit:cover;border-radius:4px;display:block;}
-.ad-placeholder{width:100%;height:100%;min-height:180px;border:1px dashed var(--border-md);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--bg);padding:24px;}
-.ad-placeholder-icon{width:32px;height:32px;opacity:.25;}
+/* ── AD SLOT FULL BLEED ── */
+.ph-right{position:relative;overflow:hidden;background:var(--bg-soft);}
+.ad-container{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.ad-link{display:block;width:100%;height:100%;}
+.ad-link img{width:100%;height:100%;object-fit:cover;display:block;}
+.ad-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--bg-soft);padding:24px;}
+.ad-placeholder svg,.ad-placeholder-icon{opacity:.2;}
 .ad-placeholder-text{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-4);text-align:center;}
 .ad-placeholder-sub{font-size:11px;color:var(--ink-4);text-align:center;}
-.ad-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);margin-top:8px;text-align:center;}
+.ad-label{position:absolute;bottom:8px;right:12px;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);z-index:2;}
 
 /* ── TOOLBAR ── */
 .toolbar{background:var(--bg);border-bottom:1px solid var(--border);padding:18px 48px;position:sticky;top:70px;z-index:90;}

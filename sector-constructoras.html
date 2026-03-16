@@ -51,19 +51,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 .nav-map-item{display:flex;align-items:center;}
 .nav-map-link{display:flex;align-items:center;color:#8a8784;text-decoration:none;transition:color .3s;padding:2px 4px;}
 .nav-map-link:hover,.nav-map-link.active{color:#A67C52!important;}
-.page-hdr{display:flex;align-items:stretch;min-height:480px;margin-top:64px;overflow:hidden;}
-.page-hdr-left{flex:0 0 50%;max-width:50%;display:flex;flex-direction:column;justify-content:center;padding:64px 60px 56px;box-sizing:border-box;background:#f8f7f5;}
-.page-hdr-right{flex:1;position:relative;overflow:hidden;min-height:480px;background:#1a1917;display:none;}
-.ph-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#A67C52;margin-bottom:20px;display:flex;align-items:center;gap:12px;}
-.ph-eyebrow::before{content:'';width:32px;height:1px;background:#A67C52;}
-.ph-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4.5vw,60px);font-weight:300;line-height:1;letter-spacing:-1px;margin-bottom:20px;color:#1a1917;}
-.ph-title em{font-style:italic;color:#A67C52;}
-.ph-desc{font-size:15px;font-weight:300;line-height:1.7;color:#8a8784;max-width:420px;margin-bottom:32px;}
-.ph-stats{display:flex;gap:32px;padding-top:24px;border-top:1px solid rgba(26,25,23,0.07);}
-.ph-stat-n{font-family:'DM Mono',monospace;font-size:28px;font-weight:400;color:#1a1917;}
-.ph-stat-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a8784;margin-top:2px;}
-.hdr-ad-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:32px;}
-.wsh-ad{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+/* ── PAGE HEADER 50/50 ── */
+.page-header{background:var(--bg-soft);border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;min-height:320px;margin-top:70px;}
+.ph-left{padding:52px 56px 44px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--border);}
+.ph-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+.ph-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,52px);font-weight:300;line-height:1;letter-spacing:-1px;color:var(--ink);}
+.ph-title em{font-style:italic;color:var(--gold);}
+.ph-desc{font-size:13px;color:var(--ink-mid);max-width:420px;line-height:1.75;margin-top:12px;}
+.ph-stats{display:flex;gap:0;margin-top:32px;border-top:1px solid var(--border);}
+.ph-stats>div{flex:1;padding:16px 20px 0;border-right:1px solid var(--border);}
+.ph-stats>div:last-child{border-right:none;}
+.ph-stat-n{font-family:'DM Mono',monospace;font-size:24px;font-weight:400;color:var(--ink);display:block;line-height:1;}
+.ph-stat-l{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-muted);display:block;margin-top:5px;}
+/* ── AD SLOT FULL BLEED ── */
+.ph-right{position:relative;overflow:hidden;background:var(--bg-mid);}
+.ad-container{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.ad-link{display:block;width:100%;height:100%;}
+.ad-link img{width:100%;height:100%;object-fit:cover;display:block;}
+.ad-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--bg-mid);padding:24px;}
+.ad-placeholder svg{opacity:.2;}
+.ad-placeholder-text{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-muted);text-align:center;}
+.ad-placeholder-sub{font-size:11px;color:var(--ink-muted);text-align:center;}
+.ad-label{position:absolute;bottom:8px;right:12px;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-muted);z-index:2;}
 .sector-main{padding:0 60px 80px;background:#f8f7f5;}
 .sector-intro{padding:48px 0 40px;border-bottom:1px solid var(--border);margin-bottom:48px;}
 .sector-intro-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#1a1917;margin-bottom:8px;}
@@ -124,9 +133,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 @media(max-width:900px){
   nav{padding:14px 20px;}
   .nav-links{display:none;}
-  .page-hdr{flex-direction:column;margin-top:56px;}
-  .page-hdr-left{flex:none;max-width:100%;padding:48px 24px 36px;}
-  .page-hdr-right{flex:none;min-height:220px;}
+  .page-header{grid-template-columns:1fr;}
+  .ph-left{padding:40px 24px 32px;border-right:none;}
+  .ph-right{min-height:220px;border-top:1px solid var(--border);}
   .sector-main{padding:0 20px 60px;}
   .company-grid{grid-template-columns:1fr;}
   .footer-grid{grid-template-columns:1fr 1fr;gap:32px;}
@@ -176,23 +185,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
   </div>
 </nav>
 
-<div class="page-hdr">
-  <div class="page-hdr-left">
-    <div class="ph-eyebrow" data-i18n="sector.constructoras.eyebrow">Obra civil, edificación y promoción · Directorio global</div>
-    <h1 class="ph-title"><span data-i18n="sector.constructoras.title">Constructoras</span><br><em data-i18n="sector.constructoras.titleEm">y Promotoras</em></h1>
-    <p class="ph-desc" data-i18n="sector.constructoras.desc">Empresas constructoras y promotoras que integran piedra natural en sus proyectos residenciales, comerciales y de obra pública, desde fachadas y pavimentos hasta elementos decorativos singulares.</p>
+<header class="page-header">
+  <div class="ph-left">
+    <div>
+      <p class="ph-eyebrow" data-i18n="sector.constructoras.eyebrow">Obra civil, edificación y promoción · Directorio global</p>
+      <h1 class="ph-title"><span data-i18n="sector.constructoras.title">Constructoras</span><br><em data-i18n="sector.constructoras.titleEm">y Promotoras</em></h1>
+      <p class="ph-desc" data-i18n="sector.constructoras.desc">Empresas constructoras y promotoras que integran piedra natural en sus proyectos residenciales, comerciales y de obra pública, desde fachadas y pavimentos hasta elementos decorativos singulares.</p>
+    </div>
     <div class="ph-stats">
       <div><div class="ph-stat-n" id="statTotal">—</div><div class="ph-stat-l" data-i18n="stats.empresas">Empresas</div></div>
       <div><div class="ph-stat-n" id="statElite">—</div><div class="ph-stat-l" data-i18n="stats.elite">Elite</div></div>
       <div><div class="ph-stat-n" id="statPaises">—</div><div class="ph-stat-l" data-i18n="stats.paises">Países</div></div>
     </div>
   </div>
-  <div class="page-hdr-right" id="hdr-ad-sectorcon" style="display:none;">
-    <div class="hdr-ad-wrap">
-      <div class="wsh-ad" data-espacio="SECTOR-CON"></div>
+  <div class="ph-right">
+    <div class="ad-container" id="heroAdSlot">
+      <div class="ad-placeholder">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span class="ad-placeholder-text">Espacio publicitario</span>
+        <span class="ad-placeholder-sub">SECTOR-CON</span>
+      </div>
     </div>
+    <span class="ad-label">Publicidad</span>
   </div>
-</div>
+</header>
 
 <main class="sector-main">
   <div class="sector-intro">
@@ -369,27 +385,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
     else{el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-acceso">Acceso</a>';}
   });
 
-  var today=new Date().toISOString().slice(0,10);
-  var slots=document.querySelectorAll('.wsh-ad[data-espacio]');
-  if(slots.length){
-    var codigos=Array.from(slots).map(function(s){return s.dataset.espacio;});
-    var query=codigos.map(function(c){return'espacio_codigo.eq.'+c;}).join(',');
-    fetch(SB_URL+'/rest/v1/anuncios?select=espacio_codigo,imagen_url,url_destino,texto_alt,fecha_inicio,fecha_fin&activo=eq.true&or=('+query+')&fecha_fin=gte.'+today,{headers:HDRS})
+  /* ── Anuncio SECTOR-CON ── */
+  (function loadAd(){
+    var today=new Date().toISOString().slice(0,10);
+    var url=SB_URL+'/rest/v1/anuncios?espacio_codigo=eq.SECTOR-CON&activo=eq.true&select=imagen_url,url_destino,texto_alt,fecha_inicio,fecha_fin&limit=5';
+    fetch(url,{headers:HDRS})
       .then(function(r){return r.json();})
       .then(function(data){
-        if(!data||!data.length)return;
-        data.forEach(function(ad){
-          slots.forEach(function(slot){
-            if(slot.dataset.espacio!==ad.espacio_codigo)return;
-            var wrapper=slot.closest('[id^="hdr-ad-"]');
-            if(wrapper){
-              wrapper.style.display='block';
-              slot.innerHTML='<a href="'+esc(ad.url_destino)+'" target="_blank" rel="noopener sponsored" style="display:block;width:100%;height:100%;"><img src="'+esc(ad.imagen_url)+'" alt="'+(ad.texto_alt||'')+'" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"></a>';
-            }
-          });
+        if(!Array.isArray(data)||!data.length)return;
+        var valid=data.filter(function(a){
+          if(a.fecha_inicio&&a.fecha_inicio>today)return false;
+          if(a.fecha_fin&&a.fecha_fin<today)return false;
+          return true;
         });
+        if(!valid.length)return;
+        var ad=valid[0];
+        var slot=document.getElementById('heroAdSlot');
+        if(!slot)return;
+        var href=ad.url_destino?(ad.url_destino.startsWith('http')?ad.url_destino:'https://'+ad.url_destino):'#';
+        slot.innerHTML='<a class="ad-link" href="'+href+'" target="_blank" rel="noopener sponsored"><img src="'+(ad.imagen_url||'')+'" alt="'+(ad.texto_alt||'Publicidad')+'" loading="lazy"></a>';
       }).catch(function(){});
-  }
+  })();
 })();
 </script>
 <script src="i18n.js"></script>
