@@ -2044,46 +2044,56 @@ function submitForm() {
   wshDB.auth.signUp({
     email: emailLogin,
     password: password,
-    options: { data: { nombre: nombreEmpresa, tier: ST.plan || 'free' } }
+    options: { data: { nombre: nombreEmpresa, nombre_empresa: nombreEmpresa, tier: ST.plan || 'free' } }
   })
   .then(function(authResult) {
     if (authResult.error) throw authResult.error;
     var userId = authResult.data.user ? authResult.data.user.id : null;
 
     // 2) Insertar proveedor
-    // Payload completo (requiere migración SQL — ver abajo)
+    // Campos de array se añaden dinámicamente solo cuando tienen valores
+    // para evitar "malformed array literal" en PostgreSQL
     var fullPayload = {
       user_id:            userId,
+      nombre_empresa:     nombreEmpresa,
       nombre:             nombreEmpresa,
-      nombre_comercial:   v('f_marca')       || null,
+      nombre_comercial:   v('f_marca')      || null,
       nif:                v('f_nif'),
       slug:               makeSlug(nombreEmpresa) + '-' + Date.now().toString(36),
-      descripcion:        v('f_desc')        || null,
+      descripcion:        v('f_desc')       || null,
       pais:               paisNombre(),
       ciudad:             v('f_ciudad'),
-      fundacion:          v('f_fundacion') ? parseInt(v('f_fundacion')) : null,
-      plantilla:          v('f_empleados') || null,
-      tipos_piedra:       getChecked('cg_tipos').length ? getChecked('cg_tipos') : null,
-      usos:               getChecked('cg_usos').length  ? getChecked('cg_usos')  : null,
-      mercados:           v('f_mercados')    || null,
-      produccion:         v('f_produccion')  || null,
-      certificaciones:    v('f_certs')       || null,
+      fundacion:          v('f_fundacion')  ? parseInt(v('f_fundacion')) : null,
+      plantilla:          v('f_empleados')  || null,
+      mercados:           v('f_mercados')   || null,
+      produccion:         v('f_produccion') || null,
+      certificaciones:    v('f_certs')      || null,
       email:              v('f_email'),
       telefono:           v('f_tel'),
-      website:            v('f_web')         || null,
-      linkedin:           v('f_linkedin')    || null,
+      website:            v('f_web')        || null,
+      linkedin:           v('f_linkedin')   || null,
       responsable_nombre: v('f_resp_nombre'),
       responsable_cargo:  v('f_resp_cargo'),
-      tipo:               ST.actors && ST.actors.length ? ST.actors : null,
       tier:               ST.plan || 'free',
       activo:             false,
       plan:               ST.plan || 'free',
       estado:             'pendiente'
     };
 
+    // Arrays: solo se incluyen en el payload si tienen elementos
+    // Si están vacíos, PostgreSQL usará el DEFAULT '{}' de la columna
+    var tiposPiedra = getChecked('cg_tipos');
+    if (tiposPiedra.length) fullPayload.tipos_piedra = tiposPiedra;
+
+    var usosList = getChecked('cg_usos');
+    if (usosList.length) fullPayload.usos = usosList;
+
+    if (ST.actors && ST.actors.length) fullPayload.tipo = ST.actors;
+
     // Payload mínimo de reserva (solo columnas originales seguras)
     var safePayload = {
       user_id:        userId,
+      nombre_empresa: nombreEmpresa,
       nombre:         nombreEmpresa,
       slug:           fullPayload.slug,
       descripcion:    fullPayload.descripcion,
