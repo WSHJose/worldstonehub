@@ -790,7 +790,9 @@ tbody tr:last-child td{border-bottom:none;}
               <div class="form-row">
                 <div class="form-group">
                   <label class="form-label">Anunciante *</label>
-                  <input class="form-input" type="text" id="f_anunciante" placeholder="Nombre empresa">
+                  <select class="form-select" id="f_anunciante">
+                    <option value="">Cargando proveedores…</option>
+                  </select>
                 </div>
                 <div class="form-group">
                   <label class="form-label">Precio/mes (€)</label>
@@ -2226,7 +2228,33 @@ function adTab(tab) {
 
 // Carga inicial de la sección
 async function cargarAnuncios() {
-  await Promise.all([cargarEspacios(), cargarListadoAnuncios()]);
+  await Promise.all([cargarEspacios(), cargarListadoAnuncios(), poblarSelectorAnunciantes()]);
+}
+
+// Puebla el <select> de anunciantes con los proveedores activos de la BD
+async function poblarSelectorAnunciantes() {
+  const sel = document.getElementById('f_anunciante');
+  try {
+    const { data, error } = await db
+      .from('proveedores')
+      .select('id, nombre, nombre_empresa, pais, tier')
+      .eq('activo', true)
+      .order('nombre', { ascending: true });
+
+    if (error) throw error;
+
+    const opciones = (data || []).map(p => {
+      const nombre = p.nombre || p.nombre_empresa || '(sin nombre)';
+      const pais   = p.pais ? ` · ${p.pais}` : '';
+      const tier   = p.tier ? ` [${p.tier}]` : '';
+      return `<option value="${nombre}">${nombre}${pais}${tier}</option>`;
+    });
+
+    sel.innerHTML = `<option value="">Seleccionar empresa…</option>` + opciones.join('');
+  } catch (err) {
+    sel.innerHTML = `<option value="">Error al cargar proveedores</option>`;
+    toast('Error cargando proveedores: ' + err.message, 'error');
+  }
 }
 
 // ── Inventario de espacios ──
@@ -2360,7 +2388,7 @@ function resetFormAnuncio() {
   document.getElementById('f_id').value           = '';
   document.getElementById('f_espacio_codigo').value = '';
   document.getElementById('f_precio_mes').value   = '';
-  document.getElementById('f_anunciante').value   = '';
+  document.getElementById('f_anunciante').value   = '';  // select: deselecciona
   document.getElementById('f_url_destino').value  = '';
   document.getElementById('f_fecha_inicio').value = '';
   document.getElementById('f_fecha_fin').value    = '';
