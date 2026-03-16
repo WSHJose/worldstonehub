@@ -355,6 +355,39 @@ tbody tr:last-child td{border-bottom:none;}
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);}
 .form-textarea{resize:vertical;min-height:80px;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+/* ── ANUNCIOS ── */
+.ad-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:24px;}
+.ad-tab{padding:10px 20px;font-size:9px;letter-spacing:3px;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(--ink-muted);cursor:pointer;transition:all .2s;margin-bottom:-1px;}
+.ad-tab:hover{color:var(--ink);}
+.ad-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.ad-pane{display:none;}
+.ad-pane.active{display:block;}
+.ad-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.ad-stat{background:var(--bg-white);border:1px solid var(--border);padding:20px 22px;}
+.ad-stat.gold{border-color:rgba(166,124,82,.3);background:var(--gold-lt);}
+.ad-stat-val{font-family:var(--font-disp);font-size:36px;font-weight:300;line-height:1;color:var(--ink);}
+.ad-stat.gold .ad-stat-val{color:var(--gold);}
+.ad-stat-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-muted);margin-top:6px;}
+.ad-espacios-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.ad-espacio-card{background:var(--bg-white);border:1px solid var(--border);padding:18px 20px;position:relative;}
+.ad-espacio-card.ocupado{border-color:rgba(166,124,82,.3);}
+.ad-espacio-card.libre{border-style:dashed;}
+.ad-espacio-codigo{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.ad-espacio-pagina{font-size:11px;color:var(--ink-muted);margin-bottom:4px;}
+.ad-espacio-pos{font-size:12px;color:var(--ink-mid);margin-bottom:10px;}
+.ad-espacio-precio{font-family:var(--font-disp);font-size:20px;color:var(--ink);}
+.ad-espacio-anunciante{font-size:10px;font-weight:600;color:var(--gold);margin-bottom:4px;}
+.ad-espacio-actions{display:flex;gap:6px;margin-top:12px;}
+.ad-espacio-dot{position:absolute;top:14px;right:16px;width:8px;height:8px;border-radius:50%;}
+.ad-espacio-dot.ocupado{background:#4caf50;}
+.ad-espacio-dot.libre{background:var(--border-mid);}
+.ad-form-grid{display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start;}
+.ad-form-side{}
+.ad-preview-box{border:1px solid var(--border);background:var(--bg-soft);min-height:120px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.btn-danger{padding:10px 20px;font-size:9px;letter-spacing:2px;text-transform:uppercase;background:var(--red-lt);color:var(--red);border:1px solid rgba(139,26,26,.2);cursor:pointer;transition:all .2s;}
+.btn-danger:hover{background:var(--red);color:#fff;}
+@media(max-width:900px){.ad-stats{grid-template-columns:1fr 1fr;}.ad-form-grid{grid-template-columns:1fr;}}
+
 /* ── UPLOAD IMAGEN ── */
 .img-upload-area{
   border:1px dashed var(--border-mid);padding:16px;background:var(--bg-soft);
@@ -563,6 +596,10 @@ tbody tr:last-child td{border-bottom:none;}
         <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>
         Materiales
       </div>
+      <div class="nav-item" data-section="anuncios" onclick="navTo('anuncios')">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" clip-rule="evenodd"/></svg>
+        Anuncios
+      </div>
       <div class="nav-item" data-section="analiticas" onclick="navTo('analiticas')">
         <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
         Analíticas
@@ -686,6 +723,129 @@ tbody tr:last-child td{border-bottom:none;}
             <div class="empty-state"><div class="empty-state-icon">⊙</div><div class="empty-state-title">Cargando…</div></div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- ANUNCIOS -->
+    <div id="section-anuncios" class="section">
+      <div class="main-header">
+        <div class="main-eyebrow">Publicidad</div>
+        <div class="main-title">Gestión de <em>anuncios</em></div>
+      </div>
+      <div class="main-content">
+
+        <!-- Sub-tabs -->
+        <div class="ad-tabs">
+          <button class="ad-tab active" data-tab="inventario" onclick="adTab('inventario')">Inventario de espacios</button>
+          <button class="ad-tab" data-tab="listado"     onclick="adTab('listado')">Todos los anuncios</button>
+          <button class="ad-tab" data-tab="form"        onclick="adTab('form')" id="ad-tab-form">+ Nuevo anuncio</button>
+        </div>
+
+        <!-- ── TAB: INVENTARIO ── -->
+        <div class="ad-pane active" id="ad-pane-inventario">
+          <div class="ad-stats" id="ad-stats">
+            <div class="ad-stat"><div class="ad-stat-val" id="adst-total">–</div><div class="ad-stat-lbl">Espacios totales</div></div>
+            <div class="ad-stat"><div class="ad-stat-val" id="adst-ocupados">–</div><div class="ad-stat-lbl">Ocupados</div></div>
+            <div class="ad-stat"><div class="ad-stat-val" id="adst-libres">–</div><div class="ad-stat-lbl">Disponibles</div></div>
+            <div class="ad-stat gold"><div class="ad-stat-val" id="adst-ingresos">–</div><div class="ad-stat-lbl">Ingresos/mes est.</div></div>
+          </div>
+          <div class="ad-espacios-grid" id="ad-espacios-grid">
+            <div class="skeleton" style="height:100px"></div>
+            <div class="skeleton" style="height:100px"></div>
+            <div class="skeleton" style="height:100px"></div>
+          </div>
+        </div>
+
+        <!-- ── TAB: LISTADO ── -->
+        <div class="ad-pane" id="ad-pane-listado">
+          <div class="table-wrap" id="ad-table-wrap">
+            <div class="skeleton skel-row"></div>
+            <div class="skeleton skel-row" style="margin-top:2px"></div>
+          </div>
+        </div>
+
+        <!-- ── TAB: FORM ── -->
+        <div class="ad-pane" id="ad-pane-form">
+          <div class="ad-form-grid">
+            <div class="ad-form-main">
+              <input type="hidden" id="f_id">
+              <div class="form-group">
+                <label class="form-label">Espacio publicitario *</label>
+                <select class="form-select" id="f_espacio_codigo" onchange="onEspacioChange()">
+                  <option value="">Seleccionar espacio…</option>
+                  <option value="HOME-TOP"        data-precio="490" data-pagina="index"                data-pos="Hero principal (derecha)">HOME-TOP — 490€/mes</option>
+                  <option value="HOME-MID"        data-precio="290" data-pagina="index"                data-pos="Entre secciones principales">HOME-MID — 290€/mes</option>
+                  <option value="PROVEEDORES-TOP" data-precio="290" data-pagina="lapidis-proveedores"  data-pos="Bajo el nav del directorio">PROVEEDORES-TOP — 290€/mes</option>
+                  <option value="CANTERAS-TOP"    data-precio="190" data-pagina="lapidis-canteras"     data-pos="Bajo el header de página">CANTERAS-TOP — 190€/mes</option>
+                  <option value="MATERIALES-TOP"  data-precio="190" data-pagina="lapidis-materiales"   data-pos="Bajo el header de página">MATERIALES-TOP — 190€/mes</option>
+                  <option value="SECTOR-ARQ"      data-precio="99"  data-pagina="sector-arquitectura"  data-pos="Bajo el listado de empresas">SECTOR-ARQ — 99€/mes</option>
+                  <option value="SECTOR-DIS"      data-precio="99"  data-pagina="sector-distribuidores" data-pos="Bajo el listado de empresas">SECTOR-DIS — 99€/mes</option>
+                  <option value="SECTOR-FAB"      data-precio="99"  data-pagina="sector-fabricantes"   data-pos="Bajo el listado de empresas">SECTOR-FAB — 99€/mes</option>
+                  <option value="SECTOR-CON"      data-precio="99"  data-pagina="sector-constructoras" data-pos="Bajo el listado de empresas">SECTOR-CON — 99€/mes</option>
+                  <option value="SECTOR-LAB"      data-precio="79"  data-pagina="sector-laboratorios"  data-pos="Bajo el listado de empresas">SECTOR-LAB — 79€/mes</option>
+                  <option value="SECTOR-LOG"      data-precio="79"  data-pagina="sector-logistica"     data-pos="Bajo el listado de empresas">SECTOR-LOG — 79€/mes</option>
+                  <option value="SECTOR-MAQ"      data-precio="79"  data-pagina="sector-maquinaria"    data-pos="Bajo el listado de empresas">SECTOR-MAQ — 79€/mes</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Anunciante *</label>
+                  <input class="form-input" type="text" id="f_anunciante" placeholder="Nombre empresa">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Precio/mes (€)</label>
+                  <input class="form-input" type="number" id="f_precio_mes" placeholder="Auto">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">URL destino *</label>
+                <input class="form-input" type="url" id="f_url_destino" placeholder="https://…">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Fecha inicio</label>
+                  <input class="form-input" type="date" id="f_fecha_inicio">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Fecha fin</label>
+                  <input class="form-input" type="date" id="f_fecha_fin">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">URL imagen banner</label>
+                <input class="form-input" type="url" id="f_imagen_url" placeholder="https://…" oninput="previewBanner()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Texto alternativo</label>
+                <input class="form-input" type="text" id="f_texto_alt" placeholder="Descripción de la imagen">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Notas internas</label>
+                <textarea class="form-textarea" id="f_notas" rows="2" placeholder="Contacto, condiciones, negociación…"></textarea>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">
+                <label class="form-label" style="margin:0">Activo (visible en web)</label>
+                <button type="button" class="toggle-btn on" id="f_activo_toggle" onclick="toggleFormActivo()"></button>
+                <input type="hidden" id="f_activo" value="true">
+              </div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <button class="btn-save" onclick="guardarAnuncio()">Guardar anuncio</button>
+                <button class="btn-cancel" onclick="resetFormAnuncio();adTab('inventario')">Cancelar</button>
+                <button class="btn-danger" id="f_btn_eliminar" style="display:none" onclick="eliminarAnuncio()">Eliminar</button>
+              </div>
+            </div>
+            <div class="ad-form-side">
+              <div class="form-label" style="margin-bottom:8px">Vista previa banner</div>
+              <div class="ad-preview-box">
+                <div id="ad-preview-empty" style="text-align:center;color:var(--ink-muted);font-size:11px;padding:24px 12px">
+                  Introduce una URL de imagen para ver la previsualización
+                </div>
+                <img id="ad-preview-img" style="display:none;width:100%;height:auto;display:none;max-height:180px;object-fit:contain" alt="Preview">
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -1015,6 +1175,7 @@ function navTo(section) {
   if (section === 'proveedores') cargarProveedores();
   if (section === 'materiales') cargarMateriales();
   if (section === 'analiticas') cargarAnaliticas();
+  if (section === 'anuncios')   cargarAnuncios();
 }
 
 // ── SIDEBAR MOBILE ──
@@ -2036,6 +2197,292 @@ document.addEventListener('DOMContentLoaded', () => {
     provSearch.oninput = debounce(() => aplicarFiltrosProveedores(), 300);
   }
 });
+
+// ══════════════════════════════════════════════════════════
+// ── ANUNCIOS ──
+// ══════════════════════════════════════════════════════════
+
+const ESPACIOS = [
+  {codigo:'HOME-TOP',        pagina:'index',                  posicion:'Hero principal (derecha)',     precio:490},
+  {codigo:'HOME-MID',        pagina:'index',                  posicion:'Entre secciones principales',  precio:290},
+  {codigo:'PROVEEDORES-TOP', pagina:'lapidis-proveedores',    posicion:'Bajo el nav del directorio',   precio:290},
+  {codigo:'CANTERAS-TOP',    pagina:'lapidis-canteras',       posicion:'Bajo el header de página',     precio:190},
+  {codigo:'MATERIALES-TOP',  pagina:'lapidis-materiales',     posicion:'Bajo el header de página',     precio:190},
+  {codigo:'SECTOR-ARQ',      pagina:'sector-arquitectura',    posicion:'Bajo el listado de empresas',  precio:99},
+  {codigo:'SECTOR-DIS',      pagina:'sector-distribuidores',  posicion:'Bajo el listado de empresas',  precio:99},
+  {codigo:'SECTOR-FAB',      pagina:'sector-fabricantes',     posicion:'Bajo el listado de empresas',  precio:99},
+  {codigo:'SECTOR-CON',      pagina:'sector-constructoras',   posicion:'Bajo el listado de empresas',  precio:99},
+  {codigo:'SECTOR-LAB',      pagina:'sector-laboratorios',    posicion:'Bajo el listado de empresas',  precio:79},
+  {codigo:'SECTOR-LOG',      pagina:'sector-logistica',       posicion:'Bajo el listado de empresas',  precio:79},
+  {codigo:'SECTOR-MAQ',      pagina:'sector-maquinaria',      posicion:'Bajo el listado de empresas',  precio:79},
+];
+
+// Sub-tab de anuncios
+function adTab(tab) {
+  document.querySelectorAll('.ad-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.ad-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('ad-pane-' + tab).classList.add('active');
+}
+
+// Carga inicial de la sección
+async function cargarAnuncios() {
+  await Promise.all([cargarEspacios(), cargarListadoAnuncios()]);
+}
+
+// ── Inventario de espacios ──
+async function cargarEspacios() {
+  const grid = document.getElementById('ad-espacios-grid');
+  try {
+    const hoy = new Date().toISOString().slice(0,10);
+    const { data: activos } = await db.from('anuncios')
+      .select('espacio_codigo,anunciante,activo,fecha_fin')
+      .eq('activo', true);
+
+    const ocupadosMap = {};
+    (activos || []).forEach(a => { ocupadosMap[a.espacio_codigo] = a; });
+
+    const total     = ESPACIOS.length;
+    const ocupados  = Object.keys(ocupadosMap).length;
+    const libres    = total - ocupados;
+    const ingresos  = ESPACIOS.filter(e => ocupadosMap[e.codigo])
+                              .reduce((s, e) => s + e.precio, 0);
+
+    document.getElementById('adst-total').textContent    = total;
+    document.getElementById('adst-ocupados').textContent = ocupados;
+    document.getElementById('adst-libres').textContent   = libres;
+    document.getElementById('adst-ingresos').textContent = ingresos.toLocaleString('es-ES') + ' €';
+
+    grid.innerHTML = ESPACIOS.map(e => {
+      const ad = ocupadosMap[e.codigo];
+      const ocupado = !!ad;
+      const expirado = ad && ad.fecha_fin && ad.fecha_fin < hoy;
+      return `
+        <div class="ad-espacio-card ${ocupado ? 'ocupado' : 'libre'}">
+          <span class="ad-espacio-dot ${ocupado ? 'ocupado' : 'libre'}"></span>
+          <div class="ad-espacio-codigo">${e.codigo}</div>
+          <div class="ad-espacio-pagina">${e.pagina}.html</div>
+          <div class="ad-espacio-pos">${e.posicion}</div>
+          ${ocupado ? `<div class="ad-espacio-anunciante">▸ ${ad.anunciante}</div>` : ''}
+          ${expirado ? `<div style="font-size:9px;color:var(--red);letter-spacing:1px">⚠ Expirado</div>` : ''}
+          <div class="ad-espacio-precio">${e.precio} €<span style="font-size:10px;color:var(--ink-muted)">/mes</span></div>
+          <div class="ad-espacio-actions">
+            ${ocupado
+              ? `<button class="toolbar-btn" onclick="editarPorCodigo('${e.codigo}')">Editar</button>`
+              : `<button class="btn-save" style="font-size:9px;padding:6px 14px" onclick="nuevoEnEspacio('${e.codigo}',${e.precio})">Contratar</button>`
+            }
+          </div>
+        </div>`;
+    }).join('');
+  } catch (err) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-state-sub">Error al cargar espacios</div></div>`;
+    toast('Error cargando espacios: ' + err.message, 'error');
+  }
+}
+
+// ── Tabla de todos los anuncios ──
+async function cargarListadoAnuncios() {
+  const wrap = document.getElementById('ad-table-wrap');
+  try {
+    const { data, error } = await db.from('anuncios')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+
+    if (!data || !data.length) {
+      wrap.innerHTML = `<div class="empty-state"><div class="empty-state-icon">◇</div><div class="empty-state-title">Sin anuncios</div><div class="empty-state-sub">Crea el primero desde Inventario</div></div>`;
+      return;
+    }
+
+    const hoy = new Date().toISOString().slice(0,10);
+    const filas = data.map(a => {
+      const expirado = a.fecha_fin && a.fecha_fin < hoy;
+      const estado = !a.activo ? `<span class="badge badge-inactivo">Pausado</span>`
+                    : expirado  ? `<span class="badge badge-rechazado">Expirado</span>`
+                    :             `<span class="badge badge-activo">Activo</span>`;
+      return `<tr>
+        <td><span style="font-size:9px;letter-spacing:2px;color:var(--gold)">${a.espacio_codigo}</span></td>
+        <td class="td-name">${a.anunciante || '–'}</td>
+        <td style="font-size:11px">${a.fecha_inicio||'–'} → ${a.fecha_fin||'–'}</td>
+        <td><span style="font-family:var(--font-disp);font-size:18px">${a.precio_mes ? a.precio_mes+'€' : '–'}</span></td>
+        <td>${estado}</td>
+        <td>
+          <div class="row-actions">
+            <button class="btn-row" onclick="editarAnuncio('${a.id}')">Editar</button>
+            <button class="btn-row ${a.activo ? 'danger' : 'success'}" onclick="toggleActivoAnuncio('${a.id}', ${!a.activo})">${a.activo ? 'Pausar' : 'Activar'}</button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+
+    wrap.innerHTML = `<table>
+      <thead><tr><th>Espacio</th><th>Anunciante</th><th>Período</th><th>Precio</th><th>Estado</th><th>Acciones</th></tr></thead>
+      <tbody>${filas}</tbody>
+    </table>`;
+  } catch (err) {
+    wrap.innerHTML = `<div class="empty-state"><div class="empty-state-sub">Error al cargar anuncios</div></div>`;
+    toast('Error: ' + err.message, 'error');
+  }
+}
+
+// ── Helpers de formulario ──
+function onEspacioChange() {
+  const sel = document.getElementById('f_espacio_codigo');
+  const opt = sel.options[sel.selectedIndex];
+  if (opt && opt.dataset.precio) {
+    document.getElementById('f_precio_mes').value = opt.dataset.precio;
+  }
+}
+
+function previewBanner() {
+  const url = document.getElementById('f_imagen_url').value.trim();
+  const img  = document.getElementById('ad-preview-img');
+  const empty = document.getElementById('ad-preview-empty');
+  if (url) {
+    img.src = url;
+    img.style.display = 'block';
+    empty.style.display = 'none';
+  } else {
+    img.style.display = 'none';
+    empty.style.display = 'block';
+  }
+}
+
+function toggleFormActivo() {
+  const btn   = document.getElementById('f_activo_toggle');
+  const input = document.getElementById('f_activo');
+  const on    = input.value === 'true';
+  input.value = on ? 'false' : 'true';
+  btn.classList.toggle('on', !on);
+  btn.classList.toggle('off', on);
+}
+
+function resetFormAnuncio() {
+  document.getElementById('f_id').value           = '';
+  document.getElementById('f_espacio_codigo').value = '';
+  document.getElementById('f_precio_mes').value   = '';
+  document.getElementById('f_anunciante').value   = '';
+  document.getElementById('f_url_destino').value  = '';
+  document.getElementById('f_fecha_inicio').value = '';
+  document.getElementById('f_fecha_fin').value    = '';
+  document.getElementById('f_imagen_url').value   = '';
+  document.getElementById('f_texto_alt').value    = '';
+  document.getElementById('f_notas').value        = '';
+  document.getElementById('f_activo').value       = 'true';
+  document.getElementById('f_activo_toggle').className = 'toggle-btn on';
+  document.getElementById('f_btn_eliminar').style.display = 'none';
+  document.getElementById('ad-preview-img').style.display = 'none';
+  document.getElementById('ad-preview-empty').style.display = 'block';
+  document.getElementById('ad-tab-form').textContent = '+ Nuevo anuncio';
+}
+
+function nuevoEnEspacio(codigo, precio) {
+  resetFormAnuncio();
+  document.getElementById('f_espacio_codigo').value = codigo;
+  document.getElementById('f_precio_mes').value     = precio;
+  adTab('form');
+}
+
+async function editarPorCodigo(codigo) {
+  const { data } = await db.from('anuncios').select('*').eq('espacio_codigo', codigo).eq('activo', true).limit(1);
+  if (data && data.length) editarAnuncioData(data[0]);
+  else nuevoEnEspacio(codigo, ESPACIOS.find(e => e.codigo === codigo)?.precio || '');
+}
+
+async function editarAnuncio(id) {
+  const { data } = await db.from('anuncios').select('*').eq('id', id).single();
+  if (data) editarAnuncioData(data);
+}
+
+function editarAnuncioData(a) {
+  resetFormAnuncio();
+  document.getElementById('f_id').value              = a.id;
+  document.getElementById('f_espacio_codigo').value  = a.espacio_codigo || '';
+  document.getElementById('f_precio_mes').value      = a.precio_mes || '';
+  document.getElementById('f_anunciante').value      = a.anunciante || '';
+  document.getElementById('f_url_destino').value     = a.url_destino || '';
+  document.getElementById('f_fecha_inicio').value    = a.fecha_inicio || '';
+  document.getElementById('f_fecha_fin').value       = a.fecha_fin || '';
+  document.getElementById('f_imagen_url').value      = a.imagen_url || '';
+  document.getElementById('f_texto_alt').value       = a.texto_alt || '';
+  document.getElementById('f_notas').value           = a.notas || '';
+  document.getElementById('f_activo').value          = a.activo ? 'true' : 'false';
+  document.getElementById('f_activo_toggle').className = 'toggle-btn ' + (a.activo ? 'on' : 'off');
+  document.getElementById('f_btn_eliminar').style.display = 'inline-block';
+  document.getElementById('ad-tab-form').textContent = 'Editando…';
+  previewBanner();
+  navTo('anuncios');
+  adTab('form');
+}
+
+async function guardarAnuncio() {
+  const id          = document.getElementById('f_id').value;
+  const espacio     = document.getElementById('f_espacio_codigo').value;
+  const anunciante  = document.getElementById('f_anunciante').value.trim();
+  const url_destino = document.getElementById('f_url_destino').value.trim();
+
+  if (!espacio || !anunciante || !url_destino) {
+    toast('Espacio, anunciante y URL son obligatorios', 'error');
+    return;
+  }
+
+  const sel = document.getElementById('f_espacio_codigo');
+  const opt = sel.options[sel.selectedIndex];
+  const payload = {
+    espacio_codigo: espacio,
+    pagina:         opt?.dataset.pagina || '',
+    posicion:       opt?.dataset.pos    || '',
+    precio_mes:     parseInt(document.getElementById('f_precio_mes').value) || null,
+    anunciante,
+    url_destino,
+    imagen_url:     document.getElementById('f_imagen_url').value.trim() || null,
+    texto_alt:      document.getElementById('f_texto_alt').value.trim()  || null,
+    fecha_inicio:   document.getElementById('f_fecha_inicio').value || null,
+    fecha_fin:      document.getElementById('f_fecha_fin').value    || null,
+    notas:          document.getElementById('f_notas').value.trim() || null,
+    activo:         document.getElementById('f_activo').value === 'true',
+    updated_at:     new Date().toISOString(),
+  };
+
+  const btn = document.querySelector('#ad-pane-form .btn-save');
+  btn.textContent = 'Guardando…'; btn.disabled = true;
+
+  let error;
+  if (id) {
+    ({ error } = await db.from('anuncios').update(payload).eq('id', id));
+  } else {
+    ({ error } = await db.from('anuncios').insert(payload));
+  }
+
+  btn.textContent = 'Guardar anuncio'; btn.disabled = false;
+
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+
+  toast(id ? 'Anuncio actualizado' : 'Anuncio creado', 'success');
+  resetFormAnuncio();
+  await cargarAnuncios();
+  adTab('inventario');
+}
+
+async function toggleActivoAnuncio(id, nuevoEstado) {
+  const { error } = await db.from('anuncios')
+    .update({ activo: nuevoEstado, updated_at: new Date().toISOString() })
+    .eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast(nuevoEstado ? 'Anuncio activado' : 'Anuncio pausado', 'success');
+  await cargarListadoAnuncios();
+}
+
+async function eliminarAnuncio() {
+  const id = document.getElementById('f_id').value;
+  if (!id) return;
+  if (!confirm('¿Eliminar este anuncio definitivamente?')) return;
+  const { error } = await db.from('anuncios').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Anuncio eliminado', 'info');
+  resetFormAnuncio();
+  await cargarAnuncios();
+  adTab('inventario');
+}
 
 // ── INIT ──
 
