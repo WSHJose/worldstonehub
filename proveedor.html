@@ -365,13 +365,18 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
   });
 
   // ── FETCH PROVEEDOR ────────────────────────────────────────────────────────
-  db.from('proveedores')
-    .select('*')
-    .eq('slug', slug)
-    .eq('estado', 'activo')
-    .single()
-    .then(function(res){
-      if(res.error || !res.data){ showError(); return; }
+  db.auth.getSession().then(function(authRes){
+    var uid = authRes.data && authRes.data.session && authRes.data.session.user
+              ? authRes.data.session.user.id : null;
+    var query = db.from('proveedores').select('*').eq('slug', slug);
+    if(uid){
+      query = query.or('estado.eq.activo,user_id.eq.' + uid);
+    } else {
+      query = query.eq('estado', 'activo');
+    }
+    return query.single();
+  }).then(function(res){
+      if(!res || res.error || !res.data){ showError(); return; }
       var p = res.data;
 
       // Update page title & meta
@@ -414,6 +419,14 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
 
   // ── RENDER PROFILE ─────────────────────────────────────────────────────────
   function renderProfile(p, similar){
+    // Banner para el dueño si el perfil aún está pendiente de activación
+    if(p.estado !== 'activo'){
+      var banner = document.createElement('div');
+      banner.style.cssText = 'background:#A67C52;color:#fff;text-align:center;padding:12px 20px;font-size:14px;position:sticky;top:0;z-index:999;';
+      banner.textContent = 'Tu perfil está pendiente de activación. Solo tú puedes verlo por ahora.';
+      document.body.insertBefore(banner, document.body.firstChild);
+    }
+
     var nivel = planLevel(p.plan);
     var hasLogo = p.logo_url && nivel >= 1;
     var hasDesc = p.descripcion && nivel >= 1;
