@@ -611,22 +611,34 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
 
   window.handleFotoUpload = function(input, i){
     var file = input.files[0];
-    if(!file) return;
-    var reader = new FileReader();
-    reader.onload = function(e){ fotosArr[i] = e.target.result; renderFotosGrid(); };
-    reader.readAsDataURL(file);
+    if(!file || !currentUser) return;
+    var slot = document.querySelector('.foto-slot[data-i="'+i+'"]');
+    if(slot) slot.innerHTML = '<span style="font-size:11px;color:#999">Subiendo...</span>';
+    var ext = file.name.split('.').pop();
+    var path = currentUser.id + '/foto_' + i + '_' + Date.now() + '.' + ext;
+    db.storage.from('proveedores-media').upload(path, file, { upsert: true })
+      .then(function(res){
+        if(res.error){ toast('Error subiendo foto', 'error'); renderFotosGrid(); return; }
+        var pub = db.storage.from('proveedores-media').getPublicUrl(path);
+        fotosArr[i] = pub.data.publicUrl;
+        renderFotosGrid();
+      });
   };
 
   window.handleLogoUpload = function(input){
     var file = input.files[0];
-    if(!file) return;
-    var reader = new FileReader();
-    reader.onload = function(e){
-      logoUrl = e.target.result;
-      var prev = document.getElementById('logoPreview');
-      prev.innerHTML = '<div class="uz-preview-item"><img src="'+logoUrl+'"><button class="uz-preview-remove" onclick="removeLogo()">×</button></div>';
-    };
-    reader.readAsDataURL(file);
+    if(!file || !currentUser) return;
+    var prev = document.getElementById('logoPreview');
+    prev.innerHTML = '<span style="font-size:11px;color:#999">Subiendo...</span>';
+    var ext = file.name.split('.').pop();
+    var path = currentUser.id + '/logo_' + Date.now() + '.' + ext;
+    db.storage.from('proveedores-media').upload(path, file, { upsert: true })
+      .then(function(res){
+        if(res.error){ toast('Error subiendo logo', 'error'); prev.innerHTML = ''; return; }
+        var pub = db.storage.from('proveedores-media').getPublicUrl(path);
+        logoUrl = pub.data.publicUrl;
+        prev.innerHTML = '<div class="uz-preview-item"><img src="'+logoUrl+'"><button class="uz-preview-remove" onclick="removeLogo()">×</button></div>';
+      });
   };
 
   window.removeLogo = function(){ logoUrl = null; document.getElementById('logoPreview').innerHTML = ''; };
