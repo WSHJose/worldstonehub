@@ -1113,6 +1113,26 @@ label.plan-card input[type="radio"] { display: none !important; }
 .lang-btn.active::after{content:'';display:block;height:1px;background:#A67C52;margin-top:2px;opacity:.6;}
 .lang-sep{width:1px;height:10px;background:#c8c5bf;opacity:.45;flex-shrink:0;}
 @media(max-width:900px){.lang-switcher{display:none;}}
+
+/* ── Smart Search Especialización ── */
+.esp-search-wrap{position:relative;}
+.esp-search-wrap input{width:100%;box-sizing:border-box;}
+.esp-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid #c8c5bf;border-top:2px solid #A67C52;z-index:200;max-height:280px;overflow-y:auto;box-shadow:0 8px 24px rgba(26,25,23,.1);}
+.esp-opt{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;transition:background .15s;}
+.esp-opt:hover{background:#f8f7f5;}
+.esp-opt-badge{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;border-radius:2px;flex-shrink:0;}
+.esp-opt-badge-material{background:#A67C52;color:#fff;}
+.esp-opt-badge-cantera{background:#4A4540;color:#fff;}
+.esp-opt-label{font-size:.88rem;font-weight:500;color:#1a1917;flex:1;}
+.esp-opt-sub{font-size:.75rem;color:#8a8784;font-family:'DM Mono',monospace;text-transform:capitalize;}
+.esp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;min-height:0;}
+.esp-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px 4px 6px;border:1px solid #c8c5bf;background:#f8f7f5;font-size:.8rem;color:#1a1917;font-family:'Instrument Sans',sans-serif;}
+.esp-tag-type{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:1px 5px;border-radius:1px;}
+.esp-tag-material .esp-tag-type{background:#A67C52;color:#fff;}
+.esp-tag-cantera .esp-tag-type{background:#4A4540;color:#fff;}
+.esp-tag-rm{background:none;border:none;cursor:pointer;color:#8a8784;font-size:14px;padding:0 0 0 2px;line-height:1;margin-left:2px;transition:color .15s;}
+.esp-tag-rm:hover{color:#1a1917;}
+.fsec-hint{font-size:.82rem;color:#8a8784;font-family:'DM Mono',monospace;letter-spacing:.02em;margin:-6px 0 14px;line-height:1.5;}
 </style>
 <!-- Google Analytics GA4 — REPLACE G-Z386REXEZF with your real Measurement ID -->
 <!-- Steps: analytics.google.com → Admin → Create Property → Get Measurement ID -->
@@ -1141,6 +1161,110 @@ label.plan-card input[type="radio"] { display: none !important; }
   const WSH_SUPABASE_URL  = 'https://whcptmdapnavcxcszwwk.supabase.co';
   const WSH_SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
   const wshDB = window.supabase.createClient(WSH_SUPABASE_URL, WSH_SUPABASE_ANON);
+</script>
+<script>
+// ── Smart Search: Especialización (materiales y canteras) ──────────────────
+var _espData     = null;
+var _espSelected = [];
+
+function _espEsc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function loadEspData() {
+  if (_espData) return Promise.resolve(_espData);
+  return Promise.all([
+    wshDB.from('materiales').select('slug,nombre_comercial,categoria').eq('activo',true).order('nombre_comercial').limit(500),
+    wshDB.from('canteras').select('slug,nombre,tipo_piedra').eq('activo',true).order('nombre').limit(500)
+  ]).then(function(res) {
+    var mats  = (res[0].data||[]).map(function(m){
+      return { type:'material', id:m.slug, label:m.nombre_comercial, sub:m.categoria };
+    });
+    var cants = (res[1].data||[]).map(function(c){
+      return { type:'cantera', id:c.slug, label:c.nombre, sub:c.tipo_piedra };
+    });
+    _espData = mats.concat(cants);
+    return _espData;
+  });
+}
+
+function espSearch(q) {
+  q = q.toLowerCase();
+  return (_espData||[]).filter(function(item){
+    return item.label.toLowerCase().includes(q) || (item.sub||'').toLowerCase().includes(q);
+  }).slice(0,8);
+}
+
+function renderEspTags() {
+  var container = document.getElementById('esp_tags');
+  if (!container) return;
+  container.innerHTML = _espSelected.map(function(item){
+    var typeLbl = item.type === 'material' ? 'Material' : 'Cantera';
+    return '<span class="esp-tag esp-tag-'+item.type+'" data-id="'+item.id+'">' +
+      '<span class="esp-tag-type">'+typeLbl+'</span>' +
+      _espEsc(item.label) +
+      '<button class="esp-tag-rm" type="button" onclick="espRemove(\''+item.id+'\')">×</button>' +
+    '</span>';
+  }).join('');
+}
+
+function espRemove(id) {
+  _espSelected = _espSelected.filter(function(i){ return i.id !== id; });
+  renderEspTags();
+}
+
+function espAdd(item) {
+  if (_espSelected.find(function(i){ return i.id === item.id; })) return;
+  _espSelected.push(item);
+  renderEspTags();
+  var inp = document.getElementById('f_esp_input');
+  if (inp) inp.value = '';
+  var dd = document.getElementById('esp_dropdown');
+  if (dd) dd.style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var input    = document.getElementById('f_esp_input');
+  var dropdown = document.getElementById('esp_dropdown');
+  if (!input || !dropdown) return;
+
+  // Pre-load data when step 3 becomes visible
+  input.addEventListener('focus', function() { loadEspData(); });
+
+  input.addEventListener('input', function() {
+    var q = input.value.trim();
+    if (!q) { dropdown.style.display = 'none'; return; }
+    if (!_espData) { loadEspData().then(function(){ showEspResults(q); }); return; }
+    showEspResults(q);
+  });
+
+  function showEspResults(q) {
+    var results = espSearch(q);
+    if (!results.length) { dropdown.style.display = 'none'; return; }
+    dropdown.innerHTML = results.map(function(item){
+      var badge = item.type === 'material'
+        ? '<span class="esp-opt-badge esp-opt-badge-material">Material</span>'
+        : '<span class="esp-opt-badge esp-opt-badge-cantera">Cantera</span>';
+      return '<div class="esp-opt" data-id="'+item.id+'">' +
+        badge +
+        '<span class="esp-opt-label">'+_espEsc(item.label)+'</span>' +
+        (item.sub ? '<span class="esp-opt-sub">'+_espEsc(item.sub)+'</span>' : '') +
+      '</div>';
+    }).join('');
+    dropdown.style.display = 'block';
+    dropdown.querySelectorAll('.esp-opt').forEach(function(opt){
+      opt.addEventListener('mousedown', function(e){
+        e.preventDefault();
+        var found = (_espData||[]).find(function(i){ return i.id === opt.dataset.id; });
+        if (found) espAdd(found);
+      });
+    });
+  }
+
+  input.addEventListener('blur', function(){
+    setTimeout(function(){ dropdown.style.display = 'none'; }, 180);
+  });
+});
 </script>
 </head>
 <body>
@@ -1502,45 +1626,20 @@ label.plan-card input[type="radio"] { display: none !important; }
         <!-- ESPECIALIZACIÓN -->
         <div class="fsec">
           <div class="fsec-hd">Especialización</div>
-          <div class="fgrid g2">
-            <div class="field">
-              <div class="flabel" data-es="Tipos de piedra" data-en="Stone types">Tipos de piedra</div>
-              <div class="cg" id="cg_tipos">
-                <label class="ci"><input type="checkbox" value="marmol"/><span class="ci-box"></span><span class="ci-lbl">Mármol</span></label>
-                <label class="ci"><input type="checkbox" value="granito"/><span class="ci-box"></span><span class="ci-lbl">Granito</span></label>
-                <label class="ci"><input type="checkbox" value="cuarcita"/><span class="ci-box"></span><span class="ci-lbl">Cuarcita</span></label>
-                <label class="ci"><input type="checkbox" value="travertino"/><span class="ci-box"></span><span class="ci-lbl">Travertino</span></label>
-                <label class="ci"><input type="checkbox" value="caliza"/><span class="ci-box"></span><span class="ci-lbl">Caliza</span></label>
-                <label class="ci"><input type="checkbox" value="pizarra"/><span class="ci-box"></span><span class="ci-lbl">Pizarra</span></label>
-                <label class="ci"><input type="checkbox" value="onix"/><span class="ci-box"></span><span class="ci-lbl">Ónix</span></label>
-                <label class="ci"><input type="checkbox" value="cuarzo"/><span class="ci-box"></span><span class="ci-lbl">Cuarzo eng.</span></label>
-                <label class="ci"><input type="checkbox" value="sinterizada"/><span class="ci-box"></span><span class="ci-lbl">Sinterizada</span></label>
-                <label class="ci"><input type="checkbox" value="otro"/><span class="ci-box"></span><span class="ci-lbl">Otros</span></label>
-              </div>
+          <div class="field">
+            <div class="flabel" data-es="Materiales y canteras" data-en="Materials &amp; quarries">Materiales y canteras con los que trabajas</div>
+            <div class="esp-search-wrap">
+              <input type="text" id="f_esp_input" placeholder="Busca: Mármol Carrara, Granito Negro Zimbabwe…" autocomplete="off"/>
+              <div class="esp-dropdown" id="esp_dropdown" style="display:none"></div>
             </div>
-            <div class="field">
-              <div class="flabel">Usos principales</div>
-              <div class="cg" id="cg_usos">
-                <label class="ci"><input type="checkbox" value="suelo_int"/><span class="ci-box"></span><span class="ci-lbl">Suelo interior</span></label>
-                <label class="ci"><input type="checkbox" value="suelo_ext"/><span class="ci-box"></span><span class="ci-lbl">Suelo exterior</span></label>
-                <label class="ci"><input type="checkbox" value="encimera"/><span class="ci-box"></span><span class="ci-lbl">Encimeras</span></label>
-                <label class="ci"><input type="checkbox" value="fachada"/><span class="ci-box"></span><span class="ci-lbl">Fachada</span></label>
-                <label class="ci"><input type="checkbox" value="bano"/><span class="ci-box"></span><span class="ci-lbl">Baño</span></label>
-                <label class="ci"><input type="checkbox" value="escalera"/><span class="ci-box"></span><span class="ci-lbl">Escaleras</span></label>
-                <label class="ci"><input type="checkbox" value="fune"/><span class="ci-box"></span><span class="ci-lbl">Funerario</span></label>
-                <label class="ci"><input type="checkbox" value="obra_pub"/><span class="ci-box"></span><span class="ci-lbl">Obra pública</span></label>
-              </div>
-            </div>
+            <div class="esp-tags" id="esp_tags"></div>
+            <div class="field-hint">Selecciona materiales y canteras de la plataforma. Tu empresa aparecerá como recomendada en sus fichas.</div>
           </div>
-          <div class="fgrid g3" style="margin-top:2px">
+          <div class="fgrid g2" style="margin-top:12px">
             <div class="field">
               <div class="flabel">Mercados / exportación</div>
               <input type="text" id="f_mercados" placeholder="Francia, Alemania, EEUU…"/>
               <div class="field-hint">Países separados por comas</div>
-            </div>
-            <div class="field">
-              <div class="flabel">Producción anual</div>
-              <input type="text" id="f_produccion" placeholder="50.000 m²/año"/>
             </div>
             <div class="field">
               <div class="flabel" data-es="Certificaciones" data-en="Certifications">Certificaciones</div>
@@ -1629,6 +1728,7 @@ label.plan-card input[type="radio"] { display: none !important; }
             <div class="field">
               <div class="flabel"><span class="req">*</span> Email directo</div>
               <input type="email" id="f_resp_email" placeholder="m.garcia@empresa.com"/>
+              <div class="field-hint">Este será tu email de acceso al panel</div>
               <div class="field-err-msg">Email no válido</div>
             </div>
           </div>
@@ -1637,12 +1737,8 @@ label.plan-card input[type="radio"] { display: none !important; }
         <!-- CUENTA -->
         <div class="fsec">
           <div class="fsec-hd">Acceso a tu panel</div>
-          <div class="fgrid g3">
-            <div class="field">
-              <div class="flabel"><span class="req">*</span> Email de acceso</div>
-              <input type="email" id="f_login" placeholder="tu@email.com"/>
-              <div class="field-err-msg">Email no válido</div>
-            </div>
+          <p class="fsec-hint">Accederás con el email del responsable indicado arriba.</p>
+          <div class="fgrid g2">
             <div class="field">
               <div class="flabel"><span class="req">*</span> Contraseña</div>
               <input type="password" id="f_pass1" placeholder="Mín. 8 caracteres"/>
@@ -1959,7 +2055,6 @@ function validateS3() {
     { id:'f_resp_nombre', fn:function(v){ return v.trim().length > 0; } },
     { id:'f_resp_cargo',  fn:function(v){ return v.trim().length > 0; } },
     { id:'f_resp_email',  fn:function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); } },
-    { id:'f_login',  fn:function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); } },
     { id:'f_pass1',  fn:function(v){ return v.length >= 8; } },
     { id:'f_pass2',  fn:function(v){ return v === document.getElementById('f_pass1').value && v.length >= 8; } },
   ];
@@ -2007,7 +2102,7 @@ function fillReview() {
   document.getElementById('rv_tel').textContent     = v('f_tel');
   document.getElementById('rv_resp').textContent    = v('f_resp_nombre');
   document.getElementById('rv_cargo').textContent   = v('f_resp_cargo');
-  document.getElementById('rv_login').textContent   = v('f_login');
+  document.getElementById('rv_login').textContent   = v('f_resp_email');
 }
 
 // == Submit ==
@@ -2036,7 +2131,7 @@ function submitForm() {
   btn.textContent = 'Registrando...';
   btn.disabled = true;
 
-  var emailLogin    = v('f_login');
+  var emailLogin    = v('f_resp_email');
   var password      = v('f_pass1');
   var nombreEmpresa = v('f_nombre');
 
@@ -2073,7 +2168,7 @@ function submitForm() {
       fundacion:          v('f_fundacion')  ? parseInt(v('f_fundacion')) : null,
       plantilla:          v('f_empleados')  || null,
       mercados:           v('f_mercados')   || null,
-      produccion:         v('f_produccion') || null,
+
       certificaciones:    v('f_certs')      || null,
       email:              v('f_email'),
       telefono:           v('f_tel'),
@@ -2087,13 +2182,10 @@ function submitForm() {
       estado:             'pendiente'
     };
 
-    // Arrays: solo se incluyen en el payload si tienen elementos
-    // Si están vacíos, PostgreSQL usará el DEFAULT '{}' de la columna
-    var tiposPiedra = getChecked('cg_tipos');
-    if (tiposPiedra.length) fullPayload.tipos_piedra = tiposPiedra;
-
-    var usosList = getChecked('cg_usos');
-    if (usosList.length) fullPayload.usos = usosList;
+    // Especialización: materiales y canteras seleccionados via smart search
+    if (_espSelected && _espSelected.length) {
+      fullPayload.materiales = _espSelected.map(function(i){ return i.id; });
+    }
 
     if (ST.actors && ST.actors.length) fullPayload.tipo = ST.actors;
 
