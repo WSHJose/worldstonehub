@@ -7,6 +7,54 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1917'/><text x='50%25' y='54%25' font-family='serif' font-size='20' fill='%23A67C52' text-anchor='middle' dominant-baseline='middle'>W</text></svg>">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function() {
+  var SB_URL  = 'https://whcptmdapnavcxcszwwk.supabase.co';
+  var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
+  var db = window.supabase.createClient(SB_URL, SB_ANON);
+
+  // Si el usuario viene de Stripe (pago completado) o es plan gratuito,
+  // activar su empresa automáticamente.
+  db.auth.getSession().then(function(r) {
+    var session = r.data && r.data.session;
+    if (!session || !session.user) return;
+
+    var userId = session.user.id;
+    db.from('proveedores')
+      .select('id, estado, plan')
+      .eq('user_id', userId)
+      .single()
+      .then(function(res) {
+        if (!res.data) return;
+        var empresa = res.data;
+        // Activar si estaba pendiente (recién registrada, pago completado)
+        if (empresa.estado === 'pendiente') {
+          db.from('proveedores')
+            .update({ estado: 'activo', activo: true, plan_activo: true })
+            .eq('id', empresa.id)
+            .then(function(upd) {
+              if (!upd.error) {
+                // Actualizar texto de la página para reflejar activación inmediata
+                var subtitle = document.querySelector('.subtitle');
+                if (subtitle) {
+                  subtitle.innerHTML = 'Tu empresa ya está activa en el directorio.<br>Puedes acceder a tu panel para completar tu perfil en cualquier momento.';
+                }
+                var step2 = document.querySelector('.step-item:nth-child(2) .step-txt');
+                if (step2) step2.innerHTML = '<strong>Empresa verificada</strong>Tu ficha ya es visible en el directorio y en todas las categorías correspondientes.';
+                var step3 = document.querySelector('.step-item:nth-child(3) .step-txt');
+                if (step3) step3.innerHTML = '<strong>Publicada en el directorio</strong>Los profesionales del sector ya pueden encontrarte. Accede a tu panel para optimizar tu perfil.';
+                var eyebrow = document.querySelector('.eyebrow');
+                if (eyebrow) eyebrow.textContent = 'Empresa activa';
+                var title = document.querySelector('.title');
+                if (title) title.innerHTML = 'Tu ficha ya está<br><em>publicada</em>';
+              }
+            });
+        }
+      });
+  });
+}());
+</script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{font-size:16px;background:#f8f7f5;}
@@ -201,9 +249,9 @@ footer a:hover{color:#A67C52;}
     </div>
 
     <div class="actions">
-      <a href="index.html" class="btn-gold">Volver al inicio</a>
+      <a href="panel.html" class="btn-gold">Ir a mi panel</a>
       <a href="lapidis-proveedores.html" class="btn-out">Ver el directorio</a>
-      <a href="lapidis-materiales.html" class="btn-out">Explorar materiales</a>
+      <a href="index.html" class="btn-out">Volver al inicio</a>
     </div>
 
   </div>

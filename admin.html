@@ -1454,7 +1454,7 @@ async function cargarSolicitudes() {
 async function aprobarSolicitud(id) {
   const { error } = await db
     .from('proveedores')
-    .update({ estado: 'activo', activo: true })
+    .update({ estado: 'activo', activo: true, plan_activo: true })
     .eq('id', id);
 
   if (error) {
@@ -1462,15 +1462,16 @@ async function aprobarSolicitud(id) {
     return;
   }
 
-  toast('Proveedor aprobado', 'success');
+  toast('Proveedor aprobado y publicado', 'success');
   const card = document.getElementById('sol-card-' + id);
   if (card) card.remove();
   actualizarBadgePendientes();
 
   // Update map
   if (_provMap[id]) {
-    _provMap[id].estado = 'activo';
-    _provMap[id].activo = true;
+    _provMap[id].estado    = 'activo';
+    _provMap[id].activo    = true;
+    _provMap[id].plan_activo = true;
   }
 
   // Check if grid is now empty
