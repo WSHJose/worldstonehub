@@ -38,20 +38,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
 .nav-logout:hover{color:var(--red);}
 
 /* ── AUTH GATE ── */
-#auth-gate{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:40px;position:relative;z-index:1;}
-.ag-title{font-family:var(--font-disp);font-size:48px;font-weight:300;margin-bottom:12px;}
+#auth-gate{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:40px;position:relative;z-index:1;}
+.ag-eyebrow{font-family:var(--font-mono);font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.ag-eyebrow::before,.ag-eyebrow::after{content:'';width:24px;height:1px;background:var(--gold);opacity:.5;}
+.ag-title{font-family:var(--font-disp);font-size:clamp(36px,5vw,54px);font-weight:300;margin-bottom:14px;line-height:1.05;}
 .ag-title em{font-style:italic;color:var(--gold);}
-.ag-desc{font-size:14px;color:var(--ink-muted);margin-bottom:36px;line-height:1.7;}
-.ag-btn{display:inline-block;background:var(--ink);color:#f8f7f5;padding:14px 36px;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;transition:background .25s;cursor:pointer;border:none;font-family:var(--font-ui);}
+.ag-desc{font-size:14px;color:var(--ink-muted);margin-bottom:40px;line-height:1.75;max-width:400px;}
+.ag-btn{display:inline-block;background:var(--ink);color:#f8f7f5;padding:14px 40px;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;transition:background .25s;cursor:pointer;border:none;font-family:var(--font-ui);text-decoration:none;}
 .ag-btn:hover{background:var(--gold);}
-.ag-form{width:100%;max-width:380px;margin:0 auto;}
-.ag-input{width:100%;padding:13px 16px;font-size:14px;font-family:var(--font-ui);border:1px solid var(--border);background:#fff;color:var(--ink);margin-bottom:12px;outline:none;box-sizing:border-box;}
-.ag-input:focus{border-color:var(--gold);}
-.ag-feedback{font-size:12px;margin-top:8px;min-height:20px;letter-spacing:.5px;}
-.ag-feedback.ok{color:#3a7a50;}
-.ag-feedback.err{color:var(--red);}
-.ag-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--ink-faint);font-size:11px;letter-spacing:2px;}
-.ag-divider::before,.ag-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.ag-back{display:block;margin-top:20px;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-muted);transition:color .2s;}
+.ag-back:hover{color:var(--ink);}
 .ag-loading{display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
@@ -252,19 +248,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
   </div>
 </nav>
 
-<!-- AUTH GATE -->
+<!-- AUTH GATE: visible solo si el usuario está autenticado pero sin empresa registrada -->
 <div id="auth-gate">
-  <div class="ag-title">Accede a tu <em>panel</em></div>
-  <p class="ag-desc" id="agDesc">Introduce tu email y te enviamos un enlace de acceso directo.<br>Sin contraseña.</p>
-  <div class="ag-form" id="agFormStep1">
-    <input type="email" class="ag-input" id="agEmail" placeholder="tu@email.com" autocomplete="email">
-    <button class="ag-btn" id="btnEnviarMagicLink" style="width:100%;">Enviar enlace de acceso</button>
-    <div class="ag-feedback" id="agFeedback"></div>
-  </div>
-  <div id="agFormStep2" style="display:none;">
-    <p style="font-size:13px;color:var(--ink-muted);margin-bottom:24px;">Revisa tu bandeja de entrada y haz clic en el enlace que te hemos enviado.</p>
-    <button class="ag-btn" id="btnReenviar" style="background:transparent;color:var(--gold);border:1px solid var(--gold);font-size:10px;padding:10px 24px;">Reenviar enlace</button>
-  </div>
+  <div class="ag-eyebrow">Panel de empresa</div>
+  <div class="ag-title">Aún no tienes<br><em>empresa registrada</em></div>
+  <p class="ag-desc">Tu cuenta está activa pero tu empresa aún no está en el directorio de World Stone Hub.</p>
+  <a href="registro.html" class="ag-btn">Crear mi ficha →</a>
+  <a href="index.html" class="ag-back">← Volver al inicio</a>
 </div>
 
 <!-- PANEL -->
@@ -906,56 +896,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
   });
 
   // ── AUTH CHECK + INIT ──────────────────────────────────────────────────────
-  // ── MAGIC LINK: envío ──────────────────────────────────────────────────────
-  function mostrarFeedback(msg, tipo){
-    var el = document.getElementById('agFeedback');
-    if(!el) return;
-    el.textContent = msg;
-    el.className = 'ag-feedback ' + (tipo || '');
-  }
-
-  function enviarMagicLink(email){
-    var btn = document.getElementById('btnEnviarMagicLink');
-    if(btn){ btn.disabled = true; btn.innerHTML = '<span class="ag-loading"></span>Enviando…'; }
-    mostrarFeedback('', '');
-    db.auth.signInWithOtp({
-      email: email,
-      options: { emailRedirectTo: 'https://worldstonehub.com/panel.html' }
-    }).then(function(res){
-      if(res.error){
-        mostrarFeedback(res.error.message, 'err');
-        if(btn){ btn.disabled = false; btn.textContent = 'Enviar enlace de acceso'; }
-      } else {
-        document.getElementById('agFormStep1').style.display = 'none';
-        document.getElementById('agFormStep2').style.display = 'block';
-      }
-    });
-  }
-
-  var btnEnviar = document.getElementById('btnEnviarMagicLink');
-  if(btnEnviar) btnEnviar.addEventListener('click', function(){
-    var email = document.getElementById('agEmail').value.trim();
-    if(!email || !/^[^@]+@[^@]+\.[^@]+$/.test(email)){
-      mostrarFeedback('Introduce un email válido', 'err'); return;
-    }
-    enviarMagicLink(email);
-  });
-
-  var agEmail = document.getElementById('agEmail');
-  if(agEmail) agEmail.addEventListener('keydown', function(e){
-    if(e.key === 'Enter'){
-      var email = agEmail.value.trim();
-      if(email) enviarMagicLink(email);
-    }
-  });
-
-  var btnReenviar = document.getElementById('btnReenviar');
-  if(btnReenviar) btnReenviar.addEventListener('click', function(){
-    document.getElementById('agFormStep1').style.display = 'block';
-    document.getElementById('agFormStep2').style.display = 'none';
-    var btn2 = document.getElementById('btnEnviarMagicLink');
-    if(btn2){ btn2.disabled = false; btn2.textContent = 'Enviar enlace de acceso'; }
-  });
 
   // ── MAGIC LINK: recepción (token en URL params o hash) ──────────────────────
   db.auth.onAuthStateChange(function(event, session){
@@ -979,10 +919,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
     db.from('proveedores').select('*').eq('user_id', currentUser.id).single()
       .then(function(res){
         if(res.error || !res.data){
+          // Usuario autenticado pero sin empresa → mostrar CTA de registro
           document.getElementById('auth-gate').style.display = 'flex';
-          document.querySelector('.ag-title').innerHTML = 'Aún no tienes <em>empresa</em>';
-          document.querySelector('.ag-desc').textContent = 'Crea tu ficha en el directorio para empezar a ser visible.';
-          document.getElementById('btnAcceder').textContent = 'Crear mi empresa';
           return;
         }
         currentProveedor = res.data;

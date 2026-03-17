@@ -2208,10 +2208,17 @@ function submitForm() {
 
     return wshDB.from('proveedores').insert(fullPayload)
       .then(function(r) {
-        // Si falla por columnas inexistentes, reintentar con payload mínimo
-        if (r.error && r.error.message && r.error.message.includes('column')) {
-          console.warn('WSH: columnas nuevas aún no migradas, usando payload mínimo.', r.error.message);
-          return wshDB.from('proveedores').insert(safePayload);
+        // Si falla por cualquier error de esquema, reintentar con payload mínimo
+        if (r.error) {
+          var msg = r.error.message || '';
+          var isSchemaError = msg.includes('column') || msg.includes('schema') ||
+                              msg.includes('violates') || msg.includes('does not exist');
+          if (isSchemaError) {
+            console.warn('WSH: fallo con payload completo, reintentando con payload mínimo.', msg);
+            return wshDB.from('proveedores').insert(safePayload);
+          }
+          // Otros errores (RLS, conexión…): loggear con detalle
+          console.error('WSH insert error (fullPayload):', r.error);
         }
         return r;
       });
@@ -2219,7 +2226,18 @@ function submitForm() {
   .then(function(insertResult) {
     if (insertResult.error) throw insertResult.error;
 
-    // 3) Stripe Payment Link o confirmación gratuita
+    // 3) Email de bienvenida (fire-and-forget, no bloquea el flujo)
+    try {
+      wshDB.functions.invoke('send-welcome', {
+        body: {
+          email:          v('f_email') || v('f_resp_email'),
+          nombre_empresa: nombreEmpresa,
+          plan:           ST.plan || 'free'
+        }
+      });
+    } catch(e) { console.warn('WSH send-welcome omitido:', e); }
+
+    // 4) Stripe Payment Link o confirmación gratuita
     if (ST.plan === 'free') {
       window.location.href = 'gracias.html';
     } else {
@@ -2241,12 +2259,13 @@ function submitForm() {
     btn.textContent = 'Enviar solicitud de alta →';
     btn.disabled = false;
     var msg = err.message || 'Error desconocido';
+    // Log completo siempre visible en consola
+    console.error('WSH submit error completo:', JSON.stringify(err), err);
     if (msg.includes('already registered') || msg.includes('User already registered')) {
-      alert('Este email ya está registrado. ¿Ya tienes cuenta? Accede a tu panel.');
+      alert('Este email ya está registrado.\nSi ya tienes cuenta, accede desde "Iniciar sesión".\nSi crees que es un error, escríbenos a hello@worldstonehub.com');
     } else {
-      alert('Error al registrar: ' + msg + '\nSi el problema persiste escríbenos a hello@worldstonehub.com');
+      alert('Error al registrar.\n\nDetalle técnico: ' + msg + '\n\nCopia este mensaje y escríbenos a hello@worldstonehub.com para que lo resolvamos.');
     }
-    console.error('WSH submit error:', err);
   });
 }
 
