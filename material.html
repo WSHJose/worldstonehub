@@ -527,19 +527,9 @@ nav {
     document.title = 'Material no encontrado | World Stone Hub';
   }
 
-  // ── Auth nav ───────────────────────────────────────────────────────────────
-  var navAuth = el('nav-auth-item');
-  if (navAuth) {
-    db.auth.getSession().then(function(r) {
-      var s = r.data && r.data.session;
-      navAuth.innerHTML = s
-        ? '<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Mi Panel</a>'
-        : '<span class="nav-auth-sep"></span><a href="login.html" class="nav-auth-link state-acceso">Iniciar sesión</a>';
-    });
-  }
-
 }());
 </script>
 <script src="i18n.js"></script>
+<script src="auth-nav.js"></script>
 </body>
 </html>

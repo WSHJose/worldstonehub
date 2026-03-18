@@ -343,15 +343,6 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
   var slug = params.get('id') || params.get('slug');
   if(!slug){ showError(); return; }
 
-  // ── NAV AUTH ───────────────────────────────────────────────────────────────
-  db.auth.getSession().then(function(r){
-    var s = r.data && r.data.session;
-    var el = document.getElementById("nav-auth-item");
-    if(!el) return;
-    if(s){ el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Mi Panel</a>'; }
-    else { el.innerHTML='<span class="nav-auth-sep"></span><a href="login.html" class="nav-auth-link state-acceso">Iniciar sesión</a>'; }
-  });
-
   // ── NAV DROPDOWN ───────────────────────────────────────────────────────────
   var closeTimer = null;
   document.querySelectorAll('.nav-dropdown').forEach(function(el){
@@ -608,5 +599,6 @@ function closeLightbox(){
 document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLightbox(); });
 </script>
 <script src="i18n.js"></script>
+<script src="auth-nav.js"></script>
 </body>
 </html>

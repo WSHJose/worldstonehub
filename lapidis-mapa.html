@@ -1349,23 +1349,7 @@ initMap();
   flex-shrink: 0;
 }
 </style>
-<script>
-(function(){
-  var SB_URL="https://whcptmdapnavcxcszwwk.supabase.co";
-  var SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8";
-  var db=supabase.createClient(SB_URL,SB_KEY);
-  db.auth.getSession().then(function(r){
-    var s=r.data&&r.data.session;
-    var el=document.getElementById("nav-auth-item");
-    if(!el)return;
-    if(s){
-      el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Mi Panel</a>';
-    } else {
-      el.innerHTML='<span class="nav-auth-sep"></span><a href="login.html" class="nav-auth-link state-acceso">Iniciar sesión</a>';
-    }
-  });
-})();
-</script>
 <script src="i18n.js"></script>
+<script src="auth-nav.js"></script>
 </body>
 </html>

@@ -659,15 +659,9 @@ document.getElementById('clearFilters').addEventListener('click', function() {
       menu.addEventListener('mouseleave',function(){closeTimer=setTimeout(function(){el.classList.remove('open');},250);});
     }
   });
-  var el=document.getElementById('nav-auth-item');
-  if(el){
-    var hasSession=false;
-    try{var keys=Object.keys(localStorage);for(var i=0;i<keys.length;i++){if(keys[i].indexOf('supabase')!==-1){var v=JSON.parse(localStorage.getItem(keys[i]));if(v&&(v.access_token||v.user)){hasSession=true;break;}}}}catch(e){}
-    if(hasSession){el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Mi Panel</a>';}
-    else{el.innerHTML='<span class="nav-auth-sep"></span><a href="login.html" class="nav-auth-link state-acceso">Iniciar sesión</a>';}
-  }
 })();
 </script>
 <script src="i18n.js"></script>
+<script src="auth-nav.js"></script>
 </body>
 </html>

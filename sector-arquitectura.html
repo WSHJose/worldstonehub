@@ -377,14 +377,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
       var sub=document.getElementById('sectorSubtitle');if(sub)sub.textContent='Error de carga';
     });
 
-  var db2=supabase.createClient(SB_URL,SB_KEY);
-  db2.auth.getSession().then(function(r){
-    var s=r.data&&r.data.session;
-    var el=document.getElementById('nav-auth-item');if(!el)return;
-    if(s){el.innerHTML='<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Mi Panel</a>';}
-    else{el.innerHTML='<span class="nav-auth-sep"></span><a href="login.html" class="nav-auth-link state-acceso">Iniciar sesión</a>';}
-  });
-
   /* ── Anuncio SECTOR-ARQ ── */
   (function loadAd(){
     var today=new Date().toISOString().slice(0,10);
@@ -409,5 +401,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 })();
 </script>
 <script src="i18n.js"></script>
+<script src="auth-nav.js"></script>
 </body>
 </html>
