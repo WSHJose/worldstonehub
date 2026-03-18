@@ -213,12 +213,12 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
 </svg></a>
   <ul class="nav-links">
     <li><a href="index.html" data-i18n="nav.inicio">Inicio</a></li>
-    <li><a href="lapidis-canteras.html" data-i18n="nav.canteras">Canteras</a></li>
-    <li><a href="lapidis-materiales.html" data-i18n="nav.materiales">Materiales</a></li>
+    <li><a href="canteras.html" data-i18n="nav.canteras">Canteras</a></li>
+    <li><a href="materiales.html" data-i18n="nav.materiales">Materiales</a></li>
     <li class="nav-dropdown">
-      <a href="lapidis-proveedores.html" class="active" data-i18n="nav.directorio">Directorio</a>
+      <a href="proveedores.html" class="active" data-i18n="nav.directorio">Directorio</a>
       <ul class="dropdown-menu">
-        <li><a href="lapidis-proveedores.html" data-i18n="nav.todosProveedores">Todos los proveedores</a></li>
+        <li><a href="proveedores.html" data-i18n="nav.todosProveedores">Todos los proveedores</a></li>
         <li><a href="sector-distribuidores.html" data-i18n="nav.distribuidores">Distribuidores</a></li>
         <li><a href="sector-fabricantes.html" data-i18n="nav.fabricantes">Fabricantes</a></li>
         <li><a href="sector-arquitectura.html" data-i18n="nav.arquitectura">Arquitectura</a></li>
@@ -228,7 +228,7 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
         <li><a href="sector-logistica.html" data-i18n="nav.logistica">Logística</a></li>
       </ul>
     </li>
-    <li class="nav-map-item"><a href="lapidis-mapa.html" class="nav-map-link" title="Mapa Mundial de Canteras" aria-label="Mapa" data-i18n-attr="title:nav.mapaAriaLabel,aria-label:nav.mapaAriaLabel"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5 L7 3 L13 5.5 L18 4 L18 15.5 L13 17 L7 14.5 L2 16 Z"/><line x1="7" y1="3" x2="7" y2="14.5"/><line x1="13" y1="5.5" x2="13" y2="17"/><line x1="2.5" y1="9.5" x2="17.5" y2="9.5" stroke-dasharray="1.5 1.2" stroke-width="0.85"/><line x1="2.5" y1="12.5" x2="17.5" y2="12.5" stroke-dasharray="1.5 1.2" stroke-width="0.85"/><circle cx="10" cy="9" r="1.3" stroke-width="1.1"/></svg></a></li>
+    <li class="nav-map-item"><a href="mapa.html" class="nav-map-link" title="Mapa Mundial de Canteras" aria-label="Mapa" data-i18n-attr="title:nav.mapaAriaLabel,aria-label:nav.mapaAriaLabel"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5 L7 3 L13 5.5 L18 4 L18 15.5 L13 17 L7 14.5 L2 16 Z"/><line x1="7" y1="3" x2="7" y2="14.5"/><line x1="13" y1="5.5" x2="13" y2="17"/><line x1="2.5" y1="9.5" x2="17.5" y2="9.5" stroke-dasharray="1.5 1.2" stroke-width="0.85"/><line x1="2.5" y1="12.5" x2="17.5" y2="12.5" stroke-dasharray="1.5 1.2" stroke-width="0.85"/><circle cx="10" cy="9" r="1.3" stroke-width="1.1"/></svg></a></li>
 
     <li id="nav-auth-item"></li>
   </ul>
@@ -250,7 +250,7 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
   <div class="error-num">404</div>
   <h2 class="error-title">Empresa <em>no encontrada</em></h2>
   <p class="error-desc">Esta empresa no existe o ha sido eliminada del directorio.</p>
-  <a href="lapidis-proveedores.html" class="error-btn">Ver directorio completo</a>
+  <a href="proveedores.html" class="error-btn">Ver directorio completo</a>
 </div>
 
 <!-- LIGHTBOX -->
@@ -276,10 +276,10 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
     <div class="footer-col">
       <div class="footer-col-title">Directorio</div>
       <ul>
-        <li><a href="lapidis-canteras.html">Canteras del mundo</a></li>
-        <li><a href="lapidis-mapa.html">Mapa de canteras</a></li>
-        <li><a href="lapidis-materiales.html" data-i18n="nav.materiales">Materiales</a></li>
-        <li><a href="lapidis-proveedores.html" data-i18n="nav.directorio">Directorio</a></li>
+        <li><a href="canteras.html">Canteras del mundo</a></li>
+        <li><a href="mapa.html">Mapa de canteras</a></li>
+        <li><a href="materiales.html" data-i18n="nav.materiales">Materiales</a></li>
+        <li><a href="proveedores.html" data-i18n="nav.directorio">Directorio</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -532,7 +532,7 @@ footer{background:#111110;color:rgba(255,255,255,.5);padding:60px 60px 32px;}
     var html = '';
 
     // Breadcrumb
-    html += '<div class="breadcrumb"><a href="lapidis-proveedores.html" data-i18n="nav.directorio">Directorio</a><span>·</span><span>' + esc(p.nombre_empresa) + '</span></div>';
+    html += '<div class="breadcrumb"><a href="proveedores.html" data-i18n="nav.directorio">Directorio</a><span>·</span><span>' + esc(p.nombre_empresa) + '</span></div>';
 
     // Hero
     html += '<div class="profile-hero">';

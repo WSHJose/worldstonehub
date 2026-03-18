@@ -11,6 +11,30 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
 );
 
+// Detectar plan por amount_total si metadata.plan no está presente
+function planFromAmount(amount: number | null): string {
+  if (!amount) return "presencia";
+  if (amount >= 29900) return "elite";
+  if (amount >= 12900) return "profesional";
+  return "presencia";
+}
+
+async function sendWelcomeEmail(email: string, nombre_empresa: string, plan: string) {
+  const RESEND_KEY = Deno.env.get("RESEND_API_KEY");
+  if (!RESEND_KEY) {
+    console.warn("No RESEND_API_KEY — email omitido");
+    return;
+  }
+  try {
+    await supabase.functions.invoke("send-welcome", {
+      body: { email, nombre_empresa, plan },
+    });
+    console.log(`✓ Welcome email enviado a ${email}`);
+  } catch (e) {
+    console.error("Error enviando welcome email:", e);
+  }
+}
+
 Deno.serve(async (req: Request) => {
   const signature = req.headers.get("stripe-signature");
   if (!signature) {
@@ -36,7 +60,12 @@ Deno.serve(async (req: Request) => {
 
     const email =
       session.customer_details?.email ?? session.customer_email ?? null;
-    const plan = (session.metadata?.plan as string) ?? "presencia";
+
+    // Plan: primero desde metadata, luego por importe, luego default
+    const plan =
+      (session.metadata?.plan as string) ||
+      planFromAmount(session.amount_total) ||
+      "presencia";
 
     if (!email) {
       console.error("No email in session:", session.id);
@@ -47,7 +76,8 @@ Deno.serve(async (req: Request) => {
 
     console.log(`Activating provider — email: ${email}, plan: ${plan}`);
 
-    const { error } = await supabase
+    // 1) Activar proveedor en la BD
+    const { data: proveedor, error } = await supabase
       .from("proveedores")
       .update({
         estado: "activo",
@@ -55,14 +85,28 @@ Deno.serve(async (req: Request) => {
         plan_activo: true,
         plan: plan,
       })
-      .eq("email", email);
+      .eq("email", email)
+      .select("nombre_empresa")
+      .maybeSingle();
 
     if (error) {
       console.error("DB error:", error.message);
       return new Response("DB error", { status: 500 });
     }
 
+    if (!proveedor) {
+      console.warn(`⚠ No se encontró proveedor con email: ${email} — puede haber un email diferente o ya estaba activado`);
+      // Devolver 200 para que Stripe no reintente indefinidamente
+      return new Response(JSON.stringify({ received: true, warning: "no_provider_found" }), {
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     console.log("✓ Provider activated:", email);
+
+    // 2) Enviar email de bienvenida
+    const nombre_empresa = proveedor?.nombre_empresa ?? email;
+    await sendWelcomeEmail(email, nombre_empresa, plan);
   }
 
   return new Response(JSON.stringify({ received: true }), {
