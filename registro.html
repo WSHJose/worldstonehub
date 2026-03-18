@@ -2155,6 +2155,8 @@ function submitForm() {
     // 2) Insertar proveedor
     // Campos de array se añaden dinámicamente solo cuando tienen valores
     // para evitar "malformed array literal" en PostgreSQL
+    var rawCerts = v('f_certs');
+    var certsArr = rawCerts ? rawCerts.split(',').map(function(s){ return s.trim(); }).filter(Boolean) : null;
     var fullPayload = {
       user_id:            userId,
       nombre_empresa:     nombreEmpresa,
@@ -2165,30 +2167,34 @@ function submitForm() {
       descripcion:        v('f_desc')       || null,
       pais:               paisNombre(),
       ciudad:             v('f_ciudad'),
-      fundacion:          v('f_fundacion')  ? parseInt(v('f_fundacion')) : null,
-      plantilla:          v('f_empleados')  || null,
+      ano_fundacion:      v('f_fundacion')  ? parseInt(v('f_fundacion')) : null,
+      num_empleados:      v('f_empleados')  || null,
       mercados:           v('f_mercados')   || null,
-
-      certificaciones:    v('f_certs')      || null,
+      certificaciones:    certsArr,
       email:              v('f_email'),
+      email_contacto:     v('f_email')      || null,
       telefono:           v('f_tel'),
       website:            v('f_web')        || null,
       linkedin:           v('f_linkedin')   || null,
       responsable_nombre: v('f_resp_nombre'),
       responsable_cargo:  v('f_resp_cargo'),
+      tipo_empresa:       (ST.actors && ST.actors.length) ? (ACTOR_NAMES[ST.actors[0]] || ST.actors[0]) : null,
       tier:               ST.plan || 'free',
-      activo:             false,
-      plan_activo:        false,
+      activo:             ST.plan === 'free',
+      plan_activo:        ST.plan === 'free',
       plan:               ST.plan || 'free',
-      estado:             'pendiente'
+      estado:             ST.plan === 'free' ? 'activo' : 'pendiente'
     };
 
     // Especialización: materiales y canteras seleccionados via smart search
     if (_espSelected && _espSelected.length) {
-      fullPayload.materiales = _espSelected.map(function(i){ return i.id; });
+      var selMats  = _espSelected.filter(function(i){ return i.type === 'material'; });
+      var selCants = _espSelected.filter(function(i){ return i.type === 'cantera'; });
+      if (selMats.length)  fullPayload.materiales = selMats.map(function(i){ return i.id; });
+      if (selCants.length) fullPayload.canteras   = selCants.map(function(i){ return i.id; });
     }
 
-    if (ST.actors && ST.actors.length) fullPayload.tipo = ST.actors;
+    if (ST.actors && ST.actors.length) fullPayload.sector = ST.actors;
 
     // Payload mínimo de reserva (solo columnas originales seguras)
     var safePayload = {
@@ -2238,19 +2244,9 @@ function submitForm() {
       });
     } catch(e) { console.warn('WSH send-welcome omitido:', e); }
 
-    // 4) Activar empresa (plan gratuito) o redirigir a Stripe
+    // 4) Redirigir (plan gratuito ya se insertó con estado=activo) o ir a Stripe
     if (ST.plan === 'free') {
-      // Activar directamente desde aquí — no dependemos de la sesión en gracias.html
-      // (signUp puede devolver session=null si email confirmation está habilitado)
-      wshDB.from('proveedores')
-        .update({ estado: 'activo', activo: true, plan_activo: true })
-        .eq('user_id', userId)
-        .then(function() {
-          window.location.href = 'gracias.html';
-        })
-        .catch(function() {
-          window.location.href = 'gracias.html';
-        });
+      window.location.href = 'gracias.html';
     } else {
       var payLink = STRIPE_PAYMENT_LINKS[ST.plan];
       if (payLink) {
