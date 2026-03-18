@@ -2178,6 +2178,7 @@ function submitForm() {
       responsable_cargo:  v('f_resp_cargo'),
       tier:               ST.plan || 'free',
       activo:             false,
+      plan_activo:        false,
       plan:               ST.plan || 'free',
       estado:             'pendiente'
     };
@@ -2237,9 +2238,19 @@ function submitForm() {
       });
     } catch(e) { console.warn('WSH send-welcome omitido:', e); }
 
-    // 4) Stripe Payment Link o confirmación gratuita
+    // 4) Activar empresa (plan gratuito) o redirigir a Stripe
     if (ST.plan === 'free') {
-      window.location.href = 'gracias.html';
+      // Activar directamente desde aquí — no dependemos de la sesión en gracias.html
+      // (signUp puede devolver session=null si email confirmation está habilitado)
+      wshDB.from('proveedores')
+        .update({ estado: 'activo', activo: true, plan_activo: true })
+        .eq('user_id', userId)
+        .then(function() {
+          window.location.href = 'gracias.html';
+        })
+        .catch(function() {
+          window.location.href = 'gracias.html';
+        });
     } else {
       var payLink = STRIPE_PAYMENT_LINKS[ST.plan];
       if (payLink) {
