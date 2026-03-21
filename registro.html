@@ -246,6 +246,38 @@ nav {
 .plan-pm { font-size:11px; color:#8a8784; }
 .plan-billing { font-size:9px; color:#8a8784; letter-spacing:1px; margin-bottom:20px; }
 .plan-divider { height:1px; background:var(--border); margin:0 0 18px; }
+
+/* ── BILLING TOGGLE ── */
+.billing-toggle {
+  display:flex; align-items:center; gap:0;
+  background:#f0efed; border:1px solid #e2e0dc;
+  border-radius:2px; padding:3px;
+  width:fit-content; margin:0 auto 32px;
+}
+.bt-btn {
+  background:none; border:none;
+  padding:9px 22px;
+  font-family:'Instrument Sans',sans-serif;
+  font-size:10px; letter-spacing:2.5px; text-transform:uppercase;
+  color:#8a8784; cursor:pointer; border-radius:1px;
+  transition:background 0.2s, color 0.2s;
+  display:flex; align-items:center; gap:8px;
+}
+.bt-btn.active { background:#1a1917; color:#fff; }
+.bt-save {
+  background:#A67C52; color:#fff;
+  font-size:7.5px; letter-spacing:1.5px;
+  padding:2px 7px; border-radius:1px;
+}
+/* Savings badge inside card */
+.plan-savings {
+  display:none;
+  font-size:8.5px; letter-spacing:1.5px; text-transform:uppercase;
+  color:#4a8a5a; background:rgba(74,138,90,0.08);
+  border:1px solid rgba(74,138,90,0.2);
+  padding:2px 8px; margin-bottom:10px; text-align:center;
+}
+.plans-grid.is-anual .plan-savings { display:block; }
 .plan-feats { list-style:none; display:flex; flex-direction:column; gap:9px; flex:1; }
 .plan-feats li {
   font-size:11.5px; color:#4a4845; display:flex; align-items:flex-start; gap:7px; line-height:1.4;
@@ -1365,7 +1397,13 @@ document.addEventListener('DOMContentLoaded', function() {
       <h1 class="screen-title">Elige tu<br><em>plan de visibilidad</em></h1>
       <p class="screen-desc">Desde una ficha básica gratuita hasta presencia editorial completa. Puedes cambiar o cancelar en cualquier momento.</p>
 
-      <div class="plans-grid">
+      <!-- Billing toggle -->
+      <div class="billing-toggle">
+        <button class="bt-btn active" id="bt-mensual" onclick="setBilling('mensual')">Mensual</button>
+        <button class="bt-btn" id="bt-anual" onclick="setBilling('anual')">Anual <span class="bt-save">−hasta 36%</span></button>
+      </div>
+
+      <div class="plans-grid" id="plans-grid">
 
         <!-- FREE -->
         <div class="plan-card-wrap">
@@ -1391,13 +1429,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <!-- PRESENCIA -->
         <div class="plan-card-wrap">
-        <label class="plan-card" data-plan="presencia" data-price="49">
+        <label class="plan-card" data-plan="presencia" data-price-mensual="49" data-price-anual="33" data-price="49">
           <input type="radio" name="wsh_plan" value="presencia" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('presencia',49,this)">
           <div class="plan-check">✓</div>
           <div class="plan-tag t-base">Entrada</div>
           <div class="plan-name">Presencia</div>
-          <div class="plan-price-line"><div class="plan-price"><sup>€</sup>49</div><span class="plan-pm">/mes</span></div>
-          <div class="plan-billing">€588/año · facturación anual</div>
+          <div class="plan-savings">Ahorras €189/año · −32%</div>
+          <div class="plan-price-line"><div class="plan-price" id="price-presencia"><sup>€</sup>49</div><span class="plan-pm">/mes</span></div>
+          <div class="plan-billing" id="billing-presencia">€49/mes · facturación mensual</div>
           <div class="plan-divider"></div>
           <ul class="plan-feats">
             <li><span class="fi">›</span>Ficha verificada y publicada</li>
@@ -1413,14 +1452,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <!-- PROFESIONAL -->
         <div class="plan-card-wrap">
-        <label class="plan-card featured" data-plan="profesional" data-price="129">
+        <label class="plan-card featured" data-plan="profesional" data-price-mensual="129" data-price-anual="82.50" data-price="129">
           <input type="radio" name="wsh_plan" value="profesional" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('profesional',129,this)">
           <div class="plan-popular" data-es="Más popular" data-en="Most popular">Más popular</div>
           <div class="plan-check">✓</div>
           <div class="plan-tag t-pro">Recomendado</div>
           <div class="plan-name">Profesional</div>
-          <div class="plan-price-line"><div class="plan-price"><sup>€</sup>129</div><span class="plan-pm">/mes</span></div>
-          <div class="plan-billing">€1.548/año · facturación anual</div>
+          <div class="plan-savings">Ahorras €558/año · −36%</div>
+          <div class="plan-price-line"><div class="plan-price" id="price-profesional"><sup>€</sup>129</div><span class="plan-pm">/mes</span></div>
+          <div class="plan-billing" id="billing-profesional">€129/mes · facturación mensual</div>
           <div class="plan-divider"></div>
           <ul class="plan-feats">
             <li><span class="fi">›</span>Ficha premium destacada</li>
@@ -1436,13 +1476,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <!-- ELITE -->
         <div class="plan-card-wrap">
-        <label class="plan-card" data-plan="elite" data-price="299">
+        <label class="plan-card" data-plan="elite" data-price-mensual="299" data-price-anual="199" data-price="299">
           <input type="radio" name="wsh_plan" value="elite" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('elite',299,this)">
           <div class="plan-check">✓</div>
           <div class="plan-tag t-elite" data-es="Premium" data-en="Premium">Premium</div>
           <div class="plan-name">Élite</div>
-          <div class="plan-price-line"><div class="plan-price"><sup>€</sup>299</div><span class="plan-pm">/mes</span></div>
-          <div class="plan-billing">€3.588/año · facturación anual</div>
+          <div class="plan-savings">Ahorras €1.198/año · −33%</div>
+          <div class="plan-price-line"><div class="plan-price" id="price-elite"><sup>€</sup>299</div><span class="plan-pm">/mes</span></div>
+          <div class="plan-billing" id="billing-elite">€299/mes · facturación mensual</div>
           <div class="plan-divider"></div>
           <ul class="plan-feats">
             <li><span class="fi">›</span>Todo lo de Profesional</li>
@@ -1846,15 +1887,22 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===========================================
 
 // ── Stripe Payment Links ─────────────────────
-// Obtén estos enlaces en: dashboard.stripe.com → Payment Links → Create
+// Mensual: dashboard.stripe.com → Payment Links → Create (facturación mensual recurrente)
+// Anual:   dashboard.stripe.com → Payment Links → Create (facturación anual recurrente)
+// ⚠️ Reemplaza los enlaces TEST por enlaces LIVE antes de lanzar
 var STRIPE_PAYMENT_LINKS = {
-  presencia:   'https://buy.stripe.com/test_4gM28k7nd49w3dA3JjfYY01',
-  profesional: 'https://buy.stripe.com/test_cNiaEQ8rh8pM9BY1BbfYY00',
-  elite:       'https://buy.stripe.com/test_cNi8wI0YP35s3dAgw5fYY02'
+  // — Mensual —
+  presencia:          'https://buy.stripe.com/fZu5kw3T97Pj4S83ux9Zm00',
+  profesional:        'https://buy.stripe.com/eVqcMYgFV6Lf2K04yB9Zm01',
+  elite:              'https://buy.stripe.com/00w14g89pb1v5Wc5CF9Zm02',
+  // — Anual —
+  presencia_anual:    'https://buy.stripe.com/8x214g0GX5HbgAQe9b9Zm03',
+  profesional_anual:  'https://buy.stripe.com/3cI00cgFV6Lf4S84yB9Zm04',
+  elite_anual:        'https://buy.stripe.com/dRmbIU9dt2uZacs1mp9Zm05'
 };
 
 // ── Estado global ───────────────────────────
-var ST = { plan:null, price:0, actors:[], step:1 };
+var ST = { plan:null, price:0, actors:[], step:1, billing:'mensual' };
 
 // ── Países del mundo (ISO + español) ────────
 (function populatePaises() {
@@ -1928,8 +1976,62 @@ var ST = { plan:null, price:0, actors:[], step:1 };
 })();
 
 var PLAN_NAMES   = { free:'Directorio', presencia:'Presencia', profesional:'Profesional', elite:'Élite' };
-var PLAN_PERIODS = { free:'Sin coste', presencia:'€49/mes · anual', profesional:'€129/mes · anual', elite:'€299/mes · anual' };
 var ACTOR_NAMES  = { cantera:'Propietarios de canteras', distribuidor:'Distribuidores', fabricante:'Fabricantes y talleres', arquitecto:'Estudios de arquitectura', constructora:'Constructoras', maquinaria:'Maquinaria industrial', laboratorio:'Laboratorios y certificación', logistica:'Logística' };
+
+// Datos de precio por plan y periodo
+var PLAN_PRICES = {
+  mensual: { presencia:49,    profesional:129,    elite:299    },
+  anual:   { presencia:33,    profesional:82.50,  elite:199    }
+};
+var PLAN_ANUAL_TOTAL = { presencia:399, profesional:990, elite:2390 };
+
+function getPlanPeriod(plan) {
+  if (!plan || plan === 'free') return 'Sin coste';
+  if (ST.billing === 'anual') {
+    var total = PLAN_ANUAL_TOTAL[plan] || '';
+    return '€' + PLAN_ANUAL_TOTAL[plan] + '/año · equivale a €' + PLAN_PRICES.anual[plan] + '/mes';
+  }
+  return '€' + PLAN_PRICES.mensual[plan] + '/mes · facturación mensual';
+}
+
+// ── Toggle mensual / anual ───────────────────
+function setBilling(period) {
+  ST.billing = period;
+  // Toggle buttons
+  document.getElementById('bt-mensual').classList.toggle('active', period === 'mensual');
+  document.getElementById('bt-anual').classList.toggle('active', period === 'anual');
+  // Grid class para mostrar/ocultar savings badges
+  var grid = document.getElementById('plans-grid');
+  if (grid) grid.classList.toggle('is-anual', period === 'anual');
+  // Actualizar precio visible en cada tarjeta de pago
+  var plans = ['presencia', 'profesional', 'elite'];
+  plans.forEach(function(p) {
+    var priceEl   = document.getElementById('price-' + p);
+    var billingEl = document.getElementById('billing-' + p);
+    var card      = document.querySelector('.plan-card[data-plan="' + p + '"]');
+    if (!priceEl || !billingEl || !card) return;
+    var price = PLAN_PRICES[period][p];
+    // Formato: si .50 mostrarlo, si entero no
+    var priceStr = Number.isInteger(price) ? price : price.toFixed(2).replace('.', ',');
+    priceEl.innerHTML = '<sup>€</sup>' + priceStr;
+    if (period === 'anual') {
+      billingEl.textContent = '€' + PLAN_ANUAL_TOTAL[p] + '/año · ahorro del ' + getDiscount(p) + '%';
+    } else {
+      billingEl.textContent = '€' + PLAN_PRICES.mensual[p] + '/mes · facturación mensual';
+    }
+    // Actualizar data-price para que selectPlan use el correcto
+    card.dataset.price = price;
+    // Si este plan ya está seleccionado, actualizar el price en ST
+    if (ST.plan === p) {
+      ST.price = price;
+      updateSidebarBadge();
+    }
+  });
+}
+function getDiscount(plan) {
+  var d = { presencia:32, profesional:36, elite:33 };
+  return d[plan] || '';
+}
 
 
 function selectPlanRadio(plan, price, input) {
@@ -1984,7 +2086,7 @@ function updateSidebarBadge() {
   if (!ST.plan) { b.classList.remove('show'); return; }
   b.classList.add('show');
   document.getElementById('spbName').textContent  = PLAN_NAMES[ST.plan] || '-';
-  document.getElementById('spbPrice').textContent = PLAN_PERIODS[ST.plan] || '-';
+  document.getElementById('spbPrice').textContent = getPlanPeriod(ST.plan);
   var actEl = document.getElementById('spbActors');
   if (ST.actors.length > 0) {
     actEl.style.display = 'block';
@@ -2090,10 +2192,15 @@ function fillReview() {
   document.getElementById('rv_actors').textContent = ST.actors.map(function(a){ return ACTOR_NAMES[a]||a; }).join(' · ') || '-';
 
   var priceEl = document.getElementById('rv_price');
-  if (ST.price === 0) { priceEl.innerHTML = '<span style="font-size:28px;font-family:Cormorant Garamond,serif;color:#A67C52">Gratuito</span>'; }
-  else { priceEl.innerHTML = '<sup>€</sup>' + ST.price; }
-
-  document.getElementById('rv_period').textContent  = PLAN_PERIODS[ST.plan] || '-';
+  if (ST.price === 0) {
+    priceEl.innerHTML = '<span style="font-size:28px;font-family:Cormorant Garamond,serif;color:#A67C52">Gratuito</span>';
+  } else if (ST.billing === 'anual') {
+    var tot = PLAN_ANUAL_TOTAL[ST.plan] || '';
+    priceEl.innerHTML = '<sup>€</sup>' + tot + '<span style="font-size:14px;font-weight:400;color:#8a8784">/año</span>';
+  } else {
+    priceEl.innerHTML = '<sup>€</sup>' + ST.price + '<span style="font-size:14px;font-weight:400;color:#8a8784">/mes</span>';
+  }
+  document.getElementById('rv_period').textContent = getPlanPeriod(ST.plan);
   document.getElementById('rv_nombre').textContent  = v('f_nombre');
   var paisSel = document.getElementById('f_pais');
   document.getElementById('rv_pais').textContent = paisSel && paisSel.selectedIndex > 0 ? paisSel.options[paisSel.selectedIndex].text : '—';
@@ -2185,6 +2292,7 @@ function submitForm() {
       activo:             ST.plan === 'free',
       plan_activo:        ST.plan === 'free',
       plan:               ST.plan || 'free',
+      plan_billing:       ST.plan === 'free' ? null : (ST.billing || 'mensual'),
       estado:             ST.plan === 'free' ? 'activo' : 'pendiente'
     };
 
@@ -2250,7 +2358,9 @@ function submitForm() {
     if (ST.plan === 'free') {
       window.location.href = 'gracias.html';
     } else {
-      var payLink = STRIPE_PAYMENT_LINKS[ST.plan];
+      // Elegir link de Stripe según billing mensual o anual
+      var stripeKey = (ST.billing === 'anual') ? ST.plan + '_anual' : ST.plan;
+      var payLink = STRIPE_PAYMENT_LINKS[stripeKey];
       if (payLink) {
         // Pasar email pre-relleno al checkout de Stripe
         var emailVal = document.getElementById('f_email');
@@ -2288,13 +2398,18 @@ function showSuccessScreen() {
   if (!isFree && stripeCta) {
     stripeCta.style.display = 'block';
     var PLAN_DISPLAY = { presencia:'Plan Presencia', profesional:'Plan Profesional', elite:'Plan Élite' };
-    var PLAN_PRICE   = { presencia:'49 EUR / mes', profesional:'129 EUR / mes', elite:'299 EUR / mes' };
-    document.getElementById('stripe-plan-name').textContent  = PLAN_DISPLAY[ST.plan] || ST.plan;
-    document.getElementById('stripe-plan-price').textContent = PLAN_PRICE[ST.plan] || '';
+    var isAnual = ST.billing === 'anual';
+    var planLabel = (PLAN_DISPLAY[ST.plan] || ST.plan) + (isAnual ? ' · Anual' : ' · Mensual');
+    var priceLabel = isAnual
+      ? '€' + PLAN_ANUAL_TOTAL[ST.plan] + ' / año (€' + PLAN_PRICES.anual[ST.plan] + '/mes)'
+      : '€' + PLAN_PRICES.mensual[ST.plan] + ' / mes';
+    document.getElementById('stripe-plan-name').textContent  = planLabel;
+    document.getElementById('stripe-plan-price').textContent = priceLabel;
+    var stripeKey = isAnual ? ST.plan + '_anual' : ST.plan;
     var payBtn = document.getElementById('stripe-pay-btn');
-    if (payBtn && STRIPE_PAYMENT_LINKS[ST.plan]) {
+    if (payBtn && STRIPE_PAYMENT_LINKS[stripeKey]) {
       var emailVal = document.getElementById('f_email');
-      var link = STRIPE_PAYMENT_LINKS[ST.plan];
+      var link = STRIPE_PAYMENT_LINKS[stripeKey];
       if (emailVal && emailVal.value.trim()) link += '?prefilled_email=' + encodeURIComponent(emailVal.value.trim());
       payBtn.href = link;
     }
