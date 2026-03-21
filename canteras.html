@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>World Stone Hub — Canteras del Mundo</title>
+<title>Canteras del Mundo — Directorio Global de Piedra Natural · World Stone Hub</title>
+<meta name="description" content="Directorio global de canteras de piedra natural. Explora más de 200 yacimientos activos en Europa, Asia, América y África. Fichas técnicas completas con producción, materiales y localización.">
+<meta property="og:title" content="Canteras del Mundo — World Stone Hub">
+<meta property="og:description" content="Directorio global de canteras de piedra natural con fichas técnicas completas.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://worldstonehub.com/canteras.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1917'/><text x='50%25' y='54%25' font-family='serif' font-size='20' fill='%23A67C52' text-anchor='middle' dominant-baseline='middle'>W</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -508,6 +514,25 @@ document.getElementById('clearFilters').addEventListener('click', function() {
   applyFilters();
 });
 
+/* ── PLACEHOLDER CARDS (cuando la tabla está vacía) ── */
+function renderPlaceholders() {
+  var PLACEHOLDERS = [
+    { nombre:'Cantera de Macael', tipo_piedra:'Mármol', localizacion:'Macael, Almería', pais:'España', estado_operativo:'Activa', anio_inicio:'1850', produccion_anual:'250.000 t/año', slug:'cantera-macael' },
+    { nombre:'Cava dei Tirreni', tipo_piedra:'Travertino', localizacion:'Guidonia, Lazio', pais:'Italia', estado_operativo:'Activa', anio_inicio:'1920', produccion_anual:'180.000 t/año', slug:'cava-dei-tirreni' },
+    { nombre:'Afyon Iscehisar', tipo_piedra:'Mármol', localizacion:'Iscehisar, Afyon', pais:'Turquía', estado_operativo:'Activa', anio_inicio:'1975', produccion_anual:'320.000 t/año', slug:'afyon-iscehisar' },
+    { nombre:'Rajasthan Pink Quarry', tipo_piedra:'Granito', localizacion:'Jalore, Rajasthan', pais:'India', estado_operativo:'Activa', anio_inicio:'1990', produccion_anual:'420.000 t/año', slug:'rajasthan-pink' },
+    { nombre:'Vila Viçosa', tipo_piedra:'Mármol', localizacion:'Vila Viçosa, Alentejo', pais:'Portugal', estado_operativo:'Activa', anio_inicio:'1910', produccion_anual:'95.000 t/año', slug:'vila-vicosa' },
+    { nombre:'Carrara Fantiscritti', tipo_piedra:'Mármol', localizacion:'Carrara, Toscana', pais:'Italia', estado_operativo:'Activa', anio_inicio:'1870', produccion_anual:'500.000 t/año', slug:'carrara-fantiscritti' }
+  ];
+  document.getElementById('statCanteras').textContent = '200+';
+  document.getElementById('statPaises').textContent = '40+';
+  var html = '<div class="cards-grid">';
+  PLACEHOLDERS.forEach(function(c) { html += buildCard(c); });
+  html += '</div>';
+  html += '<div style="text-align:center;padding:40px 0 20px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);">Cargando directorio completo — Datos de muestra</div>';
+  document.getElementById('gridContainer').innerHTML = html;
+}
+
 /* ── SUPABASE LOAD ── */
 (function loadCanteras() {
   var url = SB_URL + '/rest/v1/canteras?select=*&order=nombre.asc&limit=500';
@@ -526,6 +551,10 @@ document.getElementById('clearFilters').addEventListener('click', function() {
       return;
     }
     DB = data.filter(function(c) { return c.activo !== false; });
+    if (DB.length === 0) {
+      renderPlaceholders();
+      return;
+    }
     document.getElementById('statCanteras').textContent = DB.length;
     var paises = {};
     DB.forEach(function(c) { if (c.pais) paises[c.pais] = 1; });

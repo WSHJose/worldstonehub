@@ -5,4 +5,7 @@ Sitemap: https://worldstonehub.com/sitemap.xml
 
 # Disallow internal tools
 Disallow: /panel.html
+Disallow: /admin.html
+Disallow: /admin-anuncios.html
+Disallow: /i18n-example.html
 Disallow: /test_plans.html
