@@ -2925,7 +2925,7 @@ Promise.all([
   sbFetch('/rest/v1/proveedores?select=nombre_empresa,tipo_empresa,plan,pais,ciudad,descripcion,slug,logo_url,activo,estado&order=nombre_empresa.asc&limit=100')
 ]).then(function(results) {
   var mats  = Array.isArray(results[0]) ? results[0] : [];
-  var cants = Array.isArray(results[1]) ? results[1].filter(function(c){ return c.activo !== false; }) : [];
+  var cants = Array.isArray(results[1]) ? results[1].filter(function(c){ return c.nombre; }) : [];
   var provs = Array.isArray(results[2]) ? results[2].filter(function(p){ return p.activo !== false && p.plan && p.plan !== 'free'; }) : [];
 
   mats.forEach(function(m) {

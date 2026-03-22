@@ -562,7 +562,7 @@ function renderPlaceholders() {
         '<div class="empty-state"><p>Error al cargar canteras</p><small>' + JSON.stringify(data).slice(0,120) + '</small></div>';
       return;
     }
-    DB = data.filter(function(c) { return c.activo !== false; });
+    DB = data.filter(function(c) { return c.nombre; }); // mostrar todas, activo no requerido en canteras editoriales
     if (DB.length === 0) {
       renderPlaceholders();
       return;
