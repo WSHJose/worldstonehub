@@ -3047,7 +3047,7 @@ function buildCard(item, q) {
   var imgHtml = '';
   if (item.img) {
     imgHtml = '<div class="sp-card-img" style="background:#f0efed;overflow:hidden">' +
-      '<img src="' + esc(item.img) + '" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentNode.style.background='#e8e6e2'">' +
+      '<img src="' + esc(item.img) + '" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentNode.style.background=\'#e8e6e2\'">' +
       '</div>';
   } else {
     var sw = item.t === 'cantera' ? '#8B7355' : item.t === 'proveedor' ? '#6B5B4E' : '#A67C52';
