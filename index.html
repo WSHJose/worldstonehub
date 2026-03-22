@@ -3040,27 +3040,70 @@ function search(q) {
   return scored.map(function(x) { return x.item; });
 }
 
+// ── Flag helper (square SVG, lipis.dev) ──────────────────
+var FLAG_CODES = {
+  'España':'es','Italia':'it','Portugal':'pt','Grecia':'gr','Turquía':'tr','Turquia':'tr',
+  'Francia':'fr','Alemania':'de','Austria':'at','Bélgica':'be','Belgica':'be',
+  'Países Bajos':'nl','Paises Bajos':'nl','Suecia':'se','Noruega':'no','Finlandia':'fi',
+  'Polonia':'pl','República Checa':'cz','Republica Checa':'cz','Eslovaquia':'sk',
+  'Hungría':'hu','Hungria':'hu','Rumanía':'ro','Rumania':'ro','Bulgaria':'bg',
+  'Croacia':'hr','Serbia':'rs','Eslovenia':'si','Bosnia':'ba','Albania':'al',
+  'Macedonia':'mk','Montenegro':'me','Kosovo':'xk','Ucrania':'ua','Rusia':'ru',
+  'Bielorrusia':'by','Estonia':'ee','Letonia':'lv','Lituania':'lt','Georgia':'ge',
+  'Armenia':'am','Azerbaiyán':'az','Azerbaiyan':'az','Kazajistán':'kz','Uzbekistán':'uz',
+  'India':'in','China':'cn','Brasil':'br','Estados Unidos':'us','México':'mx','Mexico':'mx',
+  'Canadá':'ca','Canada':'ca','Argentina':'ar','Chile':'cl','Perú':'pe','Peru':'pe',
+  'Colombia':'co','Australia':'au','Sudáfrica':'za','Sudafrica':'za','Marruecos':'ma',
+  'Egipto':'eg','Irán':'ir','Iran':'ir','Pakistán':'pk','Pakistan':'pk','Vietnam':'vn',
+  'Indonesia':'id','Tailandia':'th','Japón':'jp','Japon':'jp','Corea del Sur':'kr',
+  'Corea':'kr','Israel':'il','Arabia Saudita':'sa','Arabia Saudí':'sa',
+  'Emiratos':'ae','Omán':'om','Yemen':'ye','Etiopía':'et','Etiopia':'et',
+  'Tanzania':'tz','Zimbabwe':'zw','Madagascar':'mg','Angola':'ao','Mozambique':'mz',
+  'Namibia':'na','Kenia':'ke','Nigeria':'ng','Ghana':'gh','Bolivia':'bo','Ecuador':'ec',
+  'Venezuela':'ve','Uruguay':'uy','Paraguay':'py','Honduras':'hn','Guatemala':'gt',
+  'Cuba':'cu','Túnez':'tn','Tunez':'tn','Argelia':'dz','Libia':'ly','Sudán':'sd',
+  'Sri Lanka':'lk','Nepal':'np','Afganistán':'af','Afganistan':'af','Suiza':'ch',
+  'Reino Unido':'gb','Irlanda':'ie','Nueva Zelanda':'nz','Filipinas':'ph',
+  'Malasia':'my','Camboya':'kh','Myanmar':'mm','Laos':'la','Bélarus':'by',
+  'Moldavia':'md','Turquía':'tr'
+};
+function getFlag(pais) {
+  if (!pais) return '';
+  if (Array.isArray(pais)) pais = pais[0] || '';
+  pais = String(pais);
+  var code = FLAG_CODES[pais];
+  if (!code) {
+    var pl = pais.toLowerCase();
+    for (var k in FLAG_CODES) {
+      if (k.toLowerCase() === pl) { code = FLAG_CODES[k]; break; }
+    }
+  }
+  if (!code) return '';
+  return '<img src="https://flagicons.lipis.dev/flags/1x1/' + code + '.svg" ' +
+    'width="18" height="18" alt="' + pais.replace(/"/g,'&quot;') + '" ' +
+    'style="border-radius:3px;flex-shrink:0;display:inline-block;vertical-align:middle" ' +
+    'loading="lazy" onerror="this.style.display=\'none\'">';
+}
+
 // ── Build card ────────────────────────────────────────────
 function buildCard(item, q) {
-  var color = TYPE_COLORS[item.t] || '#A67C52';
-  var label = TYPE_LABELS[item.t] || item.t;
-  var imgHtml = '';
+  var thumbHtml = '';
   if (item.img) {
-    imgHtml = '<div class="sp-card-img" style="background:#f0efed;overflow:hidden">' +
-      '<img src="' + esc(item.img) + '" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentNode.style.background=\'#e8e6e2\'">' +
+    thumbHtml = '<div class="sp-card-thumb">' +
+      '<img src="' + esc(item.img) + '" alt="" loading="lazy" onerror="this.style.display=\'none\'">' +
       '</div>';
   } else {
-    var sw = item.t === 'cantera' ? '#8B7355' : item.t === 'proveedor' ? '#6B5B4E' : '#A67C52';
-    imgHtml = '<div class="sp-card-img" style="background:' + sw + ';opacity:0.25"></div>';
+    var sw = item.t === 'cantera' ? '#c4aa86' : item.t === 'proveedor' ? '#8a7a6a' : '#A67C52';
+    thumbHtml = '<div class="sp-card-thumb" style="background:' + sw + ';opacity:0.35"></div>';
   }
-  var meta = [item.pais, item.region].filter(Boolean).slice(0,2).join(' · ');
+  var flag = getFlag(item.pais);
   return '<a class="sp-card" href="' + esc(item.link) + '">' +
-    imgHtml +
+    thumbHtml +
     '<div class="sp-card-body">' +
-      '<div class="sp-card-type" style="color:' + color + '">' + esc(label) + (item.cat ? ' · ' + esc(trunc(item.cat, 20)) : '') + '</div>' +
-      '<div class="sp-card-name">' + hi(trunc(item.n, 40), q) + '</div>' +
-      (item.sub ? '<div class="sp-card-sub">' + esc(trunc(item.sub, 50)) + '</div>' : '') +
-      (meta ? '<div class="sp-card-meta">' + esc(meta) + '</div>' : '') +
+      '<div class="sp-card-main">' +
+        '<div class="sp-card-name">' + hi(trunc(item.n, 42), q) + '</div>' +
+      '</div>' +
+      (flag ? flag : '') +
     '</div>' +
   '</a>';
 }

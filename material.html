@@ -318,6 +318,41 @@ nav {
   function arr(v) { return Array.isArray(v) ? v : (v ? [v] : []); }
   function el(id) { return document.getElementById(id); }
 
+  var FLAG_CODES_M = {
+    'España':'es','Italia':'it','Portugal':'pt','Grecia':'gr','Turquía':'tr',
+    'Francia':'fr','Alemania':'de','Austria':'at','Bélgica':'be','Suecia':'se',
+    'Noruega':'no','Finlandia':'fi','Polonia':'pl','República Checa':'cz',
+    'Eslovenia':'si','Croacia':'hr','Serbia':'rs','Bulgaria':'bg','Rumanía':'ro',
+    'Ucrania':'ua','Rusia':'ru','India':'in','China':'cn','Brasil':'br',
+    'Estados Unidos':'us','México':'mx','Canadá':'ca','Argentina':'ar','Chile':'cl',
+    'Perú':'pe','Colombia':'co','Australia':'au','Sudáfrica':'za','Marruecos':'ma',
+    'Egipto':'eg','Irán':'ir','Pakistán':'pk','Vietnam':'vn','Indonesia':'id',
+    'Tailandia':'th','Japón':'jp','Corea del Sur':'kr','Israel':'il',
+    'Arabia Saudita':'sa','Emiratos':'ae','Etiopía':'et','Tanzania':'tz',
+    'Zimbabwe':'zw','Madagascar':'mg','Angola':'ao','Mozambique':'mz',
+    'Namibia':'na','Kenia':'ke','Nigeria':'ng','Ghana':'gh','Bolivia':'bo',
+    'Ecuador':'ec','Venezuela':'ve','Uruguay':'uy','Paraguay':'py','Túnez':'tn',
+    'Argelia':'dz','Azerbaiyán':'az','Georgia':'ge','Armenia':'am','Hungría':'hu',
+    'Eslovaquia':'sk','Letonia':'lv','Lituania':'lt','Estonia':'ee','Suiza':'ch',
+    'Reino Unido':'gb','Irlanda':'ie','Nueva Zelanda':'nz','Filipinas':'ph',
+    'Sri Lanka':'lk','Nepal':'np','Afganistán':'af','Moldavia':'md','Kosovo':'xk'
+  };
+  function getFlagMat(pais) {
+    if (!pais) return '';
+    var code = FLAG_CODES_M[pais];
+    if (!code) {
+      var pl = pais.toLowerCase();
+      for (var k in FLAG_CODES_M) {
+        if (k.toLowerCase() === pl) { code = FLAG_CODES_M[k]; break; }
+      }
+    }
+    if (!code) return '';
+    return '<img src="https://flagicons.lipis.dev/flags/1x1/' + code + '.svg" ' +
+      'width="16" height="16" alt="' + pais.replace(/"/g,'&quot;') + '" ' +
+      'style="border-radius:2px;display:inline-block;vertical-align:middle;margin-right:4px;flex-shrink:0" ' +
+      'loading="lazy" onerror="this.style.display=\'none\'">';
+  }
+
   var CAT_COLORS = {
     'mármol':'#C9B99A','granito':'#7A8A7A','caliza':'#D4C5A9',
     'travertino':'#C8A96E','cuarcita':'#9EAAB8','arenisca':'#C4956A',
@@ -396,7 +431,7 @@ nav {
 
     // Meta row
     var metaHtml = '';
-    if (paises.length) metaHtml += '<div class="hero-meta-item"><div class="hero-meta-label">País</div><div class="hero-meta-value">' + esc(paises.join(', ')) + '</div></div>';
+    if (paises.length) metaHtml += '<div class="hero-meta-item"><div class="hero-meta-label">País</div><div class="hero-meta-value">' + paises.map(function(p){ return getFlagMat(p) + esc(p); }).join(', ') + '</div></div>';
     if (regiones.length) metaHtml += '<div class="hero-meta-item"><div class="hero-meta-label">Región</div><div class="hero-meta-value">' + esc(regiones.join(', ')) + '</div></div>';
     if (m.color_principal) metaHtml += '<div class="hero-meta-item"><div class="hero-meta-label">Color</div><div class="hero-meta-value">' + esc(m.color_principal) + '</div></div>';
     if (m.patron_vetado) metaHtml += '<div class="hero-meta-item"><div class="hero-meta-label">Patrón</div><div class="hero-meta-value">' + esc(m.patron_vetado) + '</div></div>';
@@ -455,7 +490,7 @@ nav {
         '<a href="proveedores.html?material=' + esc(slug) + '" class="cta-btn">Ver proveedores →</a>' +
       '</div>' +
       '<div class="sidebar-card"><div class="sidebar-card-title">Origen</div>' +
-        paises.map(function(p){ return '<div class="origin-name">'+esc(p)+'</div>'; }).join('') +
+        paises.map(function(p){ return '<div class="origin-name">'+getFlagMat(p)+esc(p)+'</div>'; }).join('') +
         regiones.map(function(r){ return '<div class="origin-region">'+esc(r)+'</div>'; }).join('') +
       '</div>' +
       '<div class="sidebar-card"><div class="sidebar-card-title">Disponibilidad</div>' +

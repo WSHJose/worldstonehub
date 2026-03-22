@@ -346,30 +346,42 @@ var TIPO_COLORS = {
 var DEFAULT_COLOR = 'linear-gradient(90deg,#bdbdbd,#9e9e9e)';
 
 /* ── FLAG MAP ── */
-var FLAGS = {
-  'España':'🇪🇸','Italia':'🇮🇹','Portugal':'🇵🇹','Grecia':'🇬🇷','Turquía':'🇹🇷',
-  'Francia':'🇫🇷','Alemania':'🇩🇪','Austria':'🇦🇹','Bélgica':'🇧🇪','Países Bajos':'🇳🇱',
-  'Suecia':'🇸🇪','Noruega':'🇳🇴','Finlandia':'🇫🇮','Polonia':'🇵🇱','República Checa':'🇨🇿',
-  'Eslovenia':'🇸🇮','Croacia':'🇭🇷','Serbia':'🇷🇸','Bulgaria':'🇧🇬','Rumanía':'🇷🇴',
-  'Ucrania':'🇺🇦','Rusia':'🇷🇺','India':'🇮🇳','China':'🇨🇳','Brasil':'🇧🇷',
-  'Estados Unidos':'🇺🇸','México':'🇲🇽','Canadá':'🇨🇦','Argentina':'🇦🇷','Chile':'🇨🇱',
-  'Perú':'🇵🇪','Colombia':'🇨🇴','Australia':'🇦🇺','Sudáfrica':'🇿🇦','Marruecos':'🇲🇦',
-  'Egipto':'🇪🇬','Irán':'🇮🇷','Pakistán':'🇵🇰','Vietnam':'🇻🇳','Indonesia':'🇮🇩',
-  'Tailandia':'🇹🇭','Japón':'🇯🇵','Corea del Sur':'🇰🇷','Israel':'🇮🇱','Arabia Saudita':'🇸🇦',
-  'Etiopía':'🇪🇹','Tanzania':'🇹🇿','Zimbabwe':'🇿🇼','Madagascar':'🇲🇬',
-  'Bolivia':'🇧🇴','Ecuador':'🇪🇨','Venezuela':'🇻🇪','Uruguay':'🇺🇾','Paraguay':'🇵🇾',
-  'Honduras':'🇭🇳','Guatemala':'🇬🇹','Cuba':'🇨🇺',
-  'Nigeria':'🇳🇬','Ghana':'🇬🇭','Angola':'🇦🇴','Mozambique':'🇲🇿','Namibia':'🇳🇦',
-  'Kenia':'🇰🇪','Uganda':'🇺🇬','Túnez':'🇹🇳','Argelia':'🇩🇿',
-  'India':'🇮🇳','Sri Lanka':'🇱🇰','Nepal':'🇳🇵','Afganistán':'🇦🇫',
-  'Azerbaiyán':'🇦🇿','Georgia':'🇬🇪','Armenia':'🇦🇲',
-  'Hungría':'🇭🇺','Eslovaquia':'🇸🇰','Letonia':'🇱🇻','Lituania':'🇱🇹','Estonia':'🇪🇪',
-  'Suiza':'🇨🇭','Reino Unido':'🇬🇧','Irlanda':'🇮🇪',
-  'Nueva Zelanda':'🇳🇿','Filipinas':'🇵🇭','Malasia':'🇲🇾','Camboya':'🇰🇭',
-  'Myanmar':'🇲🇲','Laos':'🇱🇦',
+var FLAG_CODES = {
+  'España':'es','Italia':'it','Portugal':'pt','Grecia':'gr','Turquía':'tr',
+  'Francia':'fr','Alemania':'de','Austria':'at','Bélgica':'be','Países Bajos':'nl',
+  'Suecia':'se','Noruega':'no','Finlandia':'fi','Polonia':'pl','República Checa':'cz',
+  'Eslovenia':'si','Croacia':'hr','Serbia':'rs','Bulgaria':'bg','Rumanía':'ro',
+  'Ucrania':'ua','Rusia':'ru','India':'in','China':'cn','Brasil':'br',
+  'Estados Unidos':'us','México':'mx','Canadá':'ca','Argentina':'ar','Chile':'cl',
+  'Perú':'pe','Colombia':'co','Australia':'au','Sudáfrica':'za','Marruecos':'ma',
+  'Egipto':'eg','Irán':'ir','Pakistán':'pk','Vietnam':'vn','Indonesia':'id',
+  'Tailandia':'th','Japón':'jp','Corea del Sur':'kr','Israel':'il','Arabia Saudita':'sa',
+  'Etiopía':'et','Tanzania':'tz','Zimbabwe':'zw','Madagascar':'mg','Bolivia':'bo',
+  'Ecuador':'ec','Venezuela':'ve','Uruguay':'uy','Paraguay':'py','Honduras':'hn',
+  'Guatemala':'gt','Cuba':'cu','Nigeria':'ng','Ghana':'gh','Angola':'ao',
+  'Mozambique':'mz','Namibia':'na','Kenia':'ke','Uganda':'ug','Túnez':'tn',
+  'Argelia':'dz','Azerbaiyán':'az','Georgia':'ge','Armenia':'am','Hungría':'hu',
+  'Eslovaquia':'sk','Letonia':'lv','Lituania':'lt','Estonia':'ee','Suiza':'ch',
+  'Reino Unido':'gb','Irlanda':'ie','Nueva Zelanda':'nz','Filipinas':'ph',
+  'Malasia':'my','Camboya':'kh','Myanmar':'mm','Laos':'la','Sri Lanka':'lk',
+  'Nepal':'np','Afganistán':'af','Libia':'ly','Sudán':'sd','Moldavia':'md',
+  'Bielorrusia':'by','Kosovo':'xk','Montenegro':'me','Albania':'al','Macedonia':'mk'
 };
-
-function getFlag(pais) { return FLAGS[pais] || '🏳️'; }
+function getFlag(pais) {
+  if (!pais) return '';
+  var code = FLAG_CODES[pais];
+  if (!code) {
+    var pl = pais.toLowerCase();
+    for (var k in FLAG_CODES) {
+      if (k.toLowerCase() === pl) { code = FLAG_CODES[k]; break; }
+    }
+  }
+  if (!code) return '';
+  return '<img src="https://flagicons.lipis.dev/flags/1x1/' + code + '.svg" ' +
+    'width="18" height="18" alt="' + pais.replace(/"/g,'&quot;') + '" ' +
+    'style="border-radius:3px;flex-shrink:0;display:inline-block;vertical-align:middle" ' +
+    'loading="lazy" onerror="this.style.display=\'none\'">';
+}
 
 function getStripe(tipo) {
   for (var k in TIPO_COLORS) {

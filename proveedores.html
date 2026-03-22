@@ -391,14 +391,30 @@ var currentPage   = (function() {
 })();
 
 /* ── FLAGS ── */
-var FLAGS = {
-  'España':'🇪🇸','Italia':'🇮🇹','Portugal':'🇵🇹','Grecia':'🇬🇷','Turquía':'🇹🇷',
-  'Francia':'🇫🇷','Alemania':'🇩🇪','Austria':'🇦🇹','Bélgica':'🇧🇪','Suecia':'🇸🇪',
-  'India':'🇮🇳','China':'🇨🇳','Brasil':'🇧🇷','Estados Unidos':'🇺🇸','México':'🇲🇽',
-  'Canadá':'🇨🇦','Argentina':'🇦🇷','Australia':'🇦🇺','Sudáfrica':'🇿🇦',
-  'Marruecos':'🇲🇦','Japón':'🇯🇵','Reino Unido':'🇬🇧','Suiza':'🇨🇭',
+var FLAG_CODES_P = {
+  'España':'es','Italia':'it','Portugal':'pt','Grecia':'gr','Turquía':'tr',
+  'Francia':'fr','Alemania':'de','Austria':'at','India':'in','China':'cn',
+  'Brasil':'br','Estados Unidos':'us','México':'mx','Canadá':'ca','Argentina':'ar',
+  'Chile':'cl','Perú':'pe','Colombia':'co','Australia':'au','Sudáfrica':'za',
+  'Marruecos':'ma','Egipto':'eg','Irán':'ir','Vietnam':'vn','Indonesia':'id',
+  'Japón':'jp','Corea del Sur':'kr','Israel':'il','Reino Unido':'gb',
+  'Suiza':'ch','Bélgica':'be','Países Bajos':'nl','Suecia':'se','Noruega':'no'
 };
-function flag(p) { return FLAGS[p] || '🌐'; }
+function getFlagProv(pais) {
+  if (!pais) return '';
+  var code = FLAG_CODES_P[pais];
+  if (!code) {
+    var pl = pais.toLowerCase();
+    for (var k in FLAG_CODES_P) {
+      if (k.toLowerCase() === pl) { code = FLAG_CODES_P[k]; break; }
+    }
+  }
+  if (!code) return '';
+  return '<img src="https://flagicons.lipis.dev/flags/1x1/' + code + '.svg" ' +
+    'width="16" height="16" alt="' + pais.replace(/"/g,'&quot;') + '" ' +
+    'style="border-radius:2px;flex-shrink:0;display:inline-block;vertical-align:middle;margin-right:4px" ' +
+    'loading="lazy" onerror="this.style.display=\'none\'">';
+}
 
 /* ── UTILS ── */
 function esc(s) { return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -489,7 +505,7 @@ function buildElite(p) {
 
   var subtitleParts = [];
   if (p.tipo_empresa) subtitleParts.push(esc(p.tipo_empresa));
-  if (locStr(p)) subtitleParts.push('<span class="elite-flag">'+flag(p.pais)+'</span>'+esc(locStr(p)));
+  if (locStr(p)) subtitleParts.push('<span class="elite-flag">'+getFlagProv(p.pais)+'</span>'+esc(locStr(p)));
   var subtitleHtml = subtitleParts.join('<span class="elite-sub-sep"> · </span>');
 
   var topMetaHtml = '';
@@ -537,7 +553,7 @@ function buildPro(p) {
         '<span class="pro-pill">PROFESIONAL</span>' +
       '</div>' +
       (p.tipo_empresa ? '<div class="pro-tipo">'+esc(p.tipo_empresa)+'</div>' : '') +
-      (locStr(p) ? '<div class="pro-loc"><span class="pro-flag">'+flag(p.pais)+'</span>'+esc(locStr(p))+'</div>' : '') +
+      (locStr(p) ? '<div class="pro-loc"><span class="pro-flag">'+getFlagProv(p.pais)+'</span>'+esc(locStr(p))+'</div>' : '') +
       (p.descripcion ? '<div class="pro-desc">'+esc(trunc(p.descripcion,130))+'</div>' : '') +
       (mHtml ? '<div class="pro-chips">'+mHtml+'</div>' : '') +
     '</div>' +
@@ -560,7 +576,7 @@ function buildPres(p) {
       '<span class="pres-pill">PRESENCIA</span>' +
     '</div>' +
     (p.tipo_empresa ? '<div class="pres-tipo">'+esc(p.tipo_empresa)+'</div>' : '') +
-    (locStr(p) ? '<div class="pres-loc"><span class="pres-flag">'+flag(p.pais)+'</span>'+esc(locStr(p))+'</div>' : '') +
+    (locStr(p) ? '<div class="pres-loc"><span class="pres-flag">'+getFlagProv(p.pais)+'</span>'+esc(locStr(p))+'</div>' : '') +
     (mHtml ? '<div class="pres-chips">'+mHtml+'</div>' : '') +
     '<div class="pres-footer">' +
       '<a class="pres-ver-btn" href="'+href+'" onclick="event.stopPropagation()">Ver perfil →</a>' +
@@ -573,7 +589,7 @@ function buildFreeSection(list) {
     var href = p.slug ? 'proveedor.html?id='+esc(p.slug) : '#';
     return '<tr class="free-row" onclick="location.href=\''+href+'\'">' +
       '<td class="free-td-name">'+esc(p.nombre_empresa)+'</td>' +
-      '<td class="free-td-loc">' + (p.pais ? flag(p.pais)+' '+esc(p.pais) : '') + '</td>' +
+      '<td class="free-td-loc">' + (p.pais ? getFlagProv(p.pais)+esc(p.pais) : '') + '</td>' +
       '<td class="free-td-type">'+(p.tipo_empresa ? esc(p.tipo_empresa) : '')+'</td>' +
       '<td class="free-td-action"><a class="free-ver-btn" href="'+href+'" onclick="event.stopPropagation()">Ver →</a></td>' +
     '</tr>';
