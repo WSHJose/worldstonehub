@@ -162,6 +162,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
 .save-msg.show{opacity:1;}
 .save-msg.error{color:var(--red);}
 
+/* ── BTN GOLD ── */
+.btn-gold{background:var(--gold);color:#fff;padding:13px 32px;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;font-family:var(--font-ui);transition:background .25s;display:inline-flex;align-items:center;gap:10px;text-decoration:none;}
+.btn-gold:hover{background:var(--gold-dk);}
+
+/* ── FIELD VALIDATION ── */
+.field input.invalid,.field select.invalid,.field textarea.invalid{border-color:var(--red);}
+.field-error{font-size:10px;color:var(--red);margin-top:2px;display:none;}
+.field-error.show{display:block;}
+
+/* ── SKELETON LOADER ── */
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skeleton{background:linear-gradient(90deg,var(--bg-mid) 25%,var(--bg-soft) 50%,var(--bg-mid) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:2px;}
+.skeleton-wrap{background:#fff;border:1px solid var(--border);padding:24px 28px;display:flex;flex-direction:column;gap:14px;}
+.skeleton-num{height:44px;width:55%;}
+.skeleton-line{height:9px;width:80%;}
+.skeleton-line.short{width:45%;}
+.skeleton-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+
+/* ── FOTO SLOT NÚMERO ── */
+.foto-slot-num{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,.45);color:#fff;font-size:9px;padding:2px 5px;letter-spacing:.5px;z-index:1;pointer-events:none;font-family:var(--font-mono);}
+
+/* ── MÉTRICA VACÍA ── */
+.ov-num.empty{font-size:28px;color:var(--ink-faint);}
+
 /* ── STATS ── */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px;}
 .stat-card{background:#fff;border:1px solid var(--border);padding:20px 24px;}
@@ -221,7 +245,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
   .panel-shell{grid-template-columns:1fr;}
   .panel-nav{position:relative;top:0;height:auto;flex-direction:row;overflow-x:auto;padding:0;border-right:none;border-bottom:1px solid var(--border);}
   .pn-label{display:none;}
-  .pn-item{white-space:nowrap;border-left:none;border-bottom:2px solid transparent;padding:14px 16px;}
+  .pn-item{white-space:nowrap;border-left:none;border-bottom:2px solid transparent;padding:16px 14px;min-height:44px;}
   .pn-item.active{border-bottom-color:var(--gold);background:transparent;}
   .pn-spacer,.pn-plan-chip{display:none;}
   .panel-main{padding:24px 20px 60px;}
@@ -265,23 +289,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
     <!-- SIDEBAR NAV -->
     <nav class="panel-nav">
       <span class="pn-label">Mi empresa</span>
-      <div class="pn-item active" data-screen="overview">
+      <div class="pn-item active" data-screen="overview" role="button" tabindex="0" aria-label="Ir a Resumen">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" stroke="currentColor" stroke-width="1.2"/></svg>
         Resumen
       </div>
-      <div class="pn-item" data-screen="editar">
+      <div class="pn-item" data-screen="editar" role="button" tabindex="0" aria-label="Ir a Editar perfil">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
         Editar perfil
       </div>
-      <div class="pn-item" data-screen="media">
+      <div class="pn-item" data-screen="media" role="button" tabindex="0" aria-label="Ir a Logo y fotos">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" stroke="currentColor" stroke-width="1.2" rx="1"/><circle cx="4.5" cy="5.5" r="1.2" stroke="currentColor" stroke-width="1.1"/><path d="M1 9.5l3.5-2.5 2.5 2.5 2-1.5 3 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Logo y fotos
       </div>
-      <div class="pn-item" data-screen="stats">
+      <div class="pn-item" data-screen="stats" role="button" tabindex="0" aria-label="Ir a Estadísticas">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11l3-4 3 2 3-6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Estadísticas
       </div>
-      <div class="pn-item" data-screen="plan">
+      <div class="pn-item" data-screen="plan" role="button" tabindex="0" aria-label="Ir a Plan">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5 3.5.5-2.5 2.5.5 3.5L7 9.5 4 11l.5-3.5L2 5l3.5-.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
         Plan
       </div>
@@ -311,7 +335,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
             <div class="pp-meta" id="overviewMeta"></div>
           </div>
           <div class="pp-actions">
-            <a href="#" class="btn-save" id="overviewVerPerfil" style="background:var(--gold)">Ver perfil →</a>
+            <a href="#" class="btn-gold" id="overviewVerPerfil">Ver perfil →</a>
             <button class="btn-secondary" onclick="showScreen('editar')">Editar</button>
           </div>
         </div>
@@ -319,13 +343,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
         <div class="overview-grid">
           <div class="ov-card">
             <div class="ov-card-accent" style="background:var(--gold)"></div>
-            <div class="ov-num" id="statVisitas">—</div>
+            <div class="ov-num empty" id="statVisitas">…</div>
             <div class="ov-label">Visitas al perfil</div>
             <div class="ov-sub" id="statVisitasSub">últimos 30 días</div>
           </div>
           <div class="ov-card">
             <div class="ov-card-accent" style="background:#4a90c0"></div>
-            <div class="ov-num" id="statContactos">—</div>
+            <div class="ov-num empty" id="statContactos">…</div>
             <div class="ov-label">Contactos recibidos</div>
             <div class="ov-sub">este mes</div>
           </div>
@@ -338,8 +362,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
         </div>
 
         <div style="background:#fff;border:1px solid var(--border);padding:24px 28px;">
-          <div class="chart-title">Acciones rápidas</div>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <div class="chart-title">Próximos pasos</div>
+          <div id="quickActions" style="display:flex;gap:12px;flex-wrap:wrap;">
             <button class="btn-save" onclick="showScreen('editar')">Editar descripción</button>
             <button class="btn-secondary" onclick="showScreen('media')">Subir logo/fotos</button>
             <button class="btn-secondary" onclick="showScreen('stats')">Ver estadísticas</button>
@@ -379,7 +403,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
               </div>
               <div class="field">
                 <label>Año de fundación</label>
-                <input type="number" id="f_ano_fundacion" placeholder="Ej: 1985" min="1800" max="2025">
+                <input type="number" id="f_ano_fundacion" placeholder="Ej: 1985" min="1800" max="2030" aria-label="Año de fundación">
+                <span class="field-error" id="err_ano_fundacion">Introduce un año válido (1800–2030).</span>
               </div>
               <div class="field">
                 <label>Nº empleados</label>
@@ -408,15 +433,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
               </div>
               <div class="field">
                 <label>Email de contacto</label>
-                <input type="email" id="f_email_contacto" placeholder="info@tuempresa.com">
+                <input type="email" id="f_email_contacto" placeholder="info@tuempresa.com" aria-label="Email de contacto">
+                <span class="field-error" id="err_email_contacto">Introduce un email válido.</span>
               </div>
               <div class="field">
                 <label>Teléfono</label>
-                <input type="tel" id="f_telefono" placeholder="+34 900 000 000">
+                <input type="tel" id="f_telefono" placeholder="+34 900 000 000" aria-label="Teléfono">
               </div>
               <div class="field">
                 <label>Website</label>
-                <input type="url" id="f_website" placeholder="https://www.tuempresa.com">
+                <input type="url" id="f_website" placeholder="https://www.tuempresa.com" aria-label="URL del website">
+                <span class="field-error" id="err_website">Introduce una URL válida (ej: https://ejemplo.com).</span>
               </div>
             </div>
           </div>
@@ -445,16 +472,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
             </div>
             <div class="form-grid">
               <div class="field">
-                <label>Materiales <span style="font-size:9px;color:var(--ink-faint)">(Enter para añadir)</span></label>
+                <label>Materiales</label>
                 <div class="tags-input-wrap" id="materialesWrap" onclick="document.getElementById('materialesInput').focus()">
-                  <input class="tags-input" id="materialesInput" placeholder="Ej: Mármol, Granito…">
+                  <input class="tags-input" id="materialesInput" placeholder="Escribe y pulsa Enter — Ej: Mármol">
                 </div>
+                <span class="field-hint">Pulsa Enter o coma para añadir cada material. Backspace para eliminar el último.</span>
               </div>
               <div class="field">
-                <label>Certificaciones <span style="font-size:9px;color:var(--ink-faint)">(Enter para añadir)</span></label>
+                <label>Certificaciones</label>
                 <div class="tags-input-wrap" id="certificacionesWrap" onclick="document.getElementById('certificacionesInput').focus()">
-                  <input class="tags-input" id="certificacionesInput" placeholder="Ej: ISO 9001, CE…">
+                  <input class="tags-input" id="certificacionesInput" placeholder="Escribe y pulsa Enter — Ej: ISO 9001">
                 </div>
+                <span class="field-hint">Pulsa Enter o coma para añadir cada certificación.</span>
               </div>
             </div>
           </div>
@@ -480,7 +509,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
         <div class="form-section">
           <div class="form-section-title">Logotipo</div>
           <div class="upload-zone" id="logoZone">
-            <input type="file" id="logoInput" accept="image/*" onchange="handleLogoUpload(this)">
+            <input type="file" id="logoInput" accept="image/*" aria-label="Subir logotipo de empresa" onchange="handleLogoUpload(this)">
             <div class="uz-icon">🖼</div>
             <div class="uz-text">Arrastra tu <span>logotipo</span> o haz clic · PNG, JPG, SVG · Max 2MB</div>
             <div class="uz-preview" id="logoPreview"></div>
@@ -589,10 +618,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
       slot.dataset.i = i;
       if(fotosArr[i]){
         slot.innerHTML = '<img src="' + fotosArr[i] + '" alt="Foto '+(i+1)+'">' +
-          '<button class="foto-slot-remove" onclick="removeFoto('+i+')">×</button>';
+          '<button class="foto-slot-remove" onclick="removeFoto('+i+')" aria-label="Eliminar foto '+(i+1)+'">×</button>' +
+          '<span class="foto-slot-num">'+(i+1)+'</span>';
       } else {
         slot.innerHTML = '<span class="foto-slot-add">+</span>' +
-          '<input type="file" accept="image/*" onchange="handleFotoUpload(this,'+i+')">';
+          '<span class="foto-slot-num">'+(i+1)+'</span>' +
+          '<input type="file" accept="image/*" aria-label="Subir foto '+(i+1)+'" onchange="handleFotoUpload(this,'+i+')">';
       }
       grid.appendChild(slot);
     }
@@ -648,7 +679,32 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
 
   document.querySelectorAll('.pn-item').forEach(function(item){
     item.addEventListener('click', function(){ showScreen(item.dataset.screen); });
+    item.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); showScreen(item.dataset.screen); }
+    });
   });
+
+  // ── VALIDACIÓN EN TIEMPO REAL ────────────────────────────────────────────────
+  function validarCampo(inputId, errorId, testFn){
+    var input = document.getElementById(inputId);
+    var errEl = document.getElementById(errorId);
+    if(!input || !errEl) return;
+    input.addEventListener('input', function(){
+      var val = input.value.trim();
+      var esInvalido = val.length > 0 && !testFn(val);
+      input.classList.toggle('invalid', esInvalido);
+      errEl.classList.toggle('show', esInvalido);
+    });
+    input.addEventListener('blur', function(){
+      var val = input.value.trim();
+      var esInvalido = val.length > 0 && !testFn(val);
+      input.classList.toggle('invalid', esInvalido);
+      errEl.classList.toggle('show', esInvalido);
+    });
+  }
+  validarCampo('f_email_contacto','err_email_contacto', function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); });
+  validarCampo('f_website','err_website', function(v){ return /^https?:\/\/.+\..+/.test(v); });
+  validarCampo('f_ano_fundacion','err_ano_fundacion', function(v){ var n=parseInt(v); return n>=1800&&n<=2030; });
 
   // ── TOAST ──────────────────────────────────────────────────────────────────
   function toast(msg, type){
@@ -727,10 +783,63 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
     var campos = ['nombre_empresa','descripcion','ciudad','pais','website','email_contacto','telefono'];
     var rellenos = campos.filter(function(c){ return !!p[c]; }).length;
     var pct = Math.round((rellenos / campos.length) * 100);
-    document.getElementById('statCompletitud').textContent = pct + '%';
+    var completEl = document.getElementById('statCompletitud');
+    completEl.textContent = pct + '%';
+    completEl.classList.remove('empty');
     document.getElementById('statCompletitudSub').textContent = rellenos + ' de ' + campos.length + ' campos';
-    document.getElementById('statVisitas').textContent = '—';
-    document.getElementById('statContactos').textContent = '—';
+
+    // Visitas y contactos desde la tabla eventos
+    var visEl = document.getElementById('statVisitas');
+    var ctaEl = document.getElementById('statContactos');
+    db.from('eventos').select('tipo', { count: 'exact', head: false })
+      .eq('proveedor_id', p.id)
+      .eq('tipo', 'perfil_visita')
+      .gte('created_at', new Date(Date.now() - 30*24*60*60*1000).toISOString())
+      .then(function(r){
+        var n = (r.data && r.data.length) || 0;
+        visEl.textContent = n;
+        visEl.classList.remove('empty');
+      }).catch(function(){ visEl.textContent = '0'; visEl.classList.remove('empty'); });
+
+    db.from('eventos').select('tipo', { count: 'exact', head: false })
+      .eq('proveedor_id', p.id)
+      .eq('tipo', 'contacto')
+      .gte('created_at', new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString())
+      .then(function(r){
+        var n = (r.data && r.data.length) || 0;
+        ctaEl.textContent = n;
+        ctaEl.classList.remove('empty');
+      }).catch(function(){ ctaEl.textContent = '0'; ctaEl.classList.remove('empty'); });
+
+    // Acciones dinámicas según estado del perfil
+    var qa = document.getElementById('quickActions');
+    if(qa){
+      var acciones = [];
+      var tieneDescripcion = !!p.descripcion;
+      var tieneLogo = !!p.logo_url;
+      var tieneFotos = p.fotos && p.fotos.filter(Boolean).length > 0;
+      var tieneContacto = !!p.email_contacto || !!p.website;
+      var planEsBasico = !p.plan || p.plan === 'free' || p.plan === 'presencia';
+
+      if(!tieneLogo){
+        acciones.push('<button class="btn-gold" onclick="showScreen(\'media\')">Subir logo →</button>');
+      } else if(!tieneDescripcion){
+        acciones.push('<button class="btn-gold" onclick="showScreen(\'editar\')">Completar descripción →</button>');
+      } else if(!tieneFotos){
+        acciones.push('<button class="btn-gold" onclick="showScreen(\'media\')">Subir fotos →</button>');
+      } else if(planEsBasico){
+        acciones.push('<button class="btn-gold" onclick="showScreen(\'plan\')">Mejorar visibilidad →</button>');
+      } else {
+        acciones.push('<button class="btn-gold" onclick="showScreen(\'stats\')">Ver estadísticas →</button>');
+      }
+
+      if(tieneLogo) acciones.push('<button class="btn-secondary" onclick="showScreen(\'editar\')">Editar perfil</button>');
+      if(!tieneContacto) acciones.push('<button class="btn-secondary" onclick="showScreen(\'editar\')">Añadir contacto</button>');
+      if(tieneFotos || tieneLogo) acciones.push('<button class="btn-secondary" onclick="showScreen(\'stats\')">Ver estadísticas</button>');
+      if(planEsBasico) acciones.push('<button class="btn-secondary" onclick="showScreen(\'plan\')">Gestionar plan</button>');
+
+      qa.innerHTML = acciones.join('');
+    }
   }
 
   // ── STATS ─────────────────────────────────────────────────────────────────
@@ -743,6 +852,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
       container.innerHTML = '<div class="locked-stats"><div class="ls-icon">📊</div><div class="ls-title">Estadísticas disponibles en <em>Presencia</em></div><div class="ls-desc">Actualiza tu plan para ver cuántas personas visitan tu perfil, desde dónde llegan y qué buscan.</div><a href="#" class="ls-btn" onclick="showScreen(\'plan\');return false;">Ver planes</a></div>';
       return;
     }
+
+    // Skeleton mientras carga
+    container.innerHTML =
+      '<div class="skeleton-grid">' +
+        ['','','',''].map(function(){ return '<div class="skeleton-wrap"><div class="skeleton skeleton-num"></div><div class="skeleton skeleton-line short"></div></div>'; }).join('') +
+      '</div>' +
+      '<div class="skeleton-wrap"><div class="chart-title">Cargando estadísticas…</div><div class="skeleton skeleton-line" style="height:120px;margin-top:8px;"></div></div>';
 
     // Try to load from eventos table
     db.from('eventos')
@@ -788,7 +904,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
             '</div>' +
           '</div>';
       }).catch(function(){
-        container.innerHTML = '<p style="color:var(--ink-muted);font-size:13px;padding:32px 0;">Las estadísticas estarán disponibles próximamente.</p>';
+        container.innerHTML = '<div style="background:#fff;border:1px solid var(--border);padding:40px;text-align:center;"><div style="font-size:28px;opacity:.3;margin-bottom:12px;">📊</div><p style="color:var(--ink-muted);font-size:13px;line-height:1.7;">No se pudieron cargar las estadísticas.<br>Comprueba tu conexión e inténtalo de nuevo.</p><button class="btn-secondary" style="margin-top:20px;" onclick="renderStats()">Reintentar</button></div>';
       });
   }
 
@@ -796,34 +912,47 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
   function renderPlan(){
     var container = document.getElementById('planContent');
     if(!container || !currentProveedor) return;
+
+    // Skeleton mientras se monta
+    container.innerHTML =
+      '<div class="skeleton-wrap" style="margin-bottom:24px;flex-direction:row;align-items:center;gap:24px;">' +
+        '<div class="skeleton" style="width:80px;height:56px;flex-shrink:0;"></div>' +
+        '<div style="flex:1;display:flex;flex-direction:column;gap:10px;">' +
+          '<div class="skeleton skeleton-line" style="width:30%;"></div>' +
+          '<div class="skeleton skeleton-line"></div>' +
+        '</div>' +
+      '</div>';
+
     var p = currentProveedor;
     var planMap = {free:'Free',presencia:'Presencia',profesional:'Profesional',elite:'Élite'};
     var planes = [
+      {id:'free', name:'Free', price:'0', features:['Ficha básica','Datos de contacto','Sin fotos','Sin badge verificado']},
       {id:'presencia', name:'Presencia', price:'49', features:['Ficha verificada','Descripción completa','Datos de contacto','Badge verificado']},
       {id:'profesional', name:'Profesional', price:'99', features:['Todo Presencia','Hasta 10 fotos','Materiales y certificaciones','Estadísticas de visitas']},
       {id:'elite', name:'Élite', price:'299', features:['Todo Profesional','Tarjeta editorial destacada','Posición prioritaria','Soporte dedicado']},
     ];
 
+    var planActual = p.plan || 'free';
     var html = '<div class="plan-current">' +
-      '<div class="pc-badge">' + (planMap[p.plan]||'Free') + '</div>' +
+      '<div class="pc-badge">' + (planMap[planActual]||'Free') + '</div>' +
       '<div class="pc-info">' +
         '<div class="pc-name">Plan actual</div>' +
-        '<div class="pc-desc">' + (p.plan === 'elite' ? 'Tienes el plan más completo de World Stone Hub.' : 'Mejora tu plan para aumentar visibilidad y acceder a más funciones.') + '</div>' +
+        '<div class="pc-desc">' + (planActual === 'elite' ? 'Tienes el plan más completo de World Stone Hub.' : 'Mejora tu plan para aumentar visibilidad y acceder a más funciones.') + '</div>' +
         (p.plan_inicio ? '<div class="pc-dates">Desde: ' + new Date(p.plan_inicio).toLocaleDateString('es') + (p.plan_fin ? ' · Hasta: ' + new Date(p.plan_fin).toLocaleDateString('es') : '') + '</div>' : '') +
       '</div>' +
       '<div class="pc-actions">' +
-        (p.plan !== 'elite' ? '<a href="registro.html" class="btn-save" style="background:var(--gold)">Mejorar plan →</a>' : '') +
+        (planActual !== 'elite' ? '<a href="registro.html" class="btn-gold">Mejorar plan →</a>' : '') +
       '</div>' +
     '</div>';
 
-    html += '<div class="plans-grid">';
+    html += '<div class="plans-grid" style="grid-template-columns:repeat(4,1fr);">';
     planes.forEach(function(plan){
-      var isCurrent = p.plan === plan.id;
+      var isCurrent = planActual === plan.id;
       html += '<div class="plan-card ' + (isCurrent ? 'current' : '') + '">' +
         '<div class="plan-card-name">' + plan.name + '</div>' +
-        '<div class="plan-card-price">' + plan.price + '€<span>/mes</span></div>' +
+        '<div class="plan-card-price">' + (plan.price === '0' ? 'Gratis' : plan.price + '€') + (plan.price !== '0' ? '<span>/mes</span>' : '') + '</div>' +
         '<ul class="plan-card-features">' + plan.features.map(function(f){ return '<li>'+f+'</li>'; }).join('') + '</ul>' +
-        '<button class="plan-card-btn">' + (isCurrent ? 'Plan actual' : 'Seleccionar') + '</button>' +
+        (plan.id !== 'free' ? '<button class="plan-card-btn" ' + (isCurrent ? 'disabled' : '') + '>' + (isCurrent ? 'Plan actual' : 'Seleccionar') + '</button>' : '<div style="height:36px"></div>') +
       '</div>';
     });
     html += '</div>';
@@ -867,10 +996,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
       .then(function(res){
         btn.disabled = false;
         btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Guardar cambios';
-        if(res.error){ toast('Error al guardar: ' + res.error.message, 'error'); return; }
+        if(res.error){
+          toast('Error al guardar: ' + res.error.message, 'error');
+          var msgErr = document.getElementById('saveMsg');
+          msgErr.textContent = '✗ Error al guardar';
+          msgErr.className = 'save-msg error show';
+          setTimeout(function(){ msgErr.className = 'save-msg'; }, 4000);
+          return;
+        }
         Object.assign(currentProveedor, updates);
         renderOverview(currentProveedor);
         toast('Cambios guardados correctamente', 'success');
+        var msgOk = document.getElementById('saveMsg');
+        msgOk.textContent = '✓ Cambios guardados';
+        msgOk.className = 'save-msg show';
+        setTimeout(function(){ msgOk.className = 'save-msg'; }, 3000);
       });
   };
 
@@ -883,11 +1023,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
       fotos: fotosLimpias.length ? fotosLimpias : null,
       updated_at: new Date().toISOString()
     }).eq('id', currentProveedor.id).then(function(res){
-      if(res.error){ toast('Error al guardar media', 'error'); return; }
+      if(res.error){
+        toast('Error al guardar media', 'error');
+        var mErr = document.getElementById('saveMediaMsg');
+        mErr.textContent = '✗ Error al guardar';
+        mErr.className = 'save-msg error show';
+        setTimeout(function(){ mErr.className = 'save-msg'; }, 4000);
+        return;
+      }
       currentProveedor.logo_url = logoUrl;
       currentProveedor.fotos = fotosLimpias;
       renderOverview(currentProveedor);
       toast('Imágenes guardadas', 'success');
+      var mOk = document.getElementById('saveMediaMsg');
+      mOk.textContent = '✓ Imágenes guardadas';
+      mOk.className = 'save-msg show';
+      setTimeout(function(){ mOk.className = 'save-msg'; }, 3000);
     });
   };
 
