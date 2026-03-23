@@ -1336,6 +1336,19 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </nav>
 
+<!-- BANNER PROMO TRIAL (visible solo con ?promo=launch6m) -->
+<div id="promoBanner" style="display:none;background:#1a1917;padding:12px 32px;display:none;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+  <span style="display:inline-flex;align-items:center;gap:8px;">
+    <span style="width:6px;height:6px;border-radius:50%;background:#A67C52;display:inline-block;animation:lcPulse 2s ease-in-out infinite;"></span>
+    <span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#A67C52;">Oferta de inauguración</span>
+  </span>
+  <span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#f0ede8;">Plan Profesional <em style="color:#A67C52;">gratis 6 meses</em> — no se cobra hasta octubre 2026</span>
+  <span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:rgba(240,237,232,.35);text-transform:uppercase;">Termina el 30 Abr 2026</span>
+</div>
+<style>
+@keyframes lcPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.35;transform:scale(.65);}}
+</style>
+
 <!-- SHELL: sidebar + main -->
 <div class="shell">
 
@@ -1862,12 +1875,13 @@ document.addEventListener('DOMContentLoaded', function() {
         <h1 class="success-title">Solicitud<br><em>enviada</em></h1>
         <p class="success-text" id="success-msg-free" style="display:none">Hemos recibido tu alta gratuita en World Stone Hub. Tu ficha aparecerá en el directorio en <strong>24&#8211;48 horas</strong> tras revisión editorial.</p>
         <p class="success-text" id="success-msg-paid" style="display:none">Hemos recibido tu solicitud. <strong>Último paso:</strong> activa tu suscripción para que tu ficha quede verificada y publicada.</p>
+        <p class="success-text" id="success-msg-trial" style="display:none">¡Todo listo! Activa ahora tu <strong>trial gratuito de 6 meses</strong> del Plan Profesional. Introduces tu tarjeta hoy pero <strong>no se te cobra nada hasta el 1 de octubre de 2026</strong>. Cancela antes y no pagas nada.</p>
         <div id="stripe-cta" style="display:none;margin:32px 0;padding:28px;background:#f8f7f5;border:1px solid #e2e0dc;border-top:3px solid #A67C52;">
           <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#A67C52;margin-bottom:12px;">Activar suscripción</div>
           <div id="stripe-plan-name" style="font-family:Cormorant Garamond,serif;font-size:28px;font-weight:300;color:#1a1917;margin-bottom:4px;"></div>
           <div id="stripe-plan-price" style="font-size:13px;color:#8a8784;margin-bottom:20px;"></div>
           <!-- STRIPE PAYMENT LINKS: dashboard.stripe.com > Payment Links > Create > Copy URL -->
-          <a id="stripe-pay-btn" href="#" target="_blank" style="display:inline-block;background:#A67C52;color:#fff;padding:14px 32px;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;">Pagar ahora &#8594;</a>
+          <a id="stripe-pay-btn" href="#" target="_blank" style="display:inline-block;background:#A67C52;color:#fff;padding:14px 32px;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;">Activar ahora &#8594;</a>
           <p style="font-size:11px;color:#8a8784;margin-top:12px;">Pago seguro via Stripe &middot; Cancela cuando quieras &middot; Factura automática</p>
         </div>
         <div class="success-links">
@@ -1892,17 +1906,27 @@ document.addEventListener('DOMContentLoaded', function() {
 // ⚠️ Reemplaza los enlaces TEST por enlaces LIVE antes de lanzar
 var STRIPE_PAYMENT_LINKS = {
   // — Mensual —
-  presencia:          'https://buy.stripe.com/fZu5kw3T97Pj4S83ux9Zm00',
-  profesional:        'https://buy.stripe.com/eVqcMYgFV6Lf2K04yB9Zm01',
-  elite:              'https://buy.stripe.com/00w14g89pb1v5Wc5CF9Zm02',
+  presencia:               'https://buy.stripe.com/fZu5kw3T97Pj4S83ux9Zm00',
+  profesional:             'https://buy.stripe.com/eVqcMYgFV6Lf2K04yB9Zm01',
+  elite:                   'https://buy.stripe.com/00w14g89pb1v5Wc5CF9Zm02',
   // — Anual —
-  presencia_anual:    'https://buy.stripe.com/8x214g0GX5HbgAQe9b9Zm03',
-  profesional_anual:  'https://buy.stripe.com/3cI00cgFV6Lf4S84yB9Zm04',
-  elite_anual:        'https://buy.stripe.com/dRmbIU9dt2uZacs1mp9Zm05'
+  presencia_anual:         'https://buy.stripe.com/8x214g0GX5HbgAQe9b9Zm03',
+  profesional_anual:       'https://buy.stripe.com/3cI00cgFV6Lf4S84yB9Zm04',
+  elite_anual:             'https://buy.stripe.com/dRmbIU9dt2uZacs1mp9Zm05',
+  // — Trial inauguración (6 meses gratis · cobro desde 1 Oct 2026) —
+  // ⚠️ PENDIENTE: Crea el Payment Link de trial en Stripe y reemplaza esta URL
+  profesional_trial:       'https://buy.stripe.com/5kQcMY1L1fhLckA8OR9Zm06'
 };
 
+// ── Detección de promo desde URL ─────────────
+var URL_PARAMS  = new URLSearchParams(window.location.search);
+var PROMO_CODE  = URL_PARAMS.get('promo');   // 'launch6m' o null
+var IS_TRIAL    = (PROMO_CODE === 'launch6m');
+var TRIAL_END   = new Date('2026-04-30T23:59:59'); // fecha límite de la oferta
+if (new Date() > TRIAL_END) IS_TRIAL = false;      // expirada → ignorar
+
 // ── Estado global ───────────────────────────
-var ST = { plan:null, price:0, actors:[], step:1, billing:'mensual' };
+var ST = { plan:null, price:0, actors:[], step:1, billing:'mensual', isTrial: IS_TRIAL };
 
 // ── Países del mundo (ISO + español) ────────
 (function populatePaises() {
@@ -1972,6 +1996,48 @@ var ST = { plan:null, price:0, actors:[], step:1, billing:'mensual' };
     o.value = p[0];
     o.textContent = p[1];
     sel.appendChild(o);
+  });
+})();
+
+// ── Inicialización promo trial ───────────────
+(function initPromo(){
+  if (!IS_TRIAL) return;
+
+  // 1. Mostrar banner superior
+  var banner = document.getElementById('promoBanner');
+  if (banner) banner.style.display = 'flex';
+
+  // 2. Pre-seleccionar plan Profesional y marcar card visualmente
+  document.addEventListener('DOMContentLoaded', function(){
+    var proCard = document.querySelector('.plan-card[data-plan="profesional"]');
+    var proRadio = document.querySelector('input[value="profesional"]');
+    if (proCard && proRadio) {
+      proRadio.checked = true;
+      proCard.classList.add('selected');
+      selectPlanRadio('profesional', 0, proRadio);
+    }
+
+    // 3. Sobreescribir display del plan Profesional: precio → GRATIS
+    var priceEl   = document.getElementById('price-profesional');
+    var billingEl = document.getElementById('billing-profesional');
+    var savingsEl = proCard ? proCard.querySelector('.plan-savings') : null;
+    if (priceEl)   priceEl.innerHTML = '<span style="font-size:22px;letter-spacing:2px;color:#A67C52;">GRATIS</span>';
+    if (billingEl) billingEl.innerHTML = '6 meses gratis &middot; luego €129/mes &middot; <strong style="color:#A67C52;">No se cobra hasta oct. 2026</strong>';
+    if (savingsEl) savingsEl.textContent = '¡Oferta de inauguración!';
+
+    // 4. Ocultar toggle mensual/anual (no aplica al trial)
+    var toggle = document.querySelector('.billing-toggle');
+    if (toggle) toggle.style.display = 'none';
+
+    // 5. Resaltar la card con un ribbon especial
+    if (proCard) {
+      var ribbon = document.createElement('div');
+      ribbon.style.cssText = 'position:absolute;top:12px;right:-28px;background:#A67C52;color:#fff;font-family:"DM Mono",monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;padding:5px 32px;transform:rotate(45deg);z-index:10;';
+      ribbon.textContent = '6 meses gratis';
+      proCard.style.position = 'relative';
+      proCard.style.overflow = 'hidden';
+      proCard.appendChild(ribbon);
+    }
   });
 })();
 
@@ -2358,20 +2424,36 @@ function submitForm() {
     if (ST.plan === 'free') {
       window.location.href = 'gracias.html';
     } else {
-      // Elegir link de Stripe según billing mensual o anual
-      var stripeKey = (ST.billing === 'anual') ? ST.plan + '_anual' : ST.plan;
-      var payLink = STRIPE_PAYMENT_LINKS[stripeKey];
-      if (payLink) {
-        // Pasar email pre-relleno al checkout de Stripe
-        var emailVal = document.getElementById('f_email');
-        if (emailVal && emailVal.value.trim()) {
-          payLink += '?prefilled_email=' + encodeURIComponent(emailVal.value.trim());
-        }
-        window.location.href = payLink;
+      // Elegir link de Stripe:
+      // · Trial de inauguración: profesional + promo launch6m → link con trial 6m
+      // · Normal: mensual o anual según toggle
+      var stripeKey;
+      if (ST.isTrial && ST.plan === 'profesional') {
+        stripeKey = 'profesional_trial';
       } else {
-        // Payment Link aún no configurado: pantalla de éxito con CTA manual
-        showSuccessScreen();
+        stripeKey = (ST.billing === 'anual') ? ST.plan + '_anual' : ST.plan;
       }
+
+      var payLink = STRIPE_PAYMENT_LINKS[stripeKey];
+
+      // Si el trial link aún no está configurado, mostrar pantalla manual
+      if (!payLink || payLink === 'STRIPE_TRIAL_LINK_PENDIENTE') {
+        showSuccessScreen();
+        // Mostrar mensaje específico de trial en la pantalla de éxito
+        var paidMsg = document.getElementById('success-msg-paid');
+        var stripeCtaEl = document.getElementById('stripe-cta');
+        if (paidMsg) paidMsg.innerHTML = 'Hemos recibido tu solicitud. <strong>Último paso:</strong> activa tu trial de 6 meses para publicar tu ficha. Te contactaremos en menos de 24h para completar la activación.';
+        if (stripeCtaEl) stripeCtaEl.style.display = 'none';
+        return;
+      }
+
+      // Pasar email pre-relleno al checkout de Stripe
+      var emailVal = document.getElementById('f_email');
+      var sep = payLink.includes('?') ? '&' : '?';
+      if (emailVal && emailVal.value.trim()) {
+        payLink += sep + 'prefilled_email=' + encodeURIComponent(emailVal.value.trim());
+      }
+      window.location.href = payLink;
     }
   })
   .catch(function(err) {
