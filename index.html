@@ -260,7 +260,7 @@
     font-size: 15px;
     font-weight: 300;
     line-height: 1.65;
-    color: #8a8784;
+    color: #4a4845;
     max-width: 480px;
     margin-bottom: 20px;
   }
@@ -281,6 +281,8 @@
     letter-spacing: 2.5px; text-transform: uppercase;
     text-decoration: none; border: none;
     transition: background .25s, transform .2s;
+    position: relative;
+    overflow: hidden;
   }
 
   .btn-primary::after {
@@ -1036,7 +1038,7 @@
     margin-bottom: 40px;
   }
 
-  .footer-brand
+  .footer-brand { }
 
   .footer-desc {
     font-size: 13px;
@@ -2236,6 +2238,61 @@ footer{background:#111110!important;color:#e8e6e2!important;}
 
 /* Lang Switcher */
 .lang-switcher{display:flex;align-items:center;gap:0;margin-left:12px;}
+
+/* ── HAMBURGER ── */
+.nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;background:none;border:none;padding:6px;margin-left:12px;z-index:1001;}
+.nav-burger span{display:block;width:22px;height:1.5px;background:#1a1917;transition:all .3s ease;transform-origin:center;}
+.nav-burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.nav-burger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.nav-burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+@media(max-width:1024px){.nav-burger{display:flex;}}
+
+/* ── MOBILE MENU ── */
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;bottom:0;background:#fff;z-index:799;overflow-y:auto;padding:16px 24px 48px;border-top:1px solid #e2e0dc;}
+.mobile-menu.open{display:block;}
+.mobile-menu-links{list-style:none;display:flex;flex-direction:column;}
+.mobile-menu-links>li>a,.mobile-menu-links>li>span{display:flex;align-items:center;justify-content:space-between;padding:15px 0;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#4a4845;border-bottom:1px solid #f0efed;text-decoration:none;cursor:pointer;}
+.mobile-menu-links>li>a:hover,.mobile-menu-links>li>span:hover{color:#A67C52;}
+.mobile-menu-sub{list-style:none;display:none;flex-direction:column;background:#f8f7f5;border-bottom:1px solid #e2e0dc;}
+.mobile-menu-sub.open{display:flex;}
+.mobile-menu-sub li a{display:block;padding:11px 16px;font-family:'Instrument Sans',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#8a8784;text-decoration:none;}
+.mobile-menu-sub li a:hover{color:#A67C52;}
+.mobile-menu-cta{margin-top:24px;display:flex;flex-direction:column;gap:10px;}
+.mobile-menu-cta a{display:block;text-align:center;padding:13px;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;text-decoration:none;font-family:'Instrument Sans',sans-serif;}
+.mobile-menu-cta .mm-cta-primary{background:#1a1917;color:#fff;}
+.mobile-menu-cta .mm-cta-primary:hover{background:#A67C52;}
+.mobile-menu-cta .mm-cta-secondary{border:1px solid #c8c5bf;color:#1a1917;}
+.mobile-menu-cta .mm-cta-secondary:hover{border-color:#A67C52;color:#A67C52;}
+.mobile-menu-langs{display:flex;gap:16px;margin-top:24px;padding-top:20px;border-top:1px solid #f0efed;}
+.mobile-menu-langs button{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8a8784;background:none;border:none;cursor:pointer;padding:4px 0;}
+.mobile-menu-langs button.active{color:#A67C52;}
+
+/* ── BTN-QUARRY (reemplaza inline onmouseover) ── */
+.btn-quarry-primary{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#A67C52;color:#1a1917;font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;text-decoration:none;font-family:'Instrument Sans',sans-serif;transition:opacity .25s;}
+.btn-quarry-primary:hover{opacity:.85;}
+.btn-quarry-secondary{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border:1px solid rgba(196,168,130,0.25);color:#A67C52;font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;text-decoration:none;font-family:'Instrument Sans',sans-serif;transition:all .25s;}
+.btn-quarry-secondary:hover{border-color:#A67C52;color:#A67C52;}
+
+/* ── TRENDING SEARCHES ── */
+.sp-trending{margin-top:20px;padding-top:16px;border-top:1px solid rgba(30,25,20,0.07);}
+.sp-trending-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#8a8784;margin-bottom:10px;}
+.sp-trending-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.sp-trending-tag{font-size:11px;letter-spacing:1px;padding:6px 14px;border:1px solid rgba(30,25,20,0.10);color:#A67C52;cursor:pointer;transition:all .2s;background:transparent;font-family:'Instrument Sans',sans-serif;}
+.sp-trending-tag:hover{border-color:#A67C52;background:rgba(160,120,60,0.04);}
+
+/* ── AD FALLBACK ── */
+.ad-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:linear-gradient(135deg,#f0efed 0%,#e8e5e0 100%);padding:40px 32px;text-align:center;}
+.ad-fallback-eyebrow{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:4px;text-transform:uppercase;color:#A67C52;}
+.ad-fallback-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,2.5vw,32px);font-weight:300;color:#1a1917;line-height:1.15;}
+.ad-fallback-title em{font-style:italic;color:#A67C52;}
+.ad-fallback-sub{font-size:12px;color:#8a8784;line-height:1.6;max-width:280px;}
+.ad-fallback-btn{display:inline-block;background:#1a1917;color:#f8f7f5;padding:10px 24px;font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;text-decoration:none;font-family:'Instrument Sans',sans-serif;transition:background .25s;margin-top:4px;}
+.ad-fallback-btn:hover{background:#A67C52;}
+
+/* ── PLANES 4 COLUMNAS ── */
+@media(min-width:900px){.plans.four-col{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:899px){.plans.four-col{grid-template-columns:1fr;}}
+.plan.free-plan{background:#fff;border:1px solid #e2e0dc;}
 .lang-btn{font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:#8a8784;background:none;border:none;padding:5px 7px;cursor:pointer;transition:color .2s;line-height:1;border-radius:2px;}
 .lang-btn:hover{color:#1a1917;}
 .lang-btn.active{color:#A67C52;}
@@ -2298,20 +2355,54 @@ footer{background:#111110!important;color:#e8e6e2!important;}
     <span class="lang-sep" aria-hidden="true"></span>
     <button class="lang-btn" data-lang="en" aria-pressed="false" data-i18n-attr="aria-label:lang.en">EN</button>
   </div>
+  <button class="nav-burger" id="navBurger" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobileMenu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true" role="navigation" aria-label="Menú principal móvil">
+  <ul class="mobile-menu-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="canteras.html">Canteras</a></li>
+    <li><a href="materiales.html">Materiales</a></li>
+    <li>
+      <span id="mmDirToggle">Directorio <span style="font-size:10px;opacity:.6;">▾</span></span>
+      <ul class="mobile-menu-sub" id="mmDirSub">
+        <li><a href="proveedores.html">Todos los proveedores</a></li>
+        <li><a href="sector-distribuidores.html">Distribuidores</a></li>
+        <li><a href="sector-fabricantes.html">Fabricantes</a></li>
+        <li><a href="sector-arquitectura.html">Arquitectura</a></li>
+        <li><a href="sector-constructoras.html">Constructoras</a></li>
+        <li><a href="sector-maquinaria.html">Maquinaria</a></li>
+        <li><a href="sector-laboratorios.html">Laboratorios</a></li>
+        <li><a href="sector-logistica.html">Logística</a></li>
+      </ul>
+    </li>
+    <li><a href="mapa.html">Mapa de canteras</a></li>
+  </ul>
+  <div class="mobile-menu-cta">
+    <a href="canteras.html" class="mm-cta-primary">Explorar directorio →</a>
+    <a href="registro.html" class="mm-cta-secondary">Publicar mi empresa →</a>
+  </div>
+  <div class="mobile-menu-langs">
+    <button class="active" onclick="document.querySelector('.lang-btn[data-lang=es]').click();document.getElementById('mobileMenu').classList.remove('open');">ES</button>
+    <button onclick="document.querySelector('.lang-btn[data-lang=en]').click();document.getElementById('mobileMenu').classList.remove('open');">EN</button>
+  </div>
+</div>
 
 <!-- HERO -->
 
 <div class="page-hdr">
   <div class="page-hdr-left">
     <div class="hero-content">
-    <div class="hero-eyebrow" data-i18n="index.hero.eyebrow">The Global Stone Hub · Where Stone Meets The World</div>
+    <div class="hero-eyebrow" data-i18n="index.hero.eyebrow">El portal global de la piedra natural · Directorio B2B</div>
     <h1 class="hero-title"><span data-i18n="index.hero.titlePre">El mundo de la</span><br><em data-i18n="index.hero.titleEm">piedra</em><span data-i18n="index.hero.titleSuf"> al alcance</span></h1>
     <span class="hero-title-accent" data-i18n="index.hero.accent">del sector</span>
     <p class="hero-sub" data-i18n="index.hero.sub">La plataforma de referencia para profesionales de la piedra natural y artificial. Canteras, proveedores, distribuidores, fabricantes y arquitectos en un único ecosistema.</p>
     <div class="hero-actions">
-      <a href="proveedores.html" class="btn-primary" data-i18n="cta.publicarEmpresa">Publicar mi empresa</a>
-      <a href="canteras.html" class="btn-secondary" data-i18n="cta.explorarDirectorio">Explorar directorio</a>
+      <a href="canteras.html" class="btn-primary" data-i18n="cta.explorarDirectorio">Explorar directorio</a>
+      <a href="registro.html" class="btn-secondary" data-i18n="cta.publicarEmpresa">Publicar mi empresa</a>
     </div>
     <div class="hero-stats">
     <div class="stat">
@@ -2327,7 +2418,7 @@ footer{background:#111110!important;color:#e8e6e2!important;}
       <div class="stat-label" data-i18n="index.hero.stat3">Países cubiertos</div>
     </div>
     <div class="stat">
-      <div class="stat-num">7<span>+</span></div>
+      <div class="stat-num" id="heroStatCompanies">—</div>
       <div class="stat-label" data-i18n="index.hero.stat4">Empresas en directorio</div>
     </div>
     </div>
@@ -2335,38 +2426,38 @@ footer{background:#111110!important;color:#e8e6e2!important;}
   </div>
   <div class="page-hdr-right">
     <div class="ad-container" id="heroAdSlot">
-      <div class="ad-placeholder">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        <span class="ad-placeholder-text">Espacio publicitario</span>
-        <span class="ad-placeholder-sub">HOME-TOP</span>
+      <div class="ad-fallback" id="heroAdFallback">
+        <div class="ad-fallback-eyebrow">Destacado</div>
+        <div class="ad-fallback-title">El directorio<br><em>más completo</em><br>del sector</div>
+        <p class="ad-fallback-sub">180+ canteras · 200+ materiales · proveedores verificados de 50 países</p>
+        <a href="registro.html" class="ad-fallback-btn">Publica tu empresa →</a>
       </div>
     </div>
-    <span class="ad-label">Publicidad</span>
   </div>
 </div>
 
 
 <!-- MARQUEE -->
-<div class="marquee-section">
+<div class="marquee-section" aria-label="Materiales destacados" role="marquee">
   <div class="marquee-track">
-    <span class="marquee-item">Mármol de Carrara</span>
-    <span class="marquee-item">Granito Azul Bahía</span>
-    <span class="marquee-item">Cuarcita Taj Mahal</span>
-    <span class="marquee-item">Travertino Romano</span>
-    <span class="marquee-item">Pórfido Argentino</span>
-    <span class="marquee-item">Basalto Negro</span>
-    <span class="marquee-item">Caliza Crema Marfil</span>
-    <span class="marquee-item">Onix Verde</span>
-    <span class="marquee-item">Piedra Azul Belga</span>
-    <span class="marquee-item">Mármol de Carrara</span>
-    <span class="marquee-item">Granito Azul Bahía</span>
-    <span class="marquee-item">Cuarcita Taj Mahal</span>
-    <span class="marquee-item">Travertino Romano</span>
-    <span class="marquee-item">Pórfido Argentino</span>
-    <span class="marquee-item">Basalto Negro</span>
-    <span class="marquee-item">Caliza Crema Marfil</span>
-    <span class="marquee-item">Onix Verde</span>
-    <span class="marquee-item">Piedra Azul Belga</span>
+    <a class="marquee-item" href="materiales.html?q=carrara" style="color:inherit;text-decoration:none;">Mármol de Carrara</a>
+    <a class="marquee-item" href="materiales.html?q=granito+azul+bahia" style="color:inherit;text-decoration:none;">Granito Azul Bahía</a>
+    <a class="marquee-item" href="materiales.html?q=cuarcita+taj+mahal" style="color:inherit;text-decoration:none;">Cuarcita Taj Mahal</a>
+    <a class="marquee-item" href="materiales.html?q=travertino" style="color:inherit;text-decoration:none;">Travertino Romano</a>
+    <a class="marquee-item" href="materiales.html?q=porfido" style="color:inherit;text-decoration:none;">Pórfido Argentino</a>
+    <a class="marquee-item" href="materiales.html?q=basalto" style="color:inherit;text-decoration:none;">Basalto Negro</a>
+    <a class="marquee-item" href="materiales.html?q=crema+marfil" style="color:inherit;text-decoration:none;">Caliza Crema Marfil</a>
+    <a class="marquee-item" href="materiales.html?q=onix" style="color:inherit;text-decoration:none;">Onix Verde</a>
+    <a class="marquee-item" href="canteras.html?q=belgica" style="color:inherit;text-decoration:none;">Piedra Azul Belga</a>
+    <a class="marquee-item" href="materiales.html?q=carrara" style="color:inherit;text-decoration:none;">Mármol de Carrara</a>
+    <a class="marquee-item" href="materiales.html?q=granito+azul+bahia" style="color:inherit;text-decoration:none;">Granito Azul Bahía</a>
+    <a class="marquee-item" href="materiales.html?q=cuarcita+taj+mahal" style="color:inherit;text-decoration:none;">Cuarcita Taj Mahal</a>
+    <a class="marquee-item" href="materiales.html?q=travertino" style="color:inherit;text-decoration:none;">Travertino Romano</a>
+    <a class="marquee-item" href="materiales.html?q=porfido" style="color:inherit;text-decoration:none;">Pórfido Argentino</a>
+    <a class="marquee-item" href="materiales.html?q=basalto" style="color:inherit;text-decoration:none;">Basalto Negro</a>
+    <a class="marquee-item" href="materiales.html?q=crema+marfil" style="color:inherit;text-decoration:none;">Caliza Crema Marfil</a>
+    <a class="marquee-item" href="materiales.html?q=onix" style="color:inherit;text-decoration:none;">Onix Verde</a>
+    <a class="marquee-item" href="canteras.html?q=belgica" style="color:inherit;text-decoration:none;">Piedra Azul Belga</a>
   </div>
 </div>
 
@@ -2398,6 +2489,21 @@ footer{background:#111110!important;color:#e8e6e2!important;}
       <button class="sp-pill" data-type="material"><span data-i18n="index.search.pillMateriales">Materiales</span> <span class="sp-pill-count" id="cntMat">200</span></button>
       <button class="sp-pill" data-type="cantera"><span data-i18n="index.search.pillCanteras">Canteras</span> <span class="sp-pill-count" id="cntCan">180</span></button>
       <button class="sp-pill" data-type="proveedor"><span data-i18n="index.search.pillProveedores">Proveedores</span> <span class="sp-pill-count" id="cntPro">3</span></button>
+    </div>
+
+    <!-- Trending searches (visible when input empty) -->
+    <div class="sp-trending" id="spTrending">
+      <div class="sp-trending-label">Búsquedas populares</div>
+      <div class="sp-trending-tags">
+        <button class="sp-trending-tag" data-q="Mármol Carrara">Mármol Carrara</button>
+        <button class="sp-trending-tag" data-q="Granito negro">Granito negro</button>
+        <button class="sp-trending-tag" data-q="Travertino">Travertino</button>
+        <button class="sp-trending-tag" data-q="Cuarcita blanca">Cuarcita blanca</button>
+        <button class="sp-trending-tag" data-q="Crema Marfil">Crema Marfil</button>
+        <button class="sp-trending-tag" data-q="Levantina">Levantina</button>
+        <button class="sp-trending-tag" data-q="Pizarra">Pizarra</button>
+        <button class="sp-trending-tag" data-q="Basalto">Basalto</button>
+      </div>
     </div>
 
     <!-- Results panel -->
@@ -2538,8 +2644,8 @@ footer{background:#111110!important;color:#e8e6e2!important;}
           <div class="quarry-feat-desc" data-i18n="index.quarries.feat4Desc">Por país, tipo de roca, color, uso recomendado, certificaciones y disponibilidad.</div>
         </div>
         <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
-          <a href="canteras.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--accent-gold);color:var(--stone-dark);font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;text-decoration:none;font-family:'Instrument Sans',sans-serif;transition:opacity .3s" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'" data-i18n="index.quarries.btnDirectorio">Ver directorio de canteras →</a>
-          <a href="mapa.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border:1px solid rgba(196,168,130,0.25);color:var(--stone-sand);font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;text-decoration:none;font-family:'Instrument Sans',sans-serif;transition:all .3s" onmouseover="this.style.borderColor='var(--accent-gold)';this.style.color='var(--accent-gold)'" onmouseout="this.style.borderColor='rgba(196,168,130,0.25)';this.style.color='var(--stone-sand)'" data-i18n="index.quarries.btnMapa">Ver mapa interactivo →</a>
+          <a href="canteras.html" class="btn-quarry-primary" data-i18n="index.quarries.btnDirectorio">Ver directorio de canteras →</a>
+          <a href="mapa.html" class="btn-quarry-secondary" data-i18n="index.quarries.btnMapa">Ver mapa interactivo →</a>
         </div>
       </div>
     </div>
@@ -2659,7 +2765,20 @@ footer{background:#111110!important;color:#e8e6e2!important;}
     <h2 class="section-title"><span data-i18n="index.membership.titlePre">Haz visible</span><br><em data-i18n="index.membership.titleEm">tu empresa</em></h2>
     <div class="gold-divider" style="margin:24px auto"></div>
     <p class="membership-desc" data-i18n="index.membership.desc">Los profesionales que quieren ser encontrados invierten en visibilidad. Elige el plan que mejor se adapta a tus objetivos de negocio.</p>
-    <div class="plans">
+    <div class="plans four-col">
+      <div class="plan free-plan">
+        <div class="plan-name" style="color:#4a4845">Free</div>
+        <div class="plan-price" style="font-size:40px">0<sup style="font-size:18px;color:#8a8784">€</sup></div>
+        <div class="plan-period">siempre gratis</div>
+        <ul class="plan-features">
+          <li>Ficha básica de empresa</li>
+          <li>Aparición en el directorio</li>
+          <li>Sin fotos de catálogo</li>
+          <li>Sin badge verificado</li>
+          <li>Sin estadísticas de visitas</li>
+        </ul>
+        <a href="registro.html" class="plan-btn plan-btn-outline" style="opacity:.6;">Crear cuenta →</a>
+      </div>
       <div class="plan">
         <div class="plan-name" data-i18n="plan.presencia">Presencia</div>
         <div class="plan-price"><sup>€</sup>49</div>
@@ -2747,31 +2866,17 @@ footer{background:#111110!important;color:#e8e6e2!important;}
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy"><span data-i18n="footer.copyright">© 2025 World Stone Hub · Where Stone Meets The World</span> · <a href="legal.html" style="color:inherit;opacity:0.6;" data-i18n="footer.avisoLink">Aviso Legal &amp; Privacidad</a></div>
+    <div class="footer-copy"><span data-i18n="footer.copyright">© 2026 World Stone Hub · Where Stone Meets The World</span> · <a href="legal.html" style="color:inherit;opacity:0.6;" data-i18n="footer.avisoLink">Aviso Legal &amp; Privacidad</a></div>
   </div>
 </footer>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<!-- Scripts D3/TopoJSON ya cargados arriba — bloque duplicado eliminado -->
 <script>
 (function() {
-  const SPOTS = [
-    [10.12,44.07,1],[10.09,44.09,1],[12.79,41.97,1],[8.45,45.92,1],
-    [-0.77,38.39,1],[-2.28,37.35,1],[-7.10,42.30,2],[27.59,40.62,1],
-    [29.09,37.77,1],[30.54,38.75,2],[23.89,38.05,1],[24.70,40.69,1],
-    [25.15,37.08,1],[-7.59,38.84,1],[4.52,47.08,1],[3.95,50.48,2],
-    [10.07,59.04,1],[-2.44,50.55,1],[-4.02,53.20,1],[9.18,46.62,2],
-    [74.73,27.04,1],[77.60,14.46,1],[78.02,27.17,2],[115.98,39.73,1],
-    [119.30,25.44,2],[48.35,33.49,1],[54.37,31.90,2],[106.93,-6.92,1],
-    [70.80,37.48,1],[32.90,24.09,1],[32.56,28.55,2],[8.57,36.51,1],
-    [29.80,-19.00,2],[-107.02,38.94,1],[-72.50,44.20,1],[-72.79,41.31,1],
-    [-44.55,-18.51,1],[-96.42,50.09,2],[-97.70,18.73,2],[60.95,54.10,1],
-    [60.68,56.48,2],[28.65,50.10,2],[44.51,40.18,2],[172.80,-40.85,3],
-    [134.12,34.39,2],[-56.96,-30.40,3]
-  ];
-
-  const svg = d3.select('#minimap-svg');
+  // Este bloque ha sido eliminado (segundo mapa con #minimap-svg no existente en el DOM)
+  // El mapa funcional usa #mini-map-svg y está renderizado en el bloque anterior
+  if (false) { const svg = d3.select('#minimap-svg-REMOVED');
   const W = 800, H = 400;
 
   const proj = d3.geoNaturalEarth1()
@@ -2839,27 +2944,9 @@ footer{background:#111110!important;color:#e8e6e2!important;}
   const wrap = document.querySelector('a[href="mapa.html"]');
   const overlay = document.getElementById('minimap-overlay');
   const cta = document.getElementById('minimap-cta');
-  if (wrap && overlay) {
-    wrap.addEventListener('mouseenter', () => {
-      overlay.style.background = 'rgba(13,11,8,0.45)';
-      cta.style.opacity = '1';
-    });
-    wrap.addEventListener('mouseleave', () => {
-      overlay.style.background = 'rgba(13,11,8,0)';
-      cta.style.opacity = '0';
-    });
-  }
+  } // fin bloque eliminado
 })();
 </script>
-<style>
-.mini-pulse {
-  animation: miniPulse 3s ease-out infinite;
-}
-@keyframes miniPulse {
-  0%   { transform: scale(1);   opacity: 0.6; }
-  100% { transform: scale(3);   opacity: 0; }
-}
-</style>
 
 
 <script>
@@ -3302,7 +3389,60 @@ if (moreBtn) {
 </script>
 <script src="i18n.js"></script>
 <script>
-/* ── Contador real de operadores activos ── */
+/* ── Hamburger menu ── */
+(function(){
+  var burger = document.getElementById('navBurger');
+  var menu   = document.getElementById('mobileMenu');
+  var dirToggle = document.getElementById('mmDirToggle');
+  var dirSub    = document.getElementById('mmDirSub');
+  if(!burger || !menu) return;
+
+  burger.addEventListener('click', function(){
+    var isOpen = menu.classList.toggle('open');
+    burger.classList.toggle('open', isOpen);
+    burger.setAttribute('aria-expanded', isOpen);
+    menu.setAttribute('aria-hidden', !isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  // Cerrar al hacer click fuera
+  menu.addEventListener('click', function(e){
+    if(e.target === menu){ menu.classList.remove('open'); burger.classList.remove('open'); burger.setAttribute('aria-expanded','false'); menu.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  });
+
+  // Sub-menú Directorio
+  if(dirToggle && dirSub){
+    dirToggle.addEventListener('click', function(){
+      dirSub.classList.toggle('open');
+    });
+  }
+})();
+
+/* ── Trending searches ── */
+(function(){
+  var trending = document.getElementById('spTrending');
+  var input    = document.getElementById('globalSearch');
+  var wrap     = document.getElementById('spResultsWrap');
+  var emptyEl  = document.getElementById('spEmpty');
+  if(!trending || !input) return;
+
+  // Ocultar trending cuando hay texto, mostrar cuando está vacío
+  input.addEventListener('input', function(){
+    if(trending) trending.style.display = input.value.trim() ? 'none' : 'block';
+  });
+
+  // Click en trending tag → llenar input y disparar búsqueda
+  document.querySelectorAll('.sp-trending-tag').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      input.value = btn.dataset.q;
+      trending.style.display = 'none';
+      input.dispatchEvent(new Event('input', {bubbles:true}));
+      input.focus();
+    });
+  });
+})();
+
+/* ── Contador real de operadores activos (proCount + heroStatCompanies) ── */
 (function(){
   var SB_URL='https://whcptmdapnavcxcszwwk.supabase.co';
   var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
@@ -3312,10 +3452,31 @@ if (moreBtn) {
     var cr=r.headers.get('content-range');
     if(cr){
       var total=cr.split('/')[1];
-      var el=document.getElementById('proCount');
-      if(el&&total&&total!=='*') el.textContent=total+' operadores activos';
+      if(total && total!=='*'){
+        var proEl  = document.getElementById('proCount');
+        var heroEl = document.getElementById('heroStatCompanies');
+        if(proEl)  proEl.textContent  = total + ' operadores activos';
+        if(heroEl){ heroEl.textContent = total; heroEl.removeAttribute('style'); }
+      }
     }
-  }).catch(function(){});
+  }).catch(function(){
+    // Fallback visual si falla la petición
+    var heroEl = document.getElementById('heroStatCompanies');
+    if(heroEl){ heroEl.textContent = '—'; }
+  });
+})();
+
+/* ── Ad slot: ocultar fallback si hay anuncio real ── */
+(function(){
+  var slot = document.getElementById('heroAdSlot');
+  var fallback = document.getElementById('heroAdFallback');
+  if(!slot) return;
+  var observer = new MutationObserver(function(){
+    if(slot.querySelector('a.ad-link') && fallback){
+      fallback.style.display = 'none';
+    }
+  });
+  observer.observe(slot, {childList:true});
 })();
 </script>
 <script src="auth-nav.js"></script>
