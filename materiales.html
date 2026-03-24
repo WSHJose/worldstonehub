@@ -134,6 +134,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 .card-acabados{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;}
 .acabado-pill{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);padding:2px 7px;background:var(--bg-soft);border:1px solid var(--border);border-radius:2px;font-family:'Instrument Sans',sans-serif;}
 .acabado-more{font-size:8px;letter-spacing:1px;color:var(--ink-4);padding:2px 4px;font-style:italic;}
+.card-specs{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;padding-top:6px;border-top:1px solid var(--border);}
+.spec-item{font-size:9px;letter-spacing:.5px;color:var(--ink-4);font-family:'DM Mono',monospace;}
+.spec-k{color:var(--gold);font-weight:500;margin-right:2px;}
 
 /* footer */
 .card-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-top:1px solid var(--border);background:var(--bg-soft);margin-top:auto;}
@@ -232,7 +235,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
         <span class="stat-l" data-i18n="stats.materiales">Materiales</span>
       </div>
       <div class="stat-block">
-        <span class="stat-n">13</span>
+        <span class="stat-n">16</span>
         <span class="stat-l" data-i18n="stats.categorias">Categorías</span>
       </div>
       <div class="stat-block">
@@ -273,17 +276,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
     </div>
     <div class="filter-row">
       <span class="filter-label" data-i18n="filter.categoria">Categoría</span>
-      <button class="filter-chip" data-group="cat" data-val="mármol" data-i18n="materiales.cat.marmol">Mármol</button>
-      <button class="filter-chip" data-group="cat" data-val="granito" data-i18n="materiales.cat.granito">Granito</button>
-      <button class="filter-chip" data-group="cat" data-val="cuarcita" data-i18n="materiales.cat.cuarcita">Cuarcita</button>
-      <button class="filter-chip" data-group="cat" data-val="travertino" data-i18n="materiales.cat.travertino">Travertino</button>
-      <button class="filter-chip" data-group="cat" data-val="caliza" data-i18n="materiales.cat.caliza">Caliza</button>
-      <button class="filter-chip" data-group="cat" data-val="pizarra" data-i18n="materiales.cat.pizarra">Pizarra</button>
-      <button class="filter-chip" data-group="cat" data-val="ónix" data-i18n="materiales.cat.onix">Ónix</button>
-      <button class="filter-chip" data-group="cat" data-val="basalto" data-i18n="materiales.cat.basalto">Basalto</button>
-      <button class="filter-chip" data-group="cat" data-val="arenisca" data-i18n="materiales.cat.arenisca">Arenisca</button>
-      <button class="filter-chip" data-group="cat" data-val="porcelánico" data-i18n="materiales.cat.porcelanico">Porcelánico</button>
-      <button class="filter-chip" data-group="cat" data-val="piedra sinterizada" data-i18n="materiales.cat.sinterizada">Sinterizada</button>
+      <button class="filter-chip" data-group="cat" data-val="mármol">Mármol</button>
+      <button class="filter-chip" data-group="cat" data-val="granito">Granito</button>
+      <button class="filter-chip" data-group="cat" data-val="caliza">Caliza</button>
+      <button class="filter-chip" data-group="cat" data-val="arenisca">Arenisca</button>
+      <button class="filter-chip" data-group="cat" data-val="cuarcita">Cuarcita</button>
+      <button class="filter-chip" data-group="cat" data-val="pizarra">Pizarra</button>
+      <button class="filter-chip" data-group="cat" data-val="travertino">Travertino</button>
+      <button class="filter-chip" data-group="cat" data-val="ónix">Ónix</button>
+      <button class="filter-chip" data-group="cat" data-val="basalto">Basalto</button>
+      <button class="filter-chip" data-group="cat" data-val="alabastro">Alabastro</button>
+      <button class="filter-chip" data-group="cat" data-val="andesita">Andesita</button>
+      <button class="filter-chip" data-group="cat" data-val="calcarenita">Calcarenita</button>
+      <button class="filter-chip" data-group="cat" data-val="filita">Filita</button>
+      <button class="filter-chip" data-group="cat" data-val="pórfido">Pórfido</button>
+      <button class="filter-chip" data-group="cat" data-val="toba">Toba</button>
+      <button class="filter-chip" data-group="cat" data-val="piedra azul">Piedra Azul</button>
       <div class="filter-sep"></div>
       <span class="filter-label" data-i18n="filter.color">Color</span>
       <button class="filter-chip" data-group="color" data-val="Blanco" data-i18n="materiales.color.blanco">Blanco</button>
@@ -309,6 +317,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
         <div class="spinner"></div>
         <p data-i18n="materiales.loading">Cargando materiales</p>
       </div>
+    </div>
+    <div id="loadMoreWrap" style="display:none;text-align:center;padding:40px 0 16px;">
+      <button id="loadMoreBtn" style="
+        background:none;border:1px solid #c8c5bf;padding:13px 40px;
+        font-family:'Instrument Sans',sans-serif;font-size:10px;font-weight:600;
+        letter-spacing:3px;text-transform:uppercase;cursor:pointer;color:#4a4845;
+        transition:all .2s;
+      " onmouseover="this.style.borderColor='#A67C52';this.style.color='#A67C52'"
+         onmouseout="this.style.borderColor='#c8c5bf';this.style.color='#4a4845'">
+        Cargar más materiales
+      </button>
+      <div id="loadMoreInfo" style="margin-top:10px;font-size:11px;color:#8a8784;letter-spacing:.05em;"></div>
     </div>
   </div>
 </section>
@@ -468,12 +488,10 @@ function arr(v) {
 function buildCard(m) {
   var colors = getSwatchGradient(m.color_principal);
   var gradient = 'linear-gradient(135deg,' + colors[0] + ' 0%,' + colors[1] + ' 100%)';
-  var dotClass = getDispDot(m.disponibilidad);
   var paises  = arr(m.origen_pais);
-  var regions = arr(m.origen_region);
+  var regionStr = typeof m.origen_region === 'string' ? trunc(m.origen_region, 28) : '';
   var flag    = getFlag(paises[0]);
   var paisStr = paises.slice(0,2).join(' · ');
-  var regionStr = regions[0] ? trunc(regions[0], 28) : '';
   var acabados = arr(m.acabados_disponibles);
   var MAX_ACAB = 4;
   var acabHtml = '';
@@ -484,7 +502,16 @@ function buildCard(m) {
     acabHtml += '<span class="acabado-more">+' + (acabados.length - MAX_ACAB) + ' más</span>';
   }
 
-  var precio = m.precio_rango ? trunc(m.precio_rango, 26) : '';
+  // Technical specs desde propiedades_tecnicas (JSONB)
+  var pt = m.propiedades_tecnicas || {};
+  var specsHtml = '';
+  if (pt.densidad_kg_m3 || pt.absorcion_agua_pct || pt.resistencia_flexion_mpa) {
+    specsHtml = '<div class="card-specs">';
+    if (pt.densidad_kg_m3)         specsHtml += '<span class="spec-item"><span class="spec-k">ρ</span> ' + pt.densidad_kg_m3 + ' kg/m³</span>';
+    if (pt.absorcion_agua_pct)     specsHtml += '<span class="spec-item"><span class="spec-k">Abs.</span> ' + pt.absorcion_agua_pct + '%</span>';
+    if (pt.resistencia_flexion_mpa)specsHtml += '<span class="spec-item"><span class="spec-k">Flex.</span> ' + pt.resistencia_flexion_mpa + ' MPa</span>';
+    specsHtml += '</div>';
+  }
 
   // "Ver ficha" sólo si existe slug — vinculado a material.html?id=<slug>
   var verBtn = m.slug
@@ -493,53 +520,85 @@ function buildCard(m) {
 
   return '<div class="material-card" onclick="' + (m.slug ? 'location.href=\'material.html?id=' + esc(m.slug) + '\'' : '') + '">' +
     '<div class="card-swatch" style="background:' + gradient + '">' +
-      (m.imagen_url ? '<img src="' + esc(m.imagen_url) + '" alt="' + esc(m.nombre_comercial||'') + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy" onerror="this.remove()">' : '') +
-      '<span class="card-disp-dot ' + dotClass + '" title="' + esc(m.disponibilidad||'') + '"></span>' +
+      (m.imagen_url_principal ? '<img src="' + esc(m.imagen_url_principal) + '" alt="' + esc(m.nombre_comercial||'') + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy" onerror="this.parentElement.style.background=\'#e8e5e0\'">' : '') +
       '<span class="card-cat-pill">' + esc(m.categoria||'') + '</span>' +
     '</div>' +
     '<div class="card-body">' +
       '<div class="card-nombre">' + esc(m.nombre_comercial||'Sin nombre') + '</div>' +
-      (m.subcategoria ? '<div class="card-subcat">' + esc(trunc(m.subcategoria,56)) + '</div>' : '') +
       ((paisStr||regionStr) ? '<div class="card-origen">' +
         (flag ? '<span class="card-flag">' + flag + '</span>' : '') +
         (paisStr ? '<span>' + esc(paisStr) + '</span>' : '') +
         (regionStr ? '<span class="card-origen-sep">·</span><span style="color:var(--ink-4)">' + esc(regionStr) + '</span>' : '') +
       '</div>' : '') +
       (acabHtml ? '<div class="card-acabados">' + acabHtml + '</div>' : '') +
+      specsHtml +
     '</div>' +
     '<div class="card-footer">' +
-      '<span class="card-precio">' + esc(precio) + '</span>' +
       verBtn +
     '</div>' +
   '</div>';
 }
 
 /* ══════════════════════════════════════
-   RENDER
+   PAGINACIÓN
 ══════════════════════════════════════ */
-function renderGrid(list) {
+var PAGE_SIZE    = 48;
+var currentPage  = 1;
+var filteredList = [];
+
+function renderGrid(list, reset) {
   var container = document.getElementById('gridContainer');
-  if (!list.length) {
+  var moreWrap  = document.getElementById('loadMoreWrap');
+  var moreInfo  = document.getElementById('loadMoreInfo');
+
+  if (reset) {
+    currentPage  = 1;
+    filteredList = list;
+  }
+
+  if (!filteredList.length) {
     container.innerHTML =
       '<div class="empty-state">' +
         '<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>' +
         '<p>Sin resultados</p>' +
         '<small>Prueba con otros filtros o términos</small>' +
       '</div>';
+    moreWrap.style.display = 'none';
     return;
   }
+
+  var visible = filteredList.slice(0, currentPage * PAGE_SIZE);
   var html = '<div class="cards-grid">';
-  for (var i = 0; i < list.length; i++) html += buildCard(list[i]);
+  for (var i = 0; i < visible.length; i++) html += buildCard(filteredList[i]);
   html += '</div>';
   container.innerHTML = html;
+
+  var remaining = filteredList.length - visible.length;
+  if (remaining > 0) {
+    moreWrap.style.display = 'block';
+    moreInfo.textContent   = 'Mostrando ' + visible.length + ' de ' + filteredList.length + ' materiales';
+  } else {
+    moreWrap.style.display = 'none';
+  }
 }
+
+document.getElementById('loadMoreBtn').addEventListener('click', function() {
+  currentPage++;
+  renderGrid(null, false);
+  // Scroll suave al nuevo bloque
+  var grid = document.querySelector('.cards-grid');
+  if (grid) {
+    var lastCard = grid.children[(currentPage - 1) * PAGE_SIZE];
+    if (lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+});
 
 /* ══════════════════════════════════════
    FILTROS
 ══════════════════════════════════════ */
 function applyFilters() {
-  var q  = searchQuery.trim().toLowerCase();
-  var fc = activeFilters.cat;
+  var q      = searchQuery.trim().toLowerCase();
+  var fc     = activeFilters.cat;
   var fcolor = activeFilters.color;
 
   var result = DB.filter(function(m) {
@@ -550,22 +609,19 @@ function applyFilters() {
       var usos  = arr(m.usos_recomendados).join(' ');
       var acab  = arr(m.acabados_disponibles).join(' ');
       var pais  = arr(m.origen_pais).join(' ');
-      var reg   = arr(m.origen_region).join(' ');
+      var reg   = typeof m.origen_region === 'string' ? m.origen_region : '';
       var tags  = arr(m.tags_busqueda).join(' ');
-      var hay = [
-        m.nombre_comercial, names, m.nombre_cientifico,
-        m.categoria, m.subcategoria,
-        m.color_principal, m.colores_secundarios,
-        m.patron_vetado, m.fondo,
-        pais, reg, usos, acab, tags,
-        m.proyectos_referencia
+      var hay   = [
+        m.nombre_comercial, names,
+        m.categoria, m.color_principal, m.color_acento,
+        pais, reg, usos, acab, tags
       ].join(' ').toLowerCase();
       if (hay.indexOf(q) === -1) return false;
     }
     return true;
   });
 
-  renderGrid(result);
+  renderGrid(result, true); // reset siempre al filtrar
   document.getElementById('resultsCount').textContent =
     result.length === DB.length
       ? DB.length + ' materiales'
@@ -610,34 +666,57 @@ document.getElementById('clearFilters').addEventListener('click', function() {
    correcto con slug de cada ficha
 ══════════════════════════════════════ */
 (function loadMateriales() {
-  var url = SB_URL + '/rest/v1/materiales?select=slug,nombre_comercial,nombres_alternativos,nombre_cientifico,categoria,subcategoria,origen_pais,origen_region,color_principal,colores_secundarios,patron_vetado,fondo,acabados_disponibles,usos_recomendados,precio_rango,disponibilidad,proyectos_referencia,tags_busqueda,activo,imagen_url&activo=eq.true&order=nombre_comercial.asc&limit=500';
+  var SELECT = 'slug,nombre_comercial,nombres_alternativos,categoria,origen_pais,origen_region,color_principal,color_acento,acabados_disponibles,usos_recomendados,propiedades_tecnicas,tags_busqueda,imagen_url_principal,activo';
+  var BASE   = SB_URL + '/rest/v1/materiales?select=' + SELECT + '&activo=eq.true&order=nombre_comercial.asc';
+  var PAGE   = 1000;
+  var allData = [];
 
-  var hdrs = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Accept': 'application/json' };
+  function fetchPage(offset) {
+    var hdrs = {
+      'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY,
+      'Accept': 'application/json',
+      'Range': offset + '-' + (offset + PAGE - 1)
+    };
+    return fetch(BASE, { headers: hdrs }).then(function(r) { return r.json(); });
+  }
 
-  fetch(url, { headers: hdrs })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
+  function loadAll(offset) {
+    fetchPage(offset).then(function(data) {
       if (!Array.isArray(data)) {
         document.getElementById('gridContainer').innerHTML =
-          '<div class="empty-state"><p>Error al cargar</p><small>' + JSON.stringify(data).slice(0,100) + '</small></div>';
+          '<div class="empty-state"><p>Error al cargar</p><small>' + JSON.stringify(data).slice(0,120) + '</small></div>';
         return;
       }
-      DB = data;
-      // stats
-      var paises = {}, colores = {};
-      DB.forEach(function(m) {
-        arr(m.origen_pais).forEach(function(p) { if (p) paises[p] = 1; });
-        if (m.color_principal) colores[m.color_principal] = 1;
-      });
-      document.getElementById('statMateriales').textContent = DB.length;
-      document.getElementById('statPaises').textContent     = Object.keys(paises).length;
-      document.getElementById('statColores').textContent    = Object.keys(colores).length;
-      applyFilters();
-    })
-    .catch(function(err) {
-      document.getElementById('gridContainer').innerHTML =
-        '<div class="empty-state"><p>No se pudo conectar</p><small>' + err.message + '</small></div>';
+      allData = allData.concat(data);
+      // Si devolvió una página completa, hay más
+      if (data.length === PAGE) {
+        loadAll(offset + PAGE);
+      } else {
+        // Todos cargados — actualizar stats y render
+        DB = allData;
+        var paises = {}, colores = {};
+        DB.forEach(function(m) {
+          arr(m.origen_pais).forEach(function(p) { if (p) paises[p] = 1; });
+          if (m.color_principal) colores[m.color_principal] = 1;
+        });
+        document.getElementById('statMateriales').textContent = DB.length;
+        document.getElementById('statPaises').textContent     = Object.keys(paises).length;
+        document.getElementById('statColores').textContent    = Object.keys(colores).length;
+        applyFilters();
+      }
+    }).catch(function(err) {
+      if (allData.length) {
+        // Hubo error pero ya tenemos datos parciales — mostrarlos
+        DB = allData;
+        applyFilters();
+      } else {
+        document.getElementById('gridContainer').innerHTML =
+          '<div class="empty-state"><p>No se pudo conectar</p><small>' + err.message + '</small></div>';
+      }
     });
+  }
+
+  loadAll(0);
 })();
 
 /* ══════════════════════════════════════
