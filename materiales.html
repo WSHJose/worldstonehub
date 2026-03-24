@@ -74,16 +74,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 .stat-n{font-family:'DM Mono',monospace;font-size:24px;font-weight:400;color:var(--ink);display:block;line-height:1;}
 .stat-l{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-4);display:block;margin-top:5px;}
 
-/* ── AD SLOT FULL BLEED ── */
-.ph-right{position:relative;overflow:hidden;background:var(--bg-soft);}
-.ad-container{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
-.ad-link{display:block;width:100%;height:100%;}
-.ad-link img{width:100%;height:100%;object-fit:cover;display:block;}
-.ad-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--bg-soft);padding:24px;}
-.ad-placeholder svg,.ad-placeholder-icon{opacity:.2;}
-.ad-placeholder-text{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-4);text-align:center;}
-.ad-placeholder-sub{font-size:11px;color:var(--ink-4);text-align:center;}
-.ad-label{position:absolute;bottom:8px;right:12px;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);z-index:2;}
+/* ad-slot CSS eliminado — reemplazado por featured stone */
 
 /* ── TOOLBAR ── */
 .toolbar{background:var(--bg);border-bottom:1px solid var(--border);padding:18px 48px;position:sticky;top:70px;z-index:90;}
@@ -107,14 +98,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 /* ── GRID ── */
 .grid-section{padding:36px 48px 80px;}
 .grid-inner{max-width:1280px;margin:0 auto;}
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
 
 /* ── CARD ── */
 .material-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:box-shadow .25s,transform .2s,border-color .2s;display:flex;flex-direction:column;cursor:pointer;}
 .material-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);border-color:var(--border-md);}
 
 /* swatch */
-.card-swatch{height:96px;position:relative;overflow:hidden;flex-shrink:0;}
+.card-swatch{height:200px;position:relative;overflow:hidden;flex-shrink:0;}
 .card-swatch::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");mix-blend-mode:multiply;pointer-events:none;}
 .card-cat-pill{position:absolute;top:10px;right:10px;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border-radius:30px;background:rgba(255,255,255,0.88);color:var(--ink-2);font-family:'Instrument Sans',sans-serif;font-weight:600;backdrop-filter:blur(4px);}
 .card-disp-dot{position:absolute;top:10px;left:10px;width:8px;height:8px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.7);}
@@ -134,7 +124,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 .card-acabados{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;}
 .acabado-pill{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);padding:2px 7px;background:var(--bg-soft);border:1px solid var(--border);border-radius:2px;font-family:'Instrument Sans',sans-serif;}
 .acabado-more{font-size:8px;letter-spacing:1px;color:var(--ink-4);padding:2px 4px;font-style:italic;}
-.card-specs{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;padding-top:6px;border-top:1px solid var(--border);}
 .spec-item{font-size:9px;letter-spacing:.5px;color:var(--ink-4);font-family:'DM Mono',monospace;}
 .spec-k{color:var(--gold);font-weight:500;margin-right:2px;}
 
@@ -185,6 +174,52 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 .lang-btn.active::after{content:'';display:block;height:1px;background:#A67C52;margin-top:2px;opacity:.6;}
 .lang-sep{width:1px;height:10px;background:#c8c5bf;opacity:.45;flex-shrink:0;}
 @media(max-width:900px){.lang-switcher{display:none;}}
+
+/* ── FEATURED STONE (header derecho) ── */
+.ph-right{position:relative;overflow:hidden;background:#1a1917;}
+.featured-stone{position:absolute;inset:0;overflow:hidden;}
+.featured-stone img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease;}
+.ph-right:hover .featured-stone img{transform:scale(1.04);}
+.featured-stone-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.18) 55%,transparent 100%);}
+.featured-stone-badge{position:absolute;top:18px;right:18px;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:30px;background:rgba(255,255,255,.92);color:var(--ink-2);font-family:'Instrument Sans',sans-serif;font-weight:600;backdrop-filter:blur(4px);}
+.featured-stone-eyebrow{position:absolute;top:20px;left:22px;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.45);font-family:'DM Mono',monospace;}
+.featured-stone-body{position:absolute;bottom:0;left:0;right:0;padding:22px 26px 26px;}
+.featured-stone-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#fff;line-height:1.1;margin-bottom:7px;}
+.featured-stone-origin{font-size:11px;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:7px;margin-bottom:16px;}
+.featured-stone-cta{display:inline-flex;align-items:center;gap:7px;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.45);padding:9px 18px;transition:all .2s;font-family:'Instrument Sans',sans-serif;font-weight:600;}
+.featured-stone-cta:hover{background:rgba(255,255,255,.15);border-color:#fff;}
+.featured-stone-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#1a1917;}
+
+/* ── ACTIVE FILTERS BANNER ── */
+.active-banner{background:var(--gold-bg);border-bottom:1px solid rgba(166,124,82,.2);padding:0 48px;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.active-banner.visible{max-height:60px;padding:10px 48px;}
+.active-tag{display:inline-flex;align-items:center;gap:5px;background:var(--gold);color:#fff;padding:4px 10px 4px 12px;border-radius:30px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Instrument Sans',sans-serif;font-weight:600;}
+.active-tag-x{cursor:pointer;opacity:.75;font-size:12px;line-height:1;margin-left:2px;transition:opacity .15s;}
+.active-tag-x:hover{opacity:1;}
+.active-banner-clear{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:none;border:1px solid rgba(166,124,82,.3);border-radius:var(--radius);cursor:pointer;font-family:inherit;padding:4px 12px;margin-left:auto;transition:all .2s;}
+.active-banner-clear:hover{background:var(--gold);color:#fff;}
+@media(max-width:960px){.active-banner,.active-banner.visible{padding-left:24px;padding-right:24px;}}
+
+/* ── SORT SELECT ── */
+.sort-select{height:40px;padding:0 30px 0 12px;border:1px solid var(--border-md);border-radius:var(--radius);font-size:11px;font-family:'Instrument Sans',sans-serif;background:var(--bg-soft);color:var(--ink-2);outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;letter-spacing:.3px;transition:border .2s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239c9893'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;flex-shrink:0;}
+.sort-select:focus{border-color:var(--gold);}
+
+/* ── FILTER ROWS ── */
+.filter-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-bottom:4px;}
+.filter-row + .filter-row{padding-top:4px;border-top:1px solid var(--border);}
+
+/* ── COLOR DOTS en chips ── */
+.color-dot{display:inline-block;width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-right:3px;vertical-align:middle;}
+
+/* ── CARD ACCENT STRIPE ── */
+.card-accent-stripe{height:3px;width:100%;display:block;flex-shrink:0;opacity:.7;}
+
+/* ── CARD SPECS siempre visibles pero suaves ── */
+.card-specs{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;padding-top:6px;border-top:1px solid var(--border);opacity:.55;transition:opacity .2s;}
+.material-card:hover .card-specs{opacity:1;}
+
+/* ── CARDS GRID gap ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
 </style>
 </head>
 <body>
@@ -249,18 +284,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
     </div>
   </div>
 
-  <!-- DERECHA: slot anuncio MATERIALES-TOP -->
-  <div class="ph-right">
-    <div class="ad-container" id="heroAdSlot">
-      <div class="ad-placeholder">
-        <svg class="ad-placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
-        </svg>
-        <span class="ad-placeholder-text" data-i18n="ad.placeholder">Espacio publicitario</span>
-        <span class="ad-placeholder-sub">MATERIALES-TOP</span>
-      </div>
+  <!-- DERECHA: Piedra Destacada -->
+  <div class="ph-right" id="featuredPanel">
+    <div class="featured-stone-loading" id="featuredLoading">
+      <div class="spinner"></div>
     </div>
-    <div class="ad-label" data-i18n="ad.label">Publicidad</div>
+    <div id="featuredSlot" style="position:absolute;inset:0;"></div>
   </div>
 </header>
 
@@ -272,8 +301,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input type="text" id="searchInput" placeholder="Buscar material, color, país, acabado…" data-i18n-attr="placeholder:search.placeholderMateriales">
       </div>
+      <select id="sortSelect" class="sort-select" title="Ordenar por">
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+        <option value="pais">Por país</option>
+        <option value="cat">Por categoría</option>
+      </select>
       <span class="results-count" id="resultsCount"></span>
     </div>
+    <!-- Fila 1: Categorías -->
     <div class="filter-row">
       <span class="filter-label" data-i18n="filter.categoria">Categoría</span>
       <button class="filter-chip" data-group="cat" data-val="mármol">Mármol</button>
@@ -292,22 +328,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
       <button class="filter-chip" data-group="cat" data-val="pórfido">Pórfido</button>
       <button class="filter-chip" data-group="cat" data-val="toba">Toba</button>
       <button class="filter-chip" data-group="cat" data-val="piedra azul">Piedra Azul</button>
-      <div class="filter-sep"></div>
+    </div>
+    <!-- Fila 2: Colores + limpiar -->
+    <div class="filter-row">
       <span class="filter-label" data-i18n="filter.color">Color</span>
-      <button class="filter-chip" data-group="color" data-val="Blanco" data-i18n="materiales.color.blanco">Blanco</button>
-      <button class="filter-chip" data-group="color" data-val="Beige" data-i18n="materiales.color.beige">Beige</button>
-      <button class="filter-chip" data-group="color" data-val="Gris" data-i18n="materiales.color.gris">Gris</button>
-      <button class="filter-chip" data-group="color" data-val="Negro" data-i18n="materiales.color.negro">Negro</button>
-      <button class="filter-chip" data-group="color" data-val="Verde" data-i18n="materiales.color.verde">Verde</button>
-      <button class="filter-chip" data-group="color" data-val="Rojo" data-i18n="materiales.color.rojo">Rojo</button>
-      <button class="filter-chip" data-group="color" data-val="Azul" data-i18n="materiales.color.azul">Azul</button>
-      <button class="filter-chip" data-group="color" data-val="Dorado" data-i18n="materiales.color.dorado">Dorado</button>
-      <button class="filter-chip" data-group="color" data-val="Marrón" data-i18n="materiales.color.marron">Marrón</button>
+      <button class="filter-chip" data-group="color" data-val="Blanco"><span class="color-dot" style="background:#f2ede8;border:1px solid #ccc;"></span>Blanco</button>
+      <button class="filter-chip" data-group="color" data-val="Beige"><span class="color-dot" style="background:#d9c4a8;"></span>Beige</button>
+      <button class="filter-chip" data-group="color" data-val="Gris"><span class="color-dot" style="background:#9a9590;"></span>Gris</button>
+      <button class="filter-chip" data-group="color" data-val="Negro"><span class="color-dot" style="background:#2c2a27;"></span>Negro</button>
+      <button class="filter-chip" data-group="color" data-val="Verde"><span class="color-dot" style="background:#5a9060;"></span>Verde</button>
+      <button class="filter-chip" data-group="color" data-val="Rojo"><span class="color-dot" style="background:#b05050;"></span>Rojo</button>
+      <button class="filter-chip" data-group="color" data-val="Azul"><span class="color-dot" style="background:#4878b0;"></span>Azul</button>
+      <button class="filter-chip" data-group="color" data-val="Dorado"><span class="color-dot" style="background:#c89830;"></span>Dorado</button>
+      <button class="filter-chip" data-group="color" data-val="Marrón"><span class="color-dot" style="background:#8a6040;"></span>Marrón</button>
       <div class="filter-sep"></div>
       <button class="clear-btn" id="clearFilters" data-i18n="filter.limpiar">Limpiar filtros</button>
     </div>
   </div>
 </div>
+
+<!-- ACTIVE FILTERS BANNER -->
+<div class="active-banner" id="activeBanner" role="status" aria-live="polite"></div>
 
 <!-- GRID -->
 <section class="grid-section">
@@ -348,6 +389,27 @@ var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ
 var DB = [];
 var activeFilters = { cat: null, color: null };
 var searchQuery = '';
+var activeSort   = 'az';
+
+/* ── TRADUCCIÓN ACABADOS EN→ES ── */
+var ACABADOS_ES = {
+  'Polished':'Pulido','Honed':'Apomazado','Brushed':'Cepillado',
+  'Flamed':'Flameado','Sandblasted':'Arenado','Bush Hammered':'Abujardado',
+  'Tumbled':'Envejecido','Antiqued':'Envejecido','Split':'Partido',
+  'Sawn':'Aserrado','Machine Cut':'Corte máquina','Natural Surface':'Superficie natural',
+  'Acid Washing':'Lavado ácido','Leathered':'Cuero','Filled':'Relleno',
+  'Chiseled':'Cincelado','Combed':'Peinado','Grooved':'Estriado',
+  'Hammered':'Martillado','Resin Treated':'Tratado resina','Water Jet':'Chorro agua',
+  'Sawn Cut':'Serrado','River Worn':'Rodado','Feature Rocks':'Piedra decorativa',
+  'Rockfaced':'Rústico','Sanded':'Lijado','Pickling':'Decapado',
+  'Lappato':'Lappato','Shot Blasted':'Granallado','Leather':'Cuero'
+};
+var _ACABADOS_LOWER = {};
+(function(){ for (var k in ACABADOS_ES) _ACABADOS_LOWER[k.toLowerCase()] = ACABADOS_ES[k]; })();
+function tradAcabado(a) {
+  if (!a) return a;
+  return ACABADOS_ES[a] || _ACABADOS_LOWER[a.toLowerCase()] || a;
+}
 
 /* ══════════════════════════════════════
    COLOR → GRADIENTE
@@ -496,7 +558,7 @@ function buildCard(m) {
   var MAX_ACAB = 4;
   var acabHtml = '';
   for (var i = 0; i < Math.min(acabados.length, MAX_ACAB); i++) {
-    acabHtml += '<span class="acabado-pill">' + esc(acabados[i]) + '</span>';
+    acabHtml += '<span class="acabado-pill">' + esc(tradAcabado(acabados[i])) + '</span>';
   }
   if (acabados.length > MAX_ACAB) {
     acabHtml += '<span class="acabado-more">+' + (acabados.length - MAX_ACAB) + ' más</span>';
@@ -518,11 +580,16 @@ function buildCard(m) {
     ? '<a class="card-ver-btn" href="material.html?id=' + esc(m.slug) + '" onclick="event.stopPropagation()">Ver ficha →</a>'
     : '';
 
+  // Franja de color acento
+  var accentColors = getSwatchGradient(m.color_acento || m.color_principal);
+  var accentStripe = '<span class="card-accent-stripe" style="background:linear-gradient(90deg,' + accentColors[0] + ',' + accentColors[1] + ');"></span>';
+
   return '<div class="material-card" onclick="' + (m.slug ? 'location.href=\'material.html?id=' + esc(m.slug) + '\'' : '') + '">' +
     '<div class="card-swatch" style="background:' + gradient + '">' +
       (m.imagen_url_principal ? '<img src="' + esc(m.imagen_url_principal) + '" alt="' + esc(m.nombre_comercial||'') + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy" onerror="this.parentElement.style.background=\'#e8e5e0\'">' : '') +
       '<span class="card-cat-pill">' + esc(m.categoria||'') + '</span>' +
     '</div>' +
+    accentStripe +
     '<div class="card-body">' +
       '<div class="card-nombre">' + esc(m.nombre_comercial||'Sin nombre') + '</div>' +
       ((paisStr||regionStr) ? '<div class="card-origen">' +
@@ -621,11 +688,25 @@ function applyFilters() {
     return true;
   });
 
-  renderGrid(result, true); // reset siempre al filtrar
+  // Ordenar
+  result.sort(function(a, b) {
+    if (activeSort === 'za') return (b.nombre_comercial||'').localeCompare(a.nombre_comercial||'', 'es');
+    if (activeSort === 'pais') {
+      var pa = arr(a.origen_pais)[0]||''; var pb = arr(b.origen_pais)[0]||'';
+      return pa.localeCompare(pb, 'es') || (a.nombre_comercial||'').localeCompare(b.nombre_comercial||'', 'es');
+    }
+    if (activeSort === 'cat') {
+      return (a.categoria||'').localeCompare(b.categoria||'', 'es') || (a.nombre_comercial||'').localeCompare(b.nombre_comercial||'', 'es');
+    }
+    return (a.nombre_comercial||'').localeCompare(b.nombre_comercial||'', 'es'); // az
+  });
+
+  renderGrid(result, true);
   document.getElementById('resultsCount').textContent =
     result.length === DB.length
       ? DB.length + ' materiales'
       : result.length + ' de ' + DB.length;
+  updateActiveBanner();
 }
 
 /* ══════════════════════════════════════
@@ -653,12 +734,90 @@ document.querySelectorAll('.filter-chip').forEach(function(btn) {
 });
 
 document.getElementById('clearFilters').addEventListener('click', function() {
+  clearAllFilters();
+});
+
+document.getElementById('sortSelect').addEventListener('change', function() {
+  activeSort = this.value;
+  applyFilters();
+});
+
+/* ── ACTIVE FILTERS BANNER ── */
+function updateActiveBanner() {
+  var banner = document.getElementById('activeBanner');
+  if (!banner) return;
+  var tags = [];
+  if (activeFilters.cat) {
+    tags.push('<span class="active-tag">' + esc(activeFilters.cat.charAt(0).toUpperCase()+activeFilters.cat.slice(1)) +
+      '<span class="active-tag-x" onclick="clearFilter(\'cat\')">×</span></span>');
+  }
+  if (activeFilters.color) {
+    tags.push('<span class="active-tag">' + esc(activeFilters.color) +
+      '<span class="active-tag-x" onclick="clearFilter(\'color\')">×</span></span>');
+  }
+  if (searchQuery.trim()) {
+    tags.push('<span class="active-tag">«' + esc(trunc(searchQuery.trim(), 24)) + '»' +
+      '<span class="active-tag-x" onclick="clearSearch()">×</span></span>');
+  }
+  if (tags.length) {
+    banner.className = 'active-banner visible';
+    banner.innerHTML = tags.join('') +
+      '<button class="active-banner-clear" onclick="clearAllFilters()">Limpiar todo ×</button>';
+  } else {
+    banner.className = 'active-banner';
+    banner.innerHTML = '';
+  }
+}
+function clearFilter(group) {
+  activeFilters[group] = null;
+  document.querySelectorAll('[data-group="' + group + '"]').forEach(function(b){ b.classList.remove('active'); });
+  applyFilters();
+}
+function clearSearch() {
+  searchQuery = '';
+  document.getElementById('searchInput').value = '';
+  applyFilters();
+}
+function clearAllFilters() {
   activeFilters = { cat: null, color: null };
   searchQuery   = '';
   document.getElementById('searchInput').value = '';
-  document.querySelectorAll('.filter-chip').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('.filter-chip').forEach(function(b){ b.classList.remove('active'); });
   applyFilters();
-});
+}
+
+/* ── FEATURED STONE (panel derecho header) ── */
+function showFeaturedStone() {
+  var loading = document.getElementById('featuredLoading');
+  var slot    = document.getElementById('featuredSlot');
+  if (!slot) return;
+  // Elegir piedra aleatoria con imagen entre las primeras 200
+  var pool = DB.filter(function(m){ return m.imagen_url_principal; }).slice(0, 200);
+  if (!pool.length) { if (loading) loading.style.display = 'none'; return; }
+  var m = pool[Math.floor(Math.random() * pool.length)];
+  var flag  = getFlag(arr(m.origen_pais)[0]);
+  var pais  = arr(m.origen_pais)[0] || '';
+  if (loading) loading.style.display = 'none';
+  slot.innerHTML =
+    '<div class="featured-stone">' +
+      '<img src="' + esc(m.imagen_url_principal) + '" alt="' + esc(m.nombre_comercial||'') + '" loading="lazy">' +
+      '<div class="featured-stone-overlay"></div>' +
+      '<span class="featured-stone-eyebrow">Piedra destacada</span>' +
+      '<span class="featured-stone-badge">' + esc(m.categoria||'') + '</span>' +
+      '<div class="featured-stone-body">' +
+        '<div class="featured-stone-name">' + esc(m.nombre_comercial||'') + '</div>' +
+        (pais ? '<div class="featured-stone-origin">' + (flag||'') + '<span>' + esc(pais) + '</span></div>' : '') +
+        (m.slug ? '<a class="featured-stone-cta" href="material.html?id=' + esc(m.slug) + '" onclick="event.stopPropagation()">Ver ficha →</a>' : '') +
+      '</div>' +
+    '</div>';
+  // Click en panel lleva a la ficha
+  if (m.slug) {
+    document.getElementById('featuredPanel').style.cursor = 'pointer';
+    document.getElementById('featuredPanel').onclick = function(e){
+      if (!e.target.closest('.featured-stone-cta')) location.href = 'material.html?id=' + encodeURIComponent(m.slug);
+    };
+  }
+}
 
 /* ══════════════════════════════════════
    SUPABASE: cargar materiales
@@ -702,6 +861,7 @@ document.getElementById('clearFilters').addEventListener('click', function() {
         document.getElementById('statMateriales').textContent = DB.length;
         document.getElementById('statPaises').textContent     = Object.keys(paises).length;
         document.getElementById('statColores').textContent    = Object.keys(colores).length;
+        showFeaturedStone();
         applyFilters();
       }
     }).catch(function(err) {
@@ -719,38 +879,7 @@ document.getElementById('clearFilters').addEventListener('click', function() {
   loadAll(0);
 })();
 
-/* ══════════════════════════════════════
-   SUPABASE: cargar anuncio MATERIALES-TOP
-══════════════════════════════════════ */
-(function loadAd() {
-  var today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-  var url = SB_URL + '/rest/v1/anuncios?espacio_codigo=eq.MATERIALES-TOP&activo=eq.true&select=imagen_url,url_destino,texto_alt,fecha_inicio,fecha_fin&limit=5';
-  var hdrs = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Accept': 'application/json' };
-
-  fetch(url, { headers: hdrs })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (!Array.isArray(data) || !data.length) return;
-      // Filtrar por fechas
-      var valid = data.filter(function(a) {
-        var ok = true;
-        if (a.fecha_inicio && a.fecha_inicio > today) ok = false;
-        if (a.fecha_fin   && a.fecha_fin   < today) ok = false;
-        return ok;
-      });
-      if (!valid.length) return;
-      var ad = valid[0];
-      var slot = document.getElementById('heroAdSlot');
-      var href = ad.url_destino
-        ? (ad.url_destino.startsWith('http') ? ad.url_destino : 'https://' + ad.url_destino)
-        : '#';
-      slot.innerHTML =
-        '<a class="ad-link" href="' + href + '" target="_blank" rel="noopener">' +
-          '<img src="' + (ad.imagen_url||'') + '" alt="' + (ad.texto_alt||'Publicidad') + '" loading="lazy">' +
-        '</a>';
-    })
-    .catch(function() {}); // silencioso: si falla, queda el placeholder
-})();
+/* loadAd eliminado — el panel derecho muestra piedra destacada dinámica */
 
 /* ── NAV ── */
 (function(){
@@ -767,7 +896,6 @@ document.getElementById('clearFilters').addEventListener('click', function() {
 })();
 </script>
 <script src="i18n.js"></script>
-<script src="auth-nav.js"></script>
 <script src="auth-nav.js"></script>
 </body>
 </html>
