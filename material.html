@@ -319,6 +319,7 @@ nav {
   function el(id) { return document.getElementById(id); }
 
   var FLAG_CODES_M = {
+    // Español
     'España':'es','Italia':'it','Portugal':'pt','Grecia':'gr','Turquía':'tr',
     'Francia':'fr','Alemania':'de','Austria':'at','Bélgica':'be','Suecia':'se',
     'Noruega':'no','Finlandia':'fi','Polonia':'pl','República Checa':'cz',
@@ -335,7 +336,84 @@ nav {
     'Argelia':'dz','Azerbaiyán':'az','Georgia':'ge','Armenia':'am','Hungría':'hu',
     'Eslovaquia':'sk','Letonia':'lv','Lituania':'lt','Estonia':'ee','Suiza':'ch',
     'Reino Unido':'gb','Irlanda':'ie','Nueva Zelanda':'nz','Filipinas':'ph',
-    'Sri Lanka':'lk','Nepal':'np','Afganistán':'af','Moldavia':'md','Kosovo':'xk'
+    'Sri Lanka':'lk','Nepal':'np','Afganistán':'af','Moldavia':'md','Kosovo':'xk',
+    // English (datos del Excel)
+    'Spain':'es','Italy':'it','Portugal':'pt','Greece':'gr','Turkey':'tr',
+    'France':'fr','Germany':'de','Austria':'at','Belgium':'be','Sweden':'se',
+    'Norway':'no','Finland':'fi','Poland':'pl','Czech Republic':'cz',
+    'Slovenia':'si','Croatia':'hr','Serbia':'rs','Bulgaria':'bg','Romania':'ro',
+    'Ukraine':'ua','Russia':'ru','India':'in','China':'cn','Brazil':'br',
+    'United States':'us','Mexico':'mx','Canada':'ca','Argentina':'ar','Chile':'cl',
+    'Peru':'pe','Colombia':'co','Australia':'au','South Africa':'za','Morocco':'ma',
+    'Egypt':'eg','Iran':'ir','Pakistan':'pk','Vietnam':'vn','Viet Nam':'vn','Indonesia':'id',
+    'Thailand':'th','Japan':'jp','South Korea':'kr','Israel':'il',
+    'Saudi Arabia':'sa','United Arab Emirates':'ae','Ethiopia':'et','Tanzania':'tz',
+    'Zimbabwe':'zw','Madagascar':'mg','Angola':'ao','Mozambique':'mz',
+    'Namibia':'na','Kenya':'ke','Nigeria':'ng','Ghana':'gh','Bolivia':'bo',
+    'Ecuador':'ec','Venezuela':'ve','Uruguay':'uy','Paraguay':'py','Tunisia':'tn',
+    'Algeria':'dz','Azerbaijan':'az','Georgia':'ge','Armenia':'am','Hungary':'hu',
+    'Slovakia':'sk','Latvia':'lv','Lithuania':'lt','Estonia':'ee','Switzerland':'ch',
+    'United Kingdom':'gb','Ireland':'ie','New Zealand':'nz','Philippines':'ph',
+    'Sri Lanka':'lk','Nepal':'np','Afghanistan':'af','Moldova':'md',
+    'Albania':'al','Algeria':'dz','Belarus':'by','Cambodia':'kh','Cuba':'cu',
+    'Denmark':'dk','Dominican Republic':'do','Ethiopia':'et','Guatemala':'gt',
+    'Honduras':'hn','Iceland':'is','Iraq':'iq','Jordan':'jo','Kazakhstan':'kz',
+    'Lebanon':'lb','Libya':'ly','Malaysia':'my','Netherlands':'nl','Niger':'ne',
+    'Oman':'om','Panama':'pa','Qatar':'qa','Senegal':'sn','Singapore':'sg',
+    'Sudan':'sd','Syria':'sy','Taiwan':'tw','Tajikistan':'tj','Uzbekistan':'uz',
+    'Yemen':'ye','Zambia':'zm','Uganda':'ug','Rwanda':'rw','Niger':'ne',
+    'Bosnia and Herzegovina':'ba','North Macedonia':'mk','Montenegro':'me',
+    'Cyprus':'cy','Malta':'mt','Luxembourg':'lu','Liechtenstein':'li',
+    'Netherlands':'nl','Belgium':'be','Kosovo':'xk','Kyrgyzstan':'kg'
+  };
+
+  // Traducción acabados EN→ES
+  var ACABADOS_ES = {
+    'Polished':'Pulido','Bush Hammered':'Abujardado','Tumbled':'Envejecido',
+    'Brushed':'Cepillado','Honed':'Apomazado','Split':'Partido',
+    'Machine Cut':'Corte máquina','Natural Surface':'Superficie natural',
+    'Sandblasted':'Chorreado arena','Acid Washing':'Lavado ácido',
+    'Combed':'Peinado','Leathered':'Cuero','Water Jet':'Chorro agua',
+    'Filled':'Relleno','Chiseled':'Cincelado','Pickling':'Decapado',
+    'Flamed':'Flameado','Sawn':'Aserrado','Antiqued':'Antiguo',
+    'Grooved':'Estriado','Hammered':'Martillado','Resin Treated':'Tratado resina'
+  };
+  function tradAcabado(a) { return ACABADOS_ES[a] || a; }
+
+  // Traducción usos EN→ES
+  var USOS_ES = {
+    'building stone':'Piedra de construcción','countertops':'Encimeras',
+    'kitchen and bathroom countertops':'Encimeras cocina y baño',
+    'commercial and bathroom countertops':'Encimeras baño y comercial',
+    'sinks':'Fregaderos','monuments':'Monumentos','pool coping':'Bordillos piscina',
+    'sills':'Alféizares','stairs':'Escaleras','flooring':'Suelos',
+    'interior':'Interior','exterior':'Exterior','interior, exterior':'Interior y exterior',
+    'wall applications':'Revestimiento pared','floor applications':'Pavimento',
+    'exterior wall applications':'Fachada','interior wall and floor applications':'Revestimiento interior',
+    'exterior wall and floor applications':'Revestimiento exterior',
+    'ornamental stone':'Piedra ornamental','mosaic':'Mosaico',
+    'waterjet pattern':'Corte chorro agua','wall panels':'Paneles de pared',
+    'table tops':'Tableros','window sills':'Alféizares','balustrades':'Balaustradas',
+    'fireplaces surround':'Chimeneas','columns':'Columnas','paving':'Pavimento exterior',
+    'pool pavers':'Pavimento piscina','water jet pattern':'Chorro de agua',
+    'artifact':'Artesanía','jewellery':'Joyería','small sculptures':'Esculturas pequeñas',
+    'urns':'Urnas','vases':'Jarrones','decorative':'Decoración'
+  };
+  function tradUso(u) {
+    var lower = u.toLowerCase().trim();
+    for (var k in USOS_ES) {
+      if (lower.indexOf(k) !== -1) return USOS_ES[k];
+    }
+    return u.charAt(0).toUpperCase() + u.slice(1);
+  }
+
+  // Mapa de iconos por uso
+  var USO_ICONS_MAP = {
+    'Encimeras cocina y baño':'⬡','Encimeras':'⬡','Fregaderos':'○',
+    'Suelos':'◻','Pavimento':'◻','Pavimento exterior':'◼','Pavimento piscina':'◎',
+    'Revestimiento pared':'▭','Fachada':'▮','Escaleras':'◈',
+    'Mosaico':'◇','Decoración':'◇','Monumentos':'▷',
+    'Bordillos piscina':'◎','Alféizares':'◻','Interior':'◻','Exterior':'◼'
   };
   function getFlagMat(pais) {
     if (!pais) return '';
@@ -384,31 +462,26 @@ nav {
 
   // ── Cargar material desde Supabase ─────────────────────────────────────────
   db.from('materiales')
-    .select('*')
+    .select('id,slug,nombre_comercial,nombres_alternativos,categoria,origen_pais,origen_region,color_principal,color_acento,acabados_disponibles,usos_recomendados,propiedades_tecnicas,imagen_url_principal,tags_busqueda')
     .eq('slug', slug)
     .single()
     .then(function(res) {
       if (res.error || !res.data) { show404(); return; }
       renderFicha(res.data);
-      // Cargar prev/next
       loadAdyacentes(res.data);
     });
 
   // ── Render ficha ──────────────────────────────────────────────────────────
   function renderFicha(m) {
     var catColor = CAT_COLORS[m.categoria] || '#A8A098';
-    var precioData = PRECIO[m.precio_rango] || ['—', '#8A7A5E'];
     var paises   = arr(m.origen_pais);
-    var regiones = arr(m.origen_region);
     var altNames = arr(m.nombres_alternativos);
     var acabados = arr(m.acabados_disponibles);
     var usos     = arr(m.usos_recomendados);
-    var formatos = arr(m.formatos_habituales);
-    var espesores= arr(m.espesores_cm);
-    var proyectos= arr(m.proyectos_referencia);
     var tags     = arr(m.tags_busqueda);
-    var certs    = arr(m.certificaciones_habituales);
     var t        = m.propiedades_tecnicas || {};
+    // origen_region es string (no array)
+    var regionStr = (typeof m.origen_region === 'string') ? m.origen_region : '';
 
     // Meta
     document.title = esc(m.nombre_comercial) + ' — Ficha Técnica | World Stone Hub';
@@ -424,20 +497,29 @@ nav {
     el('hero-cat').textContent = m.categoria || '';
     el('hero-cat').style.color = catColor;
     el('hero-nombre').textContent = m.nombre_comercial;
-    if (m.nombre_cientifico) el('hero-sci').textContent = m.nombre_cientifico;
-    else el('hero-sci').style.display = 'none';
-    if (altNames.length) el('hero-alt').textContent = altNames.join(' · ');
+    el('hero-sci').style.display = 'none';
+    if (altNames.length) el('hero-alt').textContent = altNames.slice(0,4).join(' · ');
     else el('hero-alt').style.display = 'none';
 
     // Meta row
+    var COLOR_MAP = {
+      'White':'#f5f5f0','Grey':'#9a9a9a','Gray':'#9a9a9a','Black':'#1a1a1a',
+      'Beige':'#d4b896','Brown':'#8B5E3C','Red':'#c0392b','Pink':'#e8a0a0',
+      'Yellow':'#d4a017','Gold':'#c4922a','Green':'#4a7c59','Blue':'#3a6fa8',
+      'Orange':'#d4783a','Purple':'#7c5c8a','Cream':'#e8dcc8','Ivory':'#f0ead4',
+      'Dark Grey':'#5a5a5a','Light Grey':'#c8c8c8','White Grey':'#e0e0dc',
+      'Multicolor':'linear-gradient(135deg,#e8a0a0,#d4b896,#9a9a9a)'
+    };
     var metaHtml = '';
     if (paises.length) metaHtml += '<div class="hero-meta-item"><div class="hero-meta-label">País</div><div class="hero-meta-value">' + paises.map(function(p){ return getFlagMat(p) + esc(p); }).join(', ') + '</div></div>';
-    if (regiones.length) metaHtml += '<div class="hero-meta-item"><div class="hero-meta-label">Región</div><div class="hero-meta-value">' + esc(regiones.join(', ')) + '</div></div>';
-    if (m.color_principal) metaHtml += '<div class="hero-meta-item"><div class="hero-meta-label">Color</div><div class="hero-meta-value">' + esc(m.color_principal) + '</div></div>';
-    if (m.patron_vetado) metaHtml += '<div class="hero-meta-item"><div class="hero-meta-label">Patrón</div><div class="hero-meta-value">' + esc(m.patron_vetado) + '</div></div>';
+    if (regionStr) metaHtml += '<div class="hero-meta-item"><div class="hero-meta-label">Región</div><div class="hero-meta-value">' + esc(regionStr) + '</div></div>';
+    if (m.color_principal) {
+      var bg = COLOR_MAP[m.color_principal] || '#ccc';
+      var swatch = '<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:' + bg + ';border:1px solid rgba(0,0,0,.15);vertical-align:middle;margin-right:5px;flex-shrink:0"></span>';
+      metaHtml += '<div class="hero-meta-item"><div class="hero-meta-label">Color</div><div class="hero-meta-value">' + swatch + esc(m.color_principal) + (m.color_acento ? ' <span style="opacity:.5;font-size:.85em;">/ ' + esc(m.color_acento) + '</span>' : '') + '</div></div>';
+    }
     el('hero-meta').innerHTML = metaHtml;
-
-    el('hero-precio').innerHTML = '<span class="precio-badge" style="color:' + precioData[1] + '">' + precioData[0] + '</span>';
+    el('hero-precio').innerHTML = '';
 
     // Imagen
     if (m.imagen_url_principal) {
@@ -462,42 +544,57 @@ nav {
       propRow('Resist. desgaste', t.resistencia_desgaste) +
       propRow('Coef. fricción', t.coeficiente_friccion);
 
-    var usosHtml = usos.map(function(u) {
-      return '<span class="uso-tag"><span class="uso-icon">' + (USO_ICONS[u]||'·') + '</span>' + esc(u) + '</span>';
+    // Usos — traducir EN→ES, deduplicar, limitar a 12
+    var usosTraducidos = [];
+    var usosVistos = {};
+    usos.forEach(function(u) {
+      // Partir por coma si viene como string largo
+      u.split(',').forEach(function(part) {
+        var t2 = tradUso(part.trim());
+        if (t2 && !usosVistos[t2.toLowerCase()]) {
+          usosVistos[t2.toLowerCase()] = true;
+          usosTraducidos.push(t2);
+        }
+      });
+    });
+    usosTraducidos = usosTraducidos.slice(0,12);
+    var usosHtml = usosTraducidos.map(function(u) {
+      var icon = USO_ICONS_MAP[u] || '·';
+      return '<span class="uso-tag"><span class="uso-icon">'+icon+'</span>'+esc(u)+'</span>';
     }).join('');
 
-    var acabadosHtml = acabados.map(function(a){ return '<span class="tag-chip">'+esc(a)+'</span>'; }).join('');
-    var formatosHtml = formatos.map(function(f){ return '<span class="tag-chip">'+esc(f)+'</span>'; }).join('');
-    var espHtml = espesores.map(function(e){ return '<span class="tag-chip">'+esc(String(e))+' cm</span>'; }).join('');
-    var projHtml = proyectos.map(function(p, i){ return '<div class="proyecto-item"><span class="proyecto-num">'+ String(i+1).padStart(2,'0') +'</span><span class="proyecto-name">'+esc(p)+'</span></div>'; }).join('');
-    var tagsHtml = tags.map(function(t){ return '<a href="materiales.html?q='+esc(t)+'" class="tag-link">'+esc(t)+'</a>'; }).join('');
+    // Acabados — traducir EN→ES
+    var acabadosHtml = acabados.map(function(a){
+      return '<span class="tag-chip">'+esc(tradAcabado(a))+'</span>';
+    }).join('');
+
+    // Tags — filtrar los muy cortos o numéricos
+    var tagsHtml = tags.filter(function(t){ return t && t.length > 2 && isNaN(t); })
+      .slice(0,20).map(function(t){
+        return '<a href="materiales.html?q='+encodeURIComponent(t)+'" class="tag-link">'+esc(t)+'</a>';
+      }).join('');
 
     var mainHtml = '';
-    if (propsHtml) mainHtml += '<div class="section-title">Propiedades Técnicas</div><div class="props-grid">' + propsHtml + '</div>';
-    if (usosHtml) mainHtml += '<div class="section-title">Usos Recomendados</div><div class="usos-wrap">' + usosHtml + '</div>';
-    if (acabadosHtml) mainHtml += '<div class="section-title">Acabados Disponibles</div><div class="chips-wrap">' + acabadosHtml + '</div>';
-    if (formatosHtml || espHtml) mainHtml += '<div class="section-title">Formatos y Espesores</div><div class="chips-wrap">' + formatosHtml + espHtml + '</div>';
-    if (projHtml) mainHtml += '<div class="section-title">Proyectos de Referencia</div><div class="proyectos-list">' + projHtml + '</div>';
-    if (tagsHtml) mainHtml += '<div class="section-title">Etiquetas</div><div>' + tagsHtml + '</div>';
+    if (propsHtml) mainHtml += '<div class="section-title">Propiedades técnicas</div><div class="props-grid">' + propsHtml + '</div>';
+    if (usosHtml) mainHtml += '<div class="section-title">Usos recomendados</div><div class="usos-wrap">' + usosHtml + '</div>';
+    if (acabadosHtml) mainHtml += '<div class="section-title">Acabados disponibles</div><div class="chips-wrap">' + acabadosHtml + '</div>';
+    if (tagsHtml) mainHtml += '<div class="section-title">Buscar relacionados</div><div style="display:flex;flex-wrap:wrap;gap:6px;">' + tagsHtml + '</div>';
     el('ficha-main').innerHTML = mainHtml;
 
     // Sidebar
-    var certsHtml = certs.map(function(c){ return '<span class="cert-badge">'+esc(c)+'</span>'; }).join('');
     var sidebarHtml =
       '<div class="cta-card">' +
         '<div class="cta-card-title">¿Buscas <em style="color:var(--gold);font-style:italic;">' + esc(m.nombre_comercial) + '</em>?</div>' +
-        '<div class="cta-card-desc">Encuentra proveedores verificados en nuestro directorio global.</div>' +
+        '<div class="cta-card-desc">Encuentra proveedores verificados de este material en nuestro directorio global.</div>' +
         '<a href="proveedores.html?material=' + esc(slug) + '" class="cta-btn">Ver proveedores →</a>' +
+        '<a href="registro.html" class="cta-btn-sec" style="display:block;text-align:center;margin-top:8px;font-size:.7rem;color:var(--ink-muted);">¿Eres proveedor? Publica tu empresa →</a>' +
       '</div>' +
       '<div class="sidebar-card"><div class="sidebar-card-title">Origen</div>' +
         paises.map(function(p){ return '<div class="origin-name">'+getFlagMat(p)+esc(p)+'</div>'; }).join('') +
-        regiones.map(function(r){ return '<div class="origin-region">'+esc(r)+'</div>'; }).join('') +
+        (regionStr ? '<div class="origin-region">'+esc(regionStr)+'</div>' : '') +
       '</div>' +
-      '<div class="sidebar-card"><div class="sidebar-card-title">Disponibilidad</div>' +
-        '<div style="font-size:.9rem;font-weight:500;">' + esc(m.disponibilidad || '—') + '</div>' +
-      '</div>' +
-      (certsHtml ? '<div class="sidebar-card"><div class="sidebar-card-title">Certificaciones</div>' + certsHtml + '</div>' : '') +
-      (m.sostenibilidad ? '<div class="sidebar-card"><div class="sidebar-card-title">Sostenibilidad</div><div class="sost-text">' + esc(m.sostenibilidad) + '</div></div>' : '');
+      (m.categoria ? '<div class="sidebar-card"><div class="sidebar-card-title">Categoría</div><div style="font-size:.85rem;color:'+catColor+';font-weight:500;text-transform:capitalize;">'+esc(m.categoria)+'</div></div>' : '') +
+      (altNames.length ? '<div class="sidebar-card"><div class="sidebar-card-title">También conocido como</div><div style="font-size:.8rem;color:var(--ink-mid);line-height:1.8;">'+altNames.slice(0,6).map(function(n){return esc(n);}).join('<br>')+'</div></div>' : '');
     el('ficha-sidebar').innerHTML = sidebarHtml;
 
     // Empresas especializadas en este material
