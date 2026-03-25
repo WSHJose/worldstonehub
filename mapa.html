@@ -464,7 +464,7 @@ let searchTerm = '';
 // ─────────────────────────────────────────────
 //  INIT
 // ─────────────────────────────────────────────
-async function init() {
+function init() {
   // Check token
   if (!MAPBOX_TOKEN || MAPBOX_TOKEN.startsWith('PON_')) {
     document.getElementById('loading').classList.add('done');
@@ -485,21 +485,15 @@ async function init() {
     projection: 'mercator',
   });
 
-  // Custom map colors overlay
-  map.on('style.load', () => {
-    // Subtle warm tint to fit site palette
-    map.setPaintProperty('background', 'background-color', '#0d0b09');
-  });
-
   map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
   map.addControl(new mapboxgl.ScaleControl({ unit: 'metric' }), 'bottom-right');
 
-  // Load data
-  await loadData();
-
-  map.on('load', () => {
+  // Register load BEFORE any await — avoids race condition where style
+  // finishes loading before data fetch completes and listener is never called
+  map.on('load', async () => {
     setupLayers();
     setupInteractions();
+    await loadData();
     applyFilters();
     document.getElementById('loading').classList.add('done');
   });
