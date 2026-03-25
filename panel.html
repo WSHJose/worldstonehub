@@ -309,6 +309,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5 3.5.5-2.5 2.5.5 3.5L7 9.5 4 11l.5-3.5L2 5l3.5-.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
         Plan
       </div>
+      <span class="pn-label" style="margin-top:8px">Contenido</span>
+      <div class="pn-item" data-screen="blog" role="button" tabindex="0" aria-label="Ir a Blog">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3h10M2 7h7M2 11h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        Blog
+      </div>
       <div class="pn-spacer"></div>
       <div class="pn-plan-chip">
         <div class="ppc-label">Plan activo</div>
@@ -547,6 +552,134 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
         <div id="planContent"></div>
       </div>
 
+      <!-- ── BLOG ── -->
+      <div class="screen" id="screen-blog">
+        <div class="screen-header">
+          <div class="screen-eyebrow">Contenido editorial</div>
+          <h2 class="screen-title">Blog del <em>sector</em></h2>
+          <p class="screen-desc">Crea y gestiona los artículos del blog. Los artículos publicados aparecen en <a href="blog.html" target="_blank" style="color:var(--gold)">blog.html</a>.</p>
+        </div>
+
+        <!-- Stats blog -->
+        <div class="overview-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:32px;">
+          <div class="ov-card"><div class="ov-card-accent" style="background:var(--gold)"></div><div class="ov-num" id="blogStatTotal">—</div><div class="ov-label">Total artículos</div></div>
+          <div class="ov-card"><div class="ov-card-accent" style="background:#4a7a6a"></div><div class="ov-num" id="blogStatPublicados">—</div><div class="ov-label">Publicados</div></div>
+          <div class="ov-card"><div class="ov-card-accent" style="background:#8a8784"></div><div class="ov-num" id="blogStatBorradores">—</div><div class="ov-label">Borradores</div></div>
+          <div class="ov-card"><div class="ov-card-accent" style="background:#6a5a8a"></div><div class="ov-num" id="blogStatVisitas">—</div><div class="ov-label">Visitas totales</div></div>
+        </div>
+
+        <!-- Acciones -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+          <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-muted)">Artículos</div>
+          <button class="btn-gold" onclick="blogOpenForm(null)" style="font-size:9px;padding:10px 20px;gap:6px;">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Nuevo artículo
+          </button>
+        </div>
+
+        <!-- Lista artículos -->
+        <div id="blogList" style="display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);"></div>
+        <div id="blogListEmpty" style="display:none;padding:48px;text-align:center;background:#fff;border:1px solid var(--border);">
+          <div style="font-family:var(--font-disp);font-size:28px;font-weight:300;color:var(--ink-muted);margin-bottom:8px;">Sin artículos</div>
+          <p style="font-size:13px;color:var(--ink-faint);">Crea tu primer artículo para empezar a posicionarte en Google.</p>
+        </div>
+
+        <!-- Editor (oculto por defecto) -->
+        <div id="blogEditor" style="display:none;margin-top:40px;background:#fff;border:1px solid var(--border);padding:36px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);">
+            <div style="font-family:var(--font-disp);font-size:28px;font-weight:300;" id="blogEditorTitle">Nuevo artículo</div>
+            <button onclick="blogCloseForm()" style="background:none;border:none;cursor:pointer;color:var(--ink-muted);font-size:20px;line-height:1;padding:4px;">✕</button>
+          </div>
+
+          <input type="hidden" id="blogEditId">
+
+          <div class="form-grid" style="margin-bottom:20px;">
+            <div class="field span2">
+              <label>Título</label>
+              <input type="text" id="blogTitulo" placeholder="Ej: El mármol de Carrara: historia y extracción" maxlength="120">
+            </div>
+            <div class="field span2">
+              <label>Subtítulo / entradilla</label>
+              <input type="text" id="blogSubtitulo" placeholder="Frase breve que aparece bajo el título" maxlength="200">
+            </div>
+            <div class="field">
+              <label>Categoría</label>
+              <select id="blogCategoria">
+                <option value="tendencias">Tendencias</option>
+                <option value="proyectos">Proyectos</option>
+                <option value="ferias">Ferias</option>
+                <option value="guias">Guías</option>
+                <option value="noticias">Noticias</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Minutos de lectura</label>
+              <input type="number" id="blogMinutos" placeholder="Ej: 7" min="1" max="60">
+            </div>
+            <div class="field span2">
+              <label>Resumen (aparece en las cards del listado)</label>
+              <textarea id="blogResumen" rows="3" placeholder="Descripción breve del artículo para el listado y SEO (150-200 caracteres ideal)" maxlength="400"></textarea>
+            </div>
+            <div class="field span2">
+              <label>Imagen de portada (URL)</label>
+              <input type="url" id="blogImagen" placeholder="https://... o dejar vacío para usar placeholder de categoría">
+              <div class="field-hint">Sube la imagen a Supabase Storage y pega la URL pública aquí.</div>
+            </div>
+            <div class="field span2">
+              <label>Tags (separados por coma)</label>
+              <input type="text" id="blogTags" placeholder="mármol, Carrara, Italia, guía técnica">
+            </div>
+          </div>
+
+          <!-- Contenido Markdown -->
+          <div class="field" style="margin-bottom:20px;">
+            <label>Contenido del artículo (Markdown)</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px;">
+              <div>
+                <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;">Editor</div>
+                <textarea id="blogContenido" style="width:100%;height:400px;font-family:var(--font-mono);font-size:12px;line-height:1.6;border:1px solid var(--border);padding:12px;outline:none;resize:vertical;background:#fff;" placeholder="# Título del artículo&#10;&#10;Escribe aquí en **Markdown**. Puedes usar:&#10;## Encabezados&#10;**negrita**, *cursiva*&#10;- listas&#10;> citas&#10;[texto](url)&#10;| tabla | con | columnas |" oninput="blogPreviewUpdate()"></textarea>
+              </div>
+              <div>
+                <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;">Preview</div>
+                <div id="blogPreview" style="height:400px;overflow-y:auto;border:1px solid var(--border);padding:16px;background:var(--bg-soft);font-size:13px;line-height:1.7;color:var(--ink-2);">
+                  <span style="color:var(--ink-faint);font-size:12px;">El preview aparece aquí mientras escribes…</span>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:8px;font-size:10px;color:var(--ink-faint);">
+              Consejos: ## para títulos H2, ### para H3, **texto** para negrita, *texto* para cursiva, [texto](url) para enlaces, > para citas, | col1 | col2 | para tablas.
+            </div>
+          </div>
+
+          <!-- Fuentes -->
+          <div class="field" style="margin-bottom:24px;">
+            <label>Fuentes y referencias (opcional)</label>
+            <div id="blogFuentesList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px;"></div>
+            <button type="button" onclick="blogAddFuente()" style="background:none;border:1px dashed var(--border-mid);padding:8px 16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;color:var(--ink-muted);transition:all .2s;font-family:var(--font-ui);">+ Añadir fuente</button>
+          </div>
+
+          <!-- Opciones publicación -->
+          <div style="display:flex;align-items:center;gap:24px;padding:16px 20px;background:var(--bg-soft);border:1px solid var(--border);margin-bottom:24px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;letter-spacing:1px;">
+              <input type="checkbox" id="blogPublicado" style="accent-color:var(--gold);">
+              Publicar (visible en el blog)
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;letter-spacing:1px;">
+              <input type="checkbox" id="blogDestacado" style="accent-color:var(--gold);">
+              Destacado (aparece primero)
+            </label>
+          </div>
+
+          <div class="save-row">
+            <button class="btn-save" onclick="blogSave()">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span id="blogSaveTxt">Guardar artículo</span>
+            </button>
+            <div class="save-msg" id="blogSaveMsg"></div>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 </div>
@@ -675,6 +808,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
     if(item) item.classList.add('active');
     if(name === 'stats') renderStats();
     if(name === 'plan') renderPlan();
+    if(name === 'blog') blogLoadList();
   };
 
   document.querySelectorAll('.pn-item').forEach(function(item){
@@ -1095,6 +1229,223 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
     initPanel(session);
   });
 
+})();
+</script>
+
+<!-- ── BLOG JS ── -->
+<script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+<script>
+(function(){
+  var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
+  var SV_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzA5OTgxMCwiZXhwIjoyMDg4Njc1ODEwfQ.LOlzokE8UV6zDIBxcd0Dy1EyjuNtEJLoQ9cnfBPo5Po';
+  var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
+  var CAT_ES = {tendencias:'Tendencias',proyectos:'Proyectos',ferias:'Ferias',guias:'Guías',noticias:'Noticias'};
+  var CAT_COLOR = {tendencias:'#A67C52',proyectos:'#4a7a6a',ferias:'#6a5a8a',guias:'#4a6080',noticias:'#8a4a3a'};
+  var fuentesData = [];
+
+  function sbAdmin(method, ep, body){
+    return fetch(SB_URL+'/rest/v1/'+ep,{
+      method: method||'GET',
+      headers:{'apikey':SV_KEY,'Authorization':'Bearer '+SV_KEY,'Content-Type':'application/json','Accept':'application/json','Prefer':'return=representation'},
+      body: body ? JSON.stringify(body) : undefined
+    }).then(function(r){return r.json();});
+  }
+
+  function genSlug(t){
+    return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,80);
+  }
+
+  function fmtDate(iso){
+    if(!iso)return'—';
+    var d=new Date(iso);
+    return d.toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});
+  }
+
+  /* ── Load list ── */
+  window.blogLoadList = function(){
+    sbAdmin('GET','articulos?select=id,slug,titulo,categoria,publicado,destacado,visitas,minutos_lectura,created_at,published_at&order=created_at.desc')
+    .then(function(data){
+      if(!Array.isArray(data)){data=[];}
+      // Stats
+      var pub=data.filter(function(a){return a.publicado;}).length;
+      var vis=data.reduce(function(s,a){return s+(a.visitas||0);},0);
+      document.getElementById('blogStatTotal').textContent=data.length;
+      document.getElementById('blogStatPublicados').textContent=pub;
+      document.getElementById('blogStatBorradores').textContent=data.length-pub;
+      document.getElementById('blogStatVisitas').textContent=vis.toLocaleString('es');
+
+      var list=document.getElementById('blogList');
+      var empty=document.getElementById('blogListEmpty');
+      if(!data.length){list.style.display='none';empty.style.display='block';return;}
+      list.style.display='flex';empty.style.display='none';
+      list.innerHTML=data.map(function(a){
+        var c=CAT_COLOR[a.categoria]||'#8a8784';
+        return '<div style="background:#fff;padding:16px 20px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--border);">'+
+          '<div style="width:4px;height:40px;background:'+c+';flex-shrink:0;border-radius:2px;"></div>'+
+          '<div style="flex:1;min-width:0;">'+
+            '<div style="font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+a.titulo+'</div>'+
+            '<div style="font-size:11px;color:var(--ink-muted);margin-top:2px;display:flex;gap:10px;align-items:center;">'+
+              '<span style="color:'+c+'">'+(CAT_ES[a.categoria]||a.categoria)+'</span>'+
+              '<span>'+fmtDate(a.published_at||a.created_at)+'</span>'+
+              (a.minutos_lectura?'<span>'+a.minutos_lectura+' min</span>':'')+
+              '<span>'+(a.visitas||0)+' visitas</span>'+
+            '</div>'+
+          '</div>'+
+          '<div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">'+
+            '<span style="font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border:1px solid;'+(a.publicado?'color:#3a8060;border-color:#8aaa60;background:#f4f8ee;':'color:var(--ink-muted);border-color:var(--border);')+'">'+(a.publicado?'Publicado':'Borrador')+'</span>'+
+            (a.destacado?'<span style="font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border:1px solid var(--gold);color:var(--gold);background:var(--gold-lt);">★ Destacado</span>':'')+
+            '<a href="articulo.html?slug='+a.slug+'" target="_blank" style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-muted);border:1px solid var(--border);padding:5px 10px;transition:all .2s;" onmouseover="this.style.borderColor=\'var(--gold)\';this.style.color=\'var(--gold)\'" onmouseout="this.style.borderColor=\'var(--border)\';this.style.color=\'var(--ink-muted)\'">Ver →</a>'+
+            '<button onclick="blogOpenForm(\''+a.id+'\')" style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink);border:1px solid var(--border);padding:5px 10px;background:none;cursor:pointer;font-family:var(--font-ui);transition:all .2s;" onmouseover="this.style.background=\'var(--ink)\';this.style.color=\'#fff\'" onmouseout="this.style.background=\'none\';this.style.color=\'var(--ink)\'">Editar</button>'+
+            '<button onclick="blogDelete(\''+a.id+'\',\''+a.titulo.replace(/'/g,"\\'")+'\')" style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);border:1px solid transparent;padding:5px 10px;background:none;cursor:pointer;font-family:var(--font-ui);">✕</button>'+
+          '</div>'+
+        '</div>';
+      }).join('');
+    }).catch(function(err){console.error('Blog list error:',err);});
+  };
+
+  /* ── Open form ── */
+  window.blogOpenForm = function(id){
+    fuentesData = [];
+    document.getElementById('blogFuentesList').innerHTML = '';
+    document.getElementById('blogEditor').style.display = 'block';
+    document.getElementById('blogEditor').scrollIntoView({behavior:'smooth',block:'start'});
+
+    if(!id){
+      document.getElementById('blogEditorTitle').textContent = 'Nuevo artículo';
+      document.getElementById('blogEditId').value = '';
+      document.getElementById('blogTitulo').value = '';
+      document.getElementById('blogSubtitulo').value = '';
+      document.getElementById('blogCategoria').value = 'tendencias';
+      document.getElementById('blogResumen').value = '';
+      document.getElementById('blogImagen').value = '';
+      document.getElementById('blogTags').value = '';
+      document.getElementById('blogMinutos').value = '';
+      document.getElementById('blogContenido').value = '';
+      document.getElementById('blogPreview').innerHTML = '<span style="color:var(--ink-faint);font-size:12px;">El preview aparece aquí…</span>';
+      document.getElementById('blogPublicado').checked = false;
+      document.getElementById('blogDestacado').checked = false;
+      return;
+    }
+
+    sbAdmin('GET','articulos?id=eq.'+id+'&select=*&limit=1').then(function(data){
+      if(!Array.isArray(data)||!data.length)return;
+      var a=data[0];
+      document.getElementById('blogEditorTitle').textContent = 'Editar artículo';
+      document.getElementById('blogEditId').value = a.id;
+      document.getElementById('blogTitulo').value = a.titulo||'';
+      document.getElementById('blogSubtitulo').value = a.subtitulo||'';
+      document.getElementById('blogCategoria').value = a.categoria||'tendencias';
+      document.getElementById('blogResumen').value = a.resumen||'';
+      document.getElementById('blogImagen').value = a.imagen_portada||'';
+      document.getElementById('blogTags').value = (a.tags_busqueda||[]).join(', ');
+      document.getElementById('blogMinutos').value = a.minutos_lectura||'';
+      document.getElementById('blogContenido').value = a.contenido_md||'';
+      document.getElementById('blogPublicado').checked = !!a.publicado;
+      document.getElementById('blogDestacado').checked = !!a.destacado;
+      // Fuentes
+      fuentesData = Array.isArray(a.fuentes) ? a.fuentes : [];
+      renderFuentesList();
+      // Preview
+      blogPreviewUpdate();
+    });
+  };
+
+  /* ── Close form ── */
+  window.blogCloseForm = function(){
+    document.getElementById('blogEditor').style.display = 'none';
+  };
+
+  /* ── Markdown preview ── */
+  window.blogPreviewUpdate = function(){
+    var md = document.getElementById('blogContenido').value;
+    var preview = document.getElementById('blogPreview');
+    if(typeof marked !== 'undefined' && md.trim()){
+      preview.innerHTML = '<div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;line-height:1.7;color:var(--ink-2);">'+marked.parse(md)+'</div>';
+    } else {
+      preview.innerHTML = '<span style="color:var(--ink-faint);font-size:12px;">El preview aparece aquí…</span>';
+    }
+  };
+
+  /* ── Fuentes ── */
+  function renderFuentesList(){
+    var el=document.getElementById('blogFuentesList');
+    el.innerHTML=fuentesData.map(function(f,i){
+      return '<div style="display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;">'+
+        '<input type="text" placeholder="Nombre de la fuente" value="'+(f.nombre||'')+'" onchange="blogFuenteUpdate('+i+',\'nombre\',this.value)" style="border:1px solid var(--border);padding:8px 10px;font-size:12px;font-family:var(--font-ui);outline:none;">'+
+        '<input type="url" placeholder="https://..." value="'+(f.url||'')+'" onchange="blogFuenteUpdate('+i+',\'url\',this.value)" style="border:1px solid var(--border);padding:8px 10px;font-size:12px;font-family:var(--font-ui);outline:none;">'+
+        '<button onclick="blogFuenteRemove('+i+')" style="border:none;background:none;cursor:pointer;color:var(--red);font-size:16px;padding:4px 8px;">✕</button>'+
+      '</div>';
+    }).join('');
+  }
+
+  window.blogAddFuente = function(){
+    fuentesData.push({nombre:'',url:''});
+    renderFuentesList();
+  };
+
+  window.blogFuenteUpdate = function(i,field,val){
+    if(fuentesData[i])fuentesData[i][field]=val;
+  };
+
+  window.blogFuenteRemove = function(i){
+    fuentesData.splice(i,1);
+    renderFuentesList();
+  };
+
+  /* ── Save ── */
+  window.blogSave = function(){
+    var titulo = document.getElementById('blogTitulo').value.trim();
+    if(!titulo){ alert('El título es obligatorio.'); return; }
+    var id = document.getElementById('blogEditId').value;
+    var tags = document.getElementById('blogTags').value.split(',').map(function(t){return t.trim();}).filter(Boolean);
+    var payload = {
+      titulo: titulo,
+      subtitulo: document.getElementById('blogSubtitulo').value.trim()||null,
+      categoria: document.getElementById('blogCategoria').value,
+      resumen: document.getElementById('blogResumen').value.trim()||null,
+      imagen_portada: document.getElementById('blogImagen').value.trim()||null,
+      tags_busqueda: tags,
+      minutos_lectura: parseInt(document.getElementById('blogMinutos').value)||null,
+      contenido_md: document.getElementById('blogContenido').value,
+      fuentes: fuentesData.filter(function(f){return f.nombre;}),
+      publicado: document.getElementById('blogPublicado').checked,
+      destacado: document.getElementById('blogDestacado').checked
+    };
+    if(!id){ payload.slug = genSlug(titulo); payload.published_at = new Date().toISOString(); }
+
+    var btn = document.getElementById('blogSaveTxt');
+    var msg = document.getElementById('blogSaveMsg');
+    btn.textContent = 'Guardando…';
+
+    var method = id ? 'PATCH' : 'POST';
+    var ep = id ? 'articulos?id=eq.'+id : 'articulos';
+
+    sbAdmin(method, ep, payload).then(function(data){
+      btn.textContent = 'Guardar artículo';
+      msg.textContent = '✓ Guardado correctamente';
+      msg.className = 'save-msg show';
+      setTimeout(function(){ msg.className='save-msg'; }, 3000);
+      blogLoadList();
+      if(!id) blogCloseForm();
+    }).catch(function(err){
+      btn.textContent = 'Guardar artículo';
+      msg.textContent = '✗ Error al guardar';
+      msg.className = 'save-msg show error';
+      console.error(err);
+    });
+  };
+
+  /* ── Delete ── */
+  window.blogDelete = function(id, titulo){
+    if(!confirm('¿Eliminar el artículo "'+titulo+'"? Esta acción no se puede deshacer.'))return;
+    sbAdmin('DELETE','articulos?id=eq.'+id).then(function(){
+      blogLoadList();
+    }).catch(function(err){console.error(err);});
+  };
+
+  // Exponer funciones que usa el onclick del HTML
+  window.blogPreviewUpdate = window.blogPreviewUpdate;
 })();
 </script>
 </body>
