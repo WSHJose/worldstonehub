@@ -503,30 +503,52 @@ function init() {
 //  DATA LOADING
 // ─────────────────────────────────────────────
 async function loadData() {
+  // Only minimal fields for map rendering — imagen/descripcion loaded on click
+  const fields = 'id,nombre,categoria,color_predominante,origen_pais,origen_region,lat,lng';
+  const base = `${SB_URL}/rest/v1/materiales?select=${fields}&lat=not.is.null&lng=not.is.null&order=id`;
+  const hdrs = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` };
+  const PAGE = 3500;
+
+  // Count total first to know how many pages
   try {
-    const fields = 'id,nombre,categoria,color_predominante,origen_pais,origen_region,imagen_url,descripcion_corta,lat,lng';
-    let url = `${SB_URL}/rest/v1/materiales?select=${fields}&lat=not.is.null&lng=not.is.null&limit=2000`;
-    const res = await fetch(url, {
-      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
-    });
-    if (!res.ok) throw new Error('API error: ' + res.status);
-    allData = await res.json();
+    const countRes = await fetch(
+      `${SB_URL}/rest/v1/materiales?select=id&lat=not.is.null&lng=not.is.null`,
+      { headers: { ...hdrs, 'Prefer': 'count=exact', 'Range': '0-0' } }
+    );
+    const total = parseInt(countRes.headers.get('content-range')?.split('/')[1] || '9999');
+    const pages = Math.ceil(total / PAGE);
+
+    // Fetch all pages in parallel
+    const fetches = Array.from({ length: pages }, (_, i) =>
+      fetch(`${base}&limit=${PAGE}&offset=${i * PAGE}`, { headers: hdrs })
+        .then(r => r.ok ? r.json() : [])
+    );
+    const results = await Promise.all(fetches);
+    allData = results.flat();
   } catch (e) {
     console.error('Error loading data:', e);
-    // Try without coordinate filter (for dev/testing)
+    // Fallback: single fetch with lower limit
     try {
-      const res = await fetch(`${SB_URL}/rest/v1/materiales?select=id,nombre,categoria,color_predominante,origen_pais,origen_region,imagen_url,descripcion_corta,lat,lng&limit=500`, {
-        headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
-      });
-      const raw = await res.json();
-      allData = raw.filter(d => d.lat && d.lng);
-    } catch (e2) {
-      allData = [];
-    }
+      const r = await fetch(`${base}&limit=3000`, { headers: hdrs });
+      allData = r.ok ? await r.json() : [];
+    } catch (e2) { allData = []; }
   }
 
   buildFilters();
   updateStats();
+}
+
+// Fetch full detail for a single material on click
+async function fetchDetail(id) {
+  const fields = 'id,nombre,categoria,color_predominante,origen_pais,origen_region,imagen_url,descripcion_corta,lat,lng';
+  try {
+    const r = await fetch(
+      `${SB_URL}/rest/v1/materiales?select=${fields}&id=eq.${id}&limit=1`,
+      { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } }
+    );
+    const rows = await r.json();
+    return rows[0] || null;
+  } catch(e) { return null; }
 }
 
 // ─────────────────────────────────────────────
@@ -545,8 +567,6 @@ function toGeoJSON(data) {
         color: d.color_predominante || '',
         pais: Array.isArray(d.origen_pais) ? d.origen_pais[0] : (d.origen_pais || ''),
         region: d.origen_region || '',
-        imagen: d.imagen_url || '',
-        desc: d.descripcion_corta || '',
         catColor: getCatConfig(d.categoria).color,
       }
     }))
@@ -801,42 +821,48 @@ document.getElementById('searchClear').addEventListener('click', () => {
 // ─────────────────────────────────────────────
 //  DETAIL PANEL
 // ─────────────────────────────────────────────
-function openDetail(props) {
+async function openDetail(props) {
   const cfg = getCatConfig(props.categoria);
   const mediaEl = document.getElementById('det-media');
   const bodyEl = document.getElementById('det-body');
   const actEl = document.getElementById('det-actions');
 
-  // Media
-  if (props.imagen) {
-    mediaEl.innerHTML = `<img class="det-img" src="${props.imagen}" alt="${props.nombre}" loading="lazy" onerror="this.parentNode.innerHTML=placeholderImg('${cfg.color}','${props.nombre}')">`;
-  } else {
-    mediaEl.innerHTML = placeholderImg(cfg.color, props.nombre);
-  }
+  // Open panel immediately with basic data (no waiting)
+  document.getElementById('detail').classList.add('open');
+  mediaEl.innerHTML = placeholderImg(cfg.color, props.nombre);
 
-  // Body
   const paisHtml = props.pais
     ? `<img src="https://flagcdn.com/20x15/${countryCode(props.pais)}.png" alt="${props.pais}" onerror="this.style.display='none'"> ${props.pais}`
-    : props.pais;
+    : '';
 
   bodyEl.innerHTML = `
     <div class="det-cat" style="color:${cfg.color};border-color:${cfg.color}40">${cfg.label}</div>
     <div class="det-name">${props.nombre}</div>
-    <div class="det-origin">${paisHtml || ''}${props.region ? (props.pais ? ' · ' : '') + props.region : ''}</div>
-    ${props.desc ? `<p style="font-size:12px;color:#a8a090;line-height:1.65;margin-bottom:12px">${props.desc}</p>` : ''}
-    <div class="det-props">
+    <div class="det-origin">${paisHtml}${props.region ? (props.pais ? ' · ' : '') + props.region : ''}</div>
+    <div class="det-props" id="det-props-inner">
       ${props.categoria ? detProp('Categoría', cfg.label) : ''}
       ${props.color ? detProp('Color', props.color) : ''}
       ${props.pais ? detProp('País', props.pais) : ''}
       ${props.region ? detProp('Región', props.region) : ''}
     </div>`;
 
-  // Actions
   actEl.innerHTML = `
     <a href="material.html?id=${props.id}" class="det-btn">Ver ficha completa →</a>
     <a href="materiales.html?cat=${encodeURIComponent(props.categoria)}" class="det-btn-ghost">Ver más ${cfg.label}</a>`;
 
-  document.getElementById('detail').classList.add('open');
+  // Then enrich with imagen + descripcion in background
+  const detail = await fetchDetail(props.id);
+  if (!detail) return;
+
+  if (detail.imagen_url) {
+    mediaEl.innerHTML = `<img class="det-img" src="${detail.imagen_url}" alt="${props.nombre}" loading="lazy" onerror="this.innerHTML=''">`;
+  }
+  if (detail.descripcion_corta) {
+    const propsEl = document.getElementById('det-props-inner');
+    if (propsEl) propsEl.insertAdjacentHTML('beforebegin',
+      `<p style="font-size:12px;color:#a8a090;line-height:1.65;margin-bottom:12px">${detail.descripcion_corta}</p>`
+    );
+  }
 }
 
 function closeDetail() {
