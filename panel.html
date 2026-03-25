@@ -691,7 +691,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
 <script>
 (function(){
   var SB_URL = "https://whcptmdapnavcxcszwwk.supabase.co";
-  var SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8";
+  var SB_KEY = "sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO";
   var db = supabase.createClient(SB_URL, SB_KEY);
 
   var currentUser = null;
@@ -1236,19 +1236,32 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 60px;display:fl
 <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
 <script>
 (function(){
-  var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-  var SV_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzA5OTgxMCwiZXhwIjoyMDg4Njc1ODEwfQ.LOlzokE8UV6zDIBxcd0Dy1EyjuNtEJLoQ9cnfBPo5Po';
-  var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
+  // IMPORTANTE: Las operaciones del blog usan el token de sesión del usuario autenticado.
+  // La service_role key NO debe aparecer nunca en código cliente.
   var CAT_ES = {tendencias:'Tendencias',proyectos:'Proyectos',ferias:'Ferias',guias:'Guías',noticias:'Noticias'};
   var CAT_COLOR = {tendencias:'#A67C52',proyectos:'#4a7a6a',ferias:'#6a5a8a',guias:'#4a6080',noticias:'#8a4a3a'};
   var fuentesData = [];
 
+  // Usa el cliente Supabase ya inicializado en el panel (db) con el JWT del usuario logueado.
+  // RLS permite escritura solo a usuarios autenticados con email verificado.
   function sbAdmin(method, ep, body){
-    return fetch(SB_URL+'/rest/v1/'+ep,{
-      method: method||'GET',
-      headers:{'apikey':SV_KEY,'Authorization':'Bearer '+SV_KEY,'Content-Type':'application/json','Accept':'application/json','Prefer':'return=representation'},
-      body: body ? JSON.stringify(body) : undefined
-    }).then(function(r){return r.json();});
+    // Obtiene el token de sesión del usuario actual
+    return db.auth.getSession().then(function(r){
+      var token = r.data && r.data.session && r.data.session.access_token;
+      var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
+      var ANON_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+      return fetch(SB_URL+'/rest/v1/'+ep,{
+        method: method||'GET',
+        headers:{
+          'apikey': ANON_KEY,
+          'Authorization': 'Bearer '+(token||ANON_KEY),
+          'Content-Type':'application/json',
+          'Accept':'application/json',
+          'Prefer':'return=representation'
+        },
+        body: body ? JSON.stringify(body) : undefined
+      }).then(function(r){return r.json();});
+    });
   }
 
   function genSlug(t){

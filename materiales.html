@@ -178,8 +178,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 /* ── FEATURED STONE (header derecho) ── */
 .ph-right{position:relative;overflow:hidden;background:#1a1917;}
 .featured-stone{position:absolute;inset:0;overflow:hidden;}
-.featured-stone img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease;}
-.ph-right:hover .featured-stone img{transform:scale(1.04);}
+.featured-stone > img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease;}
+.ph-right:hover .featured-stone > img{transform:scale(1.04);}
+.featured-stone-origin img{width:18px!important;height:18px!important;border-radius:3px;flex-shrink:0;}
 .featured-stone-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.18) 55%,transparent 100%);}
 .featured-stone-badge{position:absolute;top:18px;right:18px;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:30px;background:rgba(255,255,255,.92);color:var(--ink-2);font-family:'Instrument Sans',sans-serif;font-weight:600;backdrop-filter:blur(4px);}
 .featured-stone-eyebrow{position:absolute;top:20px;left:22px;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.45);font-family:'DM Mono',monospace;}
@@ -384,7 +385,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 
 <script>
 var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
+var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
 
 var DB = [];
 var activeFilters = { cat: null, color: null };
@@ -415,35 +416,31 @@ function tradAcabado(a) {
    COLOR → GRADIENTE
 ══════════════════════════════════════ */
 var COLOR_MAP = {
-  'blanco':     ['#f7f5f2','#ece9e4'],
-  'negro':      ['#2c2a27','#1a1917'],
-  'antracita':  ['#4a4845','#2c2a27'],
-  'gris':       ['#b0aaa4','#8a8480'],
-  'plateado':   ['#c8c4be','#a8a49e'],
-  'beige':      ['#d9c4a8','#c4a87e'],
-  'crema':      ['#f0e4cc','#e0ccaa'],
-  'arena':      ['#d8c498','#c0a870'],
-  'miel':       ['#d4a84c','#b88830'],
-  'marrón':     ['#9a7456','#7a5438'],
-  'marron':     ['#9a7456','#7a5438'],
-  'chocolate':  ['#6d4c3a','#4e3428'],
-  'café':       ['#8a6450','#6a4438'],
-  'verde':      ['#7ab07e','#4a8a50'],
-  'esmeralda':  ['#3a9a70','#1a7a50'],
-  'rojo':       ['#c06050','#903838'],
-  'rosa':       ['#d898a8','#b86880'],
-  'burdeos':    ['#8a3848','#6a2030'],
-  'coral':      ['#e08868','#c06040'],
-  'azul':       ['#6090c0','#3060a0'],
-  'azul celeste':['#80b0e0','#5090c8'],
-  'azul imperial':['#3050a0','#183080'],
-  'amarillo':   ['#e8d060','#c8a830'],
-  'dorado':     ['#c89830','#a87010'],
-  'naranja':    ['#e09050','#c06820'],
-  'morado':     ['#9060b0','#703090'],
-  'violeta':    ['#7858a8','#503880'],
-  'lila':       ['#b090c8','#9068a8'],
+  /* ── Español ── */
+  'blanco':['#f7f5f2','#ece9e4'],'negro':['#2c2a27','#1a1917'],'antracita':['#4a4845','#2c2a27'],
+  'gris':['#b0aaa4','#8a8480'],'plateado':['#c8c4be','#a8a49e'],
+  'beige':['#d9c4a8','#c4a87e'],'crema':['#f0e4cc','#e0ccaa'],'arena':['#d8c498','#c0a870'],'miel':['#d4a84c','#b88830'],
+  'marrón':['#9a7456','#7a5438'],'marron':['#9a7456','#7a5438'],'chocolate':['#6d4c3a','#4e3428'],'café':['#8a6450','#6a4438'],
+  'verde':['#7ab07e','#4a8a50'],'esmeralda':['#3a9a70','#1a7a50'],
+  'rojo':['#c06050','#903838'],'rosa':['#d898a8','#b86880'],'burdeos':['#8a3848','#6a2030'],'coral':['#e08868','#c06040'],
+  'azul':['#6090c0','#3060a0'],'azul celeste':['#80b0e0','#5090c8'],'azul imperial':['#3050a0','#183080'],
+  'amarillo':['#e8d060','#c8a830'],'dorado':['#c89830','#a87010'],'naranja':['#e09050','#c06820'],
+  'morado':['#9060b0','#703090'],'violeta':['#7858a8','#503880'],'lila':['#b090c8','#9068a8'],
   'translúcido':['#a8d8e0','#78b8c8'],
+  /* ── English ── */
+  'white':['#f7f5f2','#ece9e4'],'ivory':['#f0e8d8','#e0d0b8'],'semi white':['#f0eee8','#e0dcd4'],
+  'black':['#2c2a27','#1a1917'],'anthracite':['#4a4845','#2c2a27'],
+  'grey':['#b0aaa4','#8a8480'],'gray':['#b0aaa4','#8a8480'],'silver':['#c8c4be','#a8a49e'],
+  'cream':['#f0e4cc','#e0ccaa'],'buff':['#d8c498','#c0a870'],'sand':['#d8c498','#c0a870'],'taupe':['#c4b49a','#a89878'],
+  'brown':['#9a7456','#7a5438'],'coffee':['#8a6450','#6a4438'],'walnut':['#6d4c3a','#4e3428'],
+  'green':['#7ab07e','#4a8a50'],'emerald':['#3a9a70','#1a7a50'],'forest':['#3a7040','#206030'],
+  'red':['#c06050','#903838'],'pink':['#d898a8','#b86880'],'rose':['#d898a8','#b86880'],
+  'burgundy':['#8a3848','#6a2030'],'bordeaux':['#8a3848','#6a2030'],
+  'blue':['#6090c0','#3060a0'],'navy':['#2a4870','#183058'],'cobalt':['#3060b0','#1848a0'],
+  'yellow':['#e8d060','#c8a830'],'gold':['#c89830','#a87010'],'amber':['#d08820','#b06800'],
+  'orange':['#e09050','#c06820'],'ochre':['#c89040','#a87020'],
+  'purple':['#9060b0','#703090'],'violet':['#7858a8','#503880'],'lilac':['#b090c8','#9068a8'],
+  'multicolor':['#d4c4b0','#b8a890'],
 };
 
 function getSwatchGradient(colorPrincipal) {
@@ -462,15 +459,24 @@ function getSwatchGradient(colorPrincipal) {
 function getColorGroup(cp) {
   if (!cp) return '';
   var c = cp.toLowerCase();
-  if (c.indexOf('blanco') !== -1) return 'Blanco';
-  if (c.indexOf('negro') !== -1 || c.indexOf('antracita') !== -1) return 'Negro';
-  if (c.indexOf('gris') !== -1 || c.indexOf('plateado') !== -1) return 'Gris';
-  if (c.indexOf('beige') !== -1 || c.indexOf('crema') !== -1 || c.indexOf('arena') !== -1 || c.indexOf('miel') !== -1) return 'Beige';
-  if (c.indexOf('marrón') !== -1 || c.indexOf('marron') !== -1 || c.indexOf('chocolate') !== -1 || c.indexOf('café') !== -1) return 'Marrón';
-  if (c.indexOf('verde') !== -1 || c.indexOf('esmeralda') !== -1) return 'Verde';
-  if (c.indexOf('rojo') !== -1 || c.indexOf('rosa') !== -1 || c.indexOf('burdeos') !== -1 || c.indexOf('coral') !== -1) return 'Rojo';
-  if (c.indexOf('azul') !== -1) return 'Azul';
-  if (c.indexOf('dorado') !== -1 || c.indexOf('amarillo') !== -1 || c.indexOf('oro') !== -1) return 'Dorado';
+  // Blanco / White
+  if (c.indexOf('blanco') !== -1 || c.indexOf('white') !== -1 || c.indexOf('ivory') !== -1 || c.indexOf('semi white') !== -1) return 'Blanco';
+  // Negro / Black
+  if (c.indexOf('negro') !== -1 || c.indexOf('antracita') !== -1 || c.indexOf('black') !== -1 || c.indexOf('anthracite') !== -1) return 'Negro';
+  // Gris / Gray
+  if (c.indexOf('gris') !== -1 || c.indexOf('plateado') !== -1 || c.indexOf('grey') !== -1 || c.indexOf('gray') !== -1 || c.indexOf('silver') !== -1) return 'Gris';
+  // Beige / Cream / Sand
+  if (c.indexOf('beige') !== -1 || c.indexOf('crema') !== -1 || c.indexOf('arena') !== -1 || c.indexOf('miel') !== -1 || c.indexOf('cream') !== -1 || c.indexOf('buff') !== -1 || c.indexOf('sand') !== -1 || c.indexOf('taupe') !== -1) return 'Beige';
+  // Marrón / Brown
+  if (c.indexOf('marrón') !== -1 || c.indexOf('marron') !== -1 || c.indexOf('chocolate') !== -1 || c.indexOf('café') !== -1 || c.indexOf('brown') !== -1 || c.indexOf('coffee') !== -1 || c.indexOf('walnut') !== -1) return 'Marrón';
+  // Verde / Green
+  if (c.indexOf('verde') !== -1 || c.indexOf('esmeralda') !== -1 || c.indexOf('green') !== -1 || c.indexOf('emerald') !== -1 || c.indexOf('forest') !== -1) return 'Verde';
+  // Azul / Blue (antes de Rojo para evitar falsos positivos)
+  if (c.indexOf('azul') !== -1 || c.indexOf('blue') !== -1 || c.indexOf('navy') !== -1 || c.indexOf('cobalt') !== -1) return 'Azul';
+  // Rojo / Red / Rosa / Pink
+  if (c.indexOf('rojo') !== -1 || c.indexOf('rosa') !== -1 || c.indexOf('burdeos') !== -1 || c.indexOf('coral') !== -1 || c.indexOf('red') !== -1 || c.indexOf('pink') !== -1 || c.indexOf('rose') !== -1 || c.indexOf('burgundy') !== -1 || c.indexOf('bordeaux') !== -1 || c.indexOf('lilac') !== -1 || c.indexOf('lila') !== -1 || c.indexOf('purple') !== -1 || c.indexOf('violet') !== -1 || c.indexOf('morado') !== -1) return 'Rojo';
+  // Dorado / Gold / Yellow
+  if (c.indexOf('dorado') !== -1 || c.indexOf('amarillo') !== -1 || c.indexOf('oro') !== -1 || c.indexOf('gold') !== -1 || c.indexOf('yellow') !== -1 || c.indexOf('amber') !== -1 || c.indexOf('ochre') !== -1 || c.indexOf('orange') !== -1 || c.indexOf('naranja') !== -1) return 'Dorado';
   return '';
 }
 
@@ -668,8 +674,25 @@ function applyFilters() {
   var fc     = activeFilters.cat;
   var fcolor = activeFilters.color;
 
+  // Mapa de categorías EN/especiales → valor de chip
+  var CAT_NORM = {
+    'bluestone':'piedra azul','blue stone':'piedra azul',
+    'esquisto':'pizarra','phyllite':'pizarra','filita':'pizarra',
+    'gneis':'granito','gneiss':'granito','felsite':'basalto','rhyolite':'basalto',
+    'soapstone':'pizarra','cantera':'caliza','limestone':'caliza',
+    'jade':'ónix','serpentinite':'ónix','mármol':'mármol','marble':'mármol',
+    'granite':'granito','sandstone':'arenisca','quartzite':'cuarcita',
+    'slate':'pizarra','travertine':'travertino','onyx':'ónix',
+    'basalt':'basalto','alabaster':'alabastro','andesite':'andesita',
+    'porphyry':'pórfido','tuff':'toba','toba volcánica':'toba'
+  };
+
   var result = DB.filter(function(m) {
-    if (fc && (m.categoria||'').toLowerCase() !== fc) return false;
+    if (fc) {
+      var catRaw = (m.categoria||'').toLowerCase();
+      var catNorm = CAT_NORM[catRaw] || catRaw;
+      if (catNorm !== fc) return false;
+    }
     if (fcolor && getColorGroup(m.color_principal) !== fcolor) return false;
     if (q) {
       var names = arr(m.nombres_alternativos).join(' ');

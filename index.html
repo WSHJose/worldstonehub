@@ -3232,7 +3232,7 @@ footer{background:#111110!important;color:#e8e6e2!important;}
 (function() {
 
 var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
+var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
 
 var INDEX      = [];
 var activeType = 'all';
@@ -3642,7 +3642,7 @@ if (moreBtn) {
 <script>
 (function loadAd(){
   var SB_URL="https://whcptmdapnavcxcszwwk.supabase.co";
-  var SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8";
+  var SB_KEY="sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO";
   var today=new Date().toISOString().slice(0,10);
   fetch(SB_URL+'/rest/v1/anuncios?espacio_codigo=eq.HOME-TOP&activo=eq.true&select=imagen_url,url_destino,texto_alt,fecha_inicio,fecha_fin&limit=5',{
     headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
@@ -3720,7 +3720,7 @@ if (moreBtn) {
 /* ── Contador real de operadores activos (proCount + heroStatCompanies) ── */
 (function(){
   var SB_URL='https://whcptmdapnavcxcszwwk.supabase.co';
-  var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
+  var SB_KEY='sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
   fetch(SB_URL+'/rest/v1/proveedores?select=id&activo=eq.true&estado=eq.activo',{
     headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'count=exact','Range':'0-0'}
   }).then(function(r){

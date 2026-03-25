@@ -1,6 +1,6 @@
 (function() {
   var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-  var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
+  var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
 
   var PLAN_ORDER  = { 'elite': 0, 'profesional': 1, 'presencia': 2, 'free': 3 };
   var PLAN_COLORS = {
