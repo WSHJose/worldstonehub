@@ -503,7 +503,7 @@ function init() {
 //  DATA LOADING
 // ─────────────────────────────────────────────
 async function loadData() {
-  const fields = 'id,nombre,categoria,color_predominante,origen_pais,origen_region,lat,lng';
+  const fields = 'id,nombre_comercial,categoria,color_principal,origen_pais,origen_region,lat,lng';
   const hdrs = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` };
   const PAGE = 3500;
 
@@ -533,7 +533,7 @@ async function loadData() {
 
 // Fetch full detail for a single material on click
 async function fetchDetail(id) {
-  const fields = 'id,nombre,categoria,color_predominante,origen_pais,origen_region,imagen_url,descripcion_corta,lat,lng';
+  const fields = 'id,nombre_comercial,categoria,color_principal,origen_pais,origen_region,imagen_url_principal,lat,lng';
   try {
     const r = await fetch(
       `${SB_URL}/rest/v1/materiales?select=${fields}&id=eq.${id}&limit=1`,
@@ -555,9 +555,9 @@ function toGeoJSON(data) {
       geometry: { type: 'Point', coordinates: [d.lng, d.lat] },
       properties: {
         id: d.id,
-        nombre: d.nombre || '—',
+        nombre: d.nombre_comercial || '—',
         categoria: d.categoria || '',
-        color: d.color_predominante || '',
+        color: d.color_principal || '',
         pais: Array.isArray(d.origen_pais) ? d.origen_pais[0] : (d.origen_pais || ''),
         region: d.origen_region || '',
         catColor: getCatConfig(d.categoria).color,
@@ -706,7 +706,7 @@ function buildFilters() {
   }).join('');
 
   // Colors
-  const colors = [...new Set(allData.map(d => d.color_predominante).filter(Boolean))]
+  const colors = [...new Set(allData.map(d => d.color_principal).filter(Boolean))]
     .sort().slice(0, 20);
   document.getElementById('fcolor').innerHTML = colors.map(c =>
     `<div class="chip" data-val="${c}" onclick="toggleColor(this,'${c}')">${c}</div>`
@@ -764,13 +764,13 @@ function applyFilters() {
   const s = searchTerm.toLowerCase();
   filteredData = allData.filter(d => {
     if (activeCat && d.categoria !== activeCat) return false;
-    if (activeColor && d.color_predominante !== activeColor) return false;
+    if (activeColor && d.color_principal !== activeColor) return false;
     if (activeCountry) {
       const paises = Array.isArray(d.origen_pais) ? d.origen_pais : [d.origen_pais];
       if (!paises.includes(activeCountry)) return false;
     }
     if (s) {
-      const hay = `${d.nombre} ${d.categoria} ${d.origen_region} ${d.color_predominante}`.toLowerCase();
+      const hay = `${d.nombre_comercial} ${d.categoria} ${d.origen_region} ${d.color_principal}`.toLowerCase();
       if (!hay.includes(s)) return false;
     }
     return true;
@@ -847,14 +847,8 @@ async function openDetail(props) {
   const detail = await fetchDetail(props.id);
   if (!detail) return;
 
-  if (detail.imagen_url) {
-    mediaEl.innerHTML = `<img class="det-img" src="${detail.imagen_url}" alt="${props.nombre}" loading="lazy" onerror="this.innerHTML=''">`;
-  }
-  if (detail.descripcion_corta) {
-    const propsEl = document.getElementById('det-props-inner');
-    if (propsEl) propsEl.insertAdjacentHTML('beforebegin',
-      `<p style="font-size:12px;color:#a8a090;line-height:1.65;margin-bottom:12px">${detail.descripcion_corta}</p>`
-    );
+  if (detail.imagen_url_principal) {
+    mediaEl.innerHTML = `<img class="det-img" src="${detail.imagen_url_principal}" alt="${props.nombre}" loading="lazy" onerror="this.innerHTML=''">`;
   }
 }
 
