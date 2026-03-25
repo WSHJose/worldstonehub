@@ -503,35 +503,28 @@ function init() {
 //  DATA LOADING
 // ─────────────────────────────────────────────
 async function loadData() {
-  // Only minimal fields for map rendering — imagen/descripcion loaded on click
   const fields = 'id,nombre,categoria,color_predominante,origen_pais,origen_region,lat,lng';
-  const base = `${SB_URL}/rest/v1/materiales?select=${fields}&lat=not.is.null&lng=not.is.null&order=id`;
   const hdrs = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` };
   const PAGE = 3500;
 
-  // Count total first to know how many pages
-  try {
-    const countRes = await fetch(
-      `${SB_URL}/rest/v1/materiales?select=id&lat=not.is.null&lng=not.is.null`,
-      { headers: { ...hdrs, 'Prefer': 'count=exact', 'Range': '0-0' } }
-    );
-    const total = parseInt(countRes.headers.get('content-range')?.split('/')[1] || '9999');
-    const pages = Math.ceil(total / PAGE);
+  function fetchPage(offset) {
+    const url = `${SB_URL}/rest/v1/materiales?select=${fields}&order=id.asc&limit=${PAGE}&offset=${offset}`;
+    return fetch(url, { headers: hdrs }).then(r => r.ok ? r.json() : []).catch(() => []);
+  }
 
-    // Fetch all pages in parallel
-    const fetches = Array.from({ length: pages }, (_, i) =>
-      fetch(`${base}&limit=${PAGE}&offset=${i * PAGE}`, { headers: hdrs })
-        .then(r => r.ok ? r.json() : [])
-    );
-    const results = await Promise.all(fetches);
-    allData = results.flat();
+  try {
+    // 3 pages in parallel covers up to 10500 rows
+    const results = await Promise.all([
+      fetchPage(0),
+      fetchPage(PAGE),
+      fetchPage(PAGE * 2),
+    ]);
+    const raw = results.flat();
+    // Filter client-side for rows that have coordinates
+    allData = raw.filter(d => d.lat != null && d.lng != null);
   } catch (e) {
-    console.error('Error loading data:', e);
-    // Fallback: single fetch with lower limit
-    try {
-      const r = await fetch(`${base}&limit=3000`, { headers: hdrs });
-      allData = r.ok ? await r.json() : [];
-    } catch (e2) { allData = []; }
+    console.error('loadData error:', e);
+    allData = [];
   }
 
   buildFilters();
