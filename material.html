@@ -315,7 +315,26 @@ nav {
     if (!s) return '';
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
-  function arr(v) { return Array.isArray(v) ? v : (v ? [v] : []); }
+  function arr(v) {
+    if (!v) return [];
+    if (Array.isArray(v)) return v;
+    if (typeof v === 'string') {
+      var s = v.trim();
+      if (s.charAt(0) === '[') {
+        try { var p = JSON.parse(s); if (Array.isArray(p)) return p; } catch(e) {}
+      }
+      return [v];
+    }
+    return [v];
+  }
+  function getRegionDisplay(v) {
+    var items = arr(v);
+    if (!items.length) return '';
+    var r = String(items[0]).trim();
+    var m = r.match(/\(([^)]+)\)/);
+    if (m) return m[1].trim();
+    return r;
+  }
   function el(id) { return document.getElementById(id); }
 
   var FLAG_CODES_M = {
@@ -480,8 +499,7 @@ nav {
     var usos     = arr(m.usos_recomendados);
     var tags     = arr(m.tags_busqueda);
     var t        = m.propiedades_tecnicas || {};
-    // origen_region es string (no array)
-    var regionStr = (typeof m.origen_region === 'string') ? m.origen_region : '';
+    var regionStr = getRegionDisplay(m.origen_region);
 
     // Meta
     document.title = esc(m.nombre_comercial) + ' — Ficha Técnica | World Stone Hub';

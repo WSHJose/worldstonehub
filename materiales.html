@@ -547,7 +547,22 @@ function trunc(s, n) {
 function arr(v) {
   if (!v) return [];
   if (Array.isArray(v)) return v;
+  if (typeof v === 'string') {
+    var s = v.trim();
+    if (s.charAt(0) === '[') {
+      try { var p = JSON.parse(s); if (Array.isArray(p)) return p; } catch(e) {}
+    }
+    return [v];
+  }
   return [v];
+}
+function getRegionDisplay(v) {
+  var items = arr(v);
+  if (!items.length) return '';
+  var r = String(items[0]).trim();
+  var m = r.match(/\(([^)]+)\)/);
+  if (m) return m[1].trim();
+  return r;
 }
 
 /* ══════════════════════════════════════
@@ -557,7 +572,7 @@ function buildCard(m) {
   var colors = getSwatchGradient(m.color_principal);
   var gradient = 'linear-gradient(135deg,' + colors[0] + ' 0%,' + colors[1] + ' 100%)';
   var paises  = arr(m.origen_pais);
-  var regionStr = typeof m.origen_region === 'string' ? trunc(m.origen_region, 28) : '';
+  var regionStr = trunc(getRegionDisplay(m.origen_region), 30);
   var flag    = getFlag(paises[0]);
   var paisStr = paises.slice(0,2).join(' · ');
   var acabados = arr(m.acabados_disponibles);
@@ -699,7 +714,7 @@ function applyFilters() {
       var usos  = arr(m.usos_recomendados).join(' ');
       var acab  = arr(m.acabados_disponibles).join(' ');
       var pais  = arr(m.origen_pais).join(' ');
-      var reg   = typeof m.origen_region === 'string' ? m.origen_region : '';
+      var reg   = getRegionDisplay(m.origen_region);
       var tags  = arr(m.tags_busqueda).join(' ');
       var hay   = [
         m.nombre_comercial, names,
