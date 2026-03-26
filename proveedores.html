@@ -3,13 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Directorio de Proveedores de Piedra Natural — World Stone Hub</title>
-<meta name="description" content="Directorio B2B global de canteras, fabricantes, distribuidores, exportadores e importadores de piedra natural. Encuentra proveedores verificados de España, Italia, Turquía, India y todo el mundo.">
-<meta property="og:title" content="Directorio de Proveedores — World Stone Hub">
-<meta property="og:description" content="Directorio B2B global de proveedores de piedra natural: fabricantes, distribuidores, canteras y exportadores.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://worldstonehub.com/proveedores.html">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1917'/><text x='50%25' y='54%25' font-family='serif' font-size='20' fill='%23A67C52' text-anchor='middle' dominant-baseline='middle'>W</text></svg>">
+<title>World Stone Hub — Proveedores y Distribuidores</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -267,6 +261,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
   <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub"><text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#1A1410">WORLD STONE</text><line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.65"/><text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text></svg></a>
   <ul class="nav-links">
     <li><a href="index.html" data-i18n="nav.inicio">Inicio</a></li>
+    <li><a href="canteras.html" data-i18n="nav.canteras">Canteras</a></li>
     <li><a href="materiales.html" data-i18n="nav.materiales">Materiales</a></li>
     <li class="nav-dropdown">
       <a href="proveedores.html" class="active" data-i18n="nav.directorio">Directorio</a>
@@ -281,8 +276,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
         <li><a href="sector-logistica.html" data-i18n="nav.logistica">Logística</a></li>
       </ul>
     </li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="mapa.html">MAPA</a></li>
+    <li class="nav-map-item"><a href="mapa.html" class="nav-map-link" title="Mapa Mundial de Canteras" aria-label="Mapa" data-i18n-attr="title:nav.mapaAriaLabel,aria-label:nav.mapaAriaLabel"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5 L7 3 L13 5.5 L18 4 L18 15.5 L13 17 L7 14.5 L2 16 Z"/><line x1="7" y1="3" x2="7" y2="14.5"/><line x1="13" y1="5.5" x2="13" y2="17"/><line x1="2.5" y1="9.5" x2="17.5" y2="9.5" stroke-dasharray="1.5 1.2" stroke-width="0.85"/><line x1="2.5" y1="12.5" x2="17.5" y2="12.5" stroke-dasharray="1.5 1.2" stroke-width="0.85"/><circle cx="10" cy="9" r="1.3" stroke-width="1.1"/></svg></a></li>
     <li id="nav-auth-item"></li>
   </ul>
   <div class="lang-switcher" role="group" aria-label="Seleccionar idioma">
@@ -376,7 +370,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 
 <script>
 var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
 var HDRS = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Accept': 'application/json' };
 
 /* ── STATE ── */
@@ -391,30 +385,14 @@ var currentPage   = (function() {
 })();
 
 /* ── FLAGS ── */
-var FLAG_CODES_P = {
-  'España':'es','Italia':'it','Portugal':'pt','Grecia':'gr','Turquía':'tr',
-  'Francia':'fr','Alemania':'de','Austria':'at','India':'in','China':'cn',
-  'Brasil':'br','Estados Unidos':'us','México':'mx','Canadá':'ca','Argentina':'ar',
-  'Chile':'cl','Perú':'pe','Colombia':'co','Australia':'au','Sudáfrica':'za',
-  'Marruecos':'ma','Egipto':'eg','Irán':'ir','Vietnam':'vn','Indonesia':'id',
-  'Japón':'jp','Corea del Sur':'kr','Israel':'il','Reino Unido':'gb',
-  'Suiza':'ch','Bélgica':'be','Países Bajos':'nl','Suecia':'se','Noruega':'no'
+var FLAGS = {
+  'España':'🇪🇸','Italia':'🇮🇹','Portugal':'🇵🇹','Grecia':'🇬🇷','Turquía':'🇹🇷',
+  'Francia':'🇫🇷','Alemania':'🇩🇪','Austria':'🇦🇹','Bélgica':'🇧🇪','Suecia':'🇸🇪',
+  'India':'🇮🇳','China':'🇨🇳','Brasil':'🇧🇷','Estados Unidos':'🇺🇸','México':'🇲🇽',
+  'Canadá':'🇨🇦','Argentina':'🇦🇷','Australia':'🇦🇺','Sudáfrica':'🇿🇦',
+  'Marruecos':'🇲🇦','Japón':'🇯🇵','Reino Unido':'🇬🇧','Suiza':'🇨🇭',
 };
-function getFlagProv(pais) {
-  if (!pais) return '';
-  var code = FLAG_CODES_P[pais];
-  if (!code) {
-    var pl = pais.toLowerCase();
-    for (var k in FLAG_CODES_P) {
-      if (k.toLowerCase() === pl) { code = FLAG_CODES_P[k]; break; }
-    }
-  }
-  if (!code) return '';
-  return '<img src="https://flagicons.lipis.dev/flags/1x1/' + code + '.svg" ' +
-    'width="16" height="16" alt="' + pais.replace(/"/g,'&quot;') + '" ' +
-    'style="border-radius:2px;flex-shrink:0;display:inline-block;vertical-align:middle;margin-right:4px" ' +
-    'loading="lazy" onerror="this.style.display=\'none\'">';
-}
+function flag(p) { return FLAGS[p] || '🌐'; }
 
 /* ── UTILS ── */
 function esc(s) { return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -505,7 +483,7 @@ function buildElite(p) {
 
   var subtitleParts = [];
   if (p.tipo_empresa) subtitleParts.push(esc(p.tipo_empresa));
-  if (locStr(p)) subtitleParts.push('<span class="elite-flag">'+getFlagProv(p.pais)+'</span>'+esc(locStr(p)));
+  if (locStr(p)) subtitleParts.push('<span class="elite-flag">'+flag(p.pais)+'</span>'+esc(locStr(p)));
   var subtitleHtml = subtitleParts.join('<span class="elite-sub-sep"> · </span>');
 
   var topMetaHtml = '';
@@ -553,7 +531,7 @@ function buildPro(p) {
         '<span class="pro-pill">PROFESIONAL</span>' +
       '</div>' +
       (p.tipo_empresa ? '<div class="pro-tipo">'+esc(p.tipo_empresa)+'</div>' : '') +
-      (locStr(p) ? '<div class="pro-loc"><span class="pro-flag">'+getFlagProv(p.pais)+'</span>'+esc(locStr(p))+'</div>' : '') +
+      (locStr(p) ? '<div class="pro-loc"><span class="pro-flag">'+flag(p.pais)+'</span>'+esc(locStr(p))+'</div>' : '') +
       (p.descripcion ? '<div class="pro-desc">'+esc(trunc(p.descripcion,130))+'</div>' : '') +
       (mHtml ? '<div class="pro-chips">'+mHtml+'</div>' : '') +
     '</div>' +
@@ -576,7 +554,7 @@ function buildPres(p) {
       '<span class="pres-pill">PRESENCIA</span>' +
     '</div>' +
     (p.tipo_empresa ? '<div class="pres-tipo">'+esc(p.tipo_empresa)+'</div>' : '') +
-    (locStr(p) ? '<div class="pres-loc"><span class="pres-flag">'+getFlagProv(p.pais)+'</span>'+esc(locStr(p))+'</div>' : '') +
+    (locStr(p) ? '<div class="pres-loc"><span class="pres-flag">'+flag(p.pais)+'</span>'+esc(locStr(p))+'</div>' : '') +
     (mHtml ? '<div class="pres-chips">'+mHtml+'</div>' : '') +
     '<div class="pres-footer">' +
       '<a class="pres-ver-btn" href="'+href+'" onclick="event.stopPropagation()">Ver perfil →</a>' +
@@ -589,7 +567,7 @@ function buildFreeSection(list) {
     var href = p.slug ? 'proveedor.html?id='+esc(p.slug) : '#';
     return '<tr class="free-row" onclick="location.href=\''+href+'\'">' +
       '<td class="free-td-name">'+esc(p.nombre_empresa)+'</td>' +
-      '<td class="free-td-loc">' + (p.pais ? getFlagProv(p.pais)+esc(p.pais) : '') + '</td>' +
+      '<td class="free-td-loc">' + (p.pais ? flag(p.pais)+' '+esc(p.pais) : '') + '</td>' +
       '<td class="free-td-type">'+(p.tipo_empresa ? esc(p.tipo_empresa) : '')+'</td>' +
       '<td class="free-td-action"><a class="free-ver-btn" href="'+href+'" onclick="event.stopPropagation()">Ver →</a></td>' +
     '</tr>';

@@ -1,55 +1,43 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Piedras del Mundo · World Stone Hub</title>
+<title>Mapa Mundial de Canteras · World Stone Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<!-- Mapbox GL JS -->
-<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z386REXEZF"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Z386REXEZF');</script>
-<!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1917'/><text x='50%25' y='54%25' font-family='serif' font-size='20' fill='%23A67C52' text-anchor='middle' dominant-baseline='middle'>W</text></svg>">
-<meta name="description" content="Explora las piedras naturales del mundo en un mapa interactivo. Mármoles, granitos, cuarcitas y más, con datos de origen precisos.">
-<meta property="og:title" content="Piedras del Mundo — World Stone Hub">
-<meta property="og:description" content="Mapa interactivo de piedras naturales: materiales, orígenes y fichas técnicas.">
-<meta property="og:type" content="website">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <style>
 :root{
-  --bg:#ffffff;--bg-soft:#f8f7f5;--bg-mid:#f0efed;
-  --border:#e2e0dc;--border-mid:#c8c5bf;
-  --ink:#1a1917;--ink-mid:#4a4845;--ink-muted:#8a8784;--ink-faint:#b8b5b0;
-  --gold:#A67C52;--gold-lt:#F5EFEA;
-  --font-disp:'Cormorant Garamond',serif;
-  --font-head:'Instrument Sans',sans-serif;
-  --font-mono:'DM Mono',monospace;
-  --nav-h:70px;--sb-w:280px;
-  /* Dark map palette */
-  --dm-bg:#0e0b08;--dm-surface:rgba(18,14,10,.97);
-  --dm-border:rgba(201,168,76,.1);--dm-text:#d4cfc8;
-  --dm-muted:#8a8070;--dm-gold:#c9a84c;
+  --bg:        #ffffff;
+  --bg-soft:   #f8f7f5;
+  --bg-mid:    #f0efed;
+  --border:    #e2e0dc;
+  --border-mid:#c8c5bf;
+  --ink:       #1a1917;
+  --ink-mid:   #4a4845;
+  --ink-muted: #8a8784;
+  --ink-faint: #b8b5b0;
+  --gold:      #A67C52;
+  --gold-lt:   #F5EFEA;
+  --accent:    #1a1917;
+  --font-disp: 'Cormorant Garamond', serif;
+  --font-head: 'Instrument Sans', sans-serif;
+  --font-body: 'Instrument Sans', sans-serif;
+  --nav-h:70px;--sb-w:272px;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html,body{width:100%;height:100%;overflow:hidden;}
-body{font-family:var(--font-head);color:var(--ink);background:#0e0b08;}
-
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
-  padding:0 60px;height:var(--nav-h);
-  display:flex;justify-content:space-between;align-items:center;
-  background:rgba(255,255,255,.97);backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(226,224,220,.8);
-}
-.logo{text-decoration:none;display:block;}
+body{background:#0d0b08;font-family:var(--font-body);color:var(--cream);}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:.32;}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 60px;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(226,224,220,0.8);}
+.logo{font-family:'Instrument Sans',sans-serif;font-size:26px;letter-spacing:6px;color:#1a1917;text-decoration:none;display:flex;flex-direction:column;line-height:1;}
 .nav-links{display:flex;gap:36px;list-style:none;align-items:center;margin-left:auto;}
 .nav-links a{font-size:14px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#4a4845;text-decoration:none;transition:color .3s;position:relative;}
 .nav-links a:hover,.nav-links a.active{color:#A67C52;}
-.nav-links a.active::after{content:'';position:absolute;bottom:-5px;left:0;right:0;height:1px;background:#A67C52;opacity:.5;}
-.nav-cta{background:#A67C52!important;color:#f8f7f5!important;padding:10px 24px;}
+.nav-links a.active::after{content:'';position:absolute;bottom:-5px;left:0;right:0;height:1px;background:#A67C52;opacity:0.5;}
+.nav-cta{background:#A67C52!important;color:#f8f7f5!important;padding:10px 24px;font-weight:500!important;}
 .nav-cta:hover{background:#1a1917!important;}
 .nav-auth-sep{display:inline-block;width:1px;height:14px;background:#c8c5bf;opacity:.5;margin:0 16px 0 4px;vertical-align:middle;}
 .nav-auth-link{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:all .25s;vertical-align:middle;}
@@ -58,9 +46,6 @@ nav{
 .state-panel:hover{background:#A67C52;color:#f8f7f5;}
 .nav-auth-dot{width:5px;height:5px;border-radius:50%;background:#A67C52;display:inline-block;flex-shrink:0;}
 .nav-dropdown{position:relative;}
-.nav-dropdown>a{display:flex;align-items:center;gap:5px;cursor:pointer;}
-.nav-dropdown>a::after{content:'▾';font-size:9px;opacity:.6;transition:transform .2s;}
-.nav-dropdown:hover>a::after{transform:rotate(180deg);}
 .dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#fff;border:1px solid #e2e0dc;min-width:210px;box-shadow:0 8px 32px rgba(0,0,0,.08);z-index:9999;padding:0;list-style:none;}
 .dropdown-menu::before{content:'';position:absolute;top:-10px;left:0;right:0;height:10px;}
 .nav-dropdown:hover .dropdown-menu,.nav-dropdown.open .dropdown-menu{display:block;}
@@ -71,847 +56,1301 @@ nav{
 .nav-map-item{display:flex;align-items:center;}
 .nav-map-link{display:flex;align-items:center;color:#8a8784;text-decoration:none;transition:color .3s;padding:2px 4px;}
 .nav-map-link:hover,.nav-map-link.active{color:#A67C52!important;}
+@media(max-width:960px){nav{padding:14px 20px;}.nav-links{display:none;}}
+
+#app{position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;display:flex;}
+
+/* SIDEBAR */
+#sidebar{width:var(--sb-w);flex-shrink:0;height:100%;background:rgba(11,8,5,.97);
+  border-right:1px solid rgba(196,168,130,.08);backdrop-filter:blur(24px);
+  display:flex;flex-direction:column;overflow:hidden;z-index:800;}
+.sb-header{padding:16px 18px 12px;border-bottom:1px solid rgba(196,168,130,.07);flex-shrink:0;}
+.sb-eyebrow{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.sb-count{display:flex;align-items:baseline;gap:5px;}
+.sb-count-num{font-family:var(--font-head);font-size:30px;letter-spacing:2px;color:var(--white);line-height:1;}
+.sb-count-num span{color:var(--gold);font-size:17px;}
+.sb-count-lbl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);line-height:1.4;}
+
+/* Search */
+.sb-search-wrap{padding:10px 16px 8px;border-bottom:1px solid rgba(196,168,130,.07);flex-shrink:0;position:relative;}
+.sb-search-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.sb-search-row{position:relative;display:flex;align-items:center;}
+.sb-ico{position:absolute;left:9px;font-size:13px;color:var(--muted);pointer-events:none;}
+#searchInput{width:100%;padding:7px 26px 7px 26px;background:rgba(255,255,255,.04);
+  border:1px solid var(--border);color:var(--cream);font-family:var(--font-body);
+  font-size:12px;outline:none;transition:border-color .2s;}
+#searchInput:focus{border-color:rgba(201,168,76,.4);}
+#searchInput::placeholder{color:var(--muted);opacity:.55;}
+#searchClear{position:absolute;right:8px;font-size:10px;color:var(--muted);cursor:pointer;
+  display:none;background:none;border:none;font-family:var(--font-body);transition:color .2s;}
+#searchClear.vis{display:block;}
+#searchClear:hover{color:var(--sand);}
+#searchDrop{position:absolute;top:calc(100% + 1px);left:0;right:0;z-index:2000;
+  background:rgba(14,10,7,.99);border:1px solid rgba(196,168,130,.18);border-top:none;
+  max-height:220px;overflow-y:auto;display:none;}
+#searchDrop::-webkit-scrollbar{width:2px;}
+#searchDrop::-webkit-scrollbar-thumb{background:var(--tan);}
+#searchDrop.open{display:block;}
+.sd-item{padding:8px 12px;cursor:pointer;border-bottom:1px solid rgba(196,168,130,.05);transition:background .15s;}
+.sd-item:hover,.sd-item.kbon{background:rgba(201,168,76,.08);}
+.sd-name{font-size:11.5px;color:var(--sand);}
+.sd-meta{font-size:9px;color:var(--muted);margin-top:1px;}
+.sd-badge{display:inline-block;margin-top:2px;font-size:6.5px;letter-spacing:2px;
+  text-transform:uppercase;padding:1px 5px;border:1px solid rgba(196,168,130,.15);color:var(--muted);}
+.sd-empty{padding:10px 12px;font-size:11px;color:var(--muted);font-style:italic;}
+
+/* Active tags */
+#activeTags{padding:6px 16px;border-bottom:1px solid rgba(196,168,130,.07);
+  flex-shrink:0;display:none;flex-wrap:wrap;gap:3px;}
+#activeTags.vis{display:flex;}
+.atag{font-size:7px;padding:3px 6px;background:rgba(201,168,76,.1);
+  border:1px solid rgba(201,168,76,.28);color:var(--gold);display:flex;align-items:center;gap:4px;}
+.atag-x{cursor:pointer;opacity:.6;font-size:8px;}
+.atag-x:hover{opacity:1;}
+
+/* Scrollable filter body */
+.sb-body{flex:1;overflow-y:auto;}
+.sb-body::-webkit-scrollbar{width:3px;}
+.sb-body::-webkit-scrollbar-thumb{background:var(--tan);}
+
+/* ── Collapsible section ──
+   IMPORTANT: header is a <div role="button">, NOT a <button>,
+   to avoid invalid nested-button HTML                         */
+.sb-sec{border-bottom:1px solid rgba(196,168,130,.06);}
+
+.sb-sec-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;cursor:pointer;user-select:none;
+  transition:background .2s;
+}
+.sb-sec-hd:hover{background:rgba(196,168,130,.03);}
+
+.sb-sec-left{display:flex;align-items:center;gap:6px;flex:1;min-width:0;}
+.sb-sec-label{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.sb-sec-badge{
+  font-size:6.5px;padding:1px 5px;
+  background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);
+  color:var(--gold);display:none;white-space:nowrap;
+}
+.sb-sec-badge.vis{display:inline-block;}
+
+.sb-sec-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.sb-clr-btn{
+  font-size:6.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);
+  cursor:pointer;background:none;border:none;font-family:var(--font-body);
+  padding:0;transition:color .2s;display:none;
+}
+.sb-clr-btn.vis{display:block;}
+.sb-clr-btn:hover{color:var(--gold);}
+
+.sb-arrow{font-size:9px;color:var(--muted);transition:transform .25s,color .25s;line-height:1;}
+.sb-sec.open .sb-arrow{transform:rotate(180deg);color:var(--gold);}
+.sb-sec.open .sb-sec-label{color:var(--sand);}
+
+/* Collapsible panel */
+.sb-sec-body{max-height:0;overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1);}
+.sb-sec.open .sb-sec-body{max-height:600px;}
+.sb-sec-inner{padding:4px 16px 12px;}
+
+/* Chips */
+.chips{display:flex;flex-wrap:wrap;gap:3px;}
+.chip{padding:4px 9px;font-size:7px;letter-spacing:2px;text-transform:uppercase;
+  background:transparent;border:1px solid rgba(196,168,130,.12);color:var(--muted);
+  cursor:pointer;font-family:var(--font-body);transition:all .2s;white-space:nowrap;
+  display:flex;align-items:center;gap:4px;}
+.chip:hover{border-color:rgba(196,168,130,.3);color:var(--sand);}
+.chip.on{background:rgba(201,168,76,.1);border-color:var(--gold);color:var(--gold);}
+.cdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+.cchip{padding:4px 8px;font-size:7px;letter-spacing:1px;text-transform:uppercase;
+  background:transparent;border:1px solid rgba(196,168,130,.1);color:var(--muted);
+  cursor:pointer;font-family:var(--font-body);transition:all .2s;display:flex;align-items:center;gap:6px;}
+.cchip:hover{border-color:rgba(196,168,130,.28);color:var(--sand);}
+.cchip.on{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.07);}
+.cswatch{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
+
+/* Reset */
+.sb-reset{padding:10px 16px;flex-shrink:0;border-top:1px solid rgba(196,168,130,.07);}
+.sb-rst{width:100%;padding:8px;font-size:7px;letter-spacing:3px;text-transform:uppercase;
+  background:transparent;border:1px solid rgba(196,168,130,.16);color:var(--muted);
+  cursor:pointer;font-family:var(--font-body);transition:all .25s;}
+.sb-rst:hover{border-color:rgba(201,168,76,.4);color:var(--gold);}
+
+/* MAP */
+#map-area{flex:1;position:relative;overflow:hidden;}
+#map-svg{width:100%;height:100%;display:block;}
+.graticule{fill:none;stroke:rgba(255,255,255,0.05);stroke-width:.4;}
+.sphere{fill:#2a2d35;}
+.country{fill:#363c48;stroke:rgba(255,255,255,0.10);stroke-width:.4;transition:fill .2s;}
+.country:hover{fill:#424a58;}
+@keyframes pulse{0%{transform:scale(1);opacity:.55;}70%{transform:scale(2.4);opacity:0;}100%{transform:scale(1);opacity:0;}}
+.q-ring{fill:none;stroke-width:.7;animation:pulse 3s ease-out infinite;transform-box:fill-box;transform-origin:center;}
+.q-dot{transition:r .2s ease;}
+.q-grp{cursor:pointer;}
+.t1 .q-ring{stroke:#A67C52;}
+.t1 .q-dot{fill:#A67C52;filter:drop-shadow(0 0 4px rgba(160,120,60,0.6));}
+.t2 .q-ring{stroke:#C4A05A;}
+.t2 .q-dot{fill:#C4A05A;}
+.t3 .q-ring{stroke:#8a8784;}
+.t3 .q-dot{fill:#8a8784;}
+.q-grp.dim{opacity:.08;pointer-events:none;}
+.q-grp.dim .q-ring{animation:none;}
+
+/* Tooltip */
+#tt{position:fixed;z-index:1500;pointer-events:none;opacity:0;transition:opacity .15s;max-width:255px;}
+#tt.show{opacity:1;}
+.tt-box{background:rgba(14,10,7,.97);border:1px solid rgba(196,168,130,.18);
+  border-top:2px solid var(--gold);padding:12px 16px;backdrop-filter:blur(20px);}
+.tt-cnt{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.tt-nm{font-family:var(--font-disp);font-size:16px;color:var(--cream);line-height:1.2;margin-bottom:2px;}
+.tt-mt{font-family:var(--font-disp);font-size:11px;font-style:italic;color:var(--sand);margin-bottom:6px;}
+.tt-ln{height:1px;background:rgba(196,168,130,.1);margin:5px 0;}
+.tt-fl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.tt-fv{font-size:10px;color:var(--tan);line-height:1.45;}
+
+/* Panel */
+#panel{position:fixed;right:0;top:var(--nav-h);bottom:0;width:310px;z-index:900;
+  background:rgba(12,9,6,.97);border-left:1px solid rgba(196,168,130,.1);
+  backdrop-filter:blur(24px);transform:translateX(100%);
+  transition:transform .4s cubic-bezier(.22,1,.36,1);overflow-y:auto;}
+#panel.open{transform:translateX(0);}
+#panel::-webkit-scrollbar{width:3px;}
+#panel::-webkit-scrollbar-thumb{background:var(--tan);}
+.p-bar{height:3px;background:linear-gradient(90deg,var(--gold),transparent);}
+.p-x{position:absolute;top:12px;right:12px;width:30px;height:30px;background:var(--warm);
+  border:none;cursor:pointer;color:var(--sand);font-size:12px;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.p-x:hover{background:var(--gold);color:var(--dark);}
+.p-hd{padding:20px 22px 14px;border-bottom:1px solid rgba(196,168,130,.07);}
+.p-eye{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.p-nm{font-family:var(--font-disp);font-size:22px;font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:3px;}
+.p-loc{font-size:10px;color:var(--muted);}
+.p-bd{padding:14px 22px;}
+.pf{margin-bottom:10px;}
+.pk{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.pv{font-size:12.5px;color:var(--sand);line-height:1.4;}
+.pv-i{font-family:var(--font-disp);font-size:13px;font-style:italic;}
+.p-ln{height:1px;background:rgba(196,168,130,.07);margin:11px 0;}
+.p-fm{background:rgba(201,168,76,.05);border-left:2px solid var(--gold);padding:10px 12px;}
+.p-fml{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.p-fmv{font-size:11px;color:var(--tan);line-height:1.55;}
+.p-cta{display:block;text-align:center;padding:10px;margin-top:12px;font-size:8px;
+  letter-spacing:3px;text-transform:uppercase;border:1px solid rgba(196,168,130,.18);
+  color:var(--sand);text-decoration:none;transition:all .2s;}
+.p-cta:hover{border-color:var(--gold);color:var(--gold);}
+
+/* Results badge + legend */
+#rbadge{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:700;
+  pointer-events:none;background:rgba(10,8,5,.9);border:1px solid rgba(196,168,130,.12);
+  padding:5px 16px;backdrop-filter:blur(12px);display:flex;align-items:baseline;gap:6px;}
+#rnum{font-family:var(--font-head);font-size:18px;color:var(--gold);letter-spacing:2px;}
+#rnum span{font-size:12px;}
+#rlbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+#legend{position:absolute;left:14px;bottom:14px;z-index:700;background:rgba(10,8,5,.92);
+  border:1px solid rgba(196,168,130,.1);padding:10px 14px;backdrop-filter:blur(16px);pointer-events:none;}
+.leg-t{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+.leg-r{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.leg-r:last-child{margin-bottom:0;}
+.leg-d{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.ld1{background:var(--gold);box-shadow:0 0 5px rgba(201,168,76,.5);}
+.ld2{background:#9a7238;}
+.ld3{background:#5a4828;}
+.leg-l{font-size:8px;color:var(--muted);}
+@media(max-width:900px){#sidebar{display:none;}}
+
+/* ── MAPA LIGHT THEME ── */
+*{-webkit-font-smoothing:antialiased;}
+
+/* Body: white (map-area is fixed overlay, so body bg barely shows) */
+body{background:#f8f7f5!important;}
+body::after{display:none!important;}
+
+/* Nav — white */
+nav{
+  background:#ffffff!important;
+  border-bottom:1px solid #e2e0dc!important;
+  
+}
+.logo{color:#1a1917!important;font-family:'Instrument Sans',sans-serif!important;font-weight:700!important;
+  font-size:14px!important;letter-spacing:1.5px!important;}
+.logo-hub { color:#A67C52; font-style:italic; }
+.logo-sub { font-family:'Instrument Sans',sans-serif; font-size:8px; letter-spacing:4px; text-transform:uppercase; color:#8a8784; font-weight:400; margin-top:3px; display:block; }
+.nav-links a{color:#4a4845!important;}
+.nav-links a:hover,.nav-links a.active{color:#1a1917!important;}
+.nav-cta{background:#1a1917!important;color:#ffffff!important;padding:7px 18px!important;}
+.nav-cta:hover{background:#A67C52!important;}
+
+/* Sidebar — clean white */
+#sidebar{
+  background:#ffffff!important;
+  border-right:1px solid #e2e0dc!important;
+  backdrop-filter:none!important;
+}
+.sb-eyebrow{color:#A67C52!important;}
+.sb-count-num{color:#1a1917!important;}
+.sb-count-num span{color:#A67C52!important;}
+.sb-count-lbl{color:#8a8784!important;}
+
+/* Search in sidebar */
+.sb-search-wrap{border-bottom:1px solid #f0efed!important;}
+.sb-search-lbl{color:#8a8784!important;}
+#searchInput{
+  background:#f8f7f5!important;border:1px solid #e2e0dc!important;
+  color:#1a1917!important;
+}
+#searchInput:focus{border-color:#A67C52!important;box-shadow:0 0 0 2px rgba(160,120,60,0.10)!important;}
+#searchInput::placeholder{color:#b8b5b0!important;}
+.sb-ico{color:#b8b5b0!important;}
+#searchClear{color:#8a8784!important;}
+#searchClear:hover{color:#1a1917!important;}
+
+/* Search dropdown */
+#searchDrop{
+  background:#ffffff!important;
+  border:1px solid #e2e0dc!important;
+  box-shadow:0 8px 24px rgba(26,25,23,0.10)!important;
+}
+.sd-item{border-bottom:1px solid #f0efed!important;}
+.sd-item:hover,.sd-item.kbon{background:#f8f7f5!important;}
+.sd-name{color:#1a1917!important;}
+.sd-meta{color:#8a8784!important;}
+.sd-badge{background:#f0efed!important;border-color:#e2e0dc!important;color:#4a4845!important;}
+.sd-empty{color:#8a8784!important;}
+
+/* Active tags */
+#activeTags{border-bottom:1px solid #f0efed!important;}
+.atag{
+  background:#f0efed!important;border:1px solid #e2e0dc!important;
+  color:#4a4845!important;
+}
+.atag-x{color:#8a8784!important;}
+
+/* Collapsible sections */
+.sb-body{background:#ffffff!important;}
+.sb-body::-webkit-scrollbar-track{background:#f8f7f5!important;}
+.sb-body::-webkit-scrollbar-thumb{background:#e2e0dc!important;}
+.sb-sec{border-bottom:1px solid #f0efed!important;}
+.sb-sec-hd:hover{background:#f8f7f5!important;}
+.sb-sec-label{color:#8a8784!important;}
+.sb-sec-badge{background:#f0efed!important;border-color:#e2e0dc!important;color:#4a4845!important;}
+.sb-arrow{color:#b8b5b0!important;}
+.sb-sec.open .sb-arrow{color:#A67C52!important;}
+.sb-sec.open .sb-sec-label{color:#1a1917!important;}
+
+/* Filter chips */
+.chip{
+  background:#f8f7f5!important;border:1px solid #e2e0dc!important;color:#4a4845!important;
+}
+.chip:hover{background:#f0efed!important;border-color:#c8c5bf!important;color:#1a1917!important;}
+.chip.on{background:#1a1917!important;border-color:#1a1917!important;color:#ffffff!important;}
+.cchip{
+  background:#f8f7f5!important;border:1px solid #e2e0dc!important;color:#4a4845!important;
+}
+.cchip:hover{border-color:#c8c5bf!important;color:#1a1917!important;}
+.cchip.on{border-color:#1a1917!important;color:#1a1917!important;background:#f0efed!important;}
+
+/* Clear button */
+.sb-clr-btn{color:#8a8784!important;}
+.sb-clr-btn:hover{color:#A67C52!important;}
+
+/* Reset button */
+.sb-reset{border-top:1px solid #f0efed!important;}
+.sb-rst{
+  border:1px solid #e2e0dc!important;color:#8a8784!important;background:#ffffff!important;
+}
+.sb-rst:hover{border-color:#1a1917!important;color:#1a1917!important;}
+
+/* Result badge over map — keep slightly dark for contrast on map */
+#rbadge{
+  background:rgba(255,255,255,0.95)!important;
+  border:1px solid #e2e0dc!important;
+  box-shadow:0 2px 10px rgba(26,25,23,0.10)!important;
+}
+#rnum{color:#A67C52!important;}
+#rlbl{color:#8a8784!important;}
+
+/* Legend — light */
+#legend{
+  background:rgba(255,255,255,0.95)!important;
+  border:1px solid #e2e0dc!important;
+  box-shadow:0 2px 10px rgba(26,25,23,0.10)!important;
+}
+.leg-t{color:#8a8784!important;}
+.leg-l{color:#4a4845!important;}
+
+/* Tooltip — light */
+.tt-box{
+  background:#ffffff!important;
+  border:1px solid #e2e0dc!important;
+  border-top:2px solid #A67C52!important;
+  box-shadow:0 8px 24px rgba(26,25,23,0.12)!important;
+}
+.tt-cnt{color:#A67C52!important;}
+.tt-nm{color:#1a1917!important;}
+.tt-mt{color:#4a4845!important;}
+.tt-ln{background:#f0efed!important;}
+.tt-fl{color:#8a8784!important;}
+.tt-fv{color:#4a4845!important;}
+
+/* Detail panel — light */
+#panel{
+  background:#ffffff!important;
+  border-left:1px solid #e2e0dc!important;
+  backdrop-filter:none!important;
+}
+#panel::-webkit-scrollbar-track{background:#f8f7f5!important;}
+.p-bar{background:linear-gradient(90deg,#A67C52,transparent)!important;}
+.p-x{background:#f0efed!important;color:#4a4845!important;border:1px solid #e2e0dc!important;}
+.p-x:hover{background:#1a1917!important;color:#ffffff!important;}
+.p-hd{border-bottom:1px solid #f0efed!important;}
+.p-eye{color:#A67C52!important;}
+.p-nm{color:#1a1917!important;}
+.p-loc{color:#8a8784!important;}
+.pk{color:#8a8784!important;}
+.pv{color:#4a4845!important;}
+.pv-i{color:#1a1917!important;}
+.p-ln{background:#f0efed!important;}
+.p-fm{background:#fdf9f4!important;border-left:2px solid #A67C52!important;}
+.p-fml{color:#A67C52!important;}
+.p-fmv{color:#4a4845!important;}
+.p-cta{
+  border:1px solid #e2e0dc!important;color:#4a4845!important;
+}
+.p-cta:hover{border-color:#1a1917!important;color:#1a1917!important;}
+
+/* Map markers — tier colors adjusted for light */
+.t1 .q-ring{stroke:#A67C52;}
+.t1 .q-dot{fill:#A67C52;filter:drop-shadow(0 0 4px rgba(160,120,60,0.6));}
+.t2 .q-ring{stroke:#C4A05A;}
+.t2 .q-dot{fill:#C4A05A;}
+.t3 .q-ring{stroke:#8a8784;}
+.t3 .q-dot{fill:#8a8784;}
+.ld1{background:#A67C52!important;box-shadow:0 0 4px rgba(160,120,60,0.4)!important;}
+.ld2{background:#C4A05A!important;}
+.ld3{background:#b8b5b0!important;}
+
+/* Map SVG stays dark */
+.sphere{fill:#2a2d35;}
+.country{fill:#252535!important;stroke:rgba(255,255,255,0.08)!important;}
+.country:hover{fill:#424a58;}
+.graticule{stroke:rgba(255,255,255,0.04)!important;}
+
+
+/* MAP globe integration fix */
+.sphere{fill:#2a2d35!important;}
+.country{fill:#363c48!important;stroke:rgba(255,255,255,0.10)!important;}
+.country:hover{fill:#424a58!important;}
+.graticule{stroke:rgba(255,255,255,0.05)!important;}
+#map-area{background:#2a2d35!important;}
+
+/* Markers */
+.t1 .q-ring{stroke:#A67C52!important;}
+.t1 .q-dot{fill:#A67C52!important;filter:drop-shadow(0 0 4px rgba(160,120,60,0.60))!important;}
+.t2 .q-ring{stroke:#C4A05A!important;}
+.t2 .q-dot{fill:#C4A05A!important;}
+.t3 .q-ring{stroke:#9a9690!important;}
+.t3 .q-dot{fill:#9a9690!important;}
+.ld1{background:#A67C52!important;box-shadow:0 0 5px rgba(160,120,60,0.45)!important;}
+.ld2{background:#C4A05A!important;box-shadow:none!important;}
+.ld3{background:#9a9690!important;box-shadow:none!important;}
+
+/* Result badge and legend — white pill floating on map */
+#rbadge{
+  background:rgba(255,255,255,0.92)!important;
+  border:1px solid rgba(26,25,23,0.10)!important;
+  box-shadow:0 2px 12px rgba(26,25,23,0.12)!important;
+  backdrop-filter:blur(10px)!important;
+}
+#rnum{color:#A67C52!important;}
+#rlbl{color:#8a8784!important;}
+
+#legend{
+  background:rgba(255,255,255,0.92)!important;
+  border:1px solid rgba(26,25,23,0.10)!important;
+  box-shadow:0 2px 12px rgba(26,25,23,0.12)!important;
+  backdrop-filter:blur(10px)!important;
+}
+.leg-t{color:#8a8784!important;letter-spacing:3px;}
+.leg-l{color:#4a4845!important;}
+
+/* Tooltip */
+.tt-box{
+  background:#ffffff!important;
+  border:1px solid #e2e0dc!important;
+  border-top:2px solid #A67C52!important;
+  box-shadow:0 8px 28px rgba(26,25,23,0.14)!important;
+}
+.tt-cnt{color:#A67C52!important;}
+.tt-nm{color:#1a1917!important;}
+.tt-mt{color:#4a4845!important;font-style:italic;}
+.tt-ln{background:#f0efed!important;}
+.tt-fl{color:#8a8784!important;}
+.tt-fv{color:#4a4845!important;}
+
+/* Panel */
+#panel{background:#ffffff!important;border-left:1px solid #e2e0dc!important;}
+.p-bar{background:linear-gradient(90deg,#A67C52,transparent)!important;}
+.p-eye{color:#A67C52!important;}
+.p-nm{color:#1a1917!important;font-family:'Cormorant Garamond',serif!important;}
+.p-loc{color:#8a8784!important;}
+.pk{color:#8a8784!important;letter-spacing:2px;}
+.pv{color:#4a4845!important;}
+.pv-i{color:#1a1917!important;font-style:italic;}
+.p-ln{background:#f0efed!important;}
+.p-fm{background:#fdf9f4!important;border-left:2px solid #A67C52!important;}
+.p-fml{color:#A67C52!important;letter-spacing:3px;}
+.p-fmv{color:#4a4845!important;}
+.p-cta{border:1px solid #e2e0dc!important;color:#4a4845!important;text-align:center;}
+.p-cta:hover{border-color:#A67C52!important;color:#A67C52!important;}
+
+/* ── BRONZE CORPORATE SYSTEM ── */
+
+/* Section eyebrows / labels */
+.eyebrow,.section-eyebrow,.page-eyebrow,.header-eyebrow,
+.eyebrow-tag,.label-tag,.sp-eyebrow,.cat-eyebrow{
+  color:#A67C52!important;
+  letter-spacing:4px!important;
+}
+
+/* Decorative horizontal rule before eyebrows */
+.section-eyebrow::before,.eyebrow::before,.sp-eyebrow::before{
+  background:#A67C52!important;
+}
+
+/* Active nav link */
+.nav-links a.active{
+  color:#A67C52!important;
+  border-bottom:1px solid #A67C52!important;
+}
+
+/* Primary CTA → solid bronze */
+.btn-primary,.cta-primary,.nav-cta,
+button[class*="primary"]{
+  background:#A67C52!important;
+  color:#ffffff!important;
+  border:none!important;
+}
+.btn-primary:hover,.cta-primary:hover,.nav-cta:hover{
+  background:#8B6A40!important;
+}
+
+/* Secondary CTA → ink outline, bronze on hover */
+.btn-secondary,.cta-secondary{
+  background:transparent!important;
+  color:#1a1917!important;
+  border:1px solid #c8c5bf!important;
+}
+.btn-secondary:hover,.cta-secondary:hover{
+  border-color:#A67C52!important;
+  color:#A67C52!important;
+}
+
+/* Stat numbers — bronze accent */
+.stat-num,.stat .stat-num,
+.sb-count-num,#rnum,
+.hero-stats .stat-num{
+  color:#1a1917!important;
+}
+.stat-num span,.sb-count-num span{
+  color:#A67C52!important;
+}
+
+/* Card top accent on hover */
+.cantera-card:hover,.material-card:hover,.cat-card:hover,
+.feature-card:hover,.pro-card:hover,.plan-card:hover{
+  border-top:2px solid #A67C52!important;
+}
+
+/* Active filter chips */
+.filter-btn.active,.chip.on,.cchip.on,
+.cont-tab.active,.view-btn.active{
+  background:#A67C52!important;
+  border-color:#A67C52!important;
+  color:#ffffff!important;
+}
+
+/* Form submit buttons */
+.form-submit,.nc-submit,.add-btn{
+  background:#A67C52!important;
+  color:#ffffff!important;
+  border-color:#A67C52!important;
+}
+.form-submit:hover,.nc-submit:hover,.add-btn:hover{
+  background:#8B6A40!important;
+}
+
+/* Add buttons (outline style) */
+.add-btn{
+  background:transparent!important;
+  color:#A67C52!important;
+  border:1px solid #A67C52!important;
+}
+.add-btn:hover{
+  background:#A67C52!important;
+  color:#ffffff!important;
+}
+
+/* Plan cards featured */
+.plan-card.featured,.plan-popular{
+  border-top:3px solid #A67C52!important;
+}
+.plan-cta{background:#A67C52!important;color:#ffffff!important;}
+.plan-cta:hover{background:#8B6A40!important;}
+
+/* Modal top bar */
+.modal,.modal-box,.modal2,.modal-nc-box{
+  border-top:3px solid #A67C52!important;
+}
+
+/* Scrollbar accent */
+::-webkit-scrollbar-thumb:hover{background:#A67C52!important;}
+
+/* Bronze hairline rule before key sections */
+.section-rule,.bronze-rule{
+  width:40px;height:2px;
+  background:#A67C52;
+  display:block;margin-bottom:16px;
+}
+
+/* Legend tier 1 */
+.ld1,.tier-1-dot{background:#A67C52!important;}
+
+
+/* ── COHERENCE PASS ── */
+
+/* Ensure white body on ALL pages */
+html{background:#ffffff;}
+body{background:#f8f7f5!important;}
+
+/* Nav: clean white, bronze active */
+nav{
+  background:#ffffff!important;
+  border-bottom:1px solid #e8e6e2!important;
+  box-shadow:0 1px 0 rgba(26,25,23,0.04)!important;
+  
+}
+.logo-main,.logo{color:#1a1917!important;}
+
+/* Section backgrounds — alternating white and off-white only */
+.cat-section,.pro-section,.features,.stats,
+.section-alt,.section-light{
+  background:#f8f7f5!important;
+  border-top:1px solid #e8e6e2!important;
+  border-bottom:1px solid #e8e6e2!important;
+}
+
+/* search-preview — use off-white, no brown */
+.search-preview,.sp-section{
+  background:#f8f7f5!important;
+  border-top:1px solid #e8e6e2!important;
+}
+
+/* Category cards */
+.cat-card,.cat-card-inner{
+  background:#ffffff!important;
+  border:1px solid #e2e0dc!important;
+  color:#1a1917!important;
+}
+.cat-card:hover .cat-card-inner{
+  border-color:#c8c5bf!important;
+}
+.cat-card-name,.cat-name{color:#1a1917!important;}
+.cat-card-count,.cat-count{color:#A67C52!important;}
+.cat-card-icon,.cat-icon{color:#A67C52!important;}
+
+/* Provider/pro cards */
+.pro-card{
+  background:#ffffff!important;
+  border:1px solid #e2e0dc!important;
+}
+.pro-card::after{background:#A67C52!important;}
+.pro-name{color:#1a1917!important;}
+.pro-meta{color:#8a8784!important;}
+.pro-tag{
+  background:#F5EFEA!important;
+  border:1px solid rgba(160,120,60,0.20)!important;
+  color:#A67C52!important;
+}
+
+/* Search bar demo in index */
+.search-bar-demo,.search-bar{
+  background:#ffffff!important;
+  border:1px solid #e2e0dc!important;
+  box-shadow:0 4px 20px rgba(26,25,23,0.06)!important;
+}
+.search-tag{
+  background:#F5EFEA!important;
+  border:1px solid rgba(160,120,60,0.18)!important;
+  color:#A67C52!important;
+}
+
+/* Feature cards */
+.feature-card,.feature-item{
+  background:#ffffff!important;
+  border:1px solid #e2e0dc!important;
+}
+.feature-num,.feature-number{
+  color:#A67C52!important;
+  font-family:'Cormorant Garamond',serif!important;
+  font-size:42px!important;font-weight:300!important;
+}
+.feature-title{color:#1a1917!important;}
+.feature-desc{color:#4a4845!important;}
+
+/* Canteras: controls sticky bar */
+.controls{
+  background:rgba(255,255,255,0.97)!important;
+  border-bottom:1px solid #e8e6e2!important;
+  backdrop-filter:blur(12px)!important;
+}
+.cont-tabs,.continent-section{
+  background:#ffffff!important;
+  border-bottom:1px solid #e8e6e2!important;
+}
+.cont-tab{
+  color:#8a8784!important;
+  border-bottom:2px solid transparent!important;
+  font-family:'Instrument Sans',sans-serif!important;
+  font-size:10px!important;letter-spacing:1px!important;
+  padding:14px 20px!important;
+  background:transparent!important;border-top:none!important;border-left:none!important;border-right:none!important;
+}
+.cont-tab:hover{color:#1a1917!important;}
+.cont-tab.active{color:#A67C52!important;border-bottom-color:#A67C52!important;}
+
+/* Main content area */
+.main-content,.page-content{background:#f8f7f5!important;}
+
+/* Materiales scroll-wrap */
+#scroll-wrap{background:#f8f7f5!important;}
+.materials-sect,.materials-section{background:#f8f7f5!important;}
+
+/* Bronze thin rule decorators */
+.section-eyebrow{
+  display:flex;align-items:center;gap:12px;
+}
+.section-eyebrow::before{
+  content:'';display:inline-block;
+  width:32px;height:1px;
+  background:#A67C52;flex-shrink:0;
+}
+
+/* Registration plans */
+.plans-section,.plan-grid-wrap{background:#f8f7f5!important;}
+.plan-card{
+  background:#ffffff!important;
+  border:1px solid #e2e0dc!important;
+  border-top:2px solid transparent!important;
+  transition:border-top-color .25s, box-shadow .25s!important;
+}
+.plan-card.featured,.plan-popular,.plan-card:hover{
+  border-top-color:#A67C52!important;
+}
+
+/* Proveedor/levantina */
+.company-badge,.verified-badge{
+  background:#F5EFEA!important;
+  border:1px solid rgba(160,120,60,0.25)!important;
+  color:#A67C52!important;
+}
+.tab-btn.active{
+  color:#A67C52!important;
+  border-bottom:2px solid #A67C52!important;
+}
+
+/* Footer — always dark as anchor */
+footer{background:#111110!important;color:#e8e6e2!important;}
+.footer-col-title,.footer-col-title{color:#A67C52!important;}
+.footer-col a:hover,.footer-links a:hover{color:#A67C52!important;}
+.footer-langs a.active{color:#A67C52!important;}
+
+
+  /* NAV DROPDOWN */
+  
+
+  .nav-dropdown { position:relative; }
+.nav-dropdown > a { display:flex; align-items:center; gap:5px; cursor:pointer; }
+.nav-dropdown > a::after { content:'▾'; font-size:9px; opacity:0.6; transition:transform .2s; }
+.nav-dropdown:hover > a::after { transform:rotate(180deg); }
+.dropdown-menu {
+  display:none; position:absolute; top:calc(100% + 8px); left:50%; transform:translateX(-50%);
+  background:#fff; border:1px solid #e2e0dc; min-width:210px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.08); z-index:9999;
+  padding:0; list-style:none;
+}
+.dropdown-menu::before {
+  content:''; position:absolute;
+  top:-10px; left:0; right:0; height:10px;
+}
+.nav-dropdown:hover .dropdown-menu,
+.nav-dropdown.open .dropdown-menu { display:block; }
+.dropdown-menu li { list-style:none; }
+.dropdown-menu li a {
+  display:flex !important; align-items:center;
+  padding:10px 20px;
+  font-family:'Instrument Sans',sans-serif; font-size:10px; font-weight:400;
+  letter-spacing:2px; text-transform:uppercase; color:#4a4845 !important;
+  text-decoration:none; transition:background .15s, color .15s;
+  border-bottom:1px solid #f0efed;
+  white-space:nowrap;
+}
+.dropdown-menu li:last-child a { border-bottom:none; }
+.dropdown-menu li a:hover { background:#f8f7f5 !important; color:#A67C52 !important; }
+
+  /* ── WSH BRAND BOOK ─── */
+  .section-eyebrow, .hero-eyebrow { font-family: 'DM Mono', monospace !important; letter-spacing: 3px; }
+  .stat-num, .map-stat-num, .pro-num { font-family: 'DM Mono', monospace !important; }
+  .logo-sub { font-family: 'DM Mono', monospace !important; font-size: 7.5px; letter-spacing: 3.5px; }
+  .plan-period, .footer-copy { font-family: 'DM Mono', monospace !important; font-size: 11px; letter-spacing: 1.5px; }
+  .hero-title-accent { font-family: 'Cormorant Garamond', serif !important; font-style: italic; }
+  /* ── END WSH ─── */
+
+/* Lang Switcher */
 .lang-switcher{display:flex;align-items:center;gap:0;margin-left:12px;}
-.lang-btn{font-family:var(--font-mono);font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:#8a8784;background:none;border:none;padding:5px 7px;cursor:pointer;transition:color .2s;line-height:1;border-radius:2px;}
+.lang-btn{font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:#8a8784;background:none;border:none;padding:5px 7px;cursor:pointer;transition:color .2s;line-height:1;border-radius:2px;}
 .lang-btn:hover{color:#1a1917;}
 .lang-btn.active{color:#A67C52;}
 .lang-btn.active::after{content:'';display:block;height:1px;background:#A67C52;margin-top:2px;opacity:.6;}
 .lang-sep{width:1px;height:10px;background:#c8c5bf;opacity:.45;flex-shrink:0;}
-@media(max-width:960px){nav{padding:14px 20px;}.nav-links{display:none;}.lang-switcher{display:none;}}
-
-/* ── LAYOUT ── */
-#app{position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;display:flex;}
-
-/* ── SIDEBAR ── */
-#sidebar{
-  width:var(--sb-w);flex-shrink:0;height:100%;
-  background:var(--dm-surface);
-  border-right:1px solid var(--dm-border);
-  display:flex;flex-direction:column;overflow:hidden;z-index:800;
-}
-.sb-header{padding:18px 20px 14px;border-bottom:1px solid var(--dm-border);flex-shrink:0;}
-.sb-eyebrow{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--dm-gold);margin-bottom:6px;font-family:var(--font-mono);}
-.sb-title{font-family:var(--font-disp);font-size:22px;font-weight:300;color:#e8e3dc;line-height:1.1;letter-spacing:.5px;}
-.sb-title em{color:var(--dm-gold);font-style:italic;}
-.sb-stats{display:flex;gap:16px;margin-top:10px;}
-.sb-stat{display:flex;flex-direction:column;}
-.sb-stat-n{font-family:var(--font-mono);font-size:18px;color:#e8e3dc;line-height:1;}
-.sb-stat-l{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--dm-muted);margin-top:2px;}
-
-/* Search */
-.sb-search{padding:10px 16px 8px;border-bottom:1px solid var(--dm-border);flex-shrink:0;position:relative;}
-.sb-search-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--dm-muted);margin-bottom:5px;font-family:var(--font-mono);}
-.sb-search-row{position:relative;display:flex;align-items:center;}
-.sb-ico{position:absolute;left:9px;color:var(--dm-muted);pointer-events:none;font-size:13px;}
-#searchInput{
-  width:100%;padding:7px 28px 7px 28px;
-  background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.15);
-  color:#d4cfc8;font-family:var(--font-head);font-size:12px;outline:none;
-  transition:border-color .2s;border-radius:2px;
-}
-#searchInput:focus{border-color:rgba(201,168,76,.4);}
-#searchInput::placeholder{color:var(--dm-muted);opacity:.7;}
-#searchClear{position:absolute;right:8px;font-size:10px;color:var(--dm-muted);cursor:pointer;display:none;background:none;border:none;transition:color .2s;}
-#searchClear.vis{display:block;}
-#searchClear:hover{color:var(--dm-gold);}
-
-/* Filters */
-.sb-body{flex:1;overflow-y:auto;overflow-x:hidden;}
-.sb-body::-webkit-scrollbar{width:3px;}
-.sb-body::-webkit-scrollbar-thumb{background:rgba(201,168,76,.25);}
-.sb-sec{border-bottom:1px solid var(--dm-border);}
-.sb-sec-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;cursor:pointer;user-select:none;transition:background .2s;}
-.sb-sec-hd:hover{background:rgba(201,168,76,.04);}
-.sb-sec-label{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--dm-muted);font-family:var(--font-mono);}
-.sb-sec-badge{font-size:8px;background:rgba(201,168,76,.18);color:var(--dm-gold);padding:1px 5px;margin-left:6px;display:none;}
-.sb-sec-badge.vis{display:inline;}
-.sb-arrow{font-size:8px;color:var(--dm-muted);transition:transform .2s;}
-.sb-sec.open .sb-arrow{transform:rotate(180deg);}
-.sb-sec-body{display:none;padding:0 16px 12px;}
-.sb-sec.open .sb-sec-body{display:block;}
-.chips{display:flex;flex-wrap:wrap;gap:5px;padding-top:10px;}
-.chip{
-  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
-  padding:4px 10px;border:1px solid rgba(201,168,76,.2);
-  color:var(--dm-muted);cursor:pointer;transition:all .18s;border-radius:1px;
-}
-.chip:hover{border-color:rgba(201,168,76,.5);color:#d4cfc8;}
-.chip.active{background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.5);color:var(--dm-gold);}
-
-/* Category color dots */
-.chip-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;vertical-align:middle;}
-
-.sb-footer{padding:12px 16px;border-top:1px solid var(--dm-border);flex-shrink:0;}
-.sb-result-lbl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--dm-muted);font-family:var(--font-mono);}
-.sb-result-n{color:var(--dm-gold);}
-
-/* ── MAP ── */
-#map-wrap{flex:1;position:relative;}
-#map{position:absolute;inset:0;}
-
-/* Map attribution fix */
-.mapboxgl-ctrl-bottom-left,.mapboxgl-ctrl-bottom-right{bottom:0;}
-
-/* Loading overlay */
-#loading{
-  position:absolute;inset:0;background:#0e0b08;z-index:500;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
-  transition:opacity .5s;
-}
-#loading.done{opacity:0;pointer-events:none;}
-.loading-title{font-family:var(--font-disp);font-size:28px;font-weight:300;color:#e8e3dc;letter-spacing:1px;}
-.loading-title em{color:var(--dm-gold);font-style:italic;}
-.loading-bar{width:200px;height:1px;background:rgba(201,168,76,.15);position:relative;overflow:hidden;}
-.loading-bar::after{content:'';position:absolute;inset:0;background:var(--dm-gold);transform:translateX(-100%);animation:ldbar 1.8s ease-in-out infinite;}
-@keyframes ldbar{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
-.loading-sub{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dm-muted);font-family:var(--font-mono);}
-
-/* Token warning */
-#token-warn{
-  position:absolute;inset:0;background:#0e0b08;z-index:600;
-  display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:40px;
-}
-#token-warn.show{display:flex;}
-.tw-title{font-family:var(--font-disp);font-size:32px;font-weight:300;color:#e8e3dc;}
-.tw-title em{color:var(--dm-gold);font-style:italic;}
-.tw-body{font-size:13px;color:var(--dm-muted);max-width:480px;line-height:1.7;}
-.tw-code{font-family:var(--font-mono);font-size:11px;background:rgba(255,255,255,.05);border:1px solid var(--dm-border);padding:10px 16px;color:var(--dm-gold);margin:4px 0;}
-.tw-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--dm-gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,.3);padding-bottom:2px;}
-.tw-link:hover{border-bottom-color:var(--dm-gold);}
-
-/* ── DETAIL PANEL ── */
-#detail{
-  position:absolute;right:0;top:0;bottom:0;width:340px;
-  background:var(--dm-surface);border-left:1px solid var(--dm-border);
-  z-index:700;display:flex;flex-direction:column;
-  transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
-  overflow:hidden;
-}
-#detail.open{transform:translateX(0);}
-.det-close{
-  position:absolute;top:14px;right:14px;
-  width:28px;height:28px;border:1px solid var(--dm-border);
-  background:none;color:var(--dm-muted);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;transition:all .2s;z-index:2;border-radius:1px;
-}
-.det-close:hover{border-color:rgba(201,168,76,.5);color:var(--dm-gold);}
-.det-img{width:100%;height:200px;object-fit:cover;background:#1a1612;flex-shrink:0;}
-.det-img-placeholder{width:100%;height:200px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-disp);font-size:36px;font-weight:300;font-style:italic;}
-.det-body{flex:1;overflow-y:auto;padding:20px 20px 24px;}
-.det-body::-webkit-scrollbar{width:3px;}
-.det-body::-webkit-scrollbar-thumb{background:rgba(201,168,76,.2);}
-.det-cat{display:inline-block;font-size:7px;letter-spacing:3px;text-transform:uppercase;padding:3px 8px;border:1px solid;margin-bottom:10px;font-family:var(--font-mono);}
-.det-name{font-family:var(--font-disp);font-size:26px;font-weight:300;color:#e8e3dc;line-height:1.2;margin-bottom:4px;}
-.det-name em{font-style:italic;color:var(--dm-gold);}
-.det-origin{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dm-muted);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
-.det-origin img{width:16px;height:12px;object-fit:cover;border:1px solid rgba(255,255,255,.1);}
-.det-props{border-top:1px solid var(--dm-border);padding-top:14px;margin-top:4px;}
-.det-prop{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid rgba(201,168,76,.05);}
-.det-prop:last-child{border-bottom:none;}
-.det-prop-l{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--dm-muted);font-family:var(--font-mono);}
-.det-prop-v{font-size:11px;color:#c8c3bc;text-align:right;max-width:180px;}
-.det-actions{padding:0 20px 20px;flex-shrink:0;}
-.det-btn{
-  display:block;width:100%;padding:11px;text-align:center;
-  background:var(--dm-gold);color:#0e0b08;text-decoration:none;
-  font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:600;
-  transition:background .2s;font-family:var(--font-head);
-}
-.det-btn:hover{background:#d4a85a;}
-.det-btn-ghost{
-  display:block;width:100%;padding:9px;text-align:center;
-  border:1px solid var(--dm-border);color:var(--dm-muted);text-decoration:none;
-  font-size:8px;letter-spacing:2.5px;text-transform:uppercase;
-  transition:all .2s;margin-top:6px;font-family:var(--font-head);
-}
-.det-btn-ghost:hover{border-color:rgba(201,168,76,.4);color:var(--dm-gold);}
-
-/* Cluster popup */
-.cluster-popup .mapboxgl-popup-content{
-  background:rgba(18,14,10,.97);border:1px solid rgba(201,168,76,.25);
-  color:#d4cfc8;font-family:var(--font-head);padding:10px 14px;
-  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
-  border-radius:0;box-shadow:0 8px 32px rgba(0,0,0,.5);
-}
-.cluster-popup .mapboxgl-popup-tip{border-bottom-color:rgba(18,14,10,.97);}
-
-/* Mapbox overrides */
-.mapboxgl-popup-close-button{color:#8a8070;font-size:16px;padding:2px 6px;}
-.mapboxgl-popup-close-button:hover{color:var(--dm-gold);background:none;}
-.mapboxgl-ctrl-group{background:rgba(18,14,10,.9)!important;border:1px solid rgba(201,168,76,.15)!important;border-radius:2px!important;}
-.mapboxgl-ctrl-group button{background:transparent!important;}
-.mapboxgl-ctrl-group button:hover{background:rgba(201,168,76,.08)!important;}
-.mapboxgl-ctrl-icon{filter:invert(1) brightness(.6)!important;}
-.mapboxgl-ctrl-group button+button{border-top:1px solid rgba(201,168,76,.1)!important;}
+@media(max-width:900px){.lang-switcher{display:none;}}
 </style>
+<!-- Google Analytics GA4 — REPLACE G-Z386REXEZF with your real Measurement ID -->
+<!-- Steps: analytics.google.com → Admin → Create Property → Get Measurement ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z386REXEZF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z386REXEZF');
+</script>
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1917'/><text x='50%25' y='54%25' font-family='serif' font-size='20' fill='%23A67C52' text-anchor='middle' dominant-baseline='middle'>W</text></svg>">
+<!-- Open Graph / Social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://worldstonehub.com/mapa.html">
+<meta property="og:title" content="Mapa Mundial de Canteras — World Stone Hub">
+<meta property="og:description" content="Visualiza las principales canteras de piedra natural del mundo en un mapa interactivo.">
+<meta property="og:image" content="https://worldstonehub.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Visualiza las principales canteras de piedra natural del mundo en un mapa interactivo.">
 </head>
 <body>
-
-<!-- NAV -->
 <nav>
-  <a href="index.html" class="logo">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub">
-      <text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#1A1410">WORLD STONE</text>
-      <line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.65"/>
-      <text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text>
-    </svg>
-  </a>
+  <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub"><text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#1A1410">WORLD STONE</text><line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.65"/><text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text></svg></a>
   <ul class="nav-links">
     <li><a href="index.html" data-i18n="nav.inicio">Inicio</a></li>
+    <li><a href="canteras.html" data-i18n="nav.canteras">Canteras</a></li>
     <li><a href="materiales.html" data-i18n="nav.materiales">Materiales</a></li>
     <li class="nav-dropdown">
       <a href="proveedores.html" data-i18n="nav.directorio">Directorio</a>
       <ul class="dropdown-menu">
-        <li><a href="proveedores.html">Todos los proveedores</a></li>
-        <li><a href="sector-distribuidores.html">Distribuidores</a></li>
-        <li><a href="sector-fabricantes.html">Fabricantes</a></li>
-        <li><a href="sector-arquitectura.html">Arquitectura</a></li>
-        <li><a href="sector-constructoras.html">Constructoras</a></li>
-        <li><a href="sector-maquinaria.html">Maquinaria</a></li>
-        <li><a href="sector-laboratorios.html">Laboratorios</a></li>
-        <li><a href="sector-logistica.html">Logística</a></li>
+        <li><a href="proveedores.html" data-i18n="nav.todosProveedores">Todos los proveedores</a></li>
+        <li><a href="sector-distribuidores.html" data-i18n="nav.distribuidores">Distribuidores</a></li>
+        <li><a href="sector-fabricantes.html" data-i18n="nav.fabricantes">Fabricantes</a></li>
+        <li><a href="sector-arquitectura.html" data-i18n="nav.arquitectura">Arquitectura</a></li>
+        <li><a href="sector-constructoras.html" data-i18n="nav.constructoras">Constructoras</a></li>
+        <li><a href="sector-maquinaria.html" data-i18n="nav.maquinaria">Maquinaria</a></li>
+        <li><a href="sector-laboratorios.html" data-i18n="nav.laboratorios">Laboratorios</a></li>
+        <li><a href="sector-logistica.html" data-i18n="nav.logistica">Logística</a></li>
       </ul>
     </li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="mapa.html">MAPA</a></li>
+    <li class="nav-map-item"><a href="mapa.html" class="nav-map-link active" title="Mapa Mundial de Canteras" aria-label="Mapa"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5 L7 3 L13 5.5 L18 4 L18 15.5 L13 17 L7 14.5 L2 16 Z"/><line x1="7" y1="3" x2="7" y2="14.5"/><line x1="13" y1="5.5" x2="13" y2="17"/><line x1="2.5" y1="9.5" x2="17.5" y2="9.5" stroke-dasharray="1.5 1.2" stroke-width="0.85"/><line x1="2.5" y1="12.5" x2="17.5" y2="12.5" stroke-dasharray="1.5 1.2" stroke-width="0.85"/><circle cx="10" cy="9" r="1.3" stroke-width="1.1"/></svg></a></li>
+
     <li id="nav-auth-item"></li>
   </ul>
-  <div class="lang-switcher">
-    <button class="lang-btn active" data-lang="es">ES</button>
-    <span class="lang-sep"></span>
-    <button class="lang-btn" data-lang="en">EN</button>
+  <div class="lang-switcher" role="group" aria-label="Seleccionar idioma">
+    <button class="lang-btn active" data-lang="es" aria-pressed="true" data-i18n-attr="aria-label:lang.es">ES</button>
+    <span class="lang-sep" aria-hidden="true"></span>
+    <button class="lang-btn" data-lang="en" aria-pressed="false" data-i18n-attr="aria-label:lang.en">EN</button>
   </div>
 </nav>
-
 <div id="app">
-  <!-- SIDEBAR -->
   <aside id="sidebar">
-    <div class="sb-header">
-      <div class="sb-eyebrow">World Stone Hub</div>
-      <div class="sb-title">Piedras <em>del mundo</em></div>
-      <div class="sb-stats">
-        <div class="sb-stat">
-          <span class="sb-stat-n" id="statTotal">—</span>
-          <span class="sb-stat-l">materiales</span>
-        </div>
-        <div class="sb-stat">
-          <span class="sb-stat-n" id="statVisible">—</span>
-          <span class="sb-stat-l">visibles</span>
-        </div>
-        <div class="sb-stat">
-          <span class="sb-stat-n" id="statCountries">—</span>
-          <span class="sb-stat-l">países</span>
-        </div>
-      </div>
+    <div class="sb-header"><div class="sb-eyebrow">Directorio mundial</div><div class="sb-count"><div class="sb-count-num" id="sbNum">180<span>+</span></div><div class="sb-count-lbl">canteras<br>en el directorio</div></div></div>
+    <div class="sb-search-wrap">
+      <div class="sb-search-lbl">Buscar cantera o material</div>
+      <div class="sb-search-row"><span class="sb-ico">&#x2315;</span><input type="text" id="searchInput" placeholder="Carrara, Granito, Blanco..." autocomplete="off"><button id="searchClear">&#x2715;</button></div>
+      <div id="searchDrop"></div>
     </div>
-
-    <div class="sb-search">
-      <div class="sb-search-lbl">Buscar material</div>
-      <div class="sb-search-row">
-        <span class="sb-ico">⌕</span>
-        <input type="text" id="searchInput" placeholder="Carrara, granito, azul..." autocomplete="off">
-        <button id="searchClear">✕</button>
-      </div>
-    </div>
-
+    <div id="activeTags"></div>
     <div class="sb-body">
-      <!-- Category filter -->
-      <div class="sb-sec open" id="sec-cat">
-        <div class="sb-sec-hd" onclick="toggleSec('cat')">
-          <span class="sb-sec-label">Categoría</span>
-          <span class="sb-sec-badge" id="badge-cat"></span>
-          <span class="sb-arrow">▾</span>
-        </div>
-        <div class="sb-sec-body">
-          <div class="chips" id="fcat"></div>
-        </div>
-      </div>
-
-      <!-- Color filter -->
-      <div class="sb-sec" id="sec-color">
-        <div class="sb-sec-hd" onclick="toggleSec('color')">
-          <span class="sb-sec-label">Color</span>
-          <span class="sb-sec-badge" id="badge-color"></span>
-          <span class="sb-arrow">▾</span>
-        </div>
-        <div class="sb-sec-body">
-          <div class="chips" id="fcolor"></div>
-        </div>
-      </div>
-
-      <!-- Country filter -->
-      <div class="sb-sec" id="sec-country">
-        <div class="sb-sec-hd" onclick="toggleSec('country')">
-          <span class="sb-sec-label">País</span>
-          <span class="sb-sec-badge" id="badge-country"></span>
-          <span class="sb-arrow">▾</span>
-        </div>
-        <div class="sb-sec-body">
-          <div class="chips" id="fcountry"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sb-footer">
-      <div class="sb-result-lbl">Mostrando <span class="sb-result-n" id="resultCount">—</span> materiales</div>
-    </div>
+<div class="sb-sec" id="sec-type"><div class="sb-sec-hd" onclick="toggleSec('type')"><div class="sb-sec-left"><span class="sb-sec-label">Tipo de piedra</span><span class="sb-sec-badge" id="badge-type"></span></div><div class="sb-sec-right"><button class="sb-clr-btn" id="clr-type" onclick="event.stopPropagation();clearF('type')" data-es="Limpiar" data-en="Clear">Limpiar</button><span class="sb-arrow">&#x25BE;</span></div></div><div class="sb-sec-body"><div class="sb-sec-inner"><div class="chips" id="ftype"></div></div></div></div><div class="sb-sec" id="sec-color"><div class="sb-sec-hd" onclick="toggleSec('color')"><div class="sb-sec-left"><span class="sb-sec-label">Color predominante</span><span class="sb-sec-badge" id="badge-color"></span></div><div class="sb-sec-right"><button class="sb-clr-btn" id="clr-color" onclick="event.stopPropagation();clearF('color')" data-es="Limpiar" data-en="Clear">Limpiar</button><span class="sb-arrow">&#x25BE;</span></div></div><div class="sb-sec-body"><div class="sb-sec-inner"><div class="cgrid" id="fcolor"></div></div></div></div><div class="sb-sec" id="sec-country"><div class="sb-sec-hd" onclick="toggleSec('country')"><div class="sb-sec-left"><span class="sb-sec-label">País de origen</span><span class="sb-sec-badge" id="badge-country"></span></div><div class="sb-sec-right"><button class="sb-clr-btn" id="clr-country" onclick="event.stopPropagation();clearF('country')" data-es="Limpiar" data-en="Clear">Limpiar</button><span class="sb-arrow">&#x25BE;</span></div></div><div class="sb-sec-body"><div class="sb-sec-inner"><div class="chips" id="fcountry"></div></div></div></div><div class="sb-sec" id="sec-tier"><div class="sb-sec-hd" onclick="toggleSec('tier')"><div class="sb-sec-left"><span class="sb-sec-label" data-es="Relevancia histórica" data-en="Historical relevance">Relevancia histórica</span><span class="sb-sec-badge" id="badge-tier"></span></div><div class="sb-sec-right"><button class="sb-clr-btn" id="clr-tier" onclick="event.stopPropagation();clearF('tier')" data-es="Limpiar" data-en="Clear">Limpiar</button><span class="sb-arrow">&#x25BE;</span></div></div><div class="sb-sec-body"><div class="sb-sec-inner"><div class="chips" id="ftier"></div></div></div></div>    </div>
+    <div class="sb-reset"><button class="sb-rst" onclick="resetAll()">&#x21BA; Mostrar todas</button></div>
   </aside>
-
-  <!-- MAP -->
-  <div id="map-wrap">
-    <div id="map"></div>
-
-    <!-- Loading -->
-    <div id="loading">
-      <div class="loading-title">Piedras <em>del Mundo</em></div>
-      <div class="loading-bar"></div>
-      <div class="loading-sub">Cargando materiales</div>
-    </div>
-
-    <!-- Token warning -->
-    <div id="token-warn">
-      <div class="tw-title">Configura tu <em>token</em> de Mapbox</div>
-      <div class="tw-body">
-        Para usar el mapa interactivo necesitas un token público de Mapbox.<br>
-        Crea una cuenta gratuita en <a href="https://mapbox.com" class="tw-link" target="_blank">mapbox.com</a>,
-        ve a Account → Tokens y copia tu <strong>Public Access Token</strong>.<br><br>
-        Luego abre <strong>mapa.html</strong> y reemplaza el placeholder al inicio del script:
-      </div>
-      <div class="tw-code">const MAPBOX_TOKEN = 'pk.eyJ1IjoiTU9ESUZZX01FIiwiYSI6IlBPTl9BUVVJX1RVX1RPS0VOIn0.TU_TOKEN_AQUI';</div>
-      <div class="tw-body" style="font-size:11px;margin-top:4px;">Una vez configurado, el mapa mostrará todos los materiales geolocalizados con clustering interactivo.</div>
-    </div>
-
-    <!-- Detail panel -->
-    <div id="detail">
-      <button class="det-close" onclick="closeDetail()" aria-label="Cerrar">✕</button>
-      <div id="det-media"></div>
-      <div class="det-body" id="det-body"></div>
-      <div class="det-actions" id="det-actions"></div>
+  <div id="map-area">
+    <svg id="map-svg"></svg>
+    <div id="rbadge"><div id="rnum">180<span>+</span></div><div id="rlbl">canteras en el directorio</div></div>
+    <div id="legend">
+      <div class="leg-t" data-es="Relevancia histórica" data-en="Historical relevance">Relevancia histórica</div>
+      <div class="leg-r"><div class="leg-d ld1"></div><div class="leg-l">Patrimonio mundial</div></div>
+      <div class="leg-r"><div class="leg-d ld2"></div><div class="leg-l">Alta relevancia</div></div>
+      <div class="leg-r"><div class="leg-d ld3"></div><div class="leg-l">Directorio activo</div></div>
     </div>
   </div>
 </div>
-
+<div id="tt"><div class="tt-box"><div class="tt-cnt" id="ttC"></div><div class="tt-nm" id="ttN"></div><div class="tt-mt" id="ttM"></div><div class="tt-ln"></div><div class="tt-fl">Monumentos &amp; proyectos</div><div class="tt-fv" id="ttF"></div></div></div>
+<div id="panel"><div class="p-bar"></div><button class="p-x" id="pClose">&#x2715;</button><div class="p-hd"><div class="p-eye" id="pEye"></div><div class="p-nm" id="pNm"></div><div class="p-loc" id="pLoc"></div></div><div class="p-bd" id="pBd"></div></div>
 <script>
-// ─────────────────────────────────────────────
-//  CONFIG — Reemplaza con tu token público de Mapbox
-//  (empieza con pk.eyJ1...)
-// ─────────────────────────────────────────────
-const MAPBOX_TOKEN = 'pk.eyJ1Ijoid3Noam9zZSIsImEiOiJjbW42aDR2bGMwNWNjMnJwZG53anVzaHVoIn0.4yf3OytJyTI2RYz8yokVlw';
+var CANTERAS = [{"name":"Cava Fantiscritti","country":"Italia","region":"Carrara, Alpi Apuane, Toscana","type":"Mármol","material":"Bianco Carrara C/CD, Bianco Venatino","color":"Blanco","status":"Activa","owner":"Varias privadas","production":"~50.000 m³/año","fame":"Coliseo Romano, Panteón","history":"Más de 650 yacimientos en torno a Carrara. Cantera museo accesible al público.","tier":1,"lat":44.07,"lng":10.12},{"name":"Cava Michelangelo / Cervaiole","country":"Italia","region":"Carrara, Toscana","type":"Mármol","material":"Statuario, Calacatta Macchia Vecchia","color":"Blanco","status":"Activa (selectiva)","owner":"Henraux S.p.A.","production":"Limitada","fame":"David de Miguel Ángel, Pietà","history":"Miguel Ángel eligió personalmente los bloques. Precio >2.000€/m².","tier":1,"lat":44.09,"lng":10.1},{"name":"Cava Ravaccione","country":"Italia","region":"Carrara, Toscana","type":"Mármol","material":"Calacatta Oro, Calacatta Borghini","color":"Blanco","status":"Activa","owner":"Privada (familia Lucchetti)","production":"~3.000 m³/año","fame":"Hoteles de lujo, palacios reales","history":"El Calacatta Oro más cotizado del mercado mundial.","tier":2,"lat":44.09,"lng":10.1},{"name":"Cava Corchia","country":"Italia","region":"Alpi Apuane, Toscana","type":"Mármol","material":"Arabescato Corchia, Arabescato Vagli","color":"Blanco","status":"Activa","owner":"Privada","production":"~8.000 m³/año","fame":"Palacio Justicia Roma, hoteles Mideast","history":"Sistema kárstico notable. Cueva de Vento adyacente es una de las más grandes de Italia.","tier":2,"lat":44.05,"lng":10.14},{"name":"Cava Fossacava (Arqueológica)","country":"Italia","region":"Colonnata, Toscana","type":"Mármol","material":"Bardiglio, Bianco Carrara antiguo","color":"Blanco","status":"Parque arqueológico","owner":"Región Toscana","production":"Cerrada/museo","fame":"Roma Imperial: Templo de Augusto","history":"Mayor yacimiento romano de Italia conservado intacto. Marcas de extracción 2.000 años visibles.","tier":3,"lat":44.08,"lng":10.18},{"name":"Candoglia Quarry","country":"Italia","region":"Candoglia, Lago Maggiore, Piamonte","type":"Mármol","material":"Candoglia Rosa, Bianco","color":"Blanco","status":"Activa (uso reservado)","owner":"Veneranda Fabbrica del Duomo di Milano","production":"Muy limitada","fame":"Duomo de Milán (desde 1386)","history":"EXCLUSIVA Catedral de Milán. Cesión gratuita por Gian Galeazzo Visconti. Bloques marcados 'AUF FABRICA'. No se vende en ","tier":1,"lat":45.92,"lng":8.45},{"name":"Cava Lasa / Laas Marmor","country":"Italia","region":"Lasa, Tirol del Sur","type":"Mármol","material":"Lasa White, Bianco Chiaro","color":"Blanco","status":"Activa","owner":"Lasa Marmo / Genossenschaft Laaser Marmor","production":"~7.000 m³/año","fame":"Einstein Memorial Washington, NASA placa Voyager","history":"El mármol más puro de Italia. La placa de la sonda Voyager es de Lasa. Sin poros ni venas.","tier":2,"lat":46.62,"lng":10.7},{"name":"Cava Tívoli / Bagni di Tívoli","country":"Italia","region":"Tívoli, Lacio","type":"Travertino","material":"Travertino Romano Classico, Navona, Noce, Silver","color":"Crema","status":"Activa","owner":"Consorzio dei Travertinisti","production":"~500.000 m³/año (zona)","fame":"Coliseo, San Pedro, Trevi, Columnata Bernini","history":"Depósito 300m espesor, 200.000 años. 80% del travertino italiano. Bernini eligió aquí material para Columnata.","tier":1,"lat":41.97,"lng":12.79},{"name":"Cava Guidonia Montecelio","country":"Italia","region":"Guidonia, Lacio","type":"Travertino","material":"Travertino Romano Classico","color":"Beige","status":"Activa","owner":"Privadas múltiples","production":"~200.000 m³/año","fame":"Columnata San Pedro (Bernini 1656)","history":"Zona contigua a Tívoli. Bernini seleccionó aquí bloques para la Columnata Vaticana.","tier":1,"lat":41.99,"lng":12.73},{"name":"Cava Rapolano Terme","country":"Italia","region":"Rapolano, Siena, Toscana","type":"Travertino","material":"Travertino Toscano","color":"Beige","status":"Activa","owner":"Privadas","production":"~50.000 m³/año","fame":"Arquitectura toscana","history":"Travertino más duro y compacto que el romano. Menor porosidad. Popular exteriores.","tier":3,"lat":43.24,"lng":11.6},{"name":"Cava Botticino","country":"Italia","region":"Botticino, Brescia, Lombardía","type":"Caliza","material":"Botticino Classico, Fiorito, Semiclassico","color":"Beige","status":"Activa","owner":"Privadas (zona Botticino)","production":"~40.000 m³/año","fame":"Vittoriano Roma, edificios de Milán","history":"Caliza fosilífera Jurásica (~170 Ma). Botticino Fiorito con manchas más marcadas. Muy exportado a Oriente Medio.","tier":3,"lat":45.52,"lng":10.25},{"name":"Cava Rosso Verona","country":"Italia","region":"Verona, Véneto","type":"Caliza","material":"Rosso Verona, Rosso Ammonitico","color":"Rojo","status":"Activa (limitada)","owner":"Privadas locales","production":"Pequeña","fame":"Basílica San Marcos Venecia, Arena di Verona","history":"Caliza del Jurásico inferior rica en amonites. 'Ammonitico' del nombre de los fósiles.","tier":3,"lat":45.44,"lng":10.99},{"name":"Cava Perlato Sicilia","country":"Italia","region":"Palermo/Trapani, Sicilia","type":"Caliza","material":"Perlato Sicilia, Perlato Classico","color":"Beige","status":"Activa","owner":"Privadas sicilianas","production":"~20.000 m³/año","fame":"Hoteles Emiratos, Arabia Saudita, Asia","history":"Caliza Cretácica con microfósiles. Alta demanda en Oriente Medio por tono cálido.","tier":2,"lat":37.9,"lng":12.85},{"name":"Cave Verde Alpi","country":"Italia","region":"Valle d'Aosta / Piamonte, Alpes","type":"Serpentinita","material":"Verde Alpi","color":"Verde","status":"Activa (limitada)","owner":"Privadas","production":"Pequeña","fame":"Decoración lujo europea","history":"Uno de los únicos verdes naturales de alta calidad en Europa.","tier":3,"lat":45.73,"lng":7.42},{"name":"Cava Serizzo","country":"Italia","region":"Masera, Piamonte","type":"Granito","material":"Serizzo Antigorio, Serizzo Valmasino","color":"Gris","status":"Activa","owner":"Privadas piamontesas","production":"~10.000 m³/año","fame":"Pavimentos Milán, monumentos","history":"Granito alpino de alta durabilidad. Muy usado en obra civil italiana.","tier":3,"lat":46.13,"lng":8.33},{"name":"Cava Grigio Carnico","country":"Italia","region":"Arta Terme, Friuli","type":"Mármol","material":"Grigio Carnico, Fiorito Carnico","color":"Gris","status":"Activa","owner":"Privadas","production":"~5.000 m³/año","fame":"Arquitectura italiana y austriaca","history":"Mármol devónico (~380 Ma). Zona fronteriza Austria-Italia.","tier":3,"lat":46.47,"lng":13.01},{"name":"Canteras Crema Marfil (DOP)","country":"España","region":"Novelda, Alicante","type":"Mármol","material":"Crema Marfil (Extra, Comercial, Classic)","color":"Crema","status":"Activa","owner":"Levantina, Sinkmar, múltiples","production":"~800.000 m²/año procesado","fame":"Parlamento Europeo, Aeropuerto Barajas, Palacio Real Abu Dhabi","history":"La DOP más importante de España en piedra. Exportado a +60 países.","tier":2,"lat":38.39,"lng":-0.77},{"name":"Canteras Negro Marquina","country":"España","region":"Markina-Xemein, Vizcaya","type":"Mármol bituminoso","material":"Negro Marquina (NM1 a NM5)","color":"Negro","status":"Activa","owner":"Privadas vascas","production":"~3.000 m³/año","fame":"Banco de España, edificios Madrid","history":"Única fuente auténtica del mundo. El 'falso Marquina' de China/India no es caliza bituminosa.","tier":3,"lat":43.26,"lng":-2.49},{"name":"Canteras de Macael","country":"España","region":"Macael, Almería","type":"Mármol","material":"Macael Blanco (varias calidades)","color":"Blanco","status":"Activa","owner":"GRUPO COSENTINO, privadas","production":"~300.000 m²/año","fame":"Alhambra de Granada, Plaza San Pedro Roma","history":"Llamado 'Oro Blanco de Almería'. El mayor clúster de mármol blanco de España. Exportado desde época romana.","tier":1,"lat":37.35,"lng":-2.28},{"name":"Canteras Rojo Alicante","country":"España","region":"Alicante (varios municipios)","type":"Caliza","material":"Rojo Alicante, Rojo Coralito","color":"Rojo","status":"Activa","owner":"Privadas","production":"~10.000 m³/año","fame":"Parlamentos, hoteles de lujo","history":"La caliza fosilífera roja más exportada del Mediterráneo.","tier":2,"lat":38.34,"lng":-0.49},{"name":"Canteras Emperador","country":"España","region":"Alicante, Elche","type":"Mármol","material":"Emperador Dark, Emperador Light, Extra Dark","color":"Negro","status":"Activa","owner":"Levantina, privadas","production":"~30.000 m³/año","fame":"Trump Tower NY, Burj Khalifa Dubai","history":"Denominación Origen 'Marrón Emperador'. El mármol marrón más vendido del mundo 2000-2020.","tier":3,"lat":38.27,"lng":-0.7},{"name":"Canteras CUPA Pizarra","country":"España","region":"O Barco de Valdeorras (Orense) y León","type":"Pizarra","material":"Pizarra Natural Española (Riven, S3)","color":"Negro","status":"Activa","owner":"CUPA Stone, Bateig Slate, 40+ empresas","production":"~1.000.000 t/año","fame":"Empire State Building (techo), Sagrada Familia","history":"90% cuota mundial de pizarra natural para techos. Veta de 600 km longitud. 10.000 empleados.","tier":1,"lat":42.42,"lng":-6.98},{"name":"Canteras Granito Galicia","country":"España","region":"Porriño, A Guarda, Meis, Ponteareas (Galicia)","type":"Granito","material":"Rosa Porriño, Azul Platino, Blanco Cristal, Gris Quintana","color":"Blanco","status":"Activa","owner":"Eurobandas, Granitos Cabaleiro, 80+ empresas","production":"~300.000 m³/año (zona)","fame":"Santiago de Compostela, Expo 92 Sevilla","history":"Mayor concentración de canteras granito de España. El Azul Platino compite con Blue Pearl noruego.","tier":3,"lat":42.16,"lng":-8.62},{"name":"Canteras Arenisca Salamanca","country":"España","region":"Salamanca, Castilla y León","type":"Arenisca","material":"Albamiel, Arenisca Beige, Piedra de Zamora","color":"Beige","status":"Activa","owner":"Areniscas Rosal S.A.","production":"~5.000 m³/año","fame":"Catedrales de Salamanca, Zamora, Palencia","history":"Usada en restauración patrimonio arquitectónico español.","tier":2,"lat":40.96,"lng":-5.67},{"name":"Canteras Gris Pulpis","country":"España","region":"Castellón","type":"Mármol","material":"Gris Pulpis","color":"Gris","status":"Activa","owner":"Privadas","production":"~15.000 m³/año","fame":"Edificios institucionales Europa","history":"Muy exportado por precio competitivo. Textura fina y uniforme.","tier":3,"lat":39.98,"lng":-0.03},{"name":"Canteras Crema Valencia","country":"España","region":"Cenia, Tarragona","type":"Caliza","material":"Crema Valencia, Crema Cenia","color":"Crema","status":"Activa","owner":"Privadas","production":"~10.000 m³/año","fame":"Hoteles, edificios residenciales","history":"Similar al Crema Marfil pero más cálido. Zona fronteriza Tarragona-Castellón.","tier":2,"lat":40.53,"lng":0.27},{"name":"Iscehisar Afyon Marble Region","country":"Turquía","region":"Iscehisar, Afyon","type":"Mármol","material":"Afyon White, Afyon Sugar, Afyon Cloud","color":"Blanco","status":"Activa","owner":"IVASTONE, Oztas, múltiples","production":"~1.000.000 m³/año (zona)","fame":"UAE palaces, China luxury hotels","history":"Mayor zona mármol blanco de Turquía. 553 canteras en StoneContact solo para Turquía.","tier":2,"lat":38.89,"lng":30.79},{"name":"Bilecik Marble Zone","country":"Turquía","region":"Bilecik","type":"Mármol","material":"Silver Shadow, Pietra Grey Turkey, Tundra Grey","color":"Gris","status":"Activa","owner":"Privadas","production":"~200.000 m³/año","fame":"Aeropuerto Estambul, diseño contemporáneo","history":"El Silver Shadow lidera el diseño europeo y americano minimalista.","tier":2,"lat":40.15,"lng":29.98},{"name":"Denizli Travertine Quarries","country":"Turquía","region":"Denizli / Pamukkale zona","type":"Travertino","material":"Travertino Clásico, Walnut, Silver, Gold","color":"Beige","status":"Activa","owner":"Privadas (>100 activas)","production":"~3.000.000 m²/año","fame":"Pamukkale (natural, UNESCO), casas EE.UU.","history":"Mayor exportador mundial (40% cuota). Pamukkale Patrimonio UNESCO a 20 km.","tier":3,"lat":37.77,"lng":29.09},{"name":"Burdur Marble Zone","country":"Turquía","region":"Burdur","type":"Mármol","material":"Burdur Beige, Vanilla Ice, Burdur Red","color":"Beige","status":"Activa","owner":"SULTANMAR, privadas","production":"~100.000 m³/año","fame":"Hoteles Turquía, exportación Europa","history":"Alternativa turca al Botticino. Gran reserva estimada.","tier":2,"lat":37.72,"lng":30.29},{"name":"Mugla Marble Zone","country":"Turquía","region":"Mugla, Milas, Bodrum","type":"Mármol","material":"Mugla White, Lilac Marble, Patara Marble","color":"Blanco","status":"Activa","owner":"Ermas, SULTANMAR","production":"~150.000 m³/año","fame":"Proyectos globales","history":"El Lilac Marble es uno de los más raros del mundo. Zona en expansión.","tier":3,"lat":37.13,"lng":27.79},{"name":"Marmara Island Quarry","country":"Turquía","region":"Isla Mármara, Mar de Mármara","type":"Mármol","material":"Dolomite White Mármara","color":"Blanco","status":"Activa","owner":"Privadas turcas","production":"~20.000 m³/año","fame":"Iglesia de Santa Sofía (columnas originales)","history":"La isla dio nombre al Mar de Mármara. Las columnas de Santa Sofía son de aquí.","tier":1,"lat":40.62,"lng":27.59},{"name":"Afyon (Amplia)","country":"Turquía","region":"Todo il de Afyon","type":"Mármol","material":"Bianco Afyon, Bianco Carrara Turkey","color":"Blanco","status":"Activa","owner":"Múltiples","production":"~500.000 m³/año","fame":"Proyectos construcción global","history":"Una de las regiones marmoleras más productivas del mundo por volumen.","tier":3,"lat":38.75,"lng":30.54},{"name":"Konya / Seydisehir Marble","country":"Turquía","region":"Konya","type":"Mármol","material":"Seydisehir Beige, Grey","color":"Beige","status":"Activa","owner":"Privadas","production":"~30.000 m³/año","fame":"Proyectos Oriente Medio","history":"Gran reserva. Explotación creciente.","tier":3,"lat":37.87,"lng":32.48},{"name":"Bursa Region Marble","country":"Turquía","region":"Bursa, Noroeste Turquía","type":"Mármol","material":"Bursa Beige, Bursa Brown","color":"Beige","status":"Activa","owner":"Privadas","production":"~50.000 m³/año","fame":"Construcción turca interna","history":"Importante para el mercado interno turco.","tier":3,"lat":40.2,"lng":29.06},{"name":"Pentelikon / Dionysos Quarry","country":"Grecia","region":"Monte Penteli, Ática","type":"Mármol","material":"Pentélico, Dionysos Penteli, Dionysos Crystal","color":"Blanco","status":"Activa (parcial)","owner":"Privada + Estado griego","production":"Limitada","fame":"Partenón, Acrópolis, Erecteión","history":"La más famosa del mundo antiguo. Se extrae ocasionalmente para restaurar la Acrópolis.","tier":1,"lat":38.05,"lng":23.88},{"name":"Thassos White Marble Quarry","country":"Grecia","region":"Isla Thassos, Macedonia Oriental","type":"Mármol","material":"Thassos Extra White, Thassos Snowflake","color":"Blanco","status":"Activa","owner":"PETALCO (Petros Skaris & Co.)","production":"~60.000 m³/año","fame":"Trump SoHo NY, Guggenheim Bilbao, hoteles Dubái","history":"Mayor reflexión lumínica de cualquier mármol del mundo. Principal exportador EEUU y Golfo Pérsico.","tier":2,"lat":40.77,"lng":24.7},{"name":"Paros / Parian Marble Quarry","country":"Grecia","region":"Isla Paros, Cícladas","type":"Mármol","material":"Parian Lychnitis, Coarse-crystalled","color":"Blanco","status":"Activa muy limitada","owner":"Cooperativa artesanal","production":"<1.000 m³/año","fame":"Venus de Milo, Hermes de Praxíteles","history":"Tan translúcido que se usaba para ventanas. El mármol de los grandes escultores clásicos.","tier":3,"lat":37.08,"lng":25.15},{"name":"Volakas Quarry","country":"Grecia","region":"Volakas, Drama, Macedonia","type":"Mármol","material":"Volakas White, Volakas Galaxy, Spider Web","color":"Blanco","status":"Activa","owner":"Múltiples macedonias","production":"~80.000 m³/año","fame":"Aeropuerto Pekín T3, hoteles China","history":"Patrón de venas en zigzag único en el mundo. China es el mayor importador.","tier":2,"lat":41.27,"lng":24.1},{"name":"Drama Marble Zone","country":"Grecia","region":"Drama, Macedonia","type":"Mármol","material":"Drama White, Drama Blue-Grey","color":"Blanco","status":"Activa","owner":"Privadas macedonias","production":"~30.000 m³/año","fame":"Exportación Europa y Asia","history":"Mármoles azulados únicos de la zona de Drama.","tier":3,"lat":41.15,"lng":24.15},{"name":"Kavala White Quarry","country":"Grecia","region":"Kavala, Macedonia","type":"Mármol","material":"Kavala White, Kavala Extra","color":"Blanco","status":"Activa","owner":"Privadas","production":"~20.000 m³/año","fame":"Proyectos europeos","history":"Blanco de buena calidad, más económico que Thassos.","tier":3,"lat":40.94,"lng":24.4},{"name":"Cipollino Euboea Quarry","country":"Grecia","region":"Isla Eubea, Grecia Central","type":"Serpentinita","material":"Cipollino Verde","color":"Verde","status":"Activa (muy limitada)","owner":"Privada restringida","production":"<2.000 m³/año","fame":"Columnas Panteón Roma, Hagia Sofía","history":"El mármol verde más usado en Roma Imperial. 'Cebolla' por sus capas. Escasez extrema.","tier":1,"lat":38.5,"lng":23.8},{"name":"Skyros Breccia Quarry","country":"Grecia","region":"Isla Skyros, Egeo Norte","type":"Mármol brecciado","material":"Skyros Breccia","color":"Blanco","status":"Activa muy limitada","owner":"Privada","production":"<1.000 m³/año","fame":"Decoración premium, coleccionistas","history":"Breccia volcánica única del Egeo. Muy apreciado en proyectos de alta gama.","tier":3,"lat":38.9,"lng":24.57},{"name":"Portosanta Chios Quarry","country":"Grecia","region":"Isla de Quíos","type":"Mármol","material":"Portosanta, Fior di Pesco","color":"Blanco","status":"Activa muy limitada","owner":"Privada restringida","production":"<500 m³/año","fame":"Columnas basílicas paleocristianas Italia","history":"Uno de los mármoles más raros y caros del mundo. Los romanos lo usaban para columnas de honor.","tier":3,"lat":38.37,"lng":26.14},{"name":"Canteras Estremoz","country":"Portugal","region":"Estremoz, Alentejo","type":"Mármol","material":"Branco Estremoz, Creme d'Or","color":"Blanco","status":"Activa","owner":"Marmetal, Galrão, OMYA, privadas","production":"~100.000 m³/año (zona)","fame":"Basílica de Mafra, Palacio da Ajuda, Banco de Portugal","history":"Triángulo marmolero con Borba y Vila Viçosa. 12 municipios en activo.","tier":3,"lat":38.85,"lng":-7.59},{"name":"Canteras Borba","country":"Portugal","region":"Borba, Alentejo","type":"Mármol","material":"Borba White, Borba Extra","color":"Blanco","status":"Activa","owner":"Valmarble, privadas","production":"~40.000 m³/año","fame":"Arquitectura portuguesa histórica","history":"Única ciudad del mundo completamente rodeada de canteras activas. Las paredes de la ciudad son de mármol.","tier":3,"lat":38.8,"lng":-7.45},{"name":"Canteras Vila Viçosa","country":"Portugal","region":"Vila Viçosa, Alentejo","type":"Mármol","material":"Ruivina, Cinza Claro, Rosa Aurora","color":"Rosa","status":"Activa","owner":"Galrão, OMYA, privadas","production":"~50.000 m³/año","fame":"Palácio Ducal de Vila Viçosa","history":"Cuna dinástica de Portugal (Duques de Bragança).","tier":3,"lat":38.78,"lng":-7.41},{"name":"Canteras Moleanos","country":"Portugal","region":"Aljubarrota, Leiría","type":"Caliza","material":"Moleanos Beige, Moleanos Golden, Moleanos Blue","color":"Beige","status":"Activa","owner":"OMYA, Socarpo, privadas","production":"~30.000 m³/año","fame":"Palácio de Justiça Lisboa, Aeropuerto Lisboa","history":"La caliza más exportada de Portugal. Grano finísimo, alta densidad.","tier":2,"lat":39.52,"lng":-8.88},{"name":"Canteras Azul Valverde","country":"Portugal","region":"Norte de Portugal (Trás-os-Montes)","type":"Granito","material":"Azul Valverde, Azul dos Mares","color":"Azul","status":"Activa (escasa)","owner":"Privada restringida","production":"<2.000 m³/año","fame":"Encimeras de cocina muy alta gama","history":"Uno de los granitos azules más raros del mundo. Precio 300-500€/m².","tier":3,"lat":41.8,"lng":-7.5},{"name":"Canteras Amarelo Real","country":"Portugal","region":"Nordeste de Portugal","type":"Granito","material":"Amarelo Real, Amarelo Florido","color":"Dorado","status":"Activa (limitada)","owner":"Privadas","production":"~5.000 m³/año","fame":"Encimeras especiales, decoración","history":"El único granito amarillo dorado auténtico del mundo.","tier":3,"lat":41.5,"lng":-6.9},{"name":"Canteras Granito Cinza","country":"Portugal","region":"Norte Portugal (Entre Douro e Minho)","type":"Granito","material":"Cinza Claro, Cinza Escuro, Capa Fina","color":"Gris","status":"Activa","owner":"Múltiples privadas","production":"~100.000 m³/año","fame":"Pavimentos obra pública España y Portugal","history":"El granito gris portugués es uno de los más resistentes a la intemperie de Europa.","tier":3,"lat":41.68,"lng":-8.24},{"name":"Canteras Pedra Azul de Fátima","country":"Portugal","region":"Fátima, Leiría","type":"Caliza","material":"Azul Valado, Fátima Blue","color":"Gris","status":"Activa","owner":"Privadas","production":"~15.000 m³/año","fame":"Basílica de Fátima, exportación global","history":"La piedra del santuario de Fátima. Caliza azulada única.","tier":3,"lat":39.63,"lng":-8.67},{"name":"Carrière de Comblanchien","country":"Francia","region":"Comblanchien, Côte-d'Or, Borgoña","type":"Caliza","material":"Comblanchien, Chassagne, Combe Brune","color":"Beige","status":"Activa","owner":"Privadas","production":"~30.000 m³/año","fame":"Ópera Garnier París, Aeropuerto CDG","history":"La caliza más densa de Francia. Casi tan dura como el mármol.","tier":2,"lat":47.03,"lng":4.86},{"name":"Carrière Pierre de Bourgogne","country":"Francia","region":"Mâconnais, Borgoña","type":"Caliza","material":"Pierre de Bourgogne, Doré de Bourgogne","color":"Beige","status":"Activa","owner":"Múltiples","production":"~200.000 m³/año (zona)","fame":"Versalles (suelos), Louvre (fachada este), Catedral Lyon","history":"Empleada por Luis XIV en Versalles. La piedra más usada en el patrimonio arquitectónico francés.","tier":1,"lat":46.3,"lng":4.83},{"name":"Carrière Lutetia / Saint-Maximin","country":"Francia","region":"París / Oise, Île-de-France","type":"Caliza","material":"Lutetia, Pierre de Paris, Calcaire Grossier","color":"Beige","status":"Activa (parcial)","owner":"Privadas","production":"~50.000 m³/año","fame":"Toda la arquitectura haussmanniana de París, Notre-Dame","history":"París está construida con esta piedra. Las catacumbas son las canteras históricas bajo la ciudad.","tier":3,"lat":49.18,"lng":2.55},{"name":"Carrière Tavel Rose","country":"Francia","region":"Gard, Languedoc-Rosellón","type":"Caliza","material":"Tavel Rose, Pierre de Tavel","color":"Rosa","status":"Activa","owner":"Privadas","production":"~8.000 m³/año","fame":"Arquitectura languedociana","history":"El color único de Provenza en piedra.","tier":3,"lat":43.85,"lng":4.35},{"name":"Carrières du Limeyrat","country":"Francia","region":"Dordoña, Aquitania","type":"Caliza","material":"Pierre de Lot, Calcaire de Périgord","color":"Beige","status":"Activa","owner":"Privadas","production":"~20.000 m³/año","fame":"Castillos medievales del Périgord","history":"La piedra del sueño medieval de la Dordoña.","tier":3,"lat":45.1,"lng":1.07},{"name":"Carrière Granit Breton","country":"Francia","region":"Finistère, Bretaña","type":"Granito","material":"Granit de Bretagne, Gris Clair Breton","color":"Gris","status":"Activa","owner":"Privadas bretonas","production":"~30.000 m³/año","fame":"Faros y monumentos costeros de Bretaña","history":"Mont-Saint-Michel fue construido con granito bretón. El más resistente al mar de Europa.","tier":3,"lat":48.2,"lng":-4.1},{"name":"Carrières du Hainaut","country":"Bélgica","region":"Hainaut, Valonia","type":"Caliza","material":"Petit Granit, Bleu Belge, Pierre Bleue","color":"Negro","status":"Activa","owner":"Carrières du Hainaut S.A.","production":"~50.000 m³/año","fame":"Gran Lugar Bruselas, Brujas, Gante, Lieja","history":"Caliza carbonífera del Devónico (~350 Ma). El único azul-negro natural de Europa Occidental.","tier":3,"lat":50.45,"lng":3.95},{"name":"Carrière Rouge Royal","country":"Bélgica","region":"Namur, Valonia","type":"Mármol/Caliza","material":"Rouge Royal, Rouge Belge, Griotte","color":"Blanco","status":"Activa (limitada)","owner":"Privada","production":"~2.000 m³/año","fame":"Escaleras Palacio de Versalles","history":"Caliza roja con crinoideos. Las 'flores' blancas son fósiles de erizos de mar.","tier":1,"lat":50.27,"lng":4.87},{"name":"Carrière de Soignies","country":"Bélgica","region":"Soignies, Hainaut","type":"Caliza","material":"Calcaire de Soignies, Pierre de Soignies","color":"Gris","status":"Activa","owner":"Privada","production":"~30.000 m³/año","fame":"Colegiata de Soignies (siglo XI), Bruselas histórico","history":"Usada desde el siglo XI en arquitectura religiosa de Bruselas.","tier":3,"lat":50.58,"lng":4.07},{"name":"Dietfurt Limestone (Jura Quarry)","country":"Alemania","region":"Dietfurt, Baviera","type":"Caliza","material":"Jura Beige, Jura Grey, Solnhofen","color":"Beige","status":"Activa","owner":"Jura Naturstein, privadas","production":"~30.000 m³/año","fame":"Apple Store Barcelona (suelo), FAO Roma, Hermitage","history":"El Archaeopteryx (fósil) fue hallado en Solnhofen. Caliza del Jurásico (~150 Ma).","tier":3,"lat":49.04,"lng":11.58},{"name":"Untersberg Marble Quarry","country":"Austria","region":"Grödig, Salzburgo","type":"Mármol","material":"Untersberger Marmor, Adnet Marmor","color":"Blanco","status":"Activa","owner":"Privada","production":"~5.000 m³/año","fame":"Catedral de Salzburgo, Residenz, Hellbrunn","history":"Extraído por los romanos para Iuvavum (Salzburg). Mozart caminó sobre este mármol.","tier":2,"lat":47.74,"lng":13.04},{"name":"Adnet Red Marble","country":"Austria","region":"Adnet, Salzburgo","type":"Caliza","material":"Adnet Rot, Adnet Grau","color":"Rojo","status":"Activa (limitada)","owner":"Privada","production":"~2.000 m³/año","fame":"Catedral de San Esteban Viena (columnas)","history":"Famosa caliza roja de los Alpes Calizos. Muy apreciada en el Barroco austriaco.","tier":2,"lat":47.7,"lng":13.11},{"name":"Vals Quartzite (Peter Zumthor)","country":"Suiza","region":"Vals, Graubünden","type":"Cuarcita","material":"Vals Quartzite, Vals Gneiss","color":"Gris","status":"Activa (controlada)","owner":"Vals Naturstein","production":"<5.000 m³/año","fame":"Termas de Vals (Peter Zumthor, Premio Pritzker 2009)","history":"Zumthor controló personalmente la extracción para las Termas de Vals.","tier":3,"lat":46.62,"lng":9.18},{"name":"Lundhs Blue Pearl Quarry","country":"Noruega","region":"Ørsdalen, Rogaland","type":"Granito larvikita","material":"Blue Pearl (LP, LG, LBL, Extra Blue)","color":"Azul","status":"Activa","owner":"Lundhs AS (propietario exclusivo)","production":"~30.000 m³/año","fame":"Empire State Building Hall, Trump Towers, Palacio Real Oslo","history":"LA ÚNICA fuente mundial auténtica. Labradorescencia azul de anortosita precámbrica (~900 Ma).","tier":1,"lat":59.1,"lng":6.55},{"name":"Lundhs Labrador Antique","country":"Noruega","region":"Rogaland, Noruega","type":"Granito larvikita","material":"Labrador Antique, Labrador Dark","color":"Negro","status":"Activa","owner":"Lundhs AS","production":"~10.000 m³/año","fame":"Encimeras premium Europa y EEUU","history":"Hermano mayor más oscuro del Blue Pearl. También exclusivo de Lundhs.","tier":3,"lat":58.97,"lng":5.73},{"name":"Larvikite / Emerald Pearl","country":"Noruega","region":"Larvik, Vestfold","type":"Granito larvikita","material":"Emerald Pearl, Norway Green","color":"Verde","status":"Activa","owner":"Lundhs AS + otros","production":"~20.000 m³/año","fame":"Palacio Real Noruego, Rathaus Oslo","history":"Patrimonio Geológico Nacional de Noruega (Resolución del Parlamento). La Larvikita es el tipo de roca oficial del condad","tier":2,"lat":59.05,"lng":10.0},{"name":"Bohus Granite / Skriveroya","country":"Noruega","region":"Halden, Østfold","type":"Granito","material":"Bohus Granite, Grey Nordic","color":"Gris","status":"Activa","owner":"Scandinavian Stone","production":"~15.000 m³/año","fame":"Reconstrucción Hamburgo tras incendio 1842","history":"Quarry Skriverøya: activa desde 1840 en el fiordo de Iddefjorden.","tier":3,"lat":59.12,"lng":11.38},{"name":"Swedish Black Brannhult","country":"Suecia","region":"Småland, Suecia","type":"Diabasa","material":"Swedish Black Brännhult, Nero Svezia","color":"Negro","status":"Activa","owner":"Scandinavian Stone AB","production":"~20.000 m³/año","fame":"Pavimentos urbanos europeos, encimeras","history":"Cerrado en los 70s, reabierto con nueva tecnología. Mejor vendedor de Scandinavian Stone.","tier":3,"lat":56.78,"lng":14.6},{"name":"Swedish Black Duvhult","country":"Suecia","region":"Skåne, Suecia","type":"Diabasa","material":"Swedish Black Duvhult","color":"Negro","status":"Activa","owner":"Scandinavian Stone AB","production":"~10.000 m³/año","fame":"Encimeras premium Europa","history":"El negro más puro y denso de Escandinavia. Muy apreciado en Alemania.","tier":3,"lat":55.9,"lng":13.5},{"name":"Bårarp Gneiss Quarry","country":"Suecia","region":"Halland, Suecia","type":"Gneis","material":"Bårarp Gneiss, Nordic Marble Gneiss","color":"Beige","status":"Activa","owner":"Scandinavian Stone AB","production":"~20.000 m³/año","fame":"Fachadas ventiladas norte de Europa","history":"La mayor cantera ornamental a cielo abierto de Suecia.","tier":3,"lat":56.72,"lng":12.9},{"name":"Bjarlöv Granite Quarry","country":"Suecia","region":"Skåne, Suecia","type":"Granito","material":"Bjärlöv Granite","color":"Gris","status":"Activa","owner":"Scandinavian Stone AB","production":"~15.000 m³/año","fame":"Adoquines, bordillos Escandinavia","history":"Excelente cleavability. Líder mundial en adoquines de granito rústico.","tier":3,"lat":55.9,"lng":13.5},{"name":"Balmoral Red Quarry","country":"Finlandia","region":"Sur de Finlandia (Hietanen)","type":"Granito","material":"Balmoral Red, Baltic Brown","color":"Rojo","status":"Activa","owner":"Karhula Stone, privadas","production":"~15.000 m³/año","fame":"Monumentos europeos, encimeras","history":"El granito rojo nórdico más exportado del mundo.","tier":3,"lat":61.52,"lng":27.18},{"name":"Karelian Gabbro Zone","country":"Finlandia","region":"Karelia, Este de Finlandia","type":"Gabro","material":"Finnish Gabbro, Black Finlandia","color":"Negro","status":"Activa","owner":"Finlandia Marble Oy","production":"~5.000 m³/año","fame":"Monumentos, exteriores","history":"Gabbro negro finlandés muy resistente al hielo ártico.","tier":3,"lat":62.6,"lng":29.8},{"name":"Connemara Marble Quarry","country":"Irlanda","region":"Connemara, Co. Galway","type":"Serpentinita","material":"Connemara Green Marble","color":"Verde","status":"Activa","owner":"Millar's Connemara Marble","production":"~2.000 m³/año","fame":"Joyería, souvenirs, decoración premium","history":"600 MILLONES de años (Precámbrico). El único de este tipo en el mundo. La roca oficial del Día de San Patricio.","tier":3,"lat":53.46,"lng":-9.73},{"name":"Kilkenny Limestone Quarry","country":"Irlanda","region":"Kilkenny","type":"Caliza","material":"Kilkenny Black Limestone","color":"Negro","status":"Activa","owner":"Privadas","production":"~5.000 m³/año","fame":"Arquitectura medieval, pubs históricos","history":"Caliza carbonífera del Viséen (330 Ma).","tier":3,"lat":52.65,"lng":-7.25},{"name":"Liscannor Flagstone","country":"Irlanda","region":"Liscannor, Co. Clare","type":"Pizarra/Caliza","material":"Liscannor Flagstone","color":"Negro","status":"Activa","owner":"Privadas locales","production":"~5.000 t/año","fame":"Acantilados de Moher (senderos), jardines europeos","history":"Caliza laminada del Carbonífero, senderos de los Acantilados de Moher.","tier":3,"lat":52.93,"lng":-9.4},{"name":"Portland Stone Quarry","country":"Reino Unido","region":"Isle of Portland, Dorset","type":"Caliza","material":"Portland Stone, Portland Basebed","color":"Blanco","status":"Activa","owner":"Albion Stone plc","production":"~40.000 m³/año","fame":"Catedral de San Pablo (Wren), Banco de Inglaterra, Parlamento","history":"La piedra nacional de Inglaterra. Wren usó 10.000 toneladas para San Pablo.","tier":2,"lat":50.52,"lng":-2.43},{"name":"Purbeck Marble Quarry","country":"Reino Unido","region":"Corfe Castle, Dorset","type":"Caliza","material":"Purbeck Marble","color":"Negro","status":"Activa (parcial)","owner":"Privada artesanal","production":"~1.000 m³/año","fame":"Catedral de Canterbury, Westminster Abbey","history":"Caliza (no mármol) del Jurásico. Columnas de Winchester, Canterbury, Worcester.","tier":2,"lat":50.64,"lng":-2.06},{"name":"Welsh Slate Quarry (Penrhyn)","country":"Reino Unido","region":"Bethesda, Gwynedd, Gales","type":"Pizarra","material":"Welsh Slate (Dark Blue, Green, Grey)","color":"Negro","status":"Activa","owner":"Welsh Slate Company","production":"~30.000 t/año","fame":"Empire State Building, Sagrada Familia (techo)","history":"Mayor cantera de pizarra activa de Europa. Patrimonio Industrial UNESCO 2021.","tier":1,"lat":53.19,"lng":-4.05},{"name":"York Stone Quarry","country":"Reino Unido","region":"West Yorkshire","type":"Arenisca","material":"York Stone, Yorkstone Paving","color":"Beige","status":"Activa","owner":"Stonemaster, privadas","production":"~20.000 m³/año","fame":"Calles históricas de Londres y Leeds","history":"La arenisca de las aceras de Londres victoriano.","tier":3,"lat":53.74,"lng":-1.62},{"name":"Aberdeenshire Granite","country":"Reino Unido","region":"Aberdeen, Escocia","type":"Granito","material":"Aberdeen Grey, Kemnay Granite","color":"Gris","status":"Activa","owner":"Robertson's Quarries y otras","production":"~20.000 m³/año","fame":"Aberdeen ('Ciudad de Granito'), edificios victorianos","history":"Aberdeen construida completamente con granito local. La ciudad más gris del mundo.","tier":3,"lat":57.15,"lng":-2.11},{"name":"Makrana Marble Mines","country":"India","region":"Makrana, Rajastán","type":"Mármol","material":"Makrana White (Dholu, Albeta, Dungri, Pink)","color":"Blanco","status":"Activa","owner":"Estado + privadas (200+ minas)","production":"~50.000 m³/año","fame":"Taj Mahal (1632-1653), Qutub Minar Delhi","history":"El mármol que soportó 350 años en el Taj Mahal. Explotado 2.500 años.","tier":1,"lat":27.04,"lng":74.72},{"name":"Black Galaxy Mines","country":"India","region":"Kurnool / West Godavari, Andhra Pradesh","type":"Granito","material":"Black Galaxy, Star Galaxy","color":"Negro","status":"Activa","owner":"Aapt Distribution, privadas","production":"~20.000 m³/año","fame":"Trump Tower NY, hoteles Dubái","history":"EL ÚNICO lugar del mundo. Los puntos dorados son biotita y broncita. Valor: 80-300€/m².","tier":2,"lat":15.83,"lng":78.04},{"name":"Tamil Nadu Granite Zone","country":"India","region":"Madurai, Salem, Tiruchirappalli","type":"Granito","material":"Tan Brown, Imperial Red, Coffee Brown, Thunder Black","color":"Rojo","status":"Activa","owner":"Múltiples","production":"~200.000 m³/año","fame":"Europa, EEUU, Australia (encimeras)","history":"El cinturón granítico más exportado de India. Tan Brown = encimera n.º 1 en Europa 2000-2015.","tier":3,"lat":10.92,"lng":78.12},{"name":"Rajasthan Granite Belt","country":"India","region":"Rajastán (todo el estado)","type":"Granito","material":"Cat Eye Brown, New Imperial Red, Multicolor Rajasthan","color":"Rojo","status":"Activa","owner":"OWL Handicraft, múltiples","production":"~150.000 m³/año","fame":"Proyectos europeos, monumentos","history":"El estado más diverso de India en tipos de granito.","tier":3,"lat":26.5,"lng":73.5},{"name":"Andhra Pradesh Black Zone","country":"India","region":"Warangal, Khammam, Kurnool","type":"Granito","material":"Absolute Black India, Black Pearl, Woodland Black","color":"Negro","status":"Activa","owner":"Aapt Distribution, privadas","production":"~100.000 m³/año","fame":"Encimeras cocina Europa y EEUU","history":"El negro más puro exportado de India. Warangal es la capital del granito negro indio.","tier":3,"lat":17.98,"lng":79.6},{"name":"Kashmir White Quarry","country":"India","region":"Baramula, Jammu y Cachemira","type":"Granito","material":"Kashmir White","color":"Blanco","status":"Activa (conflictiva)","owner":"Privadas restringidas","production":"~10.000 m³/año","fame":"Encimeras EEUU y Europa","history":"Zona de conflicto histórico. Muy cotizado por su patrón decorativo único.","tier":3,"lat":34.2,"lng":74.34},{"name":"Agra Red Sandstone Zone","country":"India","region":"Agra y Fatehpur Sikri, UP","type":"Arenisca","material":"Agra Red, Dholpur Red, Bansi Paharpur","color":"Rojo","status":"Activa","owner":"Privadas UP","production":"~30.000 m³/año","fame":"Fuerte Rojo Delhi, Fuerte Agra, Fatehpur Sikri","history":"La piedra del Imperio Mogol. Los fuertes rojos de Akbar, Patrimonio UNESCO.","tier":3,"lat":27.18,"lng":77.95},{"name":"Jaisalmer Yellow Limestone","country":"India","region":"Jaisalmer, Rajastán","type":"Caliza","material":"Jaisalmer Yellow, Thar Yellow","color":"Dorado","status":"Activa","owner":"Privadas locales","production":"~15.000 m³/año","fame":"Jaisalmer Fort (UNESCO), arquitectura de Rajastán","history":"La 'Ciudad de Oro' de India. Jaisalmer Fort: único fuerte habitado del mundo.","tier":3,"lat":26.91,"lng":70.91},{"name":"Kota Stone Quarry","country":"India","region":"Kota, Rajastán","type":"Caliza","material":"Kota Stone, Kota Blue","color":"Azul","status":"Activa","owner":"Privadas (>500 minas)","production":"~500.000 m²/año","fame":"Aeropuertos indios, universidades, oficinas","history":"La piedra más usada en interiores de edificios públicos de India. Precio muy accesible.","tier":2,"lat":25.18,"lng":75.84},{"name":"Karnataka Granite Belt","country":"India","region":"Chamarajanagar, Mysuru, Karnataka","type":"Granito","material":"Absolute Black Karnataka, New Caledonia, Forest Green","color":"Negro","status":"Activa","owner":"Múltiples","production":"~100.000 m³/año","fame":"Encimeras, obra pública Europa","history":"Karnataka: mayor productor granito negro y gris de India.","tier":3,"lat":11.92,"lng":76.94},{"name":"Fangshan Imperial Quarry","country":"China","region":"Fangshan, Pekín","type":"Mármol","material":"Han Bai Yu (汉白玉)","color":"Blanco","status":"Activa","owner":"Empresa estatal","production":"~5.000 m³/año","fame":"Ciudad Prohibida, Tiananmén, Palacio de Verano","history":"La cantera imperial de China. Han Bai Yu = 'jade blanco frío'. Producción muy restringida.","tier":3,"lat":39.69,"lng":115.99},{"name":"Yunfu Granite Region","country":"China","region":"Yunfu, Guangdong","type":"Granito","material":"G603, G664, G654 y docenas más","color":"Otros","status":"Activa","owner":"1.000+ empresas","production":"~5.000.000 m²/año","fame":"Todo el mundo (por volumen)","history":"La mayor zona de procesado de granito del mundo. 1 millón de trabajadores. G603 = el más producido del mundo.","tier":3,"lat":22.92,"lng":112.04},{"name":"Fujian Granite Belt","country":"China","region":"Fujian (toda la provincia)","type":"Granito","material":"G654, G603, G684, G603 Padang Crystal","color":"Negro","status":"Activa","owner":"Miles de empresas","production":"~10.000.000 m²/año","fame":"Europa entera (pavimentos), EEUU","history":"El 'gran exportador' del granito chino. G654 = adoquín más usado en España, Francia, Alemania.","tier":3,"lat":26.08,"lng":118.09},{"name":"Guangxi Marble Zone","country":"China","region":"Guangxi (toda la región)","type":"Mármol","material":"Guangxi White, Guangxi Black, Guizhou Grey","color":"Blanco","status":"Activa","owner":"Cientos de empresas","production":"~50.000.000 m²/año","fame":"Arquitectura residencial y comercial china (masiva)","history":"La zona marmolera más productiva de China por volumen.","tier":3,"lat":23.73,"lng":108.37},{"name":"Shanxi Black Granite","country":"China","region":"Shanxi, Norte de China","type":"Granito","material":"Shanxi Black, China Absolute Black","color":"Negro","status":"Activa","owner":"Múltiples privadas","production":"~2.000.000 m²/año","fame":"Monumentos, encimeras, suelos negros","history":"El granito negro más oscuro de China. Competidor del Zimbabwe Black en precio.","tier":3,"lat":37.87,"lng":112.55},{"name":"Shandong Granite Belt","country":"China","region":"Shandong (Laizhou, Penglai)","type":"Granito","material":"G562 Maple Red, G635 China Pink","color":"Rosa","status":"Activa","owner":"Múltiples","production":"~3.000.000 m²/año","fame":"Exportación EEUU y Europa, monumentos","history":"El Maple Red es muy popular en América del Norte.","tier":3,"lat":37.08,"lng":120.03},{"name":"Yunnan Green Marble Zone","country":"China","region":"Yunnan","type":"Mármol","material":"Emerald Jade, Yunnan Green, Verde Ming","color":"Verde","status":"Activa","owner":"Privadas","production":"~5.000 m³/año","fame":"Decoración de lujo asiática","history":"El único mármol verde de alta calidad de China. Exportado como 'Chinese Jade'.","tier":3,"lat":25.05,"lng":102.71},{"name":"Isfahan Marble Zone","country":"Irán","region":"Isfahan, Irán Central","type":"Mármol","material":"Persian White, Dark Emperador Iran","color":"Blanco","status":"Activa","owner":"Privadas","production":"~200.000 m³/año","fame":"Palacios persas, mezquitas Safávidas","history":"Isfahan: 'La mitad del mundo'. Las mezquitas de la Plaza del Imán son de este mármol.","tier":3,"lat":32.66,"lng":51.68},{"name":"Yazd Travertine Zone","country":"Irán","region":"Yazd, Irán","type":"Travertino","material":"Travertino Yazd, Travertino Beige Iran","color":"Beige","status":"Activa","owner":"Privadas","production":"~1.000.000 m²/año","fame":"Exportación masiva a EEUU (antes sanciones)","history":"Gran producción. Antes de sanciones era el 2.º exportador mundial.","tier":3,"lat":31.9,"lng":54.37},{"name":"Shahre Kord Travertine","country":"Irán","region":"Shahre Kord, Chaharmahal","type":"Travertino","material":"Travertino Shahre Kord, Classic Cream","color":"Crema","status":"Activa","owner":"MGT Stone Co. (canteras Marjan, Maran)","production":"~500.000 m²/año","fame":"Exportación Iraq, Turquía, CIS","history":"MGT Stone opera canteras Marjan Silver y Maran White.","tier":3,"lat":32.33,"lng":50.85},{"name":"Lorestan Onyx Region","country":"Irán","region":"Khorramabad, Lorestan","type":"Ónix","material":"Persian Gold Onyx, Honey Onyx, Green Onyx Iran","color":"Rojo","status":"Activa","owner":"Privadas artesanales","production":"~5.000 m³/año","fame":"Hoteles VIP Dubái, Abu Dhabi, Riad, Londres","history":"El ónix más valorado del mundo. Gold Persian: 300-2.000€/m².","tier":2,"lat":33.49,"lng":48.36},{"name":"Azna Titanium Travertine","country":"Irán","region":"Azna, Lorestan","type":"Travertino","material":"Titanium Travertine, Dark Titanium","color":"Beige","status":"Activa","owner":"Privadas","production":"~200.000 m²/año","fame":"Diseño contemporáneo global, exteriores modernos","history":"El travertino gris-titanio. Popular en arquitectura minimalista actual.","tier":3,"lat":33.46,"lng":49.45},{"name":"Mashhad Marble Zone","country":"Irán","region":"Mashhad, Khorasan","type":"Mármol","material":"Mármoles grises y beige de Khorasan","color":"Beige","status":"Activa","owner":"Privadas","production":"~100.000 m³/año","fame":"Santuario Imam Reza, arquitectura religiosa","history":"El santuario más visitado del mundo islámico usa este mármol.","tier":3,"lat":36.3,"lng":59.6},{"name":"Baluchistan Marble Zone","country":"Pakistán","region":"Todo Baluchistán","type":"Mármol","material":"Ziarat White, Sunny Grey, Verona Cream, Black Gold Pakistan","color":"Blanco","status":"Activa","owner":"Modern Marble Industries, privadas","production":"~500.000 m²/año","fame":"Mercado local + exportación GCC","history":"Las mayores reservas de mármol sin explotar del mundo (~300 Bn toneladas). Logística difícil.","tier":3,"lat":28.5,"lng":65.5},{"name":"KPK Onyx Zone","country":"Pakistán","region":"Khyber Pakhtunkhwa, NW Pakistán","type":"Ónix","material":"Pakistani Onyx (verde, miel, rojo, multicolor)","color":"Rojo","status":"Activa","owner":"Privadas artesanales","production":"~3.000 m³/año","fame":"Decoración, retroiluminado, souvenirs","history":"2.º productor mundial de ónix. Precio mucho más económico que el iraní.","tier":3,"lat":34.0,"lng":72.5},{"name":"Kandahar Onyx Quarry","country":"Afganistán","region":"Kandahar / Helmand","type":"Ónix","material":"Afghan Green Onyx, Afghan White Onyx","color":"Blanco","status":"Activa (insegura)","owner":"Informal/artesanal","production":"~1.000 m³/año (estimado)","fame":"Exportación informal vía Pakistán/Irán","history":"El ónix verde afgano tiene la mayor saturación de color según lapidarios. Acceso peligroso.","tier":3,"lat":31.62,"lng":65.71},{"name":"Badakhshan Lapis Lazuli","country":"Afganistán","region":"Sar-e-Sang, Badakhshan","type":"Lapislázuli","material":"Lapis Lazuli (grado AAA)","color":"Azul","status":"Activa (insegura)","owner":"Artesanos locales","production":"Pequeña","fame":"Máscara de Tutankamón, pigmento ultramarine","history":"La única fuente de lapislázuli de grado AA del mundo durante milenios.","tier":1,"lat":36.22,"lng":70.56},{"name":"Quy Hop Marble Zone","country":"Vietnam","region":"Quy Hop, Nghệ An","type":"Mármol","material":"Crystal White Vietnam, Pure White Vietnam","color":"Blanco","status":"Activa","owner":"HANPHAR, privadas","production":"~100.000 m²/año","fame":"Exportación China, EEUU, Australia","history":"La zona de mármol blanco más importante de Vietnam. Noble Earth la comercializa como 'Noble White'.","tier":3,"lat":19.28,"lng":105.11},{"name":"Thanh Hoa Granite Zone","country":"Vietnam","region":"Thanh Hóa","type":"Granito","material":"Vietnam Black Granite, Vietnam Grey","color":"Negro","status":"Activa","owner":"Privadas","production":"~50.000 m³/año","fame":"Europa Central y Este (adoquines)","history":"El granito negro vietnamita compite con el chino en precio para pavimentos europeos.","tier":3,"lat":19.81,"lng":105.78},{"name":"Binh Dinh Blue Stone","country":"Vietnam","region":"Binh Dinh","type":"Basalto","material":"Vietnam Blue Stone, Blue Basalt Vietnam","color":"Gris","status":"Activa","owner":"Phi Long Stone, privadas","production":"~200.000 m²/año","fame":"Australia, Nueva Zelanda, Singapur, Europa","history":"El basalto más exportado de Vietnam. Popular en Australia como piedra de jardín y piscina.","tier":3,"lat":14.17,"lng":109.12},{"name":"Sukabumi / Bali Green Quarry","country":"Indonesia","region":"Sukabumi, Java Occidental","type":"Cuarcita","material":"Bali Green, Sukabumi Stone","color":"Verde","status":"Activa","owner":"STONE DEPOT, BIGGA STONE","production":"~50.000 m²/año","fame":"Amanjiwo Resort, Four Seasons Bali, Aman NY spa","history":"LA piedra para piscinas y spas de lujo del mundo. El verde solo aparece bajo el agua.","tier":3,"lat":-6.92,"lng":106.93},{"name":"Bali Lava Stone Zone","country":"Indonesia","region":"Karangasem, Bali / Java","type":"Basalto volcánico","material":"Black Lava Stone, Grey Lava Bali","color":"Negro","status":"Activa","owner":"BIGGA STONE, Stone Depot","production":"~30.000 m²/año","fame":"Toda la arquitectura de resorts de lujo de Bali","history":"Piedra sagrada del hinduismo balinés. Los templos de Bali se esculpen en lava.","tier":3,"lat":-8.45,"lng":115.61},{"name":"Palimanan Sandstone Quarry","country":"Indonesia","region":"Palimanan, Cirebon, Java","type":"Arenisca","material":"Palimanan Stone, Paras Stone","color":"Crema","status":"Activa","owner":"Privadas","production":"~50.000 m²/año","fame":"Candi Prambanan, Borobudur (restauración)","history":"La arenisca de los templos hindúes y budistas de Java (siglos VIII-X). Borobudur: 2 millones de bloques.","tier":3,"lat":-6.76,"lng":108.77},{"name":"Galala Quarries","country":"Egipto","region":"Hurghada / Wadi El Assiout, Mar Rojo","type":"Mármol","material":"Galala Cream (Extra, Classic), Sunny Beige","color":"Crema","status":"Activa","owner":"Egyptian Marble, Sinai Stone, SMD","production":"~2.000.000 m²/año (zona)","fame":"Hoteles toda Asia, Oriente Medio, Europa del Este","history":"El mármol más producido de África. Precio muy bajo = alto volumen.","tier":2,"lat":27.25,"lng":33.81},{"name":"Aswan Granite Quarry","country":"Egipto","region":"Asuán, Alto Egipto","type":"Granito","material":"Red Aswan, Black Aswan, Grey Aswan, Rose Aswan","color":"Rosa","status":"Activa (parcial)","owner":"El Nasr Mining Co. (estatal) + privadas","production":"~20.000 m³/año","fame":"Pirámides de Guiza, todos los obeliscos faraónicos","history":"La cantera más antigua en uso continuo del mundo. Los obeliscos de Cleopatra en Londres y NY son de aquí.","tier":3,"lat":24.09,"lng":32.9},{"name":"Sinai Pearl Quarry","country":"Egipto","region":"Sinaí Norte y Sur","type":"Mármol","material":"Sinai Pearl, Milly Grey, Sunny Marble","color":"Blanco","status":"Activa","owner":"Sinai Stone Co., privadas","production":"~500.000 m²/año","fame":"Mercado de Oriente Medio","history":"Calidades más variables que el Galala.","tier":3,"lat":29.5,"lng":33.8},{"name":"Noir Maroc Quarry","country":"Marruecos","region":"Atlas Norte, Marruecos","type":"Mármol","material":"Noir Maroc, Negro Marroquí","color":"Negro","status":"Activa","owner":"Atlas Mármoles Maroc, privadas","production":"~10.000 m³/año","fame":"Exportación España, Francia, Bélgica","history":"El mármol negro más conocido de África. Bituminoso como el Marquina español.","tier":3,"lat":33.7,"lng":-4.8},{"name":"Atlas Limestone Zone","country":"Marruecos","region":"Todo el Marruecos Atlas","type":"Caliza","material":"Calizas del Atlas, Taza Limestone","color":"Beige","status":"Activa","owner":"Privadas marroquíes","production":"~50.000 m³/año","fame":"Riads de Marrakech, arquitectura local","history":"La piedra de la arquitectura árabe marroquí.","tier":3,"lat":32.0,"lng":-5.5},{"name":"Sahara Fossil Marble","country":"Marruecos","region":"Erfoud, Errachidia","type":"Caliza fosilífera","material":"Sahara Marble (Fósiles), Marrón Atlás","color":"Negro","status":"Activa","owner":"Artesanos locales + privadas","production":"~5.000 m³/año","fame":"Mesas de decoración, souvenirs, hoteles diseño","history":"Caliza devónica con amonites, ortocerátidos y trilobites. El 'mármol fósil' más fotografiado del mundo.","tier":2,"lat":31.44,"lng":-4.24},{"name":"Moroccan Honey Onyx","country":"Marruecos","region":"Sur de Marruecos / Anti-Atlas","type":"Ónix","material":"Moroccan Honey Onyx, Vert de Mauretanie","color":"Dorado","status":"Activa","owner":"Artesanos + empresa privada","production":"~2.000 m³/año","fame":"Decoración, souvenirs, retroiluminado","history":"El ónix marroquí se explotaba en época romana. Mencionado por Plinio el Viejo.","tier":3,"lat":30.0,"lng":-6.5},{"name":"Chemtou / Numidia (Histórica)","country":"Túnez","region":"Chemtou (Simitthu), NW Túnez","type":"Mármol","material":"Marmor Numidicum, Giallo Antico","color":"Dorado","status":"Histórico (muy limitado)","owner":"Estado tunecino","production":"Casi nula","fame":"Foros y templos romanos de toda Italia, Arco de Tito","history":"El mármol amarillo más cotizado del Imperio Romano. Los emperadores tenían control exclusivo.","tier":3,"lat":36.62,"lng":8.55},{"name":"Tunisian White Quarry","country":"Túnez","region":"Norte de Túnez","type":"Mármol","material":"Tunisia White, Carthage Brown","color":"Blanco","status":"Activa","owner":"Privadas","production":"~100.000 m²/año","fame":"Exportación Europa del Sur","history":"Mármoles competitivos en precio con calidad media.","tier":3,"lat":37.02,"lng":9.55},{"name":"Rustenburg Granite Zone","country":"Sudáfrica","region":"Rustenburg, North West Province","type":"Granito","material":"Nero Impala, African Red, Rustenburg Grey, Olive Green, Belfast Black, Verde Bitterfontein","color":"Rojo","status":"Activa","owner":"PG Quarries, Marlin Holdings, R.E.D. Graniti","production":"~200.000 m³/año","fame":"Monumentos europeos, encimeras","history":"30+ colores de granito en la misma zona. Nero Impala = el más exportado de SA.","tier":3,"lat":-25.67,"lng":27.24},{"name":"Belfast Black Mpumalanga","country":"Sudáfrica","region":"Belfast, Mpumalanga","type":"Granito (Gabro)","material":"Belfast Black, Nero Assoluto Africa","color":"Negro","status":"Activa","owner":"R.E.D. Graniti (Italia propietaria)","production":"~20.000 m³/año","fame":"Losa de mármol negro de diseño (Italia)","history":"El primer 'Nero Assoluto' que comercializó la industria italiana. Propiedad de empresa italiana.","tier":3,"lat":-25.69,"lng":30.04},{"name":"South Africa Quartzite Belt","country":"Sudáfrica","region":"KwaZulu-Natal / Cape Province","type":"Cuarcita","material":"SA Quartzite, Cape Quartzite","color":"Beige","status":"Activa","owner":"Clarens Natural Stone, privadas","production":"~20.000 m²/año","fame":"Exteriores, arquitectura vernácula SA","history":"La cuarcita de Ciudad del Cabo fue usada en Fort Constantia (siglo XVII holandés).","tier":3,"lat":-29.5,"lng":30.5},{"name":"Zimbabwe Black Quarry","country":"Zimbabue","region":"Bulawayo, Matabeleland","type":"Granito","material":"Zimbabwe Black, Absolute Zimbabwe, Zimbabwe White","color":"Blanco","status":"Activa","owner":"Great Dyke Minerals, privadas; export. Eurobandas (España)","production":"~30.000 m³/año","fame":"Monumentos europeos (lápidas), encimeras","history":"El granito negro más puro de África. Eurobandas de Galicia es el mayor comercializador europeo.","tier":3,"lat":-20.15,"lng":28.58},{"name":"Namibia White Marble","country":"Namibia","region":"Norte de Namibia (Karasburg)","type":"Mármol","material":"Namibia White, Blanc Phos, Namibian Crystal","color":"Blanco","status":"Activa (reciente)","owner":"Noble Earth Moschou (comercializador)","production":"~5.000 m³/año","fame":"Baños de lujo, hoteles","history":"Alta pureza y cristalinidad. Comparable al Thassos. Mercado emergente.","tier":2,"lat":-28.0,"lng":18.75},{"name":"Zambia Sodalite Zone","country":"Zambia","region":"Zambia Norte (cerca Lusaka)","type":"Sodalita","material":"Blue Sodalite Zambia, Lapis-like Blue","color":"Azul","status":"En desarrollo","owner":"Inversores buscados (quarryforsale.net)","production":"Pequeña","fame":"Decoración, coleccionistas","history":"Material raro similar al lapislázuli. Buscando inversión para equipar explotación.","tier":3,"lat":-13.5,"lng":28.5},{"name":"Zambia Rose Marble","country":"Zambia","region":"130 km W de Lusaka","type":"Mármol","material":"Zambia Rose, Pink Crystalline Marble","color":"Rosa","status":"En desarrollo","owner":"Privada (exploración)","production":"Pequeña","fame":"Potencial mercado futuro","history":"Proyecto verde/grass root. Perforación preliminar realizada.","tier":3,"lat":-15.2,"lng":26.5},{"name":"Nigerian Granite Belt (Jos)","country":"Nigeria","region":"Jos Plateau, Nigeria Central","type":"Granito","material":"Nigerian Black, Nigerian Grey","color":"Negro","status":"Activa (local)","owner":"Privadas locales","production":"~20.000 m³/año","fame":"Construcción local, exportación West Africa","history":"Las mesetas graníticas de Jos, las más conocidas de África Occidental.","tier":3,"lat":9.92,"lng":8.89},{"name":"Angola Granite Zone","country":"Angola","region":"Sur de Angola (Namibe)","type":"Granito","material":"Angola Black, Angola Red","color":"Rojo","status":"En desarrollo","owner":"Inversores internacionales buscados","production":"Limitada","fame":"Mercado futuro","history":"Enormes recursos sin desarrollar. Puerto de Namibe para exportación.","tier":3,"lat":-15.19,"lng":12.15},{"name":"Minas Gerais Stone Belt","country":"Brasil","region":"Minas Gerais (todo el estado)","type":"Cuarcita, Granito, Mármol","material":"Taj Mahal Quartzite, Sea Pearl, Azul Macaúbas, Super White, Calacatta Macaubas","color":"Blanco","status":"Activa","owner":"SSAG, Guidoni, Marbrasa, Mineração Matiola, 50+ empresas","production":"~500.000 m³/año (estado)","fame":"Arquitectura lujo global: hoteles 5*, residencias premium","history":"Mayor concentración de piedras ornamentales raras del mundo. El Taj Mahal Quartzite nace aquí.","tier":1,"lat":-18.51,"lng":-44.55},{"name":"Espirito Santo Stone Region","country":"Brasil","region":"Cachoeiro de Itapemirim, ES","type":"Granito","material":"Verde Ubatuba, Giallo Ornamental, Persa White, Absolute Black Brazil","color":"Blanco","status":"Activa","owner":"Guidoni, Ornamental Rocks, 30+ empresas","production":"~1.000.000 m²/año","fame":"Mercado de encimeras de EEUU (2000-2015)","history":"Cachoeiro = 'capital del granito' de Brasil. Feria VITÓRIA STONE FAIR (2.ª más importante del mundo).","tier":3,"lat":-20.85,"lng":-41.11},{"name":"Bahia Quartzite & Granite Zone","country":"Brasil","region":"Bahía (todo el estado)","type":"Granito, Cuarcita","material":"Blue Bahia, Absolute Black Bahia, Patagonia Quartzite","color":"Negro","status":"Activa","owner":"Marbrasa, privadas","production":"~100.000 m³/año","fame":"Trump Penthouse NY (Blue Bahia), hoteles lujo","history":"Blue Bahia: el granito más caro del mundo (500-3.000€/m²). Solo existe en unos pocos km².","tier":2,"lat":-12.96,"lng":-41.7},{"name":"Goias Quartzite Zone","country":"Brasil","region":"Goiás","type":"Cuarcita","material":"Sea Pearl Quartzite, Green Fantasy, Marina Blue","color":"Azul","status":"Activa","owner":"Privadas","production":"~20.000 m³/año","fame":"Encimeras diseño EEUU y Europa","history":"Sea Pearl = único en el mundo. Efecto nacarado iridiscente irrepetible.","tier":3,"lat":-15.83,"lng":-49.61},{"name":"Blue Macaubas Quartzite","country":"Brasil","region":"MG / Goiás","type":"Cuarcita","material":"Azul Macaúbas, Calacatta Macaubas","color":"Azul","status":"Activa","owner":"SSAG, privadas","production":"~5.000 m³/año","fame":"Museos, lobbies de hoteles premium","history":"La cuarcita azul translúcida más cotizada del mundo. Precio 200-800€/m² en obra.","tier":2,"lat":-16.5,"lng":-46.5},{"name":"Yule Marble Quarry","country":"EEUU","region":"Marble, Gunnison County, Colorado","type":"Mármol","material":"Yule Colorado White, Calacatta Lincoln","color":"Blanco","status":"Activa (limitada)","owner":"Colorado Yule Marble Co. / Polycor","production":"~2.000 m³/año","fame":"Lincoln Memorial (1914-1922), Tumba Soldado Desconocido, Pentagon","history":"A 2.835 m de altitud. Imposible extraer en invierno. Solo 6 meses/año de trabajo. 100% dolomite puro.","tier":2,"lat":38.91,"lng":-107.05},{"name":"Vermont Danby Marble","country":"EEUU","region":"Danby, Rutland County, Vermont","type":"Mármol","material":"Imperial Danby, Mountain White, Danby Fleuri","color":"Blanco","status":"Activa","owner":"Polycor Inc.","production":"~15.000 m³/año","fame":"New York Public Library, National Cathedral Washington","history":"La mina subterránea de mármol más grande del mundo. 10°C constantes todo el año.","tier":3,"lat":43.35,"lng":-72.98},{"name":"Barre Gray Granite","country":"EEUU","region":"Barre, Washington County, Vermont","type":"Granito","material":"Barre Gray, Barre Blue-Gray","color":"Gris","status":"Activa","owner":"Rock of Ages Corp., Polycor","production":"~50.000 m³/año","fame":"Arlington National Cemetery, 90% monumentos funerarios EEUU","history":"La cantera de granito artístico más importante del mundo. 'Capital mundial del granito memorial'.","tier":2,"lat":44.19,"lng":-72.5},{"name":"Mount Airy Granite","country":"EEUU","region":"Mount Airy, Surry County, N. Carolina","type":"Granito","material":"Mount Airy White","color":"Blanco","status":"Activa","owner":"North Carolina Granite Corp.","production":"~300.000 t/año","fame":"JFK Memorial, fuentes National Mall Washington","history":"LA MAYOR cantera de granito a cielo abierto del mundo. Visible desde órbita. Activa desde 1743.","tier":2,"lat":36.5,"lng":-80.61},{"name":"Dakota Mahogany Quarry","country":"EEUU","region":"Milbank, Grant County, South Dakota","type":"Granito","material":"Dakota Mahogany, Carnelian","color":"Rojo","status":"Activa","owner":"Cold Spring Granite Co.","production":"~30.000 m³/año","fame":"Departamento de Estado EEUU (fachada), monumentos","history":"Uno de los granitos más resistentes de EEUU. Color cálido único.","tier":3,"lat":45.22,"lng":-96.63},{"name":"Tennessee Pink Marble","country":"EEUU","region":"Eastern Tennessee","type":"Mármol","material":"Tennessee Pink, Tennessee Gray","color":"Rosa","status":"Activa (reducida)","owner":"American Marble Producers","production":"~5.000 m³/año","fame":"Capitolio de Tennessee, National Building Arts Washington","history":"El mármol rosado del sur de EEUU. Caliza del Ordovícico (~450 Ma).","tier":2,"lat":36.2,"lng":-84.0},{"name":"Stony Creek Pink Granite","country":"EEUU","region":"Stony Creek, New Haven, Connecticut","type":"Granito","material":"Stony Creek Pink, Stony Creek Red","color":"Rosa","status":"Activa (limitada)","owner":"Privada","production":"~2.000 m³/año","fame":"Base de la Estatua de la Libertad","history":"¡La base de la Estatua de la Libertad es de Stony Creek granite! Uno de los más famosos sin saberlo.","tier":3,"lat":41.27,"lng":-72.71},{"name":"Elberton Granite Zone","country":"EEUU","region":"Elberton, Elbert County, Georgia","type":"Granito","material":"Elberton Blue, Elberton Grey","color":"Gris","status":"Activa","owner":"30+ canteras","production":"~500.000 m³/año","fame":"Georgia Guidestones (demol. 2022), monumentos funerarios","history":"'La capital mundial del granito para cementerios.' 70% de monumentos funerarios de EEUU.","tier":3,"lat":34.1,"lng":-82.87},{"name":"Georgia Marble Quarry","country":"EEUU","region":"Pickens County, Georgia","type":"Mármol","material":"Georgia Gray, Cherokee Marble","color":"Gris","status":"Activa","owner":"Polycor (antes Georgia Marble Co.)","production":"~10.000 m³/año","fame":"Lincoln Memorial (primer uso), Harvard Stadium","history":"Georgia Marble Co. fue la mayor empresa de mármol de EEUU. Ahora parte de Polycor.","tier":2,"lat":34.46,"lng":-84.45},{"name":"Polycor Quebec Marble","country":"Canadá","region":"Saint-Marc-des-Carrières, Quebec","type":"Mármol","material":"Quebec White Marble, Blanc Canada","color":"Blanco","status":"Activa","owner":"Polycor Inc.","production":"~10.000 m³/año","fame":"Edificios públicos Canadá y EEUU","history":"Polycor: la empresa más grande de piedra natural de Norteamérica. 40+ canteras.","tier":3,"lat":46.67,"lng":-72.03},{"name":"Polycor Ontario Granite","country":"Canadá","region":"Ontario (múltiples canteras)","type":"Granito","material":"Canadian Mahogany, Ontario Grey, Autumn Brown","color":"Gris","status":"Activa","owner":"Polycor Inc.","production":"~50.000 m³/año","fame":"Toronto City Hall, Parliament Hill Ottawa","history":"15 canteras en Ontario. El granito canadiense en los edificios más emblemáticos de Ottawa.","tier":3,"lat":44.5,"lng":-77.5},{"name":"Tyndall Stone Quarry","country":"Canadá","region":"Garson, Manitoba","type":"Caliza","material":"Tyndall Stone (Palaeozoic limestone)","color":"Crema","status":"Activa","owner":"Manitoba Stone (Polycor)","production":"~10.000 m³/año","fame":"Manitoba Legislative Building, Parliament Hill Ottawa","history":"La caliza de Winnipeg. Llena de fósiles paleozoicos visibles a simple vista. Símbolo de Manitoba.","tier":3,"lat":49.88,"lng":-97.8},{"name":"Canteras Onix Tecali","country":"México","region":"Tecali de Herrera, Puebla","type":"Ónix","material":"Ónix Verde México, Honey Onyx, Rojo, Multicolor","color":"Rojo","status":"Activa","owner":"Canteras Portofino, DI PIETRA, Mexico Stone, Marmifera","production":"~5.000 m³/año","fame":"Cámara de Diputados (Sala Veracruz), hoteles boutique","history":"Conocido desde época azteca como 'tecali'. Exportado a EEUU desde 1600.","tier":2,"lat":18.9,"lng":-97.97},{"name":"Travertino Hidalgo Querétaro","country":"México","region":"San Juan del Río, Hidalgo y Querétaro","type":"Travertino","material":"Travertino Mexicano Beige, Mexican Ivory","color":"Beige","status":"Activa","owner":"Mexico Stone, Marzuq Industrial","production":"~200.000 m²/año","fame":"Exportación EEUU (el más cercano geográficamente)","history":"Precio 30% menor que el turco por proximidad logística a EEUU. El travertino de Florida viene de México.","tier":3,"lat":20.39,"lng":-99.98},{"name":"Yucatan Limestone Zone","country":"México","region":"Yucatán","type":"Caliza","material":"Yucatan Limestone, Piedra de Yucatán","color":"Beige","status":"Activa","owner":"Privadas locales","production":"~50.000 m²/año","fame":"Arquitectura local, hoteles Cancún","history":"La caliza que rodea toda la Riviera Maya. Los cenotes mayas están en esta misma formación.","tier":2,"lat":20.97,"lng":-89.62},{"name":"Basalto y Tezontle Mexicano","country":"México","region":"CDMX / Edomex","type":"Basalto","material":"Piedra Negra Mexicana, Tezontle rojo","color":"Rojo","status":"Activa","owner":"Privadas","production":"~100.000 m²/año","fame":"Arquitectura vernácula, cocinas mexicanas","history":"El Tezontle construyó la Tenochtitlán azteca. Muy usado en exteriores y cocinas rústicas.","tier":3,"lat":19.43,"lng":-99.13},{"name":"Caldas Marble Zone","country":"Colombia","region":"Caldas, Antioquia","type":"Mármol","material":"Colombia Gold Marble, Colombia Rose","color":"Rosa","status":"Activa (limitada)","owner":"Privadas, Mármoles de Colombia","production":"~5.000 m³/año","fame":"Arquitectura bogotana, exportación emergente","history":"El Colombia Gold tiene un color dorado único en el mundo.","tier":3,"lat":5.9,"lng":-75.64},{"name":"Huancavelica Travertine Zone","country":"Perú","region":"Huancavelica","type":"Travertino","material":"Travertino Peruano, Peruvian Ivory","color":"Beige","status":"Activa","owner":"Travertino del Perú, privadas","production":"~200.000 m²/año","fame":"Exportación EEUU (alternativa económica)","history":"Precio 20% inferior al turco. Creciente exportación a Florida.","tier":3,"lat":-12.79,"lng":-74.97},{"name":"Peruvian Onyx Zone","country":"Perú","region":"Arequipa / Ayacucho","type":"Ónix","material":"Peruvian Onyx (multicolor)","color":"Otros","status":"Activa","owner":"Privadas artesanales","production":"~2.000 m³/año","fame":"Mercado EEUU (alternativa iraní)","history":"Colores únicos de rojo y verde. Calidad inferior al iraní pero mucho más económico.","tier":3,"lat":-14.5,"lng":-73.5},{"name":"Koyelga Marble Quarry","country":"Rusia","region":"Koyelga, Oblast Chelyabinsk, Urales","type":"Mármol","material":"Koyelga White Marble, Ural White","color":"Blanco","status":"Activa","owner":"ZAO Koyelgamramor","production":"~18.000 m³/año","fame":"Metro de Moscú, Palacios de Cultura soviéticos","history":"La mayor cantera de mármol de Rusia. 550 m longitud, 85 m profundidad. 800 trabajadores.","tier":2,"lat":54.0,"lng":60.5},{"name":"Mramorskoye Quarry (Urales)","country":"Rusia","region":"Mramorskoye, Urales","type":"Mármol","material":"Ural Marble (varios colores)","color":"Blanco","status":"Activa","owner":"ZAO Uralskii Mramor","production":"~53.000 m³/año","fame":"Catedral San Isaac SP, Palacio de Invierno","history":"Las canteras de los zares. Pedro el Grande explotó estos Urales para San Petersburgo.","tier":2,"lat":56.52,"lng":61.22},{"name":"Kibik-Kordon Marble (Siberia)","country":"Rusia","region":"Shushenskoye, Siberia Central","type":"Mármol","material":"Kibik-Kordon White, Siberian White","color":"Blanco","status":"Activa","owner":"OAO MKK-Sayanmramor","production":"~25.000 m³/año","fame":"Edificios soviéticos, exportaciones España e Italia (pequeñas)","history":"Transporte costoso = poca exportación. Calidad comparable al italiano pero sin historia ni certificación.","tier":3,"lat":53.32,"lng":91.94},{"name":"Vozrozhdenie Granite (Karelia)","country":"Rusia","region":"Leningrado Oblast, Karelia","type":"Granito","material":"Vozrozhdenie Grey, Karelian Granite","color":"Gris","status":"Activa","owner":"Vozrozhdenie Holding Co.","production":"~26.000-32.000 m³/año","fame":"Pavimentos San Petersburgo, exportación Polonia","history":"La mayor cantera de granito de Rusia.","tier":3,"lat":60.5,"lng":30.8},{"name":"Karelian Gabbro-Diabase Zone","country":"Rusia","region":"Karelia, NW Rusia","type":"Gabro-Diabasa","material":"Karelian Black, Russian Black Gabbro","color":"Negro","status":"Activa","owner":"ZAO Karelskii Granit","production":"~34.800 m³/año","fame":"Monumentos funerarios Europa del Este, CIS","history":"Uno de los negros más densos del mundo. Muy popular en el sector funerario.","tier":3,"lat":62.8,"lng":33.0},{"name":"Putilovsky Limestone","country":"Rusia","region":"Putilovo, Leningrado Oblast","type":"Caliza","material":"Putilovsky Kamen","color":"Gris","status":"Activa","owner":"Privadas","production":"~40.000 m³/año","fame":"San Petersburgo (cimientos y adoquines)","history":"La piedra de San Petersburgo. Cimientos de la ciudad construida por Pedro el Grande en el pantano báltico.","tier":3,"lat":59.97,"lng":31.55},{"name":"Volga Blue Quarry (Golovinskoye)","country":"Ucrania","region":"Kirovograd Oblast","type":"Granito (Labradorita)","material":"Volga Blue, Blue Eyes Ukraine","color":"Azul","status":"Activa (afectada por guerra)","owner":"Ukrgranitkontrakt, UGRAN","production":"~10.000 m³/año (pre-guerra)","fame":"Exportación Italia, Alemania, EEUU (mesas, encimeras)","history":"El competidor europeo del Blue Pearl noruego. Afectado por la guerra desde 2022.","tier":3,"lat":48.51,"lng":32.26},{"name":"Rosso Santiago (Kapustinskoye)","country":"Ucrania","region":"Kirovograd Oblast","type":"Granito","material":"Rosso Santiago, Red Santiago Ukraine","color":"Rojo","status":"Activa (afectada)","owner":"Elgran JSC","production":"~8.000 m³/año","fame":"Exportación Polonia y Europa","history":"El granito rojo ucraniano más exportado.","tier":3,"lat":48.51,"lng":32.26},{"name":"Ukrainian Labradorite Zone","country":"Ucrania","region":"Zhitomir Oblast","type":"Labradorita","material":"Labradorite Ukraine","color":"Azul","status":"Activa (afectada)","owner":"UGK, UGRAN, privadas","production":"~12.000 m³/año","fame":"Exportación Italia 59%, EEUU 19% (pre-guerra)","history":"12 canteras de labradorita registradas. Italia era el mayor comprador.","tier":3,"lat":50.26,"lng":28.66},{"name":"Armenian Travertine Zone","country":"Armenia","region":"Arzni, Armenia Central","type":"Travertino","material":"Armenian Travertine, Arzni Travertine","color":"Beige","status":"Activa","owner":"Privadas armenias","production":"~100.000 m²/año","fame":"Exportación a Rusia, CIS","history":"El travertino armenio tiene un amarillo especialmente vivo.","tier":3,"lat":40.32,"lng":44.55},{"name":"Armenian Tuff Zone","country":"Armenia","region":"Garni, Ararat, Armenia","type":"Toba volcánica","material":"Armenian Pink Tuff, Armenian Red Tuff","color":"Rosa","status":"Activa","owner":"Privadas","production":"~200.000 m²/año","fame":"Templo de Garni (siglo I a.C.), Etchmiadzin (UNESCO)","history":"La toba rosada = símbolo arquitectónico de Armenia. Único templo greco-romano del ex URSS.","tier":3,"lat":40.11,"lng":44.73},{"name":"Kazakhstan Granite Zone","country":"Kazajistán","region":"Todo el país","type":"Granito","material":"Kazakh Granite (varios)","color":"Rosa","status":"Activa","owner":"Privadas + estatales","production":"~30.000 m³/año","fame":"Rusia (mayor importador)","history":"Gran territorio con importantes depósitos graníticos. Principal proveedor de bloques a Rusia.","tier":3,"lat":48.0,"lng":68.0},{"name":"Winton Black Granite","country":"Australia","region":"Queensland, Australia","type":"Granito","material":"Australian Black, Nero Assoluto Australia","color":"Negro","status":"Activa","owner":"Australian Granite Co.","production":"~5.000 m³/año","fame":"Monumentos australianos","history":"El granito negro más conocido de Australia.","tier":3,"lat":-22.57,"lng":144.07},{"name":"Corang Marble","country":"Australia","region":"NSW, Australia","type":"Mármol","material":"Corang Marble","color":"Blanco","status":"Activa (limitada)","owner":"Privada","production":"<2.000 m³/año","fame":"Uso local","history":"El mármol australiano más conocido.","tier":3,"lat":-35.25,"lng":149.12},{"name":"Takaka Marble Quarry","country":"Nueva Zelanda","region":"Takaka Hill, Nelson/Tasman, South Island","type":"Mármol","material":"Takaka White, Takaka NZ Marble","color":"Blanco","status":"Activa","owner":"Takaka Marble Quarry Ltd","production":"~2.000 m³/año","fame":"Edificios Wellington y Auckland históricos","history":"El único mármol comercial del hemisferio sur del Pacífico. 500 millones de años (Cámbrico).","tier":3,"lat":-40.85,"lng":172.8},{"name":"Aji Granite Quarry","country":"Japón","region":"Takamatsu, Kagawa, Shikoku","type":"Granito","material":"Aji Granite, Japanese Blue-Grey Granite","color":"Gris","status":"Activa","owner":"Familias artesanales (Minorura y otros)","production":"~10.000 m³/año","fame":"Linternas japonesas (toro), estatuas, jardines Zen","history":"El granito artesanal más famoso de Japón. Las linternas de jardín japonesas son todas de Aji Granite.","tier":3,"lat":34.35,"lng":134.04},{"name":"Pocheon Black Granite","country":"Corea del Sur","region":"Pocheon, Gyeonggi-do","type":"Granito","material":"Pocheon Black, Korean Black","color":"Negro","status":"Activa","owner":"Privadas coreanas","production":"~10.000 m³/año","fame":"Arquitectura coreana, edificios Seúl","history":"El granito negro de Pocheon está en el 80% de edificios de oficinas de Seúl.","tier":3,"lat":37.9,"lng":127.2},{"name":"Córdoba Granite Zone","country":"Argentina","region":"Córdoba, Argentina","type":"Granito","material":"Gris Mara, Rosado Balcarce, Córdoba Grey","color":"Rosa","status":"Activa","owner":"Privadas argentinas","production":"~30.000 m³/año","fame":"Construcción argentina, exportación limitada","history":"El granito de la Serra de Córdoba.","tier":3,"lat":-31.42,"lng":-64.18},{"name":"Atacama Porphyry Zone","country":"Chile","region":"Atacama, Norte de Chile","type":"Pórfido","material":"Pórfido Chileno, Volcanic Porphyry Chile","color":"Rojo","status":"Activa","owner":"Privadas","production":"~20.000 m²/año","fame":"Europa (pavimentos, adoquines)","history":"El pórfido chileno compite con el argentino. Exportado a España y Portugal.","tier":3,"lat":-27.37,"lng":-70.32},{"name":"Artigas Amethyst Quarry","country":"Uruguay","region":"Artigas, Uruguay","type":"Cuarzo","material":"Amatista de Uruguay (geodos), Ágata","color":"Morado","status":"Activa","owner":"Privadas","production":"~500 t/año","fame":"Coleccionistas, decoración, retroiluminado","history":"Los mayores geodos de amatista del mundo. Algunos miden 3+ metros. Muy exportados a Brasil y EEUU.","tier":2,"lat":-30.4,"lng":-56.5},{"name":"Guizhou Marble Zone","country":"China","region":"Guizhou","type":"Mármol","material":"Guizhou Grey, Guizhou Beige, Guizhou Black","color":"Beige","status":"Activa","owner":"Creciente","production":"~20.000.000 m²/año","fame":"Mercado interno chino masivo","history":"Zona emergente. Reservas enormes. Calidad media-baja pero altísimo volumen.","tier":3,"lat":26.6,"lng":106.71},{"name":"Rajasthan Sandstone Zone","country":"India","region":"Bharatpur, Dhaulpur, Rajastán","type":"Arenisca","material":"Pink Rajasthan Sandstone, Dholpur Sandstone","color":"Rosa","status":"Activa","owner":"Privadas","production":"~50.000 m³/año","fame":"New Delhi Government Buildings, Rashtrapati Bhavan","history":"Edwin Lutyens usó esta arenisca rosa en la capital colonial de la India.","tier":3,"lat":26.95,"lng":77.21}];
 
-const SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-const SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+var SWATCHES={Blanco:"#f0ece4",Crema:"#d4b896",Beige:"#c8a87a",Rosa:"#d4899a",
+  Rojo:"#a04040",Dorado:"#c8a040",Gris:"#7a7a7a",Negro:"#282828",
+  Azul:"#4060a0",Verde:"#408060",Morado:"#7060a0",Marron:"#8b6040",Otros:"#6a5a4a"};
+var TIER_LABELS={1:"Patrimonio mundial",2:"Alta relevancia",3:"Directorio activo"};
+var TYPE_ORDER=["Marmol","Granito","Caliza","Travertino","Cuarcita","Arenisca","Pizarra","Onix"];
+var F={type:null,color:null,country:null,tier:null,search:null};
+var svg,projection,path,zoom,g;
 
-// ─────────────────────────────────────────────
-//  CATEGORY CONFIG
-// ─────────────────────────────────────────────
-const CAT_CONFIG = {
-  'mármol':     { color:'#c9a84c', label:'Mármol' },
-  'marble':     { color:'#c9a84c', label:'Mármol' },
-  'granito':    { color:'#7a9e7e', label:'Granito' },
-  'granite':    { color:'#7a9e7e', label:'Granito' },
-  'cuarcita':   { color:'#8fa8c4', label:'Cuarcita' },
-  'quartzite':  { color:'#8fa8c4', label:'Cuarcita' },
-  'pizarra':    { color:'#a08070', label:'Pizarra' },
-  'slate':      { color:'#a08070', label:'Pizarra' },
-  'travertino': { color:'#c4a882', label:'Travertino' },
-  'travertine': { color:'#c4a882', label:'Travertino' },
-  'caliza':     { color:'#b8b090', label:'Caliza' },
-  'limestone':  { color:'#b8b090', label:'Caliza' },
-  'arenisca':   { color:'#c4986a', label:'Arenisca' },
-  'sandstone':  { color:'#c4986a', label:'Arenisca' },
-  'basalto':    { color:'#607080', label:'Basalto' },
-  'basalt':     { color:'#607080', label:'Basalto' },
-  'onix':       { color:'#9a7ab8', label:'Ónix' },
-  'onyx':       { color:'#9a7ab8', label:'Ónix' },
-  'cuarzo':     { color:'#b4c8d8', label:'Cuarzo' },
-  'quartz':     { color:'#b4c8d8', label:'Cuarzo' },
-  'gneis':      { color:'#8a9a8a', label:'Gneis' },
-  'gneiss':     { color:'#8a9a8a', label:'Gneis' },
-  'dolomita':   { color:'#c0b090', label:'Dolomita' },
-  'dolomite':   { color:'#c0b090', label:'Dolomita' },
-};
-const DEFAULT_CAT = { color:'#8a8070', label:'Piedra' };
+function W(){return document.getElementById('map-area').clientWidth;}
+function H(){return document.getElementById('map-area').clientHeight;}
 
-function getCatConfig(cat) {
-  if (!cat) return DEFAULT_CAT;
-  const k = cat.toLowerCase().trim();
-  for (const key of Object.keys(CAT_CONFIG)) {
-    if (k.includes(key)) return CAT_CONFIG[key];
+/* ── Dynamic filter builder — reads CANTERAS directly ── */
+function buildUI(){
+  buildSec('type', function(){
+    var tc={};
+    CANTERAS.forEach(function(q){tc[q.type]=(tc[q.type]||0)+1;});
+    var types=Object.keys(tc).sort(function(a,b){
+      var ai=TYPE_ORDER.indexOf(a),bi=TYPE_ORDER.indexOf(b);
+      if(ai>=0&&bi>=0)return ai-bi; if(ai>=0)return -1; if(bi>=0)return 1;
+      return a.localeCompare(b);
+    });
+    var h='';
+    types.forEach(function(t){
+      h+='<button class="chip" data-f="type" data-v="'+eJs(t)+'" onclick="setF(\'type\',\''+eJs(t)+'\',this)">'+t+' <span style="opacity:.35;font-size:6px">('+tc[t]+')</span></button>';
+    });
+    document.getElementById('ftype').innerHTML=h;
+  });
+
+  buildSec('color', function(){
+    var cc={};
+    CANTERAS.forEach(function(q){cc[q.color]=(cc[q.color]||0)+1;});
+    var h='';
+    Object.keys(cc).sort().forEach(function(c){
+      var sw=SWATCHES[c]||'#888';
+      h+='<button class="cchip" data-f="color" data-v="'+eJs(c)+'" onclick="setF(\'color\',\''+eJs(c)+'\',this)"><div class="cswatch" style="background:'+sw+'"></div>'+c+' <span style="opacity:.35;font-size:6px">('+cc[c]+')</span></button>';
+    });
+    document.getElementById('fcolor').innerHTML=h;
+  });
+
+  buildSec('country', function(){
+    var ct={};
+    CANTERAS.forEach(function(q){ct[q.country]=(ct[q.country]||0)+1;});
+    var ca=Object.entries(ct).sort(function(a,b){return b[1]-a[1];});
+    var h='';
+    ca.forEach(function(p){
+      h+='<button class="chip" data-f="country" data-v="'+eJs(p[0])+'" onclick="setF(\'country\',\''+eJs(p[0])+'\',this)">'+p[0]+' <span style="opacity:.35;font-size:6px">('+p[1]+')</span></button>';
+    });
+    document.getElementById('fcountry').innerHTML=h;
+  });
+
+  buildSec('tier', function(){
+    var tc={};
+    CANTERAS.forEach(function(q){tc[q.tier]=(tc[q.tier]||0)+1;});
+    var h='';
+    [1,2,3].forEach(function(t){
+      if(!tc[t])return;
+      var col=t===1?'var(--gold)':t===2?'#9a7238':'#5a4828';
+      h+='<button class="chip" data-f="tier" data-v="'+t+'" onclick="setF(\'tier\','+t+',this)"><div class="cdot" style="background:'+col+'"></div>'+TIER_LABELS[t]+' <span style="opacity:.35;font-size:6px">('+tc[t]+')</span></button>';
+    });
+    document.getElementById('ftier').innerHTML=h;
+  });
+
+  reapplyChipStates();
+}
+
+function buildSec(key, fn){
+  fn();
+  /* update badge */
+  var active=F[key];
+  var badge=document.getElementById('badge-'+key);
+  var clrBtn=document.getElementById('clr-'+key);
+  if(active!==null){
+    if(badge){badge.textContent='activo';badge.classList.add('vis');}
+    if(clrBtn)clrBtn.classList.add('vis');
+  } else {
+    if(badge)badge.classList.remove('vis');
+    if(clrBtn)clrBtn.classList.remove('vis');
   }
-  return { color: DEFAULT_CAT.color, label: cat };
 }
 
-// ─────────────────────────────────────────────
-//  STATE
-// ─────────────────────────────────────────────
-let allData = [];
-let filteredData = [];
-let map, activeCat = null, activeColor = null, activeCountry = null;
-let searchTerm = '';
-
-// ─────────────────────────────────────────────
-//  INIT
-// ─────────────────────────────────────────────
-function init() {
-  // Check token
-  if (!MAPBOX_TOKEN || MAPBOX_TOKEN.startsWith('PON_')) {
-    document.getElementById('loading').classList.add('done');
-    document.getElementById('token-warn').classList.add('show');
-    return;
-  }
-
-  mapboxgl.accessToken = MAPBOX_TOKEN;
-
-  // Initialize map
-  map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/dark-v11',
-    center: [15, 25],
-    zoom: 2,
-    minZoom: 1.2,
-    maxZoom: 16,
-    projection: 'mercator',
-  });
-
-  map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
-  map.addControl(new mapboxgl.ScaleControl({ unit: 'metric' }), 'bottom-right');
-
-  // Register load BEFORE any await — avoids race condition where style
-  // finishes loading before data fetch completes and listener is never called
-  map.on('load', async () => {
-    setupLayers();
-    setupInteractions();
-    await loadData();
-    applyFilters();
-    document.getElementById('loading').classList.add('done');
-  });
-}
-
-// ─────────────────────────────────────────────
-//  DATA LOADING
-// ─────────────────────────────────────────────
-async function loadData() {
-  const fields = 'id,nombre_comercial,categoria,color_principal,origen_pais,origen_region,lat,lng';
-  const hdrs = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` };
-  const PAGE = 3500;
-
-  function fetchPage(offset) {
-    const url = `${SB_URL}/rest/v1/materiales?select=${fields}&order=id.asc&limit=${PAGE}&offset=${offset}`;
-    return fetch(url, { headers: hdrs }).then(r => r.ok ? r.json() : []).catch(() => []);
-  }
-
-  try {
-    // 3 pages in parallel covers up to 10500 rows
-    const results = await Promise.all([
-      fetchPage(0),
-      fetchPage(PAGE),
-      fetchPage(PAGE * 2),
-    ]);
-    const raw = results.flat();
-    // Filter client-side for rows that have coordinates
-    allData = raw.filter(d => d.lat != null && d.lng != null);
-  } catch (e) {
-    console.error('loadData error:', e);
-    allData = [];
-  }
-
-  buildFilters();
-  updateStats();
-}
-
-// Fetch full detail for a single material on click
-async function fetchDetail(id) {
-  const fields = 'id,nombre_comercial,categoria,color_principal,origen_pais,origen_region,imagen_url_principal,lat,lng';
-  try {
-    const r = await fetch(
-      `${SB_URL}/rest/v1/materiales?select=${fields}&id=eq.${id}&limit=1`,
-      { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } }
-    );
-    const rows = await r.json();
-    return rows[0] || null;
-  } catch(e) { return null; }
-}
-
-// ─────────────────────────────────────────────
-//  GEOJSON HELPER
-// ─────────────────────────────────────────────
-function toGeoJSON(data) {
-  return {
-    type: 'FeatureCollection',
-    features: data.map(d => ({
-      type: 'Feature',
-      geometry: { type: 'Point', coordinates: [d.lng, d.lat] },
-      properties: {
-        id: d.id,
-        nombre: d.nombre_comercial || '—',
-        categoria: d.categoria || '',
-        color: d.color_principal || '',
-        pais: Array.isArray(d.origen_pais) ? d.origen_pais[0] : (d.origen_pais || ''),
-        region: d.origen_region || '',
-        catColor: getCatConfig(d.categoria).color,
-      }
-    }))
-  };
-}
-
-// ─────────────────────────────────────────────
-//  MAP LAYERS
-// ─────────────────────────────────────────────
-function setupLayers() {
-  // Source
-  map.addSource('materiales', {
-    type: 'geojson',
-    data: toGeoJSON([]),
-    cluster: true,
-    clusterMaxZoom: 8,
-    clusterRadius: 60,
-  });
-
-  // Cluster circles — large gold
-  map.addLayer({
-    id: 'clusters',
-    type: 'circle',
-    source: 'materiales',
-    filter: ['has', 'point_count'],
-    paint: {
-      'circle-color': [
-        'step', ['get', 'point_count'],
-        '#3a2e22',   // < 10
-        10, '#5a4230',  // 10-50
-        50, '#7a5a3a',  // 50+
-        100, '#9a7248',
-      ],
-      'circle-radius': [
-        'step', ['get', 'point_count'],
-        20, 10, 28, 50, 36, 100, 44
-      ],
-      'circle-stroke-color': '#c9a84c',
-      'circle-stroke-width': 1.5,
-      'circle-opacity': 0.92,
-    }
-  });
-
-  // Cluster count label
-  map.addLayer({
-    id: 'cluster-count',
-    type: 'symbol',
-    source: 'materiales',
-    filter: ['has', 'point_count'],
-    layout: {
-      'text-field': '{point_count_abbreviated}',
-      'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-      'text-size': 12,
-    },
-    paint: { 'text-color': '#e8d8b8' }
-  });
-
-  // Individual points
-  map.addLayer({
-    id: 'unclustered-point',
-    type: 'circle',
-    source: 'materiales',
-    filter: ['!', ['has', 'point_count']],
-    paint: {
-      'circle-color': ['get', 'catColor'],
-      'circle-radius': [
-        'interpolate', ['linear'], ['zoom'],
-        5, 4,
-        10, 7,
-        14, 10
-      ],
-      'circle-stroke-color': 'rgba(255,255,255,0.3)',
-      'circle-stroke-width': 1,
-      'circle-opacity': 0.9,
-    }
-  });
-
-  // Point pulse ring
-  map.addLayer({
-    id: 'unclustered-pulse',
-    type: 'circle',
-    source: 'materiales',
-    filter: ['!', ['has', 'point_count']],
-    paint: {
-      'circle-color': 'transparent',
-      'circle-radius': [
-        'interpolate', ['linear'], ['zoom'],
-        5, 7,
-        10, 12,
-        14, 16
-      ],
-      'circle-stroke-color': ['get', 'catColor'],
-      'circle-stroke-width': .5,
-      'circle-opacity': 0.35,
-    }
-  });
-}
-
-// ─────────────────────────────────────────────
-//  INTERACTIONS
-// ─────────────────────────────────────────────
-function setupInteractions() {
-  // Click cluster → zoom in
-  map.on('click', 'clusters', (e) => {
-    const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
-    if (!features.length) return;
-    const clusterId = features[0].properties.cluster_id;
-    map.getSource('materiales').getClusterExpansionZoom(clusterId, (err, zoom) => {
-      if (err) return;
-      map.easeTo({
-        center: features[0].geometry.coordinates,
-        zoom: Math.min(zoom + 0.5, 12),
-        duration: 600,
-      });
+function reapplyChipStates(){
+  ['type','color','country','tier'].forEach(function(key){
+    var v=F[key]; if(v===null)return;
+    document.querySelectorAll('[data-f="'+key+'"]').forEach(function(b){
+      var bv=key==='tier'?Number(b.getAttribute('data-v')):b.getAttribute('data-v');
+      b.classList.toggle('on',bv===v);
     });
   });
-
-  // Click individual point → show detail
-  map.on('click', 'unclustered-point', (e) => {
-    const props = e.features[0].properties;
-    openDetail(props);
-    map.easeTo({ center: e.features[0].geometry.coordinates, duration: 300 });
-  });
-
-  // Cursors
-  map.on('mouseenter', 'clusters', () => map.getCanvas().style.cursor = 'pointer');
-  map.on('mouseleave', 'clusters', () => map.getCanvas().style.cursor = '');
-  map.on('mouseenter', 'unclustered-point', () => map.getCanvas().style.cursor = 'pointer');
-  map.on('mouseleave', 'unclustered-point', () => map.getCanvas().style.cursor = '');
 }
 
-// ─────────────────────────────────────────────
-//  FILTERS
-// ─────────────────────────────────────────────
-function buildFilters() {
-  // Categories
-  const cats = [...new Set(allData.map(d => d.categoria).filter(Boolean))].sort();
-  const fcatEl = document.getElementById('fcat');
-  fcatEl.innerHTML = cats.map(cat => {
-    const cfg = getCatConfig(cat);
-    return `<div class="chip" data-val="${cat}" onclick="toggleCat(this,'${cat}')">
-      <span class="chip-dot" style="background:${cfg.color}"></span>${cfg.label}
-    </div>`;
-  }).join('');
-
-  // Colors
-  const colors = [...new Set(allData.map(d => d.color_principal).filter(Boolean))]
-    .sort().slice(0, 20);
-  document.getElementById('fcolor').innerHTML = colors.map(c =>
-    `<div class="chip" data-val="${c}" onclick="toggleColor(this,'${c}')">${c}</div>`
-  ).join('');
-
-  // Countries
-  const countries = [...new Set(allData.flatMap(d =>
-    Array.isArray(d.origen_pais) ? d.origen_pais.slice(0,1) : [d.origen_pais]
-  ).filter(Boolean))].sort().slice(0, 40);
-  document.getElementById('fcountry').innerHTML = countries.map(c =>
-    `<div class="chip" data-val="${c}" onclick="toggleCountry(this,'${c}')">${c}</div>`
-  ).join('');
+/* ── Collapsible toggle — uses div.sb-sec-hd, NOT button ── */
+function toggleSec(key){
+  var sec=document.getElementById('sec-'+key);
+  if(sec) sec.classList.toggle('open');
 }
 
-function toggleSec(id) {
-  document.getElementById('sec-' + id).classList.toggle('open');
-}
+/* ── Filter logic ── */
+function eJs(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
 
-function toggleCat(el, val) {
-  if (activeCat === val) { activeCat = null; el.classList.remove('active'); }
-  else {
-    document.querySelectorAll('#fcat .chip').forEach(c => c.classList.remove('active'));
-    activeCat = val; el.classList.add('active');
+function setF(key,val,btn){
+  var v=(key==='tier')?Number(val):val;
+  if(F[key]===v){F[key]=null;btn.classList.remove('on');}
+  else{
+    document.querySelectorAll('[data-f="'+key+'"]').forEach(function(b){b.classList.remove('on');});
+    F[key]=v;btn.classList.add('on');
   }
-  updateBadge('cat', activeCat ? 1 : 0);
-  applyFilters();
+  var badge=document.getElementById('badge-'+key);
+  var clrBtn=document.getElementById('clr-'+key);
+  if(badge)badge.classList.toggle('vis',F[key]!==null);
+  if(clrBtn)clrBtn.classList.toggle('vis',F[key]!==null);
+  applyF();
 }
 
-function toggleColor(el, val) {
-  if (activeColor === val) { activeColor = null; el.classList.remove('active'); }
-  else {
-    document.querySelectorAll('#fcolor .chip').forEach(c => c.classList.remove('active'));
-    activeColor = val; el.classList.add('active');
-  }
-  updateBadge('color', activeColor ? 1 : 0);
-  applyFilters();
+function clearF(key){
+  F[key]=null;
+  document.querySelectorAll('[data-f="'+key+'"]').forEach(function(b){b.classList.remove('on');});
+  var badge=document.getElementById('badge-'+key);
+  var clrBtn=document.getElementById('clr-'+key);
+  if(badge)badge.classList.remove('vis');
+  if(clrBtn)clrBtn.classList.remove('vis');
+  applyF();
 }
 
-function toggleCountry(el, val) {
-  if (activeCountry === val) { activeCountry = null; el.classList.remove('active'); }
-  else {
-    document.querySelectorAll('#fcountry .chip').forEach(c => c.classList.remove('active'));
-    activeCountry = val; el.classList.add('active');
-  }
-  updateBadge('country', activeCountry ? 1 : 0);
-  applyFilters();
+function resetAll(){
+  F={type:null,color:null,country:null,tier:null,search:null};
+  document.querySelectorAll('.chip,.cchip').forEach(function(b){b.classList.remove('on');});
+  document.querySelectorAll('.sb-sec-badge').forEach(function(b){b.classList.remove('vis');});
+  document.querySelectorAll('.sb-clr-btn').forEach(function(b){b.classList.remove('vis');});
+  document.getElementById('searchInput').value='';
+  document.getElementById('searchClear').classList.remove('vis');
+  closeDrop();applyF();
 }
 
-function updateBadge(id, count) {
-  const el = document.getElementById('badge-' + id);
-  if (el) { el.textContent = count || ''; el.classList.toggle('vis', count > 0); }
-}
-
-function applyFilters() {
-  const s = searchTerm.toLowerCase();
-  filteredData = allData.filter(d => {
-    if (activeCat && d.categoria !== activeCat) return false;
-    if (activeColor && d.color_principal !== activeColor) return false;
-    if (activeCountry) {
-      const paises = Array.isArray(d.origen_pais) ? d.origen_pais : [d.origen_pais];
-      if (!paises.includes(activeCountry)) return false;
-    }
-    if (s) {
-      const hay = `${d.nombre_comercial} ${d.categoria} ${d.origen_region} ${d.color_principal}`.toLowerCase();
-      if (!hay.includes(s)) return false;
+function getVis(){
+  return CANTERAS.filter(function(q){
+    if(F.type    && q.type!==F.type)       return false;
+    if(F.color   && q.color!==F.color)     return false;
+    if(F.country && q.country!==F.country) return false;
+    if(F.tier    && q.tier!==F.tier)       return false;
+    if(F.search){
+      var s=F.search.toLowerCase();
+      return q.name.toLowerCase().indexOf(s)>=0||
+             q.material.toLowerCase().indexOf(s)>=0||
+             q.country.toLowerCase().indexOf(s)>=0||
+             q.type.toLowerCase().indexOf(s)>=0||
+             q.region.toLowerCase().indexOf(s)>=0;
     }
     return true;
   });
-
-  updateMapData();
-  updateStats();
 }
 
-function updateMapData() {
-  if (!map || !map.getSource('materiales')) return;
-  map.getSource('materiales').setData(toGeoJSON(filteredData));
-  document.getElementById('resultCount').textContent = filteredData.length;
+function applyF(){
+  var vis=getVis();
+  document.getElementById('sbNum').innerHTML=vis.length+'<span>+</span>';
+  document.getElementById('rnum').innerHTML=vis.length+'<span>+</span>';
+  d3.selectAll('.q-grp').each(function(){
+    var idx=+d3.select(this).attr('data-idx');
+    d3.select(this).classed('dim',vis.indexOf(CANTERAS[idx])<0);
+  });
+  updateActiveTags();
 }
 
-function updateStats() {
-  document.getElementById('statTotal').textContent = allData.length;
-  document.getElementById('statVisible').textContent = filteredData.length || allData.length;
-  const countries = new Set(allData.flatMap(d =>
-    Array.isArray(d.origen_pais) ? d.origen_pais.slice(0,1) : [d.origen_pais]
-  ).filter(Boolean));
-  document.getElementById('statCountries').textContent = countries.size;
-  document.getElementById('resultCount').textContent = (filteredData.length || allData.length);
+function updateActiveTags(){
+  var el=document.getElementById('activeTags');
+  var tags=[];
+  if(F.type)    tags.push({k:'type',   l:F.type});
+  if(F.color)   tags.push({k:'color',  l:'&#9679; '+F.color});
+  if(F.country) tags.push({k:'country',l:F.country});
+  if(F.tier)    tags.push({k:'tier',   l:TIER_LABELS[F.tier]});
+  if(F.search)  tags.push({k:'search', l:'"'+F.search+'"'});
+  el.classList.toggle('vis',tags.length>0);
+  el.innerHTML=tags.map(function(t){
+    return '<div class="atag">'+t.l+'<span class="atag-x" onclick="clearF(\''+t.k+'\')">&#x2715;</span></div>';
+  }).join('');
 }
 
-// ─────────────────────────────────────────────
-//  SEARCH
-// ─────────────────────────────────────────────
-document.getElementById('searchInput').addEventListener('input', function() {
-  searchTerm = this.value;
-  document.getElementById('searchClear').classList.toggle('vis', !!searchTerm);
-  applyFilters();
-});
-document.getElementById('searchClear').addEventListener('click', () => {
-  document.getElementById('searchInput').value = '';
-  searchTerm = '';
-  document.getElementById('searchClear').classList.remove('vis');
-  applyFilters();
-});
+/* ── Smart search — reads CANTERAS live ── */
+var SI=document.getElementById('searchInput');
+var SC=document.getElementById('searchClear');
+var SD=document.getElementById('searchDrop');
+var ddI=-1;
 
-// ─────────────────────────────────────────────
-//  DETAIL PANEL
-// ─────────────────────────────────────────────
-async function openDetail(props) {
-  const cfg = getCatConfig(props.categoria);
-  const mediaEl = document.getElementById('det-media');
-  const bodyEl = document.getElementById('det-body');
-  const actEl = document.getElementById('det-actions');
-
-  // Open panel immediately with basic data (no waiting)
-  document.getElementById('detail').classList.add('open');
-  mediaEl.innerHTML = placeholderImg(cfg.color, props.nombre);
-
-  const paisHtml = props.pais
-    ? `<img src="https://flagcdn.com/20x15/${countryCode(props.pais)}.png" alt="${props.pais}" onerror="this.style.display='none'"> ${props.pais}`
-    : '';
-
-  bodyEl.innerHTML = `
-    <div class="det-cat" style="color:${cfg.color};border-color:${cfg.color}40">${cfg.label}</div>
-    <div class="det-name">${props.nombre}</div>
-    <div class="det-origin">${paisHtml}${props.region ? (props.pais ? ' · ' : '') + props.region : ''}</div>
-    <div class="det-props" id="det-props-inner">
-      ${props.categoria ? detProp('Categoría', cfg.label) : ''}
-      ${props.color ? detProp('Color', props.color) : ''}
-      ${props.pais ? detProp('País', props.pais) : ''}
-      ${props.region ? detProp('Región', props.region) : ''}
-    </div>`;
-
-  actEl.innerHTML = `
-    <a href="material.html?id=${props.id}" class="det-btn">Ver ficha completa →</a>
-    <a href="materiales.html?cat=${encodeURIComponent(props.categoria)}" class="det-btn-ghost">Ver más ${cfg.label}</a>`;
-
-  // Then enrich with imagen + descripcion in background
-  const detail = await fetchDetail(props.id);
-  if (!detail) return;
-
-  if (detail.imagen_url_principal) {
-    mediaEl.innerHTML = `<img class="det-img" src="${detail.imagen_url_principal}" alt="${props.nombre}" loading="lazy" onerror="this.innerHTML=''">`;
-  }
-}
-
-function closeDetail() {
-  document.getElementById('detail').classList.remove('open');
-}
-
-function detProp(label, val) {
-  return `<div class="det-prop"><span class="det-prop-l">${label}</span><span class="det-prop-v">${val}</span></div>`;
-}
-
-function placeholderImg(color, name) {
-  const initial = (name || '?')[0].toUpperCase();
-  return `<div class="det-img-placeholder" style="background:${color}18;color:${color}">${initial}</div>`;
-}
-
-// Simple country → ISO2 mapping for flag CDN
-const COUNTRY_ISO2 = {
-  'España':'es','Italy':'it','Italia':'it','Portugal':'pt','France':'fr','Francia':'fr',
-  'Turkey':'tr','Turquía':'tr','Greece':'gr','Grecia':'gr','India':'in',
-  'Brazil':'br','Brasil':'br','China':'cn','Norway':'no','Noruega':'no',
-  'South Africa':'za','Sudáfrica':'za','USA':'us','United States':'us','Estados Unidos':'us',
-  'Iran':'ir','Irán':'ir','Pakistan':'pk','Pakistán':'pk','Egypt':'eg','Egipto':'eg',
-  'Morocco':'ma','Marruecos':'ma','Argentina':'ar','Mexico':'mx','México':'mx',
-  'Germany':'de','Alemania':'de','Belgium':'be','Bélgica':'be','Sweden':'se','Suecia':'se',
-  'Finland':'fi','Finlandia':'fi','Canada':'ca','Canadá':'ca','Australia':'au',
-  'Chile':'cl','Colombia':'co','Peru':'pe','Perú':'pe','Vietnam':'vn',
-  'Indonesia':'id','Taiwan':'tw','Bangladesh':'bd','Ukraine':'ua','Ucrania':'ua',
-  'Bulgaria':'bg','Romania':'ro','Rumania':'ro','Croatia':'hr','Croacia':'hr',
-  'Slovenia':'si','Eslovenia':'si','Czech Republic':'cz','República Checa':'cz',
-  'Hungary':'hu','Hungría':'hu','Slovakia':'sk','Eslovaquia':'sk',
-  'United Kingdom':'gb','Reino Unido':'gb','Ireland':'ie','Irlanda':'ie',
-  'Netherlands':'nl','Países Bajos':'nl','Austria':'at','Switzerland':'ch','Suiza':'ch',
-  'Poland':'pl','Polonia':'pl','Russia':'ru','Rusia':'ru',
-  'Japan':'jp','Japón':'jp','South Korea':'kr','Corea del Sur':'kr',
-  'Saudi Arabia':'sa','Arabia Saudita':'sa','UAE':'ae','Emiratos Árabes':'ae',
-  'Kenya':'ke','Ethiopia':'et','Tanzania':'tz','Angola':'ao','Namibia':'na',
-  'Zimbabwe':'zw','Mozambique':'mz','Madagascar':'mg','Algeria':'dz','Argelia':'dz',
-  'Tunisia':'tn','Túnez':'tn','Libya':'ly','Libia':'ly',
-};
-function countryCode(name) {
-  return (COUNTRY_ISO2[name] || name.slice(0,2).toLowerCase());
-}
-
-// Close detail on map click (not on points)
-document.getElementById('map-wrap').addEventListener('click', (e) => {
-  if (!e.target.closest('#detail')) {
-    // only close if click was on the map canvas, not the panel
-  }
+SI.addEventListener('input',function(){
+  var val=SI.value.trim();
+  SC.classList.toggle('vis',val.length>0);
+  if(val.length<2){closeDrop();if(val.length===0){F.search=null;applyF();}return;}
+  var s=val.toLowerCase(),hits=[];
+  CANTERAS.forEach(function(q){
+    var sc=0;
+    if(q.name.toLowerCase().indexOf(s)===0)      sc+=12;
+    if(q.material.toLowerCase().indexOf(s)===0)  sc+=10;
+    if(q.name.toLowerCase().indexOf(s)>=0)       sc+=6;
+    if(q.material.toLowerCase().indexOf(s)>=0)   sc+=5;
+    if(q.region.toLowerCase().indexOf(s)>=0)     sc+=3;
+    if(q.country.toLowerCase().indexOf(s)>=0)    sc+=2;
+    if(q.type.toLowerCase().indexOf(s)>=0)       sc+=1;
+    if(sc>0)hits.push({q:q,sc:sc});
+  });
+  hits.sort(function(a,b){return b.sc-a.sc;});
+  var h='';
+  if(!hits.length){h='<div class="sd-empty">Sin resultados para &quot;'+val+'&quot;</div>';}
+  else{hits.slice(0,14).forEach(function(x){
+    var q=x.q,i=CANTERAS.indexOf(q);
+    h+='<div class="sd-item" onclick="pickR('+i+')">'
+      +'<div class="sd-name">'+q.name+'</div>'
+      +'<div class="sd-meta">'+q.material+' &middot; '+q.country+'</div>'
+      +'<span class="sd-badge">'+q.type+'</span></div>';
+  });}
+  SD.innerHTML=h;SD.classList.add('open');ddI=-1;
 });
 
-// ─────────────────────────────────────────────
-//  AUTH NAV (reuse pattern from other pages)
-// ─────────────────────────────────────────────
-(async () => {
-  try {
-    const sb = window.supabase?.createClient
-      ? window.supabase.createClient(SB_URL, SB_KEY)
-      : null;
-    if (!sb) return;
-    const { data: { session } } = await sb.auth.getSession();
-    const li = document.getElementById('nav-auth-item');
-    if (session) {
-      li.innerHTML = `<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Panel</a>`;
-    } else {
-      li.innerHTML = `<span class="nav-auth-sep"></span><a href="registro.html" class="nav-auth-link state-acceso">Acceso</a>`;
-    }
-  } catch(e) {}
-})();
+SI.addEventListener('keydown',function(e){
+  var it=SD.querySelectorAll('.sd-item');if(!it.length)return;
+  if(e.key==='ArrowDown'){ddI=Math.min(ddI+1,it.length-1);hlDD(it);e.preventDefault();}
+  if(e.key==='ArrowUp')  {ddI=Math.max(ddI-1,0);          hlDD(it);e.preventDefault();}
+  if(e.key==='Enter'&&ddI>=0){it[ddI].click();e.preventDefault();}
+  if(e.key==='Escape'){closeDrop();SI.blur();}
+});
+function hlDD(it){it.forEach(function(el,i){el.classList.toggle('kbon',i===ddI);});if(it[ddI])it[ddI].scrollIntoView({block:'nearest'});}
+function pickR(i){
+  var q=CANTERAS[i];SI.value=q.name;SC.classList.add('vis');
+  closeDrop();F.search=q.name;applyF();flyTo(q);
+  setTimeout(function(){openPanel(q);},350);
+}
+SC.addEventListener('click',function(){SI.value='';SC.classList.remove('vis');closeDrop();F.search=null;applyF();});
+document.addEventListener('click',function(e){if(!e.target.closest('#searchInput')&&!e.target.closest('#searchDrop'))closeDrop();});
+function closeDrop(){SD.classList.remove('open');SD.innerHTML='';ddI=-1;}
 
-// ─────────────────────────────────────────────
-//  START
-// ─────────────────────────────────────────────
-init();
+/* ── Public API: add quarry at runtime ── */
+function addCantera(q){
+  if(!q.tier)q.tier=3; if(!q.color)q.color='Otros';
+  CANTERAS.push(q);
+  buildUI();renderMarkers();applyF();
+}
+
+/* ── Map ── */
+function initMap(){
+  svg=d3.select('#map-svg').attr('width',W()).attr('height',H());
+  projection=d3.geoNaturalEarth1().scale(Math.min(W()/5.5,H()/3.0)).translate([W()/2,H()/2+20]);
+  path=d3.geoPath().projection(projection);
+  zoom=d3.zoom().scaleExtent([0.8,16]).on('zoom',function(e){
+    g.attr('transform',e.transform);
+    var k=e.transform.k;
+    d3.selectAll('.q-grp').each(function(){
+      var b=+d3.select(this).attr('data-r');if(!b)return;
+      d3.select(this).select('.q-dot').attr('r',b/k);
+      d3.select(this).select('.q-ring').attr('r',b/k);
+    });
+  });
+  svg.call(zoom);
+  g=svg.append('g').attr('id','gm');
+  g.append('path').datum({type:'Sphere'}).attr('class','sphere').attr('d',path);
+  g.append('path').datum(d3.geoGraticule()()).attr('class','graticule').attr('d',path);
+  fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+    .then(function(r){return r.json();})
+    .then(function(world){
+      g.selectAll('.country').data(topojson.feature(world,world.objects.countries).features)
+        .join('path').attr('class','country').attr('d',path);
+      renderMarkers();
+    });
+}
+
+function renderMarkers(){
+  g.selectAll('.q-grp').remove();
+  var mg=g.append('g');
+  CANTERAS.forEach(function(q,idx){
+    var c=projection([q.lng,q.lat]);
+    if(!c||isNaN(c[0])||isNaN(c[1]))return;
+    var r=q.tier===1?5:q.tier===2?3.5:2.2;
+    var dl=((idx*0.7)%3).toFixed(1)+'s';
+    var grp=mg.append('g').attr('class','q-grp t'+q.tier)
+      .attr('transform','translate('+c[0]+','+c[1]+')').attr('data-r',r).attr('data-idx',idx);
+    grp.append('circle').attr('class','q-ring').attr('r',r).style('animation-delay',dl).style('transform-origin','0 0');
+    grp.append('circle').attr('class','q-dot').attr('r',r);
+    grp.on('mouseover',function(){var k=d3.zoomTransform(svg.node()).k,b=+d3.select(this).attr('data-r');d3.select(this).select('.q-dot').attr('r',(b/k)*1.7);});
+    grp.on('mouseout', function(){var k=d3.zoomTransform(svg.node()).k,b=+d3.select(this).attr('data-r');d3.select(this).select('.q-dot').attr('r',b/k);});
+    grp.on('mouseenter',function(){
+      document.getElementById('ttC').textContent=q.country+' \u00b7 '+q.type;
+      document.getElementById('ttN').textContent=q.name;
+      document.getElementById('ttM').textContent=q.material;
+      document.getElementById('ttF').textContent=q.fame||'-';
+      document.getElementById('tt').classList.add('show');
+    });
+    grp.on('mousemove',function(e){
+      var tt=document.getElementById('tt'),tx=e.clientX+18,ty=e.clientY-12;
+      if(tx+258>window.innerWidth)tx=e.clientX-268;
+      if(ty+160>window.innerHeight)ty=e.clientY-170;
+      tt.style.left=tx+'px';tt.style.top=ty+'px';
+    });
+    grp.on('mouseleave',function(){document.getElementById('tt').classList.remove('show');});
+    grp.on('click',function(){openPanel(q);});
+  });
+}
+
+function flyTo(q){
+  var c=projection([q.lng,q.lat]);if(!c)return;
+  var sc=5,tx=W()/2-sc*c[0],ty=H()/2-sc*c[1];
+  svg.transition().duration(750).ease(d3.easeCubicOut)
+    .call(zoom.transform,d3.zoomIdentity.translate(tx,ty).scale(sc));
+}
+
+function openPanel(q){
+  document.getElementById('pEye').textContent=q.country+' \u00b7 '+q.type;
+  document.getElementById('pNm').textContent=q.name;
+  document.getElementById('pLoc').textContent=q.region+', '+q.country;
+  var sw=SWATCHES[q.color]||'#888';
+  var stCol=q.status==='Activa'?'#6a9a7a':'var(--muted)';
+  var h='';
+  h+='<div class="pf"><div class="pk">Material extra\u00eddo</div><div class="pv pv-i">'+q.material+'</div></div>';
+  h+='<div class="pf"><div class="pk" data-es="Tipo de roca" data-en="Rock type">Tipo de roca</div><div class="pv">'+q.type+'</div></div>';
+  h+='<div class="pf"><div class="pk" data-es="Color" data-en="Colour">Color</div><div class="pv" style="display:flex;align-items:center;gap:8px"><div style="width:11px;height:11px;border-radius:2px;background:'+sw+'"></div>'+q.color+'</div></div>';
+  h+='<div class="pf"><div class="pk">Estado</div><div class="pv" style="color:'+stCol+'">'+q.status+'</div></div>';
+  if(q.owner&&q.owner!=='-'&&q.owner!=='')h+='<div class="pf"><div class="pk">Empresa</div><div class="pv">'+q.owner+'</div></div>';
+  if(q.production&&q.production!=='-'&&q.production!=='')h+='<div class="pf"><div class="pk">Producci\u00f3n</div><div class="pv">'+q.production+'</div></div>';
+  h+='<div class="p-ln"></div>';
+  h+='<div class="p-fm"><div class="p-fml">Monumentos &amp; proyectos</div><div class="p-fmv">'+(q.fame||'-')+'</div></div>';
+  if(q.history)h+='<div class="p-ln"></div><div class="pf"><div class="pk">Notas hist\u00f3ricas</div><div class="pv" style="font-size:11px;color:var(--muted)">'+q.history+'</div></div>';
+  h+='<div class="p-ln"></div><a href="canteras.html" class="p-cta">Ver ficha completa &#x2192;</a>';
+  document.getElementById('pBd').innerHTML=h;
+  document.getElementById('panel').classList.add('open');
+}
+
+document.getElementById('pClose').addEventListener('click',function(){document.getElementById('panel').classList.remove('open');});
+
+window.addEventListener('resize',function(){
+  d3.select('#map-svg').attr('width',W()).attr('height',H());
+  projection.scale(Math.min(W()/5.5,H()/3.0)).translate([W()/2,H()/2+20]);
+  d3.selectAll('.sphere,.graticule,.country').attr('d',path);
+  if(g)renderMarkers();
+});
+
+buildUI();
+initMap();
 </script>
+
+<script>
+/* World Stone Hub – i18n engine */
+(function(){
+  var KEY = 'wsh_lang';
+  function get(){ return localStorage.getItem(KEY) || 'es'; }
+  function set(l){ localStorage.setItem(KEY, l); }
+  function apply(lang){
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-es]').forEach(function(el){
+      var v = el.getAttribute('data-' + lang);
+      if(v === null) return;
+      if(el.children.length === 0){ el.textContent = v; return; }
+      for(var i=0; i<el.childNodes.length; i++){
+        var n = el.childNodes[i];
+        if(n.nodeType === 3 && n.textContent.trim()){ n.textContent = v; break; }
+      }
+    });
+    document.querySelectorAll('[data-placeholder-es]').forEach(function(el){
+      var v = el.getAttribute('data-placeholder-' + lang);
+      if(v !== null) el.placeholder = v;
+    });
+    document.querySelectorAll('[data-lang]').forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('data-lang') === lang);
+    });
+  }
+  function init(){
+    var lang = get();
+    document.querySelectorAll('[data-lang]').forEach(function(a){
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        var l = a.getAttribute('data-lang');
+        if(l){ set(l); apply(l); }
+      });
+    });
+    apply(lang);
+  }
+  document.readyState === 'loading'
+    ? document.addEventListener('DOMContentLoaded', init)
+    : init();
+})();
+</script>
+
+
+<div style="position:fixed;bottom:0;left:0;right:0;background:rgba(26,25,23,0.95);backdrop-filter:blur(8px);border-top:1px solid rgba(160,120,60,0.2);padding:10px 24px;display:flex;align-items:center;justify-content:flex-end;z-index:888;gap:12px;">
+  <span style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6a6764;">Language</span>
+  <a href="#" data-lang="es" style="font-size:10px;letter-spacing:2px;font-weight:600;color:#A67C52;text-decoration:none;padding:4px 8px;border:1px solid rgba(160,120,60,0.4);border-radius:2px;">ES</a>
+  <a href="#" title="Próximamente" style="opacity:0.35;cursor:not-allowed;pointer-events:none;" data-lang="en" style="font-size:10px;letter-spacing:2px;font-weight:500;color:#6a6764;text-decoration:none;padding:4px 8px;border:1px solid rgba(106,103,100,0.3);border-radius:2px;">EN</a>
+</div>
+<script>
+(function(){
+  var closeTimer = null;
+  document.querySelectorAll('.nav-dropdown').forEach(function(el){
+    el.addEventListener('mouseenter', function(){
+      if(closeTimer){ clearTimeout(closeTimer); closeTimer=null; }
+      el.classList.add('open');
+    });
+    el.addEventListener('mouseleave', function(){
+      closeTimer = setTimeout(function(){ el.classList.remove('open'); }, 250);
+    });
+    var menu = el.querySelector('.dropdown-menu');
+    if(menu){
+      menu.addEventListener('mouseenter', function(){
+        if(closeTimer){ clearTimeout(closeTimer); closeTimer=null; }
+      });
+      menu.addEventListener('mouseleave', function(){
+        closeTimer = setTimeout(function(){ el.classList.remove('open'); }, 250);
+      });
+    }
+  });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+.nav-auth-sep {
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  background: #c8c5bf;
+  margin: 0 4px 0 8px;
+  vertical-align: middle;
+  opacity: 0.6;
+}
+.nav-auth-link {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.25s, opacity 0.25s;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-auth-link.state-acceso {
+  color: #8a8784;
+}
+.nav-auth-link.state-acceso:hover {
+  color: #1a1917;
+}
+.nav-auth-link.state-panel {
+  color: #A67C52;
+  border: 1px solid rgba(166,124,82,0.35);
+  padding: 6px 14px;
+  letter-spacing: 2px;
+}
+.nav-auth-link.state-panel:hover {
+  background: #A67C52;
+  color: #f8f7f5;
+  border-color: #A67C52;
+}
+.nav-auth-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #A67C52;
+  display: inline-block;
+  flex-shrink: 0;
+}
+</style>
+<script src="i18n.js"></script>
+<script src="auth-nav.js"></script>
+<script src="auth-nav.js"></script>
 </body>
 </html>

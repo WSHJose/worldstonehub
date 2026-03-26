@@ -22,8 +22,6 @@
   --font-disp: 'Cormorant Garamond', serif;
   --font-head: 'Instrument Sans', sans-serif;
   --font-body: 'Instrument Sans', sans-serif;
-  --border2:   #c8c5bf;
-  --green:     #27ae60;
 }
 
 /* ═══════════════════════════════════════════════
@@ -246,38 +244,6 @@ nav {
 .plan-pm { font-size:11px; color:#8a8784; }
 .plan-billing { font-size:9px; color:#8a8784; letter-spacing:1px; margin-bottom:20px; }
 .plan-divider { height:1px; background:var(--border); margin:0 0 18px; }
-
-/* ── BILLING TOGGLE ── */
-.billing-toggle {
-  display:flex; align-items:center; gap:0;
-  background:#f0efed; border:1px solid #e2e0dc;
-  border-radius:2px; padding:3px;
-  width:fit-content; margin:0 auto 32px;
-}
-.bt-btn {
-  background:none; border:none;
-  padding:9px 22px;
-  font-family:'Instrument Sans',sans-serif;
-  font-size:10px; letter-spacing:2.5px; text-transform:uppercase;
-  color:#8a8784; cursor:pointer; border-radius:1px;
-  transition:background 0.2s, color 0.2s;
-  display:flex; align-items:center; gap:8px;
-}
-.bt-btn.active { background:#1a1917; color:#fff; }
-.bt-save {
-  background:#A67C52; color:#fff;
-  font-size:7.5px; letter-spacing:1.5px;
-  padding:2px 7px; border-radius:1px;
-}
-/* Savings badge inside card */
-.plan-savings {
-  display:none;
-  font-size:8.5px; letter-spacing:1.5px; text-transform:uppercase;
-  color:#4a8a5a; background:rgba(74,138,90,0.08);
-  border:1px solid rgba(74,138,90,0.2);
-  padding:2px 8px; margin-bottom:10px; text-align:center;
-}
-.plans-grid.is-anual .plan-savings { display:block; }
 .plan-feats { list-style:none; display:flex; flex-direction:column; gap:9px; flex:1; }
 .plan-feats li {
   font-size:11.5px; color:#4a4845; display:flex; align-items:flex-start; gap:7px; line-height:1.4;
@@ -1193,7 +1159,7 @@ label.plan-card input[type="radio"] { display: none !important; }
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const WSH_SUPABASE_URL  = 'https://whcptmdapnavcxcszwwk.supabase.co';
-  const WSH_SUPABASE_ANON = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+  const WSH_SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
   const wshDB = window.supabase.createClient(WSH_SUPABASE_URL, WSH_SUPABASE_ANON);
 </script>
 <script>
@@ -1312,6 +1278,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </svg></a>
   <ul class="nav-links">
     <li><a href="index.html" data-i18n="nav.inicio">Inicio</a></li>
+    <li><a href="canteras.html" data-i18n="nav.canteras">Canteras</a></li>
     <li><a href="materiales.html" data-i18n="nav.materiales">Materiales</a></li>
     <li class="nav-dropdown">
       <a href="proveedores.html" data-i18n="nav.directorio">Directorio</a>
@@ -1334,19 +1301,6 @@ document.addEventListener('DOMContentLoaded', function() {
     <button class="lang-btn" data-lang="en" aria-pressed="false" data-i18n-attr="aria-label:lang.en">EN</button>
   </div>
 </nav>
-
-<!-- BANNER PROMO TRIAL (visible solo con ?promo=launch6m) -->
-<div id="promoBanner" style="display:none;background:#1a1917;padding:12px 32px;display:none;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
-  <span style="display:inline-flex;align-items:center;gap:8px;">
-    <span style="width:6px;height:6px;border-radius:50%;background:#A67C52;display:inline-block;animation:lcPulse 2s ease-in-out infinite;"></span>
-    <span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#A67C52;">Oferta de inauguración</span>
-  </span>
-  <span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#f0ede8;">Plan Profesional <em style="color:#A67C52;">gratis 6 meses</em> — no se cobra hasta octubre 2026</span>
-  <span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:rgba(240,237,232,.35);text-transform:uppercase;">Termina el 30 Abr 2026</span>
-</div>
-<style>
-@keyframes lcPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.35;transform:scale(.65);}}
-</style>
 
 <!-- SHELL: sidebar + main -->
 <div class="shell">
@@ -1409,13 +1363,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <h1 class="screen-title">Elige tu<br><em>plan de visibilidad</em></h1>
       <p class="screen-desc">Desde una ficha básica gratuita hasta presencia editorial completa. Puedes cambiar o cancelar en cualquier momento.</p>
 
-      <!-- Billing toggle -->
-      <div class="billing-toggle">
-        <button class="bt-btn active" id="bt-mensual" onclick="setBilling('mensual')">Mensual</button>
-        <button class="bt-btn" id="bt-anual" onclick="setBilling('anual')">Anual <span class="bt-save">−hasta 36%</span></button>
-      </div>
-
-      <div class="plans-grid" id="plans-grid">
+      <div class="plans-grid">
 
         <!-- FREE -->
         <div class="plan-card-wrap">
@@ -1441,14 +1389,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <!-- PRESENCIA -->
         <div class="plan-card-wrap">
-        <label class="plan-card" data-plan="presencia" data-price-mensual="49" data-price-anual="33" data-price="49">
+        <label class="plan-card" data-plan="presencia" data-price="49">
           <input type="radio" name="wsh_plan" value="presencia" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('presencia',49,this)">
           <div class="plan-check">✓</div>
           <div class="plan-tag t-base">Entrada</div>
           <div class="plan-name">Presencia</div>
-          <div class="plan-savings">Ahorras €189/año · −32%</div>
-          <div class="plan-price-line"><div class="plan-price" id="price-presencia"><sup>€</sup>49</div><span class="plan-pm">/mes</span></div>
-          <div class="plan-billing" id="billing-presencia">€49/mes · facturación mensual</div>
+          <div class="plan-price-line"><div class="plan-price"><sup>€</sup>49</div><span class="plan-pm">/mes</span></div>
+          <div class="plan-billing">€588/año · facturación anual</div>
           <div class="plan-divider"></div>
           <ul class="plan-feats">
             <li><span class="fi">›</span>Ficha verificada y publicada</li>
@@ -1464,15 +1411,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <!-- PROFESIONAL -->
         <div class="plan-card-wrap">
-        <label class="plan-card featured" data-plan="profesional" data-price-mensual="129" data-price-anual="82.50" data-price="129">
+        <label class="plan-card featured" data-plan="profesional" data-price="129">
           <input type="radio" name="wsh_plan" value="profesional" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('profesional',129,this)">
           <div class="plan-popular" data-es="Más popular" data-en="Most popular">Más popular</div>
           <div class="plan-check">✓</div>
           <div class="plan-tag t-pro">Recomendado</div>
           <div class="plan-name">Profesional</div>
-          <div class="plan-savings">Ahorras €558/año · −36%</div>
-          <div class="plan-price-line"><div class="plan-price" id="price-profesional"><sup>€</sup>129</div><span class="plan-pm">/mes</span></div>
-          <div class="plan-billing" id="billing-profesional">€129/mes · facturación mensual</div>
+          <div class="plan-price-line"><div class="plan-price"><sup>€</sup>129</div><span class="plan-pm">/mes</span></div>
+          <div class="plan-billing">€1.548/año · facturación anual</div>
           <div class="plan-divider"></div>
           <ul class="plan-feats">
             <li><span class="fi">›</span>Ficha premium destacada</li>
@@ -1488,14 +1434,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <!-- ELITE -->
         <div class="plan-card-wrap">
-        <label class="plan-card" data-plan="elite" data-price-mensual="299" data-price-anual="199" data-price="299">
+        <label class="plan-card" data-plan="elite" data-price="299">
           <input type="radio" name="wsh_plan" value="elite" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('elite',299,this)">
           <div class="plan-check">✓</div>
           <div class="plan-tag t-elite" data-es="Premium" data-en="Premium">Premium</div>
           <div class="plan-name">Élite</div>
-          <div class="plan-savings">Ahorras €1.198/año · −33%</div>
-          <div class="plan-price-line"><div class="plan-price" id="price-elite"><sup>€</sup>299</div><span class="plan-pm">/mes</span></div>
-          <div class="plan-billing" id="billing-elite">€299/mes · facturación mensual</div>
+          <div class="plan-price-line"><div class="plan-price"><sup>€</sup>299</div><span class="plan-pm">/mes</span></div>
+          <div class="plan-billing">€3.588/año · facturación anual</div>
           <div class="plan-divider"></div>
           <ul class="plan-feats">
             <li><span class="fi">›</span>Todo lo de Profesional</li>
@@ -1874,13 +1819,12 @@ document.addEventListener('DOMContentLoaded', function() {
         <h1 class="success-title">Solicitud<br><em>enviada</em></h1>
         <p class="success-text" id="success-msg-free" style="display:none">Hemos recibido tu alta gratuita en World Stone Hub. Tu ficha aparecerá en el directorio en <strong>24&#8211;48 horas</strong> tras revisión editorial.</p>
         <p class="success-text" id="success-msg-paid" style="display:none">Hemos recibido tu solicitud. <strong>Último paso:</strong> activa tu suscripción para que tu ficha quede verificada y publicada.</p>
-        <p class="success-text" id="success-msg-trial" style="display:none">¡Todo listo! Activa ahora tu <strong>trial gratuito de 6 meses</strong> del Plan Profesional. Introduces tu tarjeta hoy pero <strong>no se te cobra nada hasta el 1 de octubre de 2026</strong>. Cancela antes y no pagas nada.</p>
         <div id="stripe-cta" style="display:none;margin:32px 0;padding:28px;background:#f8f7f5;border:1px solid #e2e0dc;border-top:3px solid #A67C52;">
           <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#A67C52;margin-bottom:12px;">Activar suscripción</div>
           <div id="stripe-plan-name" style="font-family:Cormorant Garamond,serif;font-size:28px;font-weight:300;color:#1a1917;margin-bottom:4px;"></div>
           <div id="stripe-plan-price" style="font-size:13px;color:#8a8784;margin-bottom:20px;"></div>
           <!-- STRIPE PAYMENT LINKS: dashboard.stripe.com > Payment Links > Create > Copy URL -->
-          <a id="stripe-pay-btn" href="#" target="_blank" style="display:inline-block;background:#A67C52;color:#fff;padding:14px 32px;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;">Activar ahora &#8594;</a>
+          <a id="stripe-pay-btn" href="#" target="_blank" style="display:inline-block;background:#A67C52;color:#fff;padding:14px 32px;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;">Pagar ahora &#8594;</a>
           <p style="font-size:11px;color:#8a8784;margin-top:12px;">Pago seguro via Stripe &middot; Cancela cuando quieras &middot; Factura automática</p>
         </div>
         <div class="success-links">
@@ -1900,32 +1844,15 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===========================================
 
 // ── Stripe Payment Links ─────────────────────
-// Mensual: dashboard.stripe.com → Payment Links → Create (facturación mensual recurrente)
-// Anual:   dashboard.stripe.com → Payment Links → Create (facturación anual recurrente)
-// ⚠️ Reemplaza los enlaces TEST por enlaces LIVE antes de lanzar
+// Obtén estos enlaces en: dashboard.stripe.com → Payment Links → Create
 var STRIPE_PAYMENT_LINKS = {
-  // — Mensual —
-  presencia:               'https://buy.stripe.com/fZu5kw3T97Pj4S83ux9Zm00',
-  profesional:             'https://buy.stripe.com/eVqcMYgFV6Lf2K04yB9Zm01',
-  elite:                   'https://buy.stripe.com/00w14g89pb1v5Wc5CF9Zm02',
-  // — Anual —
-  presencia_anual:         'https://buy.stripe.com/8x214g0GX5HbgAQe9b9Zm03',
-  profesional_anual:       'https://buy.stripe.com/3cI00cgFV6Lf4S84yB9Zm04',
-  elite_anual:             'https://buy.stripe.com/dRmbIU9dt2uZacs1mp9Zm05',
-  // — Trial inauguración (6 meses gratis · cobro desde 1 Oct 2026) —
-  // ⚠️ PENDIENTE: Crea el Payment Link de trial en Stripe y reemplaza esta URL
-  profesional_trial:       'https://buy.stripe.com/5kQcMY1L1fhLckA8OR9Zm06'
+  presencia:   'https://buy.stripe.com/test_4gM28k7nd49w3dA3JjfYY01',
+  profesional: 'https://buy.stripe.com/test_cNiaEQ8rh8pM9BY1BbfYY00',
+  elite:       'https://buy.stripe.com/test_cNi8wI0YP35s3dAgw5fYY02'
 };
 
-// ── Detección de promo desde URL ─────────────
-var URL_PARAMS  = new URLSearchParams(window.location.search);
-var PROMO_CODE  = URL_PARAMS.get('promo');   // 'launch6m' o null
-var IS_TRIAL    = (PROMO_CODE === 'launch6m');
-var TRIAL_END   = new Date('2026-04-30T23:59:59'); // fecha límite de la oferta
-if (new Date() > TRIAL_END) IS_TRIAL = false;      // expirada → ignorar
-
 // ── Estado global ───────────────────────────
-var ST = { plan:null, price:0, actors:[], step:1, billing:'mensual', isTrial: IS_TRIAL };
+var ST = { plan:null, price:0, actors:[], step:1 };
 
 // ── Países del mundo (ISO + español) ────────
 (function populatePaises() {
@@ -1998,105 +1925,9 @@ var ST = { plan:null, price:0, actors:[], step:1, billing:'mensual', isTrial: IS
   });
 })();
 
-// ── Inicialización promo trial ───────────────
-(function initPromo(){
-  if (!IS_TRIAL) return;
-
-  // 1. Mostrar banner superior
-  var banner = document.getElementById('promoBanner');
-  if (banner) banner.style.display = 'flex';
-
-  // 2. Pre-seleccionar plan Profesional y marcar card visualmente
-  document.addEventListener('DOMContentLoaded', function(){
-    var proCard = document.querySelector('.plan-card[data-plan="profesional"]');
-    var proRadio = document.querySelector('input[value="profesional"]');
-    if (proCard && proRadio) {
-      proRadio.checked = true;
-      proCard.classList.add('selected');
-      selectPlanRadio('profesional', 0, proRadio);
-    }
-
-    // 3. Sobreescribir display del plan Profesional: precio → GRATIS
-    var priceEl   = document.getElementById('price-profesional');
-    var billingEl = document.getElementById('billing-profesional');
-    var savingsEl = proCard ? proCard.querySelector('.plan-savings') : null;
-    if (priceEl)   priceEl.innerHTML = '<span style="font-size:22px;letter-spacing:2px;color:#A67C52;">GRATIS</span>';
-    if (billingEl) billingEl.innerHTML = '6 meses gratis &middot; luego €129/mes &middot; <strong style="color:#A67C52;">No se cobra hasta oct. 2026</strong>';
-    if (savingsEl) savingsEl.textContent = '¡Oferta de inauguración!';
-
-    // 4. Ocultar toggle mensual/anual (no aplica al trial)
-    var toggle = document.querySelector('.billing-toggle');
-    if (toggle) toggle.style.display = 'none';
-
-    // 5. Resaltar la card con un ribbon especial
-    if (proCard) {
-      var ribbon = document.createElement('div');
-      ribbon.style.cssText = 'position:absolute;top:12px;right:-28px;background:#A67C52;color:#fff;font-family:"DM Mono",monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;padding:5px 32px;transform:rotate(45deg);z-index:10;';
-      ribbon.textContent = '6 meses gratis';
-      proCard.style.position = 'relative';
-      proCard.style.overflow = 'hidden';
-      proCard.appendChild(ribbon);
-    }
-  });
-})();
-
 var PLAN_NAMES   = { free:'Directorio', presencia:'Presencia', profesional:'Profesional', elite:'Élite' };
+var PLAN_PERIODS = { free:'Sin coste', presencia:'€49/mes · anual', profesional:'€129/mes · anual', elite:'€299/mes · anual' };
 var ACTOR_NAMES  = { cantera:'Propietarios de canteras', distribuidor:'Distribuidores', fabricante:'Fabricantes y talleres', arquitecto:'Estudios de arquitectura', constructora:'Constructoras', maquinaria:'Maquinaria industrial', laboratorio:'Laboratorios y certificación', logistica:'Logística' };
-
-// Datos de precio por plan y periodo
-var PLAN_PRICES = {
-  mensual: { presencia:49,    profesional:129,    elite:299    },
-  anual:   { presencia:33,    profesional:82.50,  elite:199    }
-};
-var PLAN_ANUAL_TOTAL = { presencia:399, profesional:990, elite:2390 };
-
-function getPlanPeriod(plan) {
-  if (!plan || plan === 'free') return 'Sin coste';
-  if (ST.billing === 'anual') {
-    var total = PLAN_ANUAL_TOTAL[plan] || '';
-    return '€' + PLAN_ANUAL_TOTAL[plan] + '/año · equivale a €' + PLAN_PRICES.anual[plan] + '/mes';
-  }
-  return '€' + PLAN_PRICES.mensual[plan] + '/mes · facturación mensual';
-}
-
-// ── Toggle mensual / anual ───────────────────
-function setBilling(period) {
-  ST.billing = period;
-  // Toggle buttons
-  document.getElementById('bt-mensual').classList.toggle('active', period === 'mensual');
-  document.getElementById('bt-anual').classList.toggle('active', period === 'anual');
-  // Grid class para mostrar/ocultar savings badges
-  var grid = document.getElementById('plans-grid');
-  if (grid) grid.classList.toggle('is-anual', period === 'anual');
-  // Actualizar precio visible en cada tarjeta de pago
-  var plans = ['presencia', 'profesional', 'elite'];
-  plans.forEach(function(p) {
-    var priceEl   = document.getElementById('price-' + p);
-    var billingEl = document.getElementById('billing-' + p);
-    var card      = document.querySelector('.plan-card[data-plan="' + p + '"]');
-    if (!priceEl || !billingEl || !card) return;
-    var price = PLAN_PRICES[period][p];
-    // Formato: si .50 mostrarlo, si entero no
-    var priceStr = Number.isInteger(price) ? price : price.toFixed(2).replace('.', ',');
-    priceEl.innerHTML = '<sup>€</sup>' + priceStr;
-    if (period === 'anual') {
-      billingEl.textContent = '€' + PLAN_ANUAL_TOTAL[p] + '/año · ahorro del ' + getDiscount(p) + '%';
-    } else {
-      billingEl.textContent = '€' + PLAN_PRICES.mensual[p] + '/mes · facturación mensual';
-    }
-    // Actualizar data-price para que selectPlan use el correcto
-    card.dataset.price = price;
-    // Si este plan ya está seleccionado, actualizar el price en ST
-    if (ST.plan === p) {
-      ST.price = price;
-      updateSidebarBadge();
-    }
-  });
-}
-function getDiscount(plan) {
-  var d = { presencia:32, profesional:36, elite:33 };
-  return d[plan] || '';
-}
 
 
 function selectPlanRadio(plan, price, input) {
@@ -2151,7 +1982,7 @@ function updateSidebarBadge() {
   if (!ST.plan) { b.classList.remove('show'); return; }
   b.classList.add('show');
   document.getElementById('spbName').textContent  = PLAN_NAMES[ST.plan] || '-';
-  document.getElementById('spbPrice').textContent = getPlanPeriod(ST.plan);
+  document.getElementById('spbPrice').textContent = PLAN_PERIODS[ST.plan] || '-';
   var actEl = document.getElementById('spbActors');
   if (ST.actors.length > 0) {
     actEl.style.display = 'block';
@@ -2257,15 +2088,10 @@ function fillReview() {
   document.getElementById('rv_actors').textContent = ST.actors.map(function(a){ return ACTOR_NAMES[a]||a; }).join(' · ') || '-';
 
   var priceEl = document.getElementById('rv_price');
-  if (ST.price === 0) {
-    priceEl.innerHTML = '<span style="font-size:28px;font-family:Cormorant Garamond,serif;color:#A67C52">Gratuito</span>';
-  } else if (ST.billing === 'anual') {
-    var tot = PLAN_ANUAL_TOTAL[ST.plan] || '';
-    priceEl.innerHTML = '<sup>€</sup>' + tot + '<span style="font-size:14px;font-weight:400;color:#8a8784">/año</span>';
-  } else {
-    priceEl.innerHTML = '<sup>€</sup>' + ST.price + '<span style="font-size:14px;font-weight:400;color:#8a8784">/mes</span>';
-  }
-  document.getElementById('rv_period').textContent = getPlanPeriod(ST.plan);
+  if (ST.price === 0) { priceEl.innerHTML = '<span style="font-size:28px;font-family:Cormorant Garamond,serif;color:#A67C52">Gratuito</span>'; }
+  else { priceEl.innerHTML = '<sup>€</sup>' + ST.price; }
+
+  document.getElementById('rv_period').textContent  = PLAN_PERIODS[ST.plan] || '-';
   document.getElementById('rv_nombre').textContent  = v('f_nombre');
   var paisSel = document.getElementById('f_pais');
   document.getElementById('rv_pais').textContent = paisSel && paisSel.selectedIndex > 0 ? paisSel.options[paisSel.selectedIndex].text : '—';
@@ -2357,7 +2183,6 @@ function submitForm() {
       activo:             ST.plan === 'free',
       plan_activo:        ST.plan === 'free',
       plan:               ST.plan || 'free',
-      plan_billing:       ST.plan === 'free' ? null : (ST.billing || 'mensual'),
       estado:             ST.plan === 'free' ? 'activo' : 'pendiente'
     };
 
@@ -2423,36 +2248,18 @@ function submitForm() {
     if (ST.plan === 'free') {
       window.location.href = 'gracias.html';
     } else {
-      // Elegir link de Stripe:
-      // · Trial de inauguración: profesional + promo launch6m → link con trial 6m
-      // · Normal: mensual o anual según toggle
-      var stripeKey;
-      if (ST.isTrial && ST.plan === 'profesional') {
-        stripeKey = 'profesional_trial';
+      var payLink = STRIPE_PAYMENT_LINKS[ST.plan];
+      if (payLink) {
+        // Pasar email pre-relleno al checkout de Stripe
+        var emailVal = document.getElementById('f_email');
+        if (emailVal && emailVal.value.trim()) {
+          payLink += '?prefilled_email=' + encodeURIComponent(emailVal.value.trim());
+        }
+        window.location.href = payLink;
       } else {
-        stripeKey = (ST.billing === 'anual') ? ST.plan + '_anual' : ST.plan;
-      }
-
-      var payLink = STRIPE_PAYMENT_LINKS[stripeKey];
-
-      // Si el trial link aún no está configurado, mostrar pantalla manual
-      if (!payLink || payLink === 'STRIPE_TRIAL_LINK_PENDIENTE') {
+        // Payment Link aún no configurado: pantalla de éxito con CTA manual
         showSuccessScreen();
-        // Mostrar mensaje específico de trial en la pantalla de éxito
-        var paidMsg = document.getElementById('success-msg-paid');
-        var stripeCtaEl = document.getElementById('stripe-cta');
-        if (paidMsg) paidMsg.innerHTML = 'Hemos recibido tu solicitud. <strong>Último paso:</strong> activa tu trial de 6 meses para publicar tu ficha. Te contactaremos en menos de 24h para completar la activación.';
-        if (stripeCtaEl) stripeCtaEl.style.display = 'none';
-        return;
       }
-
-      // Pasar email pre-relleno al checkout de Stripe
-      var emailVal = document.getElementById('f_email');
-      var sep = payLink.includes('?') ? '&' : '?';
-      if (emailVal && emailVal.value.trim()) {
-        payLink += sep + 'prefilled_email=' + encodeURIComponent(emailVal.value.trim());
-      }
-      window.location.href = payLink;
     }
   })
   .catch(function(err) {
@@ -2479,18 +2286,13 @@ function showSuccessScreen() {
   if (!isFree && stripeCta) {
     stripeCta.style.display = 'block';
     var PLAN_DISPLAY = { presencia:'Plan Presencia', profesional:'Plan Profesional', elite:'Plan Élite' };
-    var isAnual = ST.billing === 'anual';
-    var planLabel = (PLAN_DISPLAY[ST.plan] || ST.plan) + (isAnual ? ' · Anual' : ' · Mensual');
-    var priceLabel = isAnual
-      ? '€' + PLAN_ANUAL_TOTAL[ST.plan] + ' / año (€' + PLAN_PRICES.anual[ST.plan] + '/mes)'
-      : '€' + PLAN_PRICES.mensual[ST.plan] + ' / mes';
-    document.getElementById('stripe-plan-name').textContent  = planLabel;
-    document.getElementById('stripe-plan-price').textContent = priceLabel;
-    var stripeKey = isAnual ? ST.plan + '_anual' : ST.plan;
+    var PLAN_PRICE   = { presencia:'49 EUR / mes', profesional:'129 EUR / mes', elite:'299 EUR / mes' };
+    document.getElementById('stripe-plan-name').textContent  = PLAN_DISPLAY[ST.plan] || ST.plan;
+    document.getElementById('stripe-plan-price').textContent = PLAN_PRICE[ST.plan] || '';
     var payBtn = document.getElementById('stripe-pay-btn');
-    if (payBtn && STRIPE_PAYMENT_LINKS[stripeKey]) {
+    if (payBtn && STRIPE_PAYMENT_LINKS[ST.plan]) {
       var emailVal = document.getElementById('f_email');
-      var link = STRIPE_PAYMENT_LINKS[stripeKey];
+      var link = STRIPE_PAYMENT_LINKS[ST.plan];
       if (emailVal && emailVal.value.trim()) link += '?prefilled_email=' + encodeURIComponent(emailVal.value.trim());
       payBtn.href = link;
     }

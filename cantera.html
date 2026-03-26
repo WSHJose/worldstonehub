@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cantera | World Stone Hub</title>
-<meta name="description" content="Ficha técnica de cantera de piedra natural en World Stone Hub. Localización, tipo de piedra, estado operativo, producción y empresa propietaria.">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1917'/><text x='50%25' y='54%25' font-family='serif' font-size='20' fill='%23A67C52' text-anchor='middle' dominant-baseline='middle'>W</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -319,23 +317,14 @@ var TIPO_COLORS={
   'Pizarra':'#6b7280','Basalto':'#4a4540','Gneis':'#8a7a6a'
 };
 var PAIS_FLAGS={
-  'España':'es','Italia':'it','Portugal':'pt','Grecia':'gr','Turquía':'tr',
-  'Francia':'fr','Alemania':'de','Austria':'at','Bélgica':'be','Suecia':'se',
-  'Noruega':'no','Finlandia':'fi','Polonia':'pl','República Checa':'cz',
-  'Eslovenia':'si','Croacia':'hr','Serbia':'rs','Bulgaria':'bg','Rumanía':'ro',
-  'Ucrania':'ua','Rusia':'ru','India':'in','China':'cn','Brasil':'br',
-  'Estados Unidos':'us','México':'mx','Canadá':'ca','Argentina':'ar','Chile':'cl',
-  'Perú':'pe','Colombia':'co','Australia':'au','Sudáfrica':'za','Marruecos':'ma',
-  'Egipto':'eg','Irán':'ir','Pakistán':'pk','Vietnam':'vn','Indonesia':'id',
-  'Tailandia':'th','Japón':'jp','Corea del Sur':'kr','Israel':'il',
-  'Arabia Saudita':'sa','Emiratos':'ae','Etiopía':'et','Tanzania':'tz',
-  'Zimbabwe':'zw','Madagascar':'mg','Angola':'ao','Mozambique':'mz',
-  'Namibia':'na','Kenia':'ke','Nigeria':'ng','Ghana':'gh','Bolivia':'bo',
-  'Ecuador':'ec','Venezuela':'ve','Uruguay':'uy','Paraguay':'py','Túnez':'tn',
-  'Argelia':'dz','Azerbaiyán':'az','Georgia':'ge','Armenia':'am','Hungría':'hu',
-  'Eslovaquia':'sk','Letonia':'lv','Lituania':'lt','Estonia':'ee','Suiza':'ch',
-  'Reino Unido':'gb','Irlanda':'ie','Nueva Zelanda':'nz','Filipinas':'ph',
-  'Sri Lanka':'lk','Nepal':'np','Afganistán':'af','Moldavia':'md','Kosovo':'xk'
+  'Italia':'🇮🇹','España':'🇪🇸','Grecia':'🇬🇷','Portugal':'🇵🇹','Francia':'🇫🇷',
+  'Turquía':'🇹🇷','India':'🇮🇳','Brasil':'🇧🇷','China':'🇨🇳','Noruega':'🇳🇴',
+  'Finlandia':'🇫🇮','Suecia':'🇸🇪','Alemania':'🇩🇪','Austria':'🇦🇹',
+  'Estados Unidos':'🇺🇸','México':'🇲🇽','Irán':'🇮🇷','Pakistán':'🇵🇰',
+  'Zimbabwe':'🇿🇼','Sudáfrica':'🇿🇦','Australia':'🇦🇺','Canadá':'🇨🇦',
+  'Reino Unido':'🇬🇧','Bélgica':'🇧🇪','Eslovenia':'🇸🇮','Croacia':'🇭🇷',
+  'Marruecos':'🇲🇦','Egipto':'🇪🇬','Argentina':'🇦🇷','Colombia':'🇨🇴',
+  'Perú':'🇵🇪','Vietnam':'🇻🇳','Indonesia':'🇮🇩'
 };
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
@@ -361,19 +350,7 @@ function render(c){
   document.getElementById('hero-continente').textContent=c.continente||'';
   document.getElementById('hero-nombre').textContent=c.nombre;
   document.getElementById('hero-loc').textContent=(c.localizacion?c.localizacion+' · ':'')+c.pais;
-  (function(){
-    var code = PAIS_FLAGS[c.pais];
-    var el = document.getElementById('hero-flag');
-    if (el) {
-      if (code) {
-        el.innerHTML = '<img src="https://flagicons.lipis.dev/flags/1x1/' + code + '.svg" ' +
-          'width="32" height="32" alt="' + (c.pais||'') + '" ' +
-          'style="border-radius:4px;display:block" loading="lazy">';
-      } else {
-        el.textContent = '🌍';
-      }
-    }
-  })();
+  document.getElementById('hero-flag').textContent=PAIS_FLAGS[c.pais]||'🌍';
   document.getElementById('hero-tipo').textContent=c.tipo_piedra||'';
   document.getElementById('hero-tipo').style.color=tipoColor;
   document.getElementById('hero-stone-bg').textContent=c.nombre;
