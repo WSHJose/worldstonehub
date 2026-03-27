@@ -313,13 +313,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 48px;display:fl
                 <option value="HOME-MID" data-precio="290" data-pagina="index">HOME-MID · Entre secciones · 290€/mes</option>
               </optgroup>
               <optgroup label="Directorio proveedores">
-                <option value="PROVEEDORES-TOP" data-precio="290" data-pagina="lapidis-proveedores">PROVEEDORES-TOP · Bajo nav · 290€/mes</option>
+                <option value="PROVEEDORES-TOP" data-precio="290" data-pagina="proveedores">PROVEEDORES-TOP · Bajo nav · 290€/mes</option>
               </optgroup>
               <optgroup label="Canteras">
-                <option value="CANTERAS-TOP" data-precio="190" data-pagina="lapidis-canteras">CANTERAS-TOP · Bajo header · 190€/mes</option>
+                <option value="CANTERAS-TOP" data-precio="190" data-pagina="canteras">CANTERAS-TOP · Bajo header · 190€/mes</option>
               </optgroup>
               <optgroup label="Materiales">
-                <option value="MATERIALES-TOP" data-precio="190" data-pagina="lapidis-materiales">MATERIALES-TOP · Bajo header · 190€/mes</option>
+                <option value="MATERIALES-TOP" data-precio="190" data-pagina="materiales">MATERIALES-TOP · Bajo header · 190€/mes</option>
               </optgroup>
               <optgroup label="Sectores (99€/mes)">
                 <option value="SECTOR-ARQ" data-precio="99" data-pagina="sector-arquitectura">SECTOR-ARQ · Arquitectura · 99€/mes</option>
@@ -410,8 +410,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 48px;display:fl
 
 &lt;!-- Otros códigos posibles: --&gt;
 &lt;!-- data-espacio="HOME-MID"        → index.html sección media --&gt;
-&lt;!-- data-espacio="CANTERAS-TOP"    → lapidis-canteras.html    --&gt;
-&lt;!-- data-espacio="MATERIALES-TOP"  → lapidis-materiales.html  --&gt;
+&lt;!-- data-espacio="CANTERAS-TOP"    → canteras.html    --&gt;
+&lt;!-- data-espacio="MATERIALES-TOP"  → materiales.html  --&gt;
 &lt;!-- data-espacio="SECTOR-ARQ"      → sector-arquitectura.html --&gt;
 &lt;!-- data-espacio="SECTOR-DIS"      → sector-distribuidores.html --&gt;
 &lt;!-- data-espacio="SECTOR-FAB"      → sector-fabricantes.html  --&gt;
@@ -498,9 +498,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 48px;display:fl
   var ESPACIOS = [
     {codigo:'HOME-TOP',        pagina:'index',                 posicion:'Hero principal (derecha)',    precio:490},
     {codigo:'HOME-MID',        pagina:'index',                 posicion:'Entre secciones principales', precio:290},
-    {codigo:'PROVEEDORES-TOP', pagina:'lapidis-proveedores',   posicion:'Bajo el nav del directorio',  precio:290},
-    {codigo:'CANTERAS-TOP',    pagina:'lapidis-canteras',      posicion:'Bajo el header de página',    precio:190},
-    {codigo:'MATERIALES-TOP',pagina:'lapidis-materiales',   posicion:'Bajo el header de página',   precio:190},
+    {codigo:'PROVEEDORES-TOP', pagina:'proveedores',   posicion:'Bajo el nav del directorio',  precio:290},
+    {codigo:'CANTERAS-TOP',    pagina:'canteras',      posicion:'Bajo el header de página',    precio:190},
+    {codigo:'MATERIALES-TOP',  pagina:'materiales',    posicion:'Bajo el header de página',    precio:190},
     {codigo:'SECTOR-ARQ',   pagina:'sector-arquitectura',   posicion:'Bajo el listado de empresas',precio:99},
     {codigo:'SECTOR-DIS',   pagina:'sector-distribuidores', posicion:'Bajo el listado de empresas',precio:99},
     {codigo:'SECTOR-FAB',   pagina:'sector-fabricantes',    posicion:'Bajo el listado de empresas',precio:99},
