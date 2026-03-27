@@ -491,26 +491,33 @@ function init() {
 // ─────────────────────────────────────────────
 //  DATA LOADING
 // ─────────────────────────────────────────────
+// Deterministic jitter: spreads co-located points using id as seed
+function applyJitter(d) {
+  const h1 = Math.imul(d.id, 2654435761) >>> 0;
+  const h2 = Math.imul(d.id, 2246822519) >>> 0;
+  const jLng = ((h1 & 0xFFFF) / 0xFFFF - 0.5) * 3.0;
+  const jLat = ((h2 & 0xFFFF) / 0xFFFF - 0.5) * 2.0;
+  return { ...d, lat: d.lat + jLat, lng: d.lng + jLng };
+}
+
 async function loadData() {
   const fields = 'id,nombre_comercial,categoria,color_principal,origen_pais,origen_region,lat,lng';
   const hdrs = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` };
   const PAGE = 3500;
 
   function fetchPage(offset) {
-    const url = `${SB_URL}/rest/v1/materiales?select=${fields}&order=id.asc&limit=${PAGE}&offset=${offset}`;
+    const url = `${SB_URL}/rest/v1/materiales?select=${fields}&lat=not.is.null&order=id.asc&limit=${PAGE}&offset=${offset}`;
     return fetch(url, { headers: hdrs }).then(r => r.ok ? r.json() : []).catch(() => []);
   }
 
   try {
-    // 3 pages in parallel covers up to 10500 rows
+    // 7 pages covers all 22,145 geolocated materials
     const results = await Promise.all([
-      fetchPage(0),
-      fetchPage(PAGE),
-      fetchPage(PAGE * 2),
+      fetchPage(0), fetchPage(PAGE), fetchPage(PAGE*2), fetchPage(PAGE*3),
+      fetchPage(PAGE*4), fetchPage(PAGE*5), fetchPage(PAGE*6),
     ]);
     const raw = results.flat();
-    // Filter client-side for rows that have coordinates
-    allData = raw.filter(d => d.lat != null && d.lng != null);
+    allData = raw.filter(d => d.lat != null && d.lng != null).map(applyJitter);
   } catch (e) {
     console.error('loadData error:', e);
     allData = [];
@@ -564,8 +571,8 @@ function setupLayers() {
     type: 'geojson',
     data: toGeoJSON([]),
     cluster: true,
-    clusterMaxZoom: 8,
-    clusterRadius: 60,
+    clusterMaxZoom: 9,
+    clusterRadius: 45,
   });
 
   // Cluster circles — large gold
@@ -577,14 +584,14 @@ function setupLayers() {
     paint: {
       'circle-color': [
         'step', ['get', 'point_count'],
-        '#3a2e22',   // < 10
-        10, '#5a4230',  // 10-50
-        50, '#7a5a3a',  // 50+
-        100, '#9a7248',
+        '#5a4230',
+        50,  '#7a5a3a',
+        200, '#9a7248',
+        500, '#c9a84c',
       ],
       'circle-radius': [
         'step', ['get', 'point_count'],
-        20, 10, 28, 50, 36, 100, 44
+        14, 50, 20, 200, 26, 500, 32
       ],
       'circle-stroke-color': '#c9a84c',
       'circle-stroke-width': 1.5,
