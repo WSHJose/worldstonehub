@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>World Stone Hub — Canteras del Mundo</title>
+<title>Canteras del Mundo — Directorio Global de Piedra Natural · World Stone Hub</title>
+<meta name="description" content="Directorio global de canteras de piedra natural. Explora más de 200 yacimientos activos en Europa, Asia, América y África. Fichas técnicas completas con producción, materiales y localización.">
+<meta property="og:title" content="Canteras del Mundo — World Stone Hub">
+<meta property="og:description" content="Directorio global de canteras de piedra natural con fichas técnicas completas.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://worldstonehub.com/canteras.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1917'/><text x='50%25' y='54%25' font-family='serif' font-size='20' fill='%23A67C52' text-anchor='middle' dominant-baseline='middle'>W</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -308,7 +314,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 
 <script>
 var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
+var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
 
 var DB = [];
 var activeFilters = { continente: null, tipo: null, estado: null };
@@ -340,30 +346,42 @@ var TIPO_COLORS = {
 var DEFAULT_COLOR = 'linear-gradient(90deg,#bdbdbd,#9e9e9e)';
 
 /* ── FLAG MAP ── */
-var FLAGS = {
-  'España':'🇪🇸','Italia':'🇮🇹','Portugal':'🇵🇹','Grecia':'🇬🇷','Turquía':'🇹🇷',
-  'Francia':'🇫🇷','Alemania':'🇩🇪','Austria':'🇦🇹','Bélgica':'🇧🇪','Países Bajos':'🇳🇱',
-  'Suecia':'🇸🇪','Noruega':'🇳🇴','Finlandia':'🇫🇮','Polonia':'🇵🇱','República Checa':'🇨🇿',
-  'Eslovenia':'🇸🇮','Croacia':'🇭🇷','Serbia':'🇷🇸','Bulgaria':'🇧🇬','Rumanía':'🇷🇴',
-  'Ucrania':'🇺🇦','Rusia':'🇷🇺','India':'🇮🇳','China':'🇨🇳','Brasil':'🇧🇷',
-  'Estados Unidos':'🇺🇸','México':'🇲🇽','Canadá':'🇨🇦','Argentina':'🇦🇷','Chile':'🇨🇱',
-  'Perú':'🇵🇪','Colombia':'🇨🇴','Australia':'🇦🇺','Sudáfrica':'🇿🇦','Marruecos':'🇲🇦',
-  'Egipto':'🇪🇬','Irán':'🇮🇷','Pakistán':'🇵🇰','Vietnam':'🇻🇳','Indonesia':'🇮🇩',
-  'Tailandia':'🇹🇭','Japón':'🇯🇵','Corea del Sur':'🇰🇷','Israel':'🇮🇱','Arabia Saudita':'🇸🇦',
-  'Etiopía':'🇪🇹','Tanzania':'🇹🇿','Zimbabwe':'🇿🇼','Madagascar':'🇲🇬',
-  'Bolivia':'🇧🇴','Ecuador':'🇪🇨','Venezuela':'🇻🇪','Uruguay':'🇺🇾','Paraguay':'🇵🇾',
-  'Honduras':'🇭🇳','Guatemala':'🇬🇹','Cuba':'🇨🇺',
-  'Nigeria':'🇳🇬','Ghana':'🇬🇭','Angola':'🇦🇴','Mozambique':'🇲🇿','Namibia':'🇳🇦',
-  'Kenia':'🇰🇪','Uganda':'🇺🇬','Túnez':'🇹🇳','Argelia':'🇩🇿',
-  'India':'🇮🇳','Sri Lanka':'🇱🇰','Nepal':'🇳🇵','Afganistán':'🇦🇫',
-  'Azerbaiyán':'🇦🇿','Georgia':'🇬🇪','Armenia':'🇦🇲',
-  'Hungría':'🇭🇺','Eslovaquia':'🇸🇰','Letonia':'🇱🇻','Lituania':'🇱🇹','Estonia':'🇪🇪',
-  'Suiza':'🇨🇭','Reino Unido':'🇬🇧','Irlanda':'🇮🇪',
-  'Nueva Zelanda':'🇳🇿','Filipinas':'🇵🇭','Malasia':'🇲🇾','Camboya':'🇰🇭',
-  'Myanmar':'🇲🇲','Laos':'🇱🇦',
+var FLAG_CODES = {
+  'España':'es','Italia':'it','Portugal':'pt','Grecia':'gr','Turquía':'tr',
+  'Francia':'fr','Alemania':'de','Austria':'at','Bélgica':'be','Países Bajos':'nl',
+  'Suecia':'se','Noruega':'no','Finlandia':'fi','Polonia':'pl','República Checa':'cz',
+  'Eslovenia':'si','Croacia':'hr','Serbia':'rs','Bulgaria':'bg','Rumanía':'ro',
+  'Ucrania':'ua','Rusia':'ru','India':'in','China':'cn','Brasil':'br',
+  'Estados Unidos':'us','México':'mx','Canadá':'ca','Argentina':'ar','Chile':'cl',
+  'Perú':'pe','Colombia':'co','Australia':'au','Sudáfrica':'za','Marruecos':'ma',
+  'Egipto':'eg','Irán':'ir','Pakistán':'pk','Vietnam':'vn','Indonesia':'id',
+  'Tailandia':'th','Japón':'jp','Corea del Sur':'kr','Israel':'il','Arabia Saudita':'sa',
+  'Etiopía':'et','Tanzania':'tz','Zimbabwe':'zw','Madagascar':'mg','Bolivia':'bo',
+  'Ecuador':'ec','Venezuela':'ve','Uruguay':'uy','Paraguay':'py','Honduras':'hn',
+  'Guatemala':'gt','Cuba':'cu','Nigeria':'ng','Ghana':'gh','Angola':'ao',
+  'Mozambique':'mz','Namibia':'na','Kenia':'ke','Uganda':'ug','Túnez':'tn',
+  'Argelia':'dz','Azerbaiyán':'az','Georgia':'ge','Armenia':'am','Hungría':'hu',
+  'Eslovaquia':'sk','Letonia':'lv','Lituania':'lt','Estonia':'ee','Suiza':'ch',
+  'Reino Unido':'gb','Irlanda':'ie','Nueva Zelanda':'nz','Filipinas':'ph',
+  'Malasia':'my','Camboya':'kh','Myanmar':'mm','Laos':'la','Sri Lanka':'lk',
+  'Nepal':'np','Afganistán':'af','Libia':'ly','Sudán':'sd','Moldavia':'md',
+  'Bielorrusia':'by','Kosovo':'xk','Montenegro':'me','Albania':'al','Macedonia':'mk'
 };
-
-function getFlag(pais) { return FLAGS[pais] || '🏳️'; }
+function getFlag(pais) {
+  if (!pais) return '';
+  var code = FLAG_CODES[pais];
+  if (!code) {
+    var pl = pais.toLowerCase();
+    for (var k in FLAG_CODES) {
+      if (k.toLowerCase() === pl) { code = FLAG_CODES[k]; break; }
+    }
+  }
+  if (!code) return '';
+  return '<img src="https://flagicons.lipis.dev/flags/1x1/' + code + '.svg" ' +
+    'width="18" height="18" alt="' + pais.replace(/"/g,'&quot;') + '" ' +
+    'style="border-radius:3px;flex-shrink:0;display:inline-block;vertical-align:middle" ' +
+    'loading="lazy" onerror="this.style.display=\'none\'">';
+}
 
 function getStripe(tipo) {
   for (var k in TIPO_COLORS) {
@@ -508,6 +526,25 @@ document.getElementById('clearFilters').addEventListener('click', function() {
   applyFilters();
 });
 
+/* ── PLACEHOLDER CARDS (cuando la tabla está vacía) ── */
+function renderPlaceholders() {
+  var PLACEHOLDERS = [
+    { nombre:'Cantera de Macael', tipo_piedra:'Mármol', localizacion:'Macael, Almería', pais:'España', estado_operativo:'Activa', anio_inicio:'1850', produccion_anual:'250.000 t/año', slug:'cantera-macael' },
+    { nombre:'Cava dei Tirreni', tipo_piedra:'Travertino', localizacion:'Guidonia, Lazio', pais:'Italia', estado_operativo:'Activa', anio_inicio:'1920', produccion_anual:'180.000 t/año', slug:'cava-dei-tirreni' },
+    { nombre:'Afyon Iscehisar', tipo_piedra:'Mármol', localizacion:'Iscehisar, Afyon', pais:'Turquía', estado_operativo:'Activa', anio_inicio:'1975', produccion_anual:'320.000 t/año', slug:'afyon-iscehisar' },
+    { nombre:'Rajasthan Pink Quarry', tipo_piedra:'Granito', localizacion:'Jalore, Rajasthan', pais:'India', estado_operativo:'Activa', anio_inicio:'1990', produccion_anual:'420.000 t/año', slug:'rajasthan-pink' },
+    { nombre:'Vila Viçosa', tipo_piedra:'Mármol', localizacion:'Vila Viçosa, Alentejo', pais:'Portugal', estado_operativo:'Activa', anio_inicio:'1910', produccion_anual:'95.000 t/año', slug:'vila-vicosa' },
+    { nombre:'Carrara Fantiscritti', tipo_piedra:'Mármol', localizacion:'Carrara, Toscana', pais:'Italia', estado_operativo:'Activa', anio_inicio:'1870', produccion_anual:'500.000 t/año', slug:'carrara-fantiscritti' }
+  ];
+  document.getElementById('statCanteras').textContent = '200+';
+  document.getElementById('statPaises').textContent = '40+';
+  var html = '<div class="cards-grid">';
+  PLACEHOLDERS.forEach(function(c) { html += buildCard(c); });
+  html += '</div>';
+  html += '<div style="text-align:center;padding:40px 0 20px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);">Cargando directorio completo — Datos de muestra</div>';
+  document.getElementById('gridContainer').innerHTML = html;
+}
+
 /* ── SUPABASE LOAD ── */
 (function loadCanteras() {
   var url = SB_URL + '/rest/v1/canteras?select=*&order=nombre.asc&limit=500';
@@ -525,7 +562,11 @@ document.getElementById('clearFilters').addEventListener('click', function() {
         '<div class="empty-state"><p>Error al cargar canteras</p><small>' + JSON.stringify(data).slice(0,120) + '</small></div>';
       return;
     }
-    DB = data.filter(function(c) { return c.activo !== false; });
+    DB = data.filter(function(c) { return c.nombre; }); // mostrar todas, activo no requerido en canteras editoriales
+    if (DB.length === 0) {
+      renderPlaceholders();
+      return;
+    }
     document.getElementById('statCanteras').textContent = DB.length;
     var paises = {};
     DB.forEach(function(c) { if (c.pais) paises[c.pais] = 1; });

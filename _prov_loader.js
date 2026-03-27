@@ -1,6 +1,6 @@
 (function() {
   var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-  var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoY3B0bWRhcG5hdmN4Y3N6d3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTk4MTAsImV4cCI6MjA4ODY3NTgxMH0.BVDpghOAPrMnt-IsVtCdgLR1OnOP_83UmeU8bfUena8';
+  var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
 
   var PLAN_ORDER  = { 'elite': 0, 'profesional': 1, 'presencia': 2, 'free': 3 };
   var PLAN_COLORS = {
@@ -254,6 +254,23 @@
     }
   }
 
+  function renderPlaceholderProveedores() {
+    if (!list) return;
+    var DEMO = [
+      { nombre_empresa:'Levantina Group', plan:'elite', tipo_empresa:'Fabricante y exportador', pais:'España', ciudad:'Novelda', descripcion:'Líder mundial en piedra natural y sinterizada. Presente en más de 100 países con la mayor red de distribución del sector.', sector:['fabricante'], materiales:['Mármol Blanco Macael','Silestone','Sentys'], verificado:true, slug:'levantina', ano_fundacion:1969 },
+      { nombre_empresa:'Antolini Luigi & C.', plan:'profesional', tipo_empresa:'Distribuidor y transformador', pais:'Italia', ciudad:'Verona', descripcion:'Referente mundial en materiales preciosos de piedra natural, cuarcita y ónix. Selección de más de 1.000 variedades.', sector:['distribuidor'], materiales:['Cuarcita Viola','Ónix Verde','Granito Blue Bahia'], verificado:true, slug:'antolini', ano_fundacion:1955 },
+      { nombre_empresa:'Cosentino Group', plan:'elite', tipo_empresa:'Fabricante de superficies', pais:'España', ciudad:'Cantoria, Almería', descripcion:'Empresa líder global en la producción y distribución de superficies innovadoras de piedra natural y tecnológica.', sector:['fabricante'], materiales:['Silestone','Dekton','Scalea'], verificado:true, slug:'cosentino', ano_fundacion:1979 },
+      { nombre_empresa:'Pietre di Rapolano', plan:'presencia', tipo_empresa:'Extracción y transformación', pais:'Italia', ciudad:'Rapolano Terme', descripcion:'Especialistas en travertino clásico y romano. Explotación directa de la cantera con acabados artesanales.', sector:['fabricante'], materiales:['Travertino Romano','Travertino Classico'], verificado:false, slug:'pietre-di-rapolano', ano_fundacion:1934 },
+      { nombre_empresa:'Grupo Porcelanosa', plan:'profesional', tipo_empresa:'Distribuidor y fabricante', pais:'España', ciudad:'Villarreal, Castellón', descripcion:'Distribución internacional de piedra natural, cerámica y materiales de alta gama para arquitectura e interiorismo.', sector:['distribuidor'], materiales:['Travertino','Mármol Crema Marfil','Microcemento'], verificado:true, slug:'porcelanosa', ano_fundacion:1973 },
+      { nombre_empresa:'Margraf S.p.A.', plan:'presencia', tipo_empresa:'Transformador y exportador', pais:'Italia', ciudad:'Chiampo, Vicenza', descripcion:'Procesado y exportación de mármoles de Carrara y Botticino. Referencia en obras arquitectónicas de primer nivel mundial.', sector:['fabricante','exportador'], materiales:['Mármol Carrara','Botticino','Perlato Sicilia'], verificado:false, slug:'margraf', ano_fundacion:1949 }
+    ];
+    list.innerHTML = buildTierSep('elite') + buildElite(DEMO[0]) + buildElite(DEMO[2]) +
+      buildTierSep('profesional') + buildPro(DEMO[1]) + buildPro(DEMO[4]) +
+      buildTierSep('presencia') + buildPres(DEMO[3]) + buildPres(DEMO[5]) +
+      '<div style="text-align:center;padding:32px;background:#f8f7f5;border-top:1px solid #e2e0dc;margin-top:4px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9c9893;">Datos de muestra — El directorio real se carga al publicar tu empresa</div>' +
+      '<div class="join-cta"><div class="jc-text"><h2>¿Tu empresa no aparece aquí?</h2><p>Crea tu ficha gratuita en minutos y empieza a ser visible para compradores, arquitectos y constructoras de todo el mundo.</p></div><a href="registro.html" class="jc-btn">Publicar mi empresa →</a></div>';
+  }
+
   var list = document.getElementById('providersList');
   if (list) list.innerHTML = '<div style="text-align:center;padding:80px;color:#8a8784;font-size:13px;letter-spacing:3px;text-transform:uppercase;">Cargando proveedores\u2026</div>';
 
@@ -263,7 +280,7 @@
   .then(function(r) { return r.json(); })
   .then(function(data) {
     if (!Array.isArray(data) || data.length === 0) {
-      if (list) list.innerHTML = '<div style="text-align:center;padding:80px;color:#8a8784;">No se encontraron proveedores.</div>';
+      renderPlaceholderProveedores();
       return;
     }
     renderProveedores(data);
