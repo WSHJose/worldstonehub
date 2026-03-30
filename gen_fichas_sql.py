@@ -20,7 +20,8 @@ def sql_str(s):
 def sql_arr(lst):
     if not lst:
         return 'NULL'
-    items = [json.dumps(x, ensure_ascii=False) for x in lst]
+    # Use single-quoted literals — double quotes are column identifiers in PostgreSQL
+    items = ["'" + str(x).replace("'", "''") + "'" for x in lst]
     return "ARRAY[" + ",".join(items) + "]::text[]"
 
 # ---- Load DOCX ----
