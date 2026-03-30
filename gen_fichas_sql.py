@@ -144,13 +144,13 @@ for i, (_, row) in enumerate(df.iterrows()):
     usos_arr = [u.strip() for u in usos.split(',') if u.strip()]
     acabados_arr = [a.strip() for a in acabados.split(',') if a.strip()]
 
-    paises_json = json.dumps(paises, ensure_ascii=False).replace("'", "''")
-    region_json = json.dumps([region] if region else [], ensure_ascii=False).replace("'", "''")
-    usos_json = json.dumps(usos_arr, ensure_ascii=False).replace("'", "''")
-    acabados_json = json.dumps(acabados_arr, ensure_ascii=False).replace("'", "''")
+    paises_sql   = sql_arr(paises)
+    region_sql   = sql_arr([region] if region else [])
+    usos_sql     = sql_arr(usos_arr)
+    acabados_sql = sql_arr(acabados_arr)
 
-    props_sql = sql_arr(props)
-    apps_sql = sql_arr(apps)
+    props_sql    = sql_arr(props)
+    apps_sql     = sql_arr(apps)
     consejos_sql = sql_arr(consejos)
 
     lines.append(f"INSERT INTO materiales (")
@@ -165,11 +165,11 @@ for i, (_, row) in enumerate(df.iterrows()):
     lines.append(f"  {sql_str(slug)},")
     lines.append(f"  {sql_str(nombre)},")
     lines.append(f"  {sql_str(categoria)},")
-    lines.append(f"  '{paises_json}'::jsonb,")
-    lines.append(f"  '{region_json}'::jsonb,")
+    lines.append(f"  {paises_sql},")
+    lines.append(f"  {region_sql},")
     lines.append(f"  {sql_str(color)},")
-    lines.append(f"  '{acabados_json}'::jsonb,")
-    lines.append(f"  '{usos_json}'::jsonb,")
+    lines.append(f"  {acabados_sql},")
+    lines.append(f"  {usos_sql},")
     lines.append(f"  {sql_str(desc)},")
     lines.append(f"  {props_sql},")
     lines.append(f"  {apps_sql},")
