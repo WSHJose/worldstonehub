@@ -1,58 +1,50 @@
 -- ================================================================
--- WSH: Sistema de Contribuciones de Proveedores  v2
--- Ejecutar en Supabase SQL Editor (después de content_score_migration.sql)
--- Cambios v2: sin FK duras en proveedor_slug (evita error si slug no es PK/UNIQUE),
---             vista materializada con WITH NO DATA + refresh posterior
+-- WSH: Sistema de Contribuciones de Proveedores  v3
+-- LIMPIA restos de ejecuciones anteriores antes de crear todo
 -- ================================================================
 
--- 1. Tabla principal de contribuciones
---    Sin FK en proveedor_slug para evitar el error 42830 si slug no es PK/UNIQUE
-CREATE TABLE IF NOT EXISTS material_contribuciones (
+-- 0. Limpieza total (CASCADE elimina vistas/triggers dependientes)
+DROP TRIGGER  IF EXISTS trg_refresh_mv          ON public.material_contribuciones;
+DROP TRIGGER  IF EXISTS trg_puntos_proveedor     ON public.material_contribuciones;
+DROP VIEW     IF EXISTS public.v_proveedores_material;
+DROP MATERIALIZED VIEW IF EXISTS public.mv_proveedores_por_material;
+DROP FUNCTION IF EXISTS public.get_visibility_score(text,text,text);
+DROP FUNCTION IF EXISTS public.refresh_mv_proveedores();
+DROP FUNCTION IF EXISTS public.actualizar_puntos_proveedor();
+DROP TABLE    IF EXISTS public.proveedor_puntos;
+DROP TABLE    IF EXISTS public.material_contribuciones;
+
+-- 1. Tabla principal (sin FK duras para evitar errores de constraint)
+CREATE TABLE public.material_contribuciones (
   id              bigserial PRIMARY KEY,
   created_at      timestamptz DEFAULT now(),
   updated_at      timestamptz DEFAULT now(),
-
-  -- Quién
-  proveedor_slug  text NOT NULL,            -- referencia lógica (sin FK dura)
-  proveedor_plan  text DEFAULT 'free',      -- snapshot del plan al contribuir
-
-  -- Sobre qué material
+  proveedor_slug  text NOT NULL,
+  proveedor_plan  text DEFAULT 'free',
   material_slug   text NOT NULL,
-  material_nombre text,                     -- denormalizado para el admin
-
-  -- Qué aporta
+  material_nombre text,
   tipo            text NOT NULL CHECK (tipo IN (
-                    'foto',
-                    'datos_tecnicos',
-                    'precio',
-                    'formato_acabado',
-                    'correccion'
+                    'foto','datos_tecnicos','precio','formato_acabado','correccion'
                   )),
-  contenido_url   text,                     -- URL imagen (tipo='foto')
-  contenido_texto text,                     -- Texto/JSON para datos, precios, etc.
-  nota_proveedor  text,                     -- Nota libre del proveedor
-
-  -- Moderación
+  contenido_url   text,
+  contenido_texto text,
+  nota_proveedor  text,
   estado          text DEFAULT 'pendiente' CHECK (estado IN (
-                    'pendiente',
-                    'aprobado',
-                    'rechazado'
+                    'pendiente','aprobado','rechazado'
                   )),
   nota_admin      text,
   revisado_por    text,
   revisado_at     timestamptz,
-
-  -- Puntos asignados al aprobar
   puntos          integer DEFAULT 0
 );
 
 -- 2. Índices
-CREATE INDEX IF NOT EXISTS idx_contrib_material  ON material_contribuciones (material_slug, estado);
-CREATE INDEX IF NOT EXISTS idx_contrib_proveedor ON material_contribuciones (proveedor_slug, estado);
-CREATE INDEX IF NOT EXISTS idx_contrib_estado    ON material_contribuciones (estado, created_at DESC);
+CREATE INDEX idx_contrib_material  ON public.material_contribuciones (material_slug, estado);
+CREATE INDEX idx_contrib_proveedor ON public.material_contribuciones (proveedor_slug, estado);
+CREATE INDEX idx_contrib_estado    ON public.material_contribuciones (estado, created_at DESC);
 
--- 3. Función visibility_score
-CREATE OR REPLACE FUNCTION get_visibility_score(
+-- 3. Función visibility_score (schema-qualified para evitar search_path issues)
+CREATE FUNCTION public.get_visibility_score(
   p_proveedor_slug text,
   p_plan           text,
   p_material_slug  text
@@ -80,7 +72,7 @@ BEGIN
     END
   ), 0)
   INTO contrib_pts
-  FROM material_contribuciones
+  FROM public.material_contribuciones
   WHERE proveedor_slug = p_proveedor_slug
     AND material_slug  = p_material_slug
     AND estado         = 'aprobado';
@@ -91,80 +83,75 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STABLE;
 
--- 4. Vista materializada — WITH NO DATA evita el error durante la creación
---    cuando la tabla acaba de crearse y aún no tiene filas
-DROP MATERIALIZED VIEW IF EXISTS mv_proveedores_por_material;
-CREATE MATERIALIZED VIEW mv_proveedores_por_material AS
+-- 4. Vista materializada (WITH NO DATA = no ejecuta el SELECT al crearla)
+CREATE MATERIALIZED VIEW public.mv_proveedores_por_material AS
 SELECT
-  p.slug                                                    AS proveedor_slug,
+  p.slug                                                     AS proveedor_slug,
   p.nombre_empresa,
   p.plan,
   p.pais,
   p.ciudad,
   p.logo_url,
   p.descripcion,
-  m_slug                                                    AS material_slug,
-  get_visibility_score(p.slug, p.plan, m_slug)              AS visibility_score,
+  m_slug                                                     AS material_slug,
+  public.get_visibility_score(p.slug, p.plan, m_slug)        AS visibility_score,
   CASE
-    WHEN get_visibility_score(p.slug, p.plan, m_slug) >= 80 THEN 'oro'
-    WHEN get_visibility_score(p.slug, p.plan, m_slug) >= 52 THEN 'plata'
-    WHEN get_visibility_score(p.slug, p.plan, m_slug) >= 12 THEN 'bronce'
+    WHEN public.get_visibility_score(p.slug, p.plan, m_slug) >= 80 THEN 'oro'
+    WHEN public.get_visibility_score(p.slug, p.plan, m_slug) >= 52 THEN 'plata'
+    WHEN public.get_visibility_score(p.slug, p.plan, m_slug) >= 12 THEN 'bronce'
     ELSE 'base'
-  END                                                       AS nivel_contribucion,
-  (SELECT COUNT(*) FROM material_contribuciones mc
+  END                                                        AS nivel_contribucion,
+  (SELECT COUNT(*) FROM public.material_contribuciones mc
    WHERE mc.proveedor_slug = p.slug AND mc.material_slug = m_slug
-     AND mc.estado = 'aprobado' AND mc.tipo = 'foto')       AS fotos_aportadas,
-  (SELECT COUNT(*) FROM material_contribuciones mc
+     AND mc.estado = 'aprobado' AND mc.tipo = 'foto')        AS fotos_aportadas,
+  (SELECT COUNT(*) FROM public.material_contribuciones mc
    WHERE mc.proveedor_slug = p.slug AND mc.material_slug = m_slug
-     AND mc.estado = 'aprobado' AND mc.tipo != 'foto')      AS datos_aportados
-FROM proveedores p,
+     AND mc.estado = 'aprobado' AND mc.tipo != 'foto')       AS datos_aportados
+FROM public.proveedores p,
      UNNEST(p.materiales) AS m_slug
 WHERE p.plan_activo = true
   AND p.estado = 'activo'
 WITH NO DATA;
 
--- Índice único (necesario para REFRESH CONCURRENTLY)
-CREATE UNIQUE INDEX IF NOT EXISTS idx_mv_prov_mat
-  ON mv_proveedores_por_material (proveedor_slug, material_slug);
+-- Índice único (requerido para REFRESH CONCURRENTLY)
+CREATE UNIQUE INDEX idx_mv_prov_mat
+  ON public.mv_proveedores_por_material (proveedor_slug, material_slug);
 
--- Poblar la vista ahora que el índice existe
-REFRESH MATERIALIZED VIEW mv_proveedores_por_material;
+-- Poblar la vista
+REFRESH MATERIALIZED VIEW public.mv_proveedores_por_material;
 
--- 5. Trigger para refrescar la vista al aprobar contribuciones
-CREATE OR REPLACE FUNCTION refresh_mv_proveedores()
+-- 5. Trigger para refrescar la vista al aprobar/insertar
+CREATE FUNCTION public.refresh_mv_proveedores()
 RETURNS TRIGGER AS $$
 BEGIN
-  REFRESH MATERIALIZED VIEW CONCURRENTLY mv_proveedores_por_material;
+  REFRESH MATERIALIZED VIEW CONCURRENTLY public.mv_proveedores_por_material;
   RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trg_refresh_mv ON material_contribuciones;
 CREATE TRIGGER trg_refresh_mv
-  AFTER INSERT OR UPDATE OF estado ON material_contribuciones
+  AFTER INSERT OR UPDATE OF estado ON public.material_contribuciones
   FOR EACH STATEMENT
   WHEN (pg_trigger_depth() = 0)
-  EXECUTE FUNCTION refresh_mv_proveedores();
+  EXECUTE FUNCTION public.refresh_mv_proveedores();
 
 -- 6. RLS
-ALTER TABLE material_contribuciones ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.material_contribuciones ENABLE ROW LEVEL SECURITY;
 
-DROP POLICY IF EXISTS "proveedor_own" ON material_contribuciones;
-CREATE POLICY "proveedor_own" ON material_contribuciones
+CREATE POLICY "proveedor_own" ON public.material_contribuciones
   FOR ALL USING (
     proveedor_slug = (
-      SELECT slug FROM proveedores
+      SELECT slug FROM public.proveedores
       WHERE user_id = auth.uid()
       LIMIT 1
     )
   );
 
-DROP POLICY IF EXISTS "insert_anon" ON material_contribuciones;
-CREATE POLICY "insert_anon" ON material_contribuciones
+CREATE POLICY "insert_anon" ON public.material_contribuciones
   FOR INSERT WITH CHECK (true);
 
--- 7. Tabla de puntos (sin FK dura, igual que material_contribuciones)
-CREATE TABLE IF NOT EXISTS proveedor_puntos (
+-- 7. Tabla de puntos
+CREATE TABLE public.proveedor_puntos (
   proveedor_slug          text PRIMARY KEY,
   puntos_total            integer DEFAULT 0,
   contribuciones          integer DEFAULT 0,
@@ -172,14 +159,14 @@ CREATE TABLE IF NOT EXISTS proveedor_puntos (
   updated_at              timestamptz DEFAULT now()
 );
 
--- 8. Trigger de puntos al aprobar
-CREATE OR REPLACE FUNCTION actualizar_puntos_proveedor()
+-- 8. Trigger de puntos
+CREATE FUNCTION public.actualizar_puntos_proveedor()
 RETURNS TRIGGER AS $$
 DECLARE
-  puntos_contribucion integer;
+  pts integer;
 BEGIN
   IF NEW.estado = 'aprobado' AND (OLD.estado IS NULL OR OLD.estado != 'aprobado') THEN
-    puntos_contribucion := CASE NEW.tipo
+    pts := CASE NEW.tipo
       WHEN 'foto'            THEN 22
       WHEN 'datos_tecnicos'  THEN 14
       WHEN 'precio'          THEN 10
@@ -188,48 +175,46 @@ BEGIN
       ELSE 0
     END;
 
-    NEW.puntos := puntos_contribucion;
+    NEW.puntos := pts;
 
-    INSERT INTO proveedor_puntos (proveedor_slug, puntos_total, contribuciones, materiales_contribuidos)
-    VALUES (NEW.proveedor_slug, puntos_contribucion, 1, 1)
+    INSERT INTO public.proveedor_puntos
+      (proveedor_slug, puntos_total, contribuciones, materiales_contribuidos)
+    VALUES (NEW.proveedor_slug, pts, 1, 1)
     ON CONFLICT (proveedor_slug) DO UPDATE SET
-      puntos_total    = proveedor_puntos.puntos_total + puntos_contribucion,
-      contribuciones  = proveedor_puntos.contribuciones + 1,
+      puntos_total    = public.proveedor_puntos.puntos_total + pts,
+      contribuciones  = public.proveedor_puntos.contribuciones + 1,
       materiales_contribuidos = (
         SELECT COUNT(DISTINCT material_slug)
-        FROM material_contribuciones
+        FROM public.material_contribuciones
         WHERE proveedor_slug = NEW.proveedor_slug AND estado = 'aprobado'
       ),
       updated_at = now();
 
-    UPDATE materiales
-    SET content_score = calculate_content_score(materiales.*)
+    UPDATE public.materiales
+    SET content_score = public.calculate_content_score(materiales.*)
     WHERE slug = NEW.material_slug;
-
   END IF;
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trg_puntos_proveedor ON material_contribuciones;
 CREATE TRIGGER trg_puntos_proveedor
-  BEFORE UPDATE OF estado ON material_contribuciones
-  FOR EACH ROW EXECUTE FUNCTION actualizar_puntos_proveedor();
+  BEFORE UPDATE OF estado ON public.material_contribuciones
+  FOR EACH ROW EXECUTE FUNCTION public.actualizar_puntos_proveedor();
 
 -- 9. Vista pública para material.html
-CREATE OR REPLACE VIEW v_proveedores_material AS
+CREATE VIEW public.v_proveedores_material AS
 SELECT
   mv.*,
   CASE WHEN mv.plan = 'elite' THEN true ELSE false END AS slot_elite
-FROM mv_proveedores_por_material mv
+FROM public.mv_proveedores_por_material mv
 ORDER BY
   CASE WHEN mv.plan = 'elite' THEN 0 ELSE 1 END,
   mv.visibility_score DESC;
 
 -- Verificación final
-SELECT
-  'material_contribuciones' AS tabla, COUNT(*) AS filas FROM material_contribuciones
+SELECT 'material_contribuciones'   AS tabla, COUNT(*) AS filas FROM public.material_contribuciones
 UNION ALL
-SELECT 'proveedor_puntos', COUNT(*) FROM proveedor_puntos
+SELECT 'proveedor_puntos',                   COUNT(*) FROM public.proveedor_puntos
 UNION ALL
-SELECT 'mv_proveedores_por_material', COUNT(*) FROM mv_proveedores_por_material;
+SELECT 'mv_proveedores_por_material',        COUNT(*) FROM public.mv_proveedores_por_material;
