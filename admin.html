@@ -570,6 +570,33 @@ tbody tr:last-child td{border-bottom:none;}
   .kpi-grid{grid-template-columns:1fr;}
   .login-box{padding:32px 24px;}
 }
+
+/* ── CONTRIBUCIONES ── */
+.contrib-tab{background:var(--surface-alt);border:1px solid var(--border);border-radius:6px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;color:var(--ink-secondary);transition:all .15s;}
+.contrib-tab.active,.contrib-tab:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+.contrib-tipo-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+.cb-foto{background:#e0f0ff;color:#0369a1;}
+.cb-datos{background:#fef9c3;color:#854d0e;}
+.cb-precio{background:#dcfce7;color:#166534;}
+.cb-formato{background:#ede9fe;color:#5b21b6;}
+.cb-correccion{background:#fee2e2;color:#991b1b;}
+.cb-otro{background:var(--surface-alt);color:var(--ink-muted);}
+.contrib-estado-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;}
+.ce-pendiente{background:#fef3c7;color:#92400e;}
+.ce-aprobado{background:#dcfce7;color:#166534;}
+.ce-rechazado{background:#fee2e2;color:#991b1b;}
+/* detail panel */
+.contrib-detail-panel{position:fixed;right:0;top:0;width:360px;height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:200;display:flex;flex-direction:column;box-shadow:-4px 0 24px rgba(0,0,0,.12);overflow:hidden;}
+.cdp-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
+.cdp-title{font-size:15px;font-weight:700;color:var(--ink);}
+.cdp-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--ink-muted);}
+.cdp-body{flex:1;overflow-y:auto;padding:16px 20px;}
+.cdp-row{display:flex;gap:8px;margin-bottom:10px;align-items:flex-start;}
+.cdp-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-muted);min-width:110px;padding-top:2px;}
+/* table row hover */
+.contrib-row{cursor:pointer;transition:background .1s;}
+.contrib-row:hover td{background:var(--surface-alt)!important;}
+.contrib-row.selected td{background:#fef9ee!important;}
 </style>
 </head>
 <body>
@@ -619,6 +646,11 @@ tbody tr:last-child td{border-bottom:none;}
       <div class="nav-item" data-section="materiales" onclick="navTo('materiales')">
         <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>
         Materiales
+      </div>
+      <div class="nav-item" data-section="contribuciones" onclick="navTo('contribuciones')">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+        Contribuciones
+        <span class="nav-badge" id="badge-contrib" style="display:none">0</span>
       </div>
       <div class="nav-item" data-section="anuncios" onclick="navTo('anuncios')">
         <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" clip-rule="evenodd"/></svg>
@@ -729,6 +761,76 @@ tbody tr:last-child td{border-bottom:none;}
           <!-- Vista cuadrícula de imágenes -->
           <div id="mat-grid-wrap" style="display:none">
             <div id="mat-grid-inner" class="mat-img-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTRIBUCIONES -->
+    <div id="section-contribuciones" class="section">
+      <div class="main-header">
+        <div class="main-title">Contribuciones de proveedores</div>
+        <span id="contrib-count-label" style="font-size:12px;color:var(--ink-muted)"></span>
+      </div>
+      <div class="main-content">
+        <!-- Filtros -->
+        <div class="table-box" style="margin-bottom:0;padding-bottom:0;border-bottom:none">
+          <div class="table-toolbar" style="gap:8px">
+            <button class="contrib-tab active" data-estado="pendiente"  onclick="contribFiltro('pendiente')">Pendientes <span class="nav-badge" id="ct-badge-pendiente" style="display:none;position:static;margin-left:4px">0</span></button>
+            <button class="contrib-tab"        data-estado="aprobado"   onclick="contribFiltro('aprobado')">Aprobadas</button>
+            <button class="contrib-tab"        data-estado="rechazado"  onclick="contribFiltro('rechazado')">Rechazadas</button>
+            <span style="flex:1"></span>
+            <select class="toolbar-select" id="contrib-filter-tipo" onchange="cargarContribuciones(_contribEstado)">
+              <option value="">Todos los tipos</option>
+              <option value="foto">Foto</option>
+              <option value="datos_tecnicos">Datos técnicos</option>
+              <option value="precio">Precio</option>
+              <option value="formato_acabado">Formato / acabado</option>
+              <option value="correccion">Corrección</option>
+            </select>
+          </div>
+        </div>
+        <!-- Tabla -->
+        <div class="table-box" style="margin-top:0;border-top:none">
+          <div id="contrib-table-wrap">
+            <div class="empty-state"><div class="empty-state-icon">⊙</div><div class="empty-state-title">Cargando…</div></div>
+          </div>
+        </div>
+        <!-- Panel lateral de detalle -->
+        <div id="contrib-detail-panel" class="contrib-detail-panel" style="display:none">
+          <div class="cdp-header">
+            <div class="cdp-title" id="cdp-title">—</div>
+            <button class="cdp-close" onclick="cerrarContribDetail()">✕</button>
+          </div>
+          <div class="cdp-body">
+            <div class="cdp-row"><span class="cdp-lbl">Proveedor</span><span id="cdp-proveedor">—</span></div>
+            <div class="cdp-row"><span class="cdp-lbl">Material</span><span id="cdp-material">—</span></div>
+            <div class="cdp-row"><span class="cdp-lbl">Tipo</span><span id="cdp-tipo">—</span></div>
+            <div class="cdp-row"><span class="cdp-lbl">Enviada</span><span id="cdp-fecha">—</span></div>
+            <div class="cdp-row"><span class="cdp-lbl">Plan proveedor</span><span id="cdp-plan">—</span></div>
+            <div id="cdp-foto-wrap" style="display:none;margin:12px 0">
+              <div class="cdp-lbl" style="margin-bottom:6px">Imagen adjunta</div>
+              <a id="cdp-foto-link" href="#" target="_blank">
+                <img id="cdp-foto-img" src="" alt="Foto contribución" style="width:100%;max-height:240px;object-fit:cover;border-radius:6px;border:1px solid var(--border)">
+              </a>
+            </div>
+            <div id="cdp-texto-wrap" style="display:none;margin:12px 0">
+              <div class="cdp-lbl" style="margin-bottom:6px">Contenido</div>
+              <pre id="cdp-texto" style="white-space:pre-wrap;font-size:12px;background:var(--surface-alt);padding:10px;border-radius:6px;border:1px solid var(--border);max-height:200px;overflow:auto"></pre>
+            </div>
+            <div id="cdp-nota-prov-wrap" style="display:none;margin:12px 0">
+              <div class="cdp-lbl" style="margin-bottom:4px">Nota del proveedor</div>
+              <p id="cdp-nota-prov" style="font-size:13px;color:var(--ink-secondary);font-style:italic"></p>
+            </div>
+            <div class="cdp-row" style="flex-direction:column;gap:6px">
+              <span class="cdp-lbl">Nota interna (opcional)</span>
+              <textarea id="cdp-nota-admin" rows="3" style="width:100%;font-size:13px;border:1px solid var(--border);border-radius:6px;padding:8px;background:var(--surface-alt);resize:vertical" placeholder="Motivo de aprobación / rechazo…"></textarea>
+            </div>
+            <div id="cdp-actions" style="display:flex;gap:10px;margin-top:16px">
+              <button class="toolbar-btn gold" style="flex:1" onclick="aprobarContribucion()">✓ Aprobar</button>
+              <button class="toolbar-btn" style="flex:1;background:var(--error,#e53e3e);color:#fff;border-color:var(--error,#e53e3e)" onclick="rechazarContribucion()">✕ Rechazar</button>
+            </div>
+            <div id="cdp-estado-actual" style="display:none;text-align:center;margin-top:12px;font-size:12px;color:var(--ink-muted)"></div>
           </div>
         </div>
       </div>
@@ -1149,7 +1251,7 @@ async function iniciarPanel(user) {
   document.getElementById('panel').classList.remove('hidden');
   document.getElementById('sidebar-email').textContent = user.email;
   document.getElementById('settings-email').textContent = user.email;
-  await Promise.all([cargarDashboard(), actualizarBadgePendientes()]);
+  await Promise.all([cargarDashboard(), actualizarBadgePendientes(), actualizarBadgeContrib()]);
 }
 
 async function handleLogin() {
@@ -1206,11 +1308,12 @@ function navTo(section) {
   document.getElementById('section-' + section).classList.add('active');
   closeSidebar();
 
-  if (section === 'solicitudes') cargarSolicitudes();
-  if (section === 'proveedores') cargarProveedores();
-  if (section === 'materiales') cargarMateriales();
-  if (section === 'analiticas') cargarAnaliticas();
-  if (section === 'anuncios')   cargarAnuncios();
+  if (section === 'solicitudes')    cargarSolicitudes();
+  if (section === 'proveedores')    cargarProveedores();
+  if (section === 'materiales')     cargarMateriales();
+  if (section === 'analiticas')     cargarAnaliticas();
+  if (section === 'anuncios')       cargarAnuncios();
+  if (section === 'contribuciones') cargarContribuciones('pendiente');
 }
 
 // ── SIDEBAR MOBILE ──
@@ -2666,6 +2769,232 @@ async function eliminarAnuncio() {
   resetFormAnuncio();
   await cargarAnuncios();
   adTab('inventario');
+}
+
+// ── CONTRIBUCIONES ──
+
+let _contribEstado = 'pendiente';
+let _contribSelId  = null;
+
+function contribFiltro(estado) {
+  _contribEstado = estado;
+  document.querySelectorAll('.contrib-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.estado === estado);
+  });
+  document.getElementById('contrib-filter-tipo').value = '';
+  cerrarContribDetail();
+  cargarContribuciones(estado);
+}
+
+async function cargarContribuciones(estado) {
+  _contribEstado = estado;
+  const wrap = document.getElementById('contrib-table-wrap');
+  wrap.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⊙</div><div class="empty-state-title">Cargando…</div></div>';
+
+  const tipo = document.getElementById('contrib-filter-tipo').value;
+  let q = db.from('material_contribuciones')
+    .select('id,created_at,proveedor_slug,proveedor_plan,material_slug,material_nombre,tipo,contenido_url,contenido_texto,nota_proveedor,estado,nota_admin,revisado_por,revisado_at,puntos')
+    .eq('estado', estado)
+    .order('created_at', { ascending: false })
+    .limit(200);
+  if (tipo) q = q.eq('tipo', tipo);
+
+  const { data, error } = await q;
+  if (error) { wrap.innerHTML = `<div class="empty-state"><div class="empty-state-title">Error: ${error.message}</div></div>`; return; }
+
+  const label = document.getElementById('contrib-count-label');
+  if (label) label.textContent = data.length + ' contribuci' + (data.length === 1 ? 'ón' : 'ones');
+
+  if (!data.length) {
+    wrap.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✓</div><div class="empty-state-title">Sin contribuciones ' + estado + 's</div></div>';
+    return;
+  }
+
+  const tipoBadge = (t) => {
+    const map = {
+      foto:          ['cb-foto',       'Foto'],
+      datos_tecnicos:['cb-datos',      'Datos técnicos'],
+      precio:        ['cb-precio',     'Precio'],
+      formato_acabado:['cb-formato',   'Formato/Acabado'],
+      correccion:    ['cb-correccion', 'Corrección'],
+    };
+    const [cls, lbl] = map[t] || ['cb-otro', t];
+    return `<span class="contrib-tipo-badge ${cls}">${lbl}</span>`;
+  };
+
+  const estadoBadge = (e) => {
+    const map = { pendiente:'ce-pendiente Pendiente', aprobado:'ce-aprobado Aprobado', rechazado:'ce-rechazado Rechazado' };
+    const parts = (map[e] || 'cb-otro ' + e).split(' ');
+    return `<span class="contrib-estado-badge ${parts[0]}">${parts.slice(1).join(' ')}</span>`;
+  };
+
+  const rows = data.map(c => `
+    <tr class="contrib-row${_contribSelId === c.id ? ' selected' : ''}" onclick="abrirContribDetail(${c.id})">
+      <td style="font-size:12px;color:var(--ink-muted);white-space:nowrap">${new Date(c.created_at).toLocaleDateString('es-ES')}</td>
+      <td style="font-weight:600;font-size:13px">${c.proveedor_slug}</td>
+      <td style="font-size:12px;color:var(--ink-secondary)">${c.material_nombre || c.material_slug}</td>
+      <td>${tipoBadge(c.tipo)}</td>
+      <td>${estadoBadge(c.estado)}</td>
+      <td style="font-size:12px;color:var(--ink-muted)">${c.puntos > 0 ? '+' + c.puntos + 'pts' : '—'}</td>
+    </tr>`).join('');
+
+  wrap.innerHTML = `
+    <table style="width:100%;border-collapse:collapse">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border)">
+          <th style="text-align:left;padding:8px 12px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-muted)">Fecha</th>
+          <th style="text-align:left;padding:8px 12px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-muted)">Proveedor</th>
+          <th style="text-align:left;padding:8px 12px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-muted)">Material</th>
+          <th style="text-align:left;padding:8px 12px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-muted)">Tipo</th>
+          <th style="text-align:left;padding:8px 12px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-muted)">Estado</th>
+          <th style="text-align:left;padding:8px 12px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-muted)">Pts</th>
+        </tr>
+      </thead>
+      <tbody id="contrib-tbody">${rows}</tbody>
+    </table>`;
+
+  // Restore selection if still present
+  if (_contribSelId) {
+    const row = document.querySelector(`.contrib-row[onclick="abrirContribDetail(${_contribSelId})"]`);
+    if (row) row.classList.add('selected');
+  }
+
+  // Store data for detail panel
+  window._contribData = data;
+}
+
+async function actualizarBadgeContrib() {
+  const { count } = await db.from('material_contribuciones')
+    .select('id', { count: 'exact', head: true })
+    .eq('estado', 'pendiente');
+  const badge = document.getElementById('badge-contrib');
+  if (badge) {
+    if (count > 0) { badge.textContent = count; badge.style.display = ''; }
+    else           { badge.style.display = 'none'; }
+  }
+  // Also update tab badge
+  const tb = document.getElementById('ct-badge-pendiente');
+  if (tb) {
+    if (count > 0) { tb.textContent = count; tb.style.display = 'inline-block'; }
+    else           { tb.style.display = 'none'; }
+  }
+}
+
+function abrirContribDetail(id) {
+  _contribSelId = id;
+  // Highlight row
+  document.querySelectorAll('.contrib-row').forEach(r => r.classList.remove('selected'));
+  const row = document.querySelector(`.contrib-row[onclick="abrirContribDetail(${id})"]`);
+  if (row) row.classList.add('selected');
+
+  const c = (window._contribData || []).find(x => x.id === id);
+  if (!c) return;
+
+  const panel = document.getElementById('contrib-detail-panel');
+  panel.style.display = 'flex';
+
+  const tipoLabels = {
+    foto:'Foto', datos_tecnicos:'Datos técnicos', precio:'Precio',
+    formato_acabado:'Formato / Acabado', correccion:'Corrección'
+  };
+
+  document.getElementById('cdp-title').textContent = tipoLabels[c.tipo] || c.tipo;
+  document.getElementById('cdp-proveedor').textContent = c.proveedor_slug;
+  document.getElementById('cdp-material').textContent  = c.material_nombre || c.material_slug;
+  document.getElementById('cdp-tipo').textContent      = tipoLabels[c.tipo] || c.tipo;
+  document.getElementById('cdp-fecha').textContent     = new Date(c.created_at).toLocaleString('es-ES');
+  document.getElementById('cdp-plan').textContent      = c.proveedor_plan || 'free';
+
+  // Foto
+  const fotoWrap = document.getElementById('cdp-foto-wrap');
+  if (c.contenido_url && c.tipo === 'foto') {
+    document.getElementById('cdp-foto-img').src  = c.contenido_url;
+    document.getElementById('cdp-foto-link').href = c.contenido_url;
+    fotoWrap.style.display = 'block';
+  } else {
+    fotoWrap.style.display = 'none';
+  }
+
+  // Texto / JSON
+  const textoWrap = document.getElementById('cdp-texto-wrap');
+  if (c.contenido_texto) {
+    let display = c.contenido_texto;
+    try { display = JSON.stringify(JSON.parse(c.contenido_texto), null, 2); } catch(e) {}
+    document.getElementById('cdp-texto').textContent = display;
+    textoWrap.style.display = 'block';
+  } else {
+    textoWrap.style.display = 'none';
+  }
+
+  // Nota proveedor
+  const notaWrap = document.getElementById('cdp-nota-prov-wrap');
+  if (c.nota_proveedor) {
+    document.getElementById('cdp-nota-prov').textContent = c.nota_proveedor;
+    notaWrap.style.display = 'block';
+  } else {
+    notaWrap.style.display = 'none';
+  }
+
+  // Nota admin pre-fill
+  document.getElementById('cdp-nota-admin').value = c.nota_admin || '';
+
+  // Botones de acción
+  const actions    = document.getElementById('cdp-actions');
+  const estadoInfo = document.getElementById('cdp-estado-actual');
+  if (c.estado === 'pendiente') {
+    actions.style.display    = 'flex';
+    estadoInfo.style.display = 'none';
+  } else {
+    actions.style.display    = 'none';
+    estadoInfo.style.display = 'block';
+    estadoInfo.textContent   = `Estado: ${c.estado.toUpperCase()} — revisado por ${c.revisado_por || '?'} el ${c.revisado_at ? new Date(c.revisado_at).toLocaleDateString('es-ES') : '?'}`;
+  }
+}
+
+function cerrarContribDetail() {
+  _contribSelId = null;
+  document.getElementById('contrib-detail-panel').style.display = 'none';
+  document.querySelectorAll('.contrib-row').forEach(r => r.classList.remove('selected'));
+}
+
+async function aprobarContribucion() {
+  if (!_contribSelId) return;
+  const nota = document.getElementById('cdp-nota-admin').value.trim();
+  const { error } = await db.from('material_contribuciones')
+    .update({
+      estado:       'aprobado',
+      nota_admin:   nota || null,
+      revisado_por: _currentUser?.email || 'admin',
+      revisado_at:  new Date().toISOString()
+    })
+    .eq('id', _contribSelId);
+
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Contribución aprobada ✓', 'success');
+  cerrarContribDetail();
+  await cargarContribuciones(_contribEstado);
+  await actualizarBadgeContrib();
+}
+
+async function rechazarContribucion() {
+  if (!_contribSelId) return;
+  const nota = document.getElementById('cdp-nota-admin').value.trim();
+  if (!nota && !confirm('¿Rechazar sin nota interna?')) return;
+
+  const { error } = await db.from('material_contribuciones')
+    .update({
+      estado:       'rechazado',
+      nota_admin:   nota || null,
+      revisado_por: _currentUser?.email || 'admin',
+      revisado_at:  new Date().toISOString()
+    })
+    .eq('id', _contribSelId);
+
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Contribución rechazada', 'info');
+  cerrarContribDetail();
+  await cargarContribuciones(_contribEstado);
+  await actualizarBadgeContrib();
 }
 
 // ── INIT ──
