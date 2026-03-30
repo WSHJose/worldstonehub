@@ -132,6 +132,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 .card-precio{font-size:10px;color:var(--ink-4);font-family:'DM Mono',monospace;letter-spacing:.5px;}
 .card-ver-btn{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);padding:6px 12px;border:1px solid rgba(166,124,82,0.3);border-radius:var(--radius);text-decoration:none;transition:background .2s,color .2s,border-color .2s;font-family:'Instrument Sans',sans-serif;font-weight:600;white-space:nowrap;}
 .card-ver-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+.card-quality-badge{font-size:9px;letter-spacing:1px;padding:4px 8px;border-radius:2px;font-family:'DM Mono',monospace;font-weight:400;flex-shrink:0;line-height:1;}
+.card-quality-full{background:linear-gradient(135deg,#c9a84c22,#a67c5222);color:#a67c52;border:1px solid rgba(166,124,82,0.35);}
+.card-quality-mid{background:var(--bg-mid);color:var(--ink-3,#8a8784);border:1px solid var(--border);}
 
 /* ── EMPTY / LOADING ── */
 .empty-state{padding:80px 0;text-align:center;}
@@ -303,6 +306,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
         <input type="text" id="searchInput" placeholder="Buscar material, color, país, acabado…" data-i18n-attr="placeholder:search.placeholderMateriales">
       </div>
       <select id="sortSelect" class="sort-select" title="Ordenar por">
+        <option value="calidad" selected>★ Calidad de ficha</option>
         <option value="az">A → Z</option>
         <option value="za">Z → A</option>
         <option value="pais">Por país</option>
@@ -390,7 +394,7 @@ var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
 var DB = [];
 var activeFilters = { cat: null, color: null };
 var searchQuery = '';
-var activeSort   = 'az';
+var activeSort   = 'calidad';
 
 /* ── TRADUCCIÓN ACABADOS EN→ES ── */
 var ACABADOS_ES = {
@@ -601,6 +605,15 @@ function buildCard(m) {
     ? '<a class="card-ver-btn" href="material.html?id=' + esc(m.slug) + '" onclick="event.stopPropagation()">Ver ficha →</a>'
     : '';
 
+  // Badge de calidad de contenido
+  var score = m.content_score || 0;
+  var qualityBadge = '';
+  if (score >= 80) {
+    qualityBadge = '<span class="card-quality-badge card-quality-full" title="Ficha completa · ' + score + '/100">★★★</span>';
+  } else if (score >= 50) {
+    qualityBadge = '<span class="card-quality-badge card-quality-mid" title="Ficha parcial · ' + score + '/100">★★</span>';
+  }
+
   // Franja de color acento
   var accentColors = getSwatchGradient(m.color_acento || m.color_principal);
   var accentStripe = '<span class="card-accent-stripe" style="background:linear-gradient(90deg,' + accentColors[0] + ',' + accentColors[1] + ');"></span>';
@@ -623,6 +636,7 @@ function buildCard(m) {
     '</div>' +
     '<div class="card-footer">' +
       verBtn +
+      qualityBadge +
     '</div>' +
   '</div>';
 }
@@ -728,6 +742,10 @@ function applyFilters() {
 
   // Ordenar
   result.sort(function(a, b) {
+    if (activeSort === 'calidad') {
+      var sa = a.content_score || 0; var sb = b.content_score || 0;
+      return sb - sa || (a.nombre_comercial||'').localeCompare(b.nombre_comercial||'', 'es');
+    }
     if (activeSort === 'za') return (b.nombre_comercial||'').localeCompare(a.nombre_comercial||'', 'es');
     if (activeSort === 'pais') {
       var pa = arr(a.origen_pais)[0]||''; var pb = arr(b.origen_pais)[0]||'';
@@ -829,8 +847,10 @@ function showFeaturedStone() {
   var loading = document.getElementById('featuredLoading');
   var slot    = document.getElementById('featuredSlot');
   if (!slot) return;
-  // Elegir piedra aleatoria con imagen entre las primeras 200
-  var pool = DB.filter(function(m){ return m.imagen_url_principal; }).slice(0, 200);
+  // Elegir piedra con imagen priorizando fichas completas (score >= 80), sino parciales
+  var pool = DB.filter(function(m){ return m.imagen_url_principal && (m.content_score||0) >= 80; });
+  if (!pool.length) pool = DB.filter(function(m){ return m.imagen_url_principal && (m.content_score||0) >= 50; });
+  if (!pool.length) pool = DB.filter(function(m){ return m.imagen_url_principal; }).slice(0, 200);
   if (!pool.length) { if (loading) loading.style.display = 'none'; return; }
   var m = pool[Math.floor(Math.random() * pool.length)];
   var flag  = getFlag(arr(m.origen_pais)[0]);
@@ -863,8 +883,8 @@ function showFeaturedStone() {
    correcto con slug de cada ficha
 ══════════════════════════════════════ */
 (function loadMateriales() {
-  var SELECT = 'slug,nombre_comercial,nombres_alternativos,categoria,origen_pais,origen_region,color_principal,color_acento,acabados_disponibles,usos_recomendados,propiedades_tecnicas,tags_busqueda,imagen_url_principal,activo';
-  var BASE   = SB_URL + '/rest/v1/materiales?select=' + SELECT + '&activo=eq.true&order=nombre_comercial.asc';
+  var SELECT = 'slug,nombre_comercial,nombres_alternativos,categoria,origen_pais,origen_region,color_principal,color_acento,acabados_disponibles,usos_recomendados,propiedades_tecnicas,tags_busqueda,imagen_url_principal,activo,content_score';
+  var BASE   = SB_URL + '/rest/v1/materiales?select=' + SELECT + '&activo=eq.true&order=content_score.desc.nullslast,nombre_comercial.asc';
   var PAGE   = 1000;
   var allData = [];
 
