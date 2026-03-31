@@ -555,8 +555,15 @@ function arr(v) {
   if (Array.isArray(v)) return v;
   if (typeof v === 'string') {
     var s = v.trim();
+    // JSON array: ["val"]
     if (s.charAt(0) === '[') {
       try { var p = JSON.parse(s); if (Array.isArray(p)) return p; } catch(e) {}
+    }
+    // PostgreSQL array literal: {val} or {"val"} or {"val1","val2"}
+    if (s.charAt(0) === '{' && s.charAt(s.length-1) === '}') {
+      var inner = s.slice(1, -1);
+      try { var p2 = JSON.parse('[' + inner + ']'); return p2.map(String); } catch(e) {}
+      return [inner]; // plain {Toscana} style
     }
     return [v];
   }

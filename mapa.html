@@ -442,6 +442,24 @@ const CAT_CONFIG = {
 };
 const DEFAULT_CAT = { color:'#8a8070', label:'Piedra' };
 
+function parseRegion(v) {
+  if (!v) return '';
+  var s = typeof v === 'string' ? v.trim() : String(v);
+  // PostgreSQL array: {Toscana} or {"País Vasco"}
+  if (s.charAt(0) === '{' && s.charAt(s.length-1) === '}') {
+    var inner = s.slice(1, -1);
+    try { return JSON.parse('[' + inner + ']')[0]; } catch(e) { return inner; }
+  }
+  // JSON string array: ["Italy (Lazio)"]
+  if (s.charAt(0) === '[') {
+    try { var p = JSON.parse(s); s = Array.isArray(p) ? p[0] : s; } catch(e) {}
+  }
+  // Extract part in parentheses: "Italy (Lazio)" → "Lazio"
+  var m = s.match(/\(([^)]+)\)/);
+  if (m) return m[1].trim();
+  return s;
+}
+
 function getCatConfig(cat) {
   if (!cat) return DEFAULT_CAT;
   const k = cat.toLowerCase().trim();
@@ -580,7 +598,7 @@ function toGeoJSON(data) {
         categoria: d.categoria || '',
         color: d.color_principal || '',
         pais: Array.isArray(d.origen_pais) ? d.origen_pais[0] : (d.origen_pais || ''),
-        region: d.origen_region || '',
+        region: parseRegion(d.origen_region),
         catColor: getCatConfig(d.categoria).color,
       }
     }))
