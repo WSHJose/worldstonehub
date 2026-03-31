@@ -1133,6 +1133,8 @@ label.plan-card input[type="radio"] { display: none !important; }
 .esp-tag-rm{background:none;border:none;cursor:pointer;color:#8a8784;font-size:14px;padding:0 0 0 2px;line-height:1;margin-left:2px;transition:color .15s;}
 .esp-tag-rm:hover{color:#1a1917;}
 .fsec-hint{font-size:.82rem;color:#8a8784;font-family:'DM Mono',monospace;letter-spacing:.02em;margin:-6px 0 14px;line-height:1.5;}
+.actors-section-hd{grid-column:1/-1;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#8a8784;padding:10px 0 6px;border-bottom:1px solid var(--border);margin-bottom:6px;display:flex;align-items:center;gap:12px;}
+.actors-section-hd .demand-badge{font-size:8px;letter-spacing:2px;background:rgba(39,174,96,0.1);color:#27ae60;padding:2px 8px;border:1px solid rgba(39,174,96,0.2);text-transform:uppercase;font-family:'Instrument Sans',sans-serif;}
 </style>
 <!-- Google Analytics GA4 — REPLACE G-Z386REXEZF with your real Measurement ID -->
 <!-- Steps: analytics.google.com → Admin → Create Property → Get Measurement ID -->
@@ -1316,15 +1318,15 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="step-row active" id="si1">
         <div class="step-dot"><span class="step-num">1</span></div>
         <div class="step-info">
-          <div class="step-name">Elige tu plan</div>
-          <div class="step-desc">Directorio gratuito o suscripción de pago</div>
+          <div class="step-name">¿Quién eres?</div>
+          <div class="step-desc">Cantera, agente, arquitecto…</div>
         </div>
       </div>
       <div class="step-row" id="si2">
         <div class="step-dot"><span class="step-num">2</span></div>
         <div class="step-info">
-          <div class="step-name" data-es="Tipo de empresa" data-en="Company type">Tipo de empresa</div>
-          <div class="step-desc">Cantera, distribuidor, arquitecto…</div>
+          <div class="step-name">Tu plan</div>
+          <div class="step-desc">Adaptado a tu perfil</div>
         </div>
       </div>
       <div class="step-row" id="si3">
@@ -1356,117 +1358,86 @@ document.addEventListener('DOMContentLoaded', function() {
   <main class="main">
 
     <!-- ══════════════════════════
-         S1 · ELEGIR PLAN
+         S1 · QUIÉN ERES
     ══════════════════════════ -->
     <div class="screen active" id="s1">
       <div class="screen-eyebrow">Paso 1 de 4</div>
-      <h1 class="screen-title">Elige tu<br><em>plan de visibilidad</em></h1>
-      <p class="screen-desc">Desde una ficha básica gratuita hasta presencia editorial completa. Puedes cambiar o cancelar en cualquier momento.</p>
+      <h1 class="screen-title">¿Cuál es tu papel<br><em>en el sector?</em></h1>
+      <p class="screen-desc">Tu ficha y tu precio se adaptan automáticamente a tu perfil. Sin trucos, sin precio igual para todos.</p>
 
-      <div class="plans-grid">
+      <div class="actors-grid" id="actors-grid">
 
-        <!-- FREE -->
-        <div class="plan-card-wrap">
-        <label class="plan-card" data-plan="free" data-price="0">
-          <input type="radio" name="wsh_plan" value="free" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('free',0,this)">
-          <div class="plan-check">✓</div>
-          <div class="plan-tag t-free">Gratuito</div>
-          <div class="plan-name" data-es="Directorio" data-en="Directory">Directorio</div>
-          <div class="plan-price-line"><div class="plan-price">0<sup>€</sup></div></div>
-          <div class="plan-billing">Sin tarjeta · Sin compromiso</div>
-          <div class="plan-divider"></div>
-          <ul class="plan-feats">
-            <li><span class="fi">›</span>Ficha en el directorio</li>
-            <li><span class="fi">›</span>Nombre, tipo y país</li>
-            <li><span class="fi">›</span>Contacto solo interno</li>
-            <li><span class="fi">›</span>Revisión editorial previa</li>
-            <li class="off"><span class="fi">·</span>No aparece en búsquedas</li>
-            <li class="off"><span class="fi">·</span>Sin fotos ni catálogo</li>
-            <li class="off"><span class="fi">·</span>Sin estadísticas</li>
-          </ul>
-        </label>
+        <div class="actors-section-hd">Proveedores &amp; servicios</div>
+
+        <div class="actor-card" data-actor="cantera-local" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">⛰</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Cantera · Pequeño productor</div>
+          <div class="ac-desc">Explotación local, 1–5 variedades, venta regional o nacional.</div>
+        </div>
+        <div class="actor-card" data-actor="cantera-export" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">🌍</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Cantera · Exportadora</div>
+          <div class="ac-desc">Exportación activa, ferias internacionales, clientes en varios países.</div>
+        </div>
+        <div class="actor-card" data-actor="fabricante" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">🏭</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Fabricante · Transformador</div>
+          <div class="ac-desc">Corte, pulido, CNC. Planchas, encimeras, pavimentos y elaborados.</div>
+        </div>
+        <div class="actor-card" data-actor="distribuidor" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">🏪</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Distribuidor nacional</div>
+          <div class="ac-desc">Importación y distribución local a instaladores, constructoras y decoradores.</div>
+        </div>
+        <div class="actor-card" data-actor="importador" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">📦</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Importador · Distribuidor internacional</div>
+          <div class="ac-desc">Grandes volúmenes de importación. Redistribución en mercados destino.</div>
+        </div>
+        <div class="actor-card" data-actor="agente" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">🤝</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Agente comercial</div>
+          <div class="ac-desc">Representación de canteras y fabricantes en un territorio. Opera por comisión.</div>
+        </div>
+        <div class="actor-card" data-actor="logistica" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">🚛</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Logística especializada en piedra</div>
+          <div class="ac-desc">Transporte marítimo/terrestre, embalaje, seguro y aduanas para piedra natural.</div>
+        </div>
+        <div class="actor-card" data-actor="laboratorio" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">🔬</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Laboratorio · Certificación</div>
+          <div class="ac-desc">Ensayo, certificación y acreditación según normas EN, ASTM e ISO.</div>
+        </div>
+        <div class="actor-card" data-actor="palets-cajones" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">🪵</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Embalaje · Palets y Cajones</div>
+          <div class="ac-desc">Fabricación de palets, cajones y embalajes para exportación de piedra natural.</div>
         </div>
 
-        <!-- PRESENCIA -->
-        <div class="plan-card-wrap">
-        <label class="plan-card" data-plan="presencia" data-price="49">
-          <input type="radio" name="wsh_plan" value="presencia" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('presencia',49,this)">
-          <div class="plan-check">✓</div>
-          <div class="plan-tag t-base">Entrada</div>
-          <div class="plan-name">Presencia</div>
-          <div class="plan-price-line"><div class="plan-price"><sup>€</sup>49</div><span class="plan-pm">/mes</span></div>
-          <div class="plan-billing">€588/año · facturación anual</div>
-          <div class="plan-divider"></div>
-          <ul class="plan-feats">
-            <li><span class="fi">›</span>Ficha verificada y publicada</li>
-            <li><span class="fi">›</span>Aparece en búsquedas</li>
-            <li><span class="fi">›</span>Hasta 10 fotos de catálogo</li>
-            <li><span class="fi">›</span>Datos de contacto visibles</li>
-            <li><span class="fi">›</span>Estadísticas básicas</li>
-            <li><span class="fi">›</span>Badge verificado</li>
-            <li class="off"><span class="fi">·</span>Sin galería de proyectos</li>
-          </ul>
-        </label>
+        <div class="actors-section-hd">Compradores &amp; prescriptores <span class="demand-badge">Acceso gratuito</span></div>
+
+        <div class="actor-card" data-actor="arquitecto" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">📐</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Arquitecto · Diseñador de interiores</div>
+          <div class="ac-desc">Prescripción y especificación de piedra en proyectos residenciales, hoteleros y comerciales.</div>
+        </div>
+        <div class="actor-card" data-actor="constructora" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">🏗</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Constructora · Promotora</div>
+          <div class="ac-desc">Proyectos de construcción que requieren suministro de piedra natural a escala.</div>
+        </div>
+        <div class="actor-card" data-actor="comprador" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">🏢</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Comprador corporativo</div>
+          <div class="ac-desc">Hoteles, cadenas retail e inmobiliarias con necesidades regulares de piedra.</div>
+        </div>
+        <div class="actor-card" data-actor="instalador" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">🔨</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Instalador · Colocador</div>
+          <div class="ac-desc">Empresas y autónomos especializados en colocación de piedra natural en obra.</div>
         </div>
 
-        <!-- PROFESIONAL -->
-        <div class="plan-card-wrap">
-        <label class="plan-card featured" data-plan="profesional" data-price="129">
-          <input type="radio" name="wsh_plan" value="profesional" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('profesional',129,this)">
-          <div class="plan-popular" data-es="Más popular" data-en="Most popular">Más popular</div>
-          <div class="plan-check">✓</div>
-          <div class="plan-tag t-pro">Recomendado</div>
-          <div class="plan-name">Profesional</div>
-          <div class="plan-price-line"><div class="plan-price"><sup>€</sup>129</div><span class="plan-pm">/mes</span></div>
-          <div class="plan-billing">€1.548/año · facturación anual</div>
-          <div class="plan-divider"></div>
-          <ul class="plan-feats">
-            <li><span class="fi">›</span>Ficha premium destacada</li>
-            <li><span class="fi">›</span>Posicionamiento prioritario</li>
-            <li><span class="fi">›</span>Catálogo ilimitado</li>
-            <li><span class="fi">›</span>Galería de proyectos</li>
-            <li><span class="fi">›</span>Solicitudes de muestras</li>
-            <li><span class="fi">›</span>Estadísticas + leads</li>
-            <li><span class="fi">›</span>Badge de confianza</li>
-          </ul>
-        </label>
-        </div>
-
-        <!-- ELITE -->
-        <div class="plan-card-wrap">
-        <label class="plan-card" data-plan="elite" data-price="299">
-          <input type="radio" name="wsh_plan" value="elite" style="position:absolute;opacity:0;pointer-events:none;" onchange="selectPlanRadio('elite',299,this)">
-          <div class="plan-check">✓</div>
-          <div class="plan-tag t-elite" data-es="Premium" data-en="Premium">Premium</div>
-          <div class="plan-name">Élite</div>
-          <div class="plan-price-line"><div class="plan-price"><sup>€</sup>299</div><span class="plan-pm">/mes</span></div>
-          <div class="plan-billing">€3.588/año · facturación anual</div>
-          <div class="plan-divider"></div>
-          <ul class="plan-feats">
-            <li><span class="fi">›</span>Todo lo de Profesional</li>
-            <li><span class="fi">›</span>Destacado en homepage</li>
-            <li><span class="fi">›</span>Artículos editoriales</li>
-            <li><span class="fi">›</span>Integración API/feed</li>
-            <li><span class="fi">›</span>Múltiples usuarios</li>
-            <li><span class="fi">›</span>Gestor dedicado</li>
-            <li><span class="fi">›</span>Informes de mercado</li>
-          </ul>
-        </label>
-        </div>
-      </div>
-
-      <!-- Comparison -->
-      <div class="compare-wrap">
-        <div class="compare-hd">Comparativa de planes</div>
-        <div class="compare-row hd"><span></span><span style="text-align:center" data-es="Directorio" data-en="Directory">Directorio</span><span style="text-align:center">Presencia</span><span style="text-align:center">Profesional</span><span style="text-align:center">Élite</span></div>
-        <div class="compare-row"><span class="cf">Ficha publicada</span><span class="cv y">✓</span><span class="cv y">✓</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
-        <div class="compare-row"><span class="cf">Visible en búsquedas</span><span class="cv n">—</span><span class="cv y">✓</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
-        <div class="compare-row"><span class="cf">Fotos de catálogo</span><span class="cv n">—</span><span class="cv">Hasta 10</span><span class="cv g">Ilimitado</span><span class="cv g">Ilimitado</span></div>
-        <div class="compare-row"><span class="cf">Galería proyectos</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
-        <div class="compare-row"><span class="cf">Formulario muestras</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
-        <div class="compare-row"><span class="cf">Estadísticas &amp; leads</span><span class="cv n">—</span><span class="cv">Básicas</span><span class="cv">Avanzadas</span><span class="cv g">Completas</span></div>
-        <div class="compare-row"><span class="cf">Homepage destacado</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv g">✓</span></div>
-        <div class="compare-row"><span class="cf">Gestor de cuenta</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv g">Dedicado</span></div>
       </div>
 
       <div class="btn-row">
@@ -1476,63 +1447,47 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <!-- ══════════════════════════
-         S2 · TIPO DE ACTOR
+         S2 · PLAN DINÁMICO
     ══════════════════════════ -->
     <div class="screen" id="s2">
       <div class="screen-eyebrow">Paso 2 de 4</div>
-      <h1 class="screen-title">¿Qué papel juegas<br><em>en el sector?</em></h1>
-      <p class="screen-desc">Tu ficha se adaptará automáticamente a los campos de cada rol. Puedes seleccionar varios si tu empresa cubre más de uno.</p>
-      <p class="multi-note">Selección <span>múltiple permitida</span> — ej. cantera + transformador</p>
+      <h1 class="screen-title">Elige tu<br><em>plan de visibilidad</em></h1>
+      <p class="screen-desc">Precios adaptados a tu perfil como <strong id="s2-actor-name">—</strong>. Facturación anual, cancela cuando quieras.</p>
+      <div id="s2-roi" style="display:none;background:rgba(201,168,76,0.06);border-left:2px solid #A67C52;padding:12px 16px;margin-bottom:28px;font-size:12px;color:#4a4845;line-height:1.7;"></div>
 
-      <div class="actors-grid">
-        <div class="actor-card" data-actor="cantera" onclick="toggleActor(this)">
-          <div class="ac-top"><span class="ac-icon">⛏</span><span class="ac-check">✓</span></div>
-          <div class="ac-name">Propietarios de canteras</div>
-          <div class="ac-desc">Extracción de piedra natural en origen. Bloques, losas y áridos directamente desde la roca madre.</div>
-        </div>
-        <div class="actor-card" data-actor="distribuidor" onclick="toggleActor(this)">
-          <div class="ac-top"><span class="ac-icon">🚛</span><span class="ac-check">✓</span></div>
-          <div class="ac-name" data-es="Distribuidores" data-en="Distributors">Distribuidores</div>
-          <div class="ac-desc">Venta y distribución de piedra natural y artificial a profesionales, constructores e instaladores.</div>
-        </div>
-        <div class="actor-card" data-actor="fabricante" onclick="toggleActor(this)">
-          <div class="ac-top"><span class="ac-icon">🏭</span><span class="ac-check">✓</span></div>
-          <div class="ac-name">Fabricantes y talleres</div>
-          <div class="ac-desc">Serrerías, talleres y fábricas que transforman el bloque en producto acabado para obra e interiorismo.</div>
-        </div>
-        <div class="actor-card" data-actor="arquitecto" onclick="toggleActor(this)">
-          <div class="ac-top"><span class="ac-icon">📐</span><span class="ac-check">✓</span></div>
-          <div class="ac-name">Estudios de arquitectura</div>
-          <div class="ac-desc">Estudios que prescriben y especifican piedra natural en proyectos residenciales, hoteleros y comerciales.</div>
-        </div>
-        <div class="actor-card" data-actor="constructora" onclick="toggleActor(this)">
-          <div class="ac-top"><span class="ac-icon">🏗</span><span class="ac-check">✓</span></div>
-          <div class="ac-name">Constructoras</div>
-          <div class="ac-desc">Empresas constructoras e instaladoras que trabajan con piedra natural en proyectos de cualquier escala.</div>
-        </div>
-        <div class="actor-card" data-actor="maquinaria" onclick="toggleActor(this)">
-          <div class="ac-top"><span class="ac-icon">⚙️</span><span class="ac-check">✓</span></div>
-          <div class="ac-name">Maquinaria industrial</div>
-          <div class="ac-desc">Fabricantes y distribuidores de maquinaria para extracción, corte, pulido y transformación de piedra.</div>
-        </div>
-        <div class="actor-card" data-actor="laboratorio" onclick="toggleActor(this)">
-          <div class="ac-top"><span class="ac-icon">🔬</span><span class="ac-check">✓</span></div>
-          <div class="ac-name">Laboratorios y certificación</div>
-          <div class="ac-desc">Laboratorios de ensayo, organismos certificadores y entidades normativas del sector de la piedra.</div>
-        </div>
-        <div class="actor-card" data-actor="logistica" onclick="toggleActor(this)">
-          <div class="ac-top"><span class="ac-icon">🌐</span><span class="ac-check">✓</span></div>
-          <div class="ac-name">Logística</div>
-          <div class="ac-desc">Transportistas, operadores logísticos y agentes de aduanas especializados en piedra natural.</div>
-        </div>
+      <div class="plans-grid" id="plans-dynamic" style="margin-top:36px;margin-bottom:44px;"></div>
+
+      <!-- Comparativa supply (4 planes) -->
+      <div id="compare-supply" class="compare-wrap">
+        <div class="compare-hd">Comparativa de planes</div>
+        <div class="compare-row hd"><span></span><span style="text-align:center">Directorio</span><span style="text-align:center">Presencia</span><span style="text-align:center">Profesional</span><span style="text-align:center">Élite</span></div>
+        <div class="compare-row"><span class="cf">Ficha publicada</span><span class="cv y">✓</span><span class="cv y">✓</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
+        <div class="compare-row"><span class="cf">Visible en búsquedas</span><span class="cv n">—</span><span class="cv y">✓</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
+        <div class="compare-row"><span class="cf">Fotos de catálogo</span><span class="cv n">—</span><span class="cv">Hasta 5</span><span class="cv g">Ilimitado</span><span class="cv g">Ilimitado</span></div>
+        <div class="compare-row"><span class="cf">Galería de proyectos</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
+        <div class="compare-row"><span class="cf">Leads directos</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
+        <div class="compare-row"><span class="cf">Analítica de mercados</span><span class="cv n">—</span><span class="cv">Básica</span><span class="cv">Avanzada</span><span class="cv g">Completa</span></div>
+        <div class="compare-row"><span class="cf">Posición prioritaria</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
+        <div class="compare-row"><span class="cf">Homepage destacado</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv g">✓</span></div>
+        <div class="compare-row"><span class="cf">Matchmaking compradores</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv g">×2/año</span></div>
+        <div class="compare-row"><span class="cf">Gestor dedicado</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv g">✓</span></div>
+      </div>
+
+      <!-- Comparativa demand (3 planes) -->
+      <div id="compare-demand" class="compare-wrap" style="display:none">
+        <div class="compare-hd">Comparativa de planes</div>
+        <div class="compare-row hd" style="grid-template-columns:2fr 1fr 1fr 1fr"><span></span><span style="text-align:center">Directorio</span><span style="text-align:center">Profesional</span><span style="text-align:center">Élite</span></div>
+        <div class="compare-row" style="grid-template-columns:2fr 1fr 1fr 1fr"><span class="cf">Acceso catálogo completo</span><span class="cv y">✓</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
+        <div class="compare-row" style="grid-template-columns:2fr 1fr 1fr 1fr"><span class="cf">Fichas técnicas PDF</span><span class="cv n">—</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
+        <div class="compare-row" style="grid-template-columns:2fr 1fr 1fr 1fr"><span class="cf">Badge verificado</span><span class="cv n">—</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
+        <div class="compare-row" style="grid-template-columns:2fr 1fr 1fr 1fr"><span class="cf">Moodboard digital</span><span class="cv n">—</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
+        <div class="compare-row" style="grid-template-columns:2fr 1fr 1fr 1fr"><span class="cf">Contacto directo canteras</span><span class="cv n">—</span><span class="cv y">✓</span><span class="cv y">✓</span></div>
+        <div class="compare-row" style="grid-template-columns:2fr 1fr 1fr 1fr"><span class="cf">Acceso anticipado materiales</span><span class="cv n">—</span><span class="cv n">—</span><span class="cv g">✓</span></div>
       </div>
 
       <div class="btn-row">
         <button class="btn-back" onclick="goTo(1)">← Volver</button>
-        <div style="display:flex;align-items:center;gap:20px">
-          <span class="actor-counter" id="actorCount">0 seleccionados</span>
-          <button class="btn-next" id="btn2" disabled onclick="goTo(3)">Continuar →</button>
-        </div>
+        <button class="btn-next" id="btn2" disabled onclick="goTo(3)">Continuar →</button>
       </div>
     </div>
 
@@ -1844,7 +1799,6 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===========================================
 
 // ── Stripe Payment Links ─────────────────────
-// Obtén estos enlaces en: dashboard.stripe.com → Payment Links → Create
 var STRIPE_PAYMENT_LINKS = {
   presencia:   'https://buy.stripe.com/test_4gM28k7nd49w3dA3JjfYY01',
   profesional: 'https://buy.stripe.com/test_cNiaEQ8rh8pM9BY1BbfYY00',
@@ -1852,7 +1806,50 @@ var STRIPE_PAYMENT_LINKS = {
 };
 
 // ── Estado global ───────────────────────────
-var ST = { plan:null, price:0, actors:[], step:1 };
+var ST = { plan:null, price:0, actorKey:null, step:1 };
+
+// ── Datos por perfil ─────────────────────────
+var ACTORS_DATA = {
+  'cantera-local':  { nombre:'Cantera · Pequeño productor',         sector:'supply', roi:'Un solo importador nuevo puede amortizar 5 años de suscripción.',       pricing:{ presencia:290,  profesional:590,  elite:990   } },
+  'cantera-export': { nombre:'Cantera Exportadora',                  sector:'supply', roi:'Un contenedor a un buyer nuevo vale 10 años de la suscripción Élite.',  pricing:{ presencia:590,  profesional:1490, elite:2900  } },
+  'fabricante':     { nombre:'Fabricante · Transformador',           sector:'supply', roi:'Un distribuidor nuevo en tu mercado justifica el plan al primer mes.',   pricing:{ presencia:390,  profesional:890,  elite:1900  } },
+  'distribuidor':   { nombre:'Distribuidor Nacional',                sector:'supply', roi:'Un arquitecto recurrente vale más que 10 años de suscripción.',         pricing:{ presencia:490,  profesional:990,  elite:1790  } },
+  'importador':     { nombre:'Importador Internacional',             sector:'supply', roi:'Encontrar el proveedor que tu competencia no conoce lo vale todo.',      pricing:{ presencia:790,  profesional:1990, elite:3900  } },
+  'agente':         { nombre:'Agente Comercial',                     sector:'supply', roi:'Una representación nueva vale decenas de miles en comisiones al año.',   pricing:{ presencia:149,  profesional:390,  elite:690   } },
+  'logistica':      { nombre:'Logística Especializada en Piedra',    sector:'supply', roi:'Un cliente que mueve 20 contenedores/año vale 24.000€ en facturación.',  pricing:{ presencia:390,  profesional:890,  elite:1490  } },
+  'laboratorio':    { nombre:'Laboratorio · Certificación',          sector:'supply', roi:'Aparecer cuando una cantera necesita certificar para exportar.',         pricing:{ presencia:290,  profesional:690,  elite:1190  } },
+  'palets-cajones': { nombre:'Embalaje · Palets y Cajones',          sector:'supply', roi:'Un exportador recurrente puede mover 200+ palets al año contigo.',      pricing:{ presencia:290,  profesional:690,  elite:1190  } },
+  'arquitecto':     { nombre:'Arquitecto · Diseñador de Interiores', sector:'demand', roi:'', pricing:{ presencia:0, profesional:190, elite:490  } },
+  'constructora':   { nombre:'Constructora · Promotora',             sector:'demand', roi:'', pricing:{ presencia:0, profesional:490, elite:990  } },
+  'comprador':      { nombre:'Comprador Corporativo',                sector:'demand', roi:'', pricing:{ presencia:0, profesional:390, elite:790  } },
+  'instalador':     { nombre:'Instalador · Colocador',               sector:'demand', roi:'', pricing:{ presencia:0, profesional:249, elite:null } }
+};
+
+// ── Features por plan ─────────────────────────
+var FEATS = {
+  supply:{
+    free:        ['Ficha en el directorio','Nombre, tipo y país','Contacto solo interno','Revisión editorial previa','— Invisible en búsquedas','— Sin fotos ni catálogo','— Sin estadísticas'],
+    presencia:   ['Ficha verificada y publicada','Aparece en búsquedas por tipo y país','Hasta 5 fotos de catálogo','Datos de contacto visibles','Badge verificado WSH','Localización en el mapa interactivo','— Sin analítica avanzada'],
+    profesional: ['Ficha premium destacada','Posicionamiento prioritario en búsquedas','Catálogo y galería ilimitados','Analítica: mercados que te buscan','Leads directos verificados','Formulario de solicitud de muestras','Enlace a fichas de tus materiales'],
+    elite:       ['Todo lo de Profesional','Posición top — primero en tu categoría','Destacado en homepage y newsletter','Matchmaking con compradores ×2/año','Informe de tendencias trimestral','Gestor de cuenta dedicado']
+  },
+  demand:{
+    free:        ['Acceso completo al catálogo','Fichas técnicas de todos los materiales','Guardado de favoritos ilimitado','Búsqueda y filtros avanzados','Contacto básico con proveedores','— Sin badge verificado','— Sin descarga PDF'],
+    profesional: ['Badge Especificador Verificado WSH','Descarga fichas técnicas en PDF','Moodboard digital compartible','Contacto directo con canteras','Visible ante proveedores premium','Historial de proyectos publicados'],
+    elite:       ['Todo lo de Profesional','Acceso anticipado a nuevos materiales','Contacto prioritario de canteras Élite','Showroom tours virtuales con canteras','Informe de tendencias de diseño 2×/año','Invitaciones a eventos exclusivos']
+  }
+};
+
+// ── Nombres de plan/actor ─────────────────────
+var PLAN_NAMES  = { free:'Directorio', presencia:'Presencia', profesional:'Profesional', elite:'Élite' };
+var ACTOR_NAMES = {
+  'cantera-local':'Cantera · Pequeño productor','cantera-export':'Cantera Exportadora',
+  'fabricante':'Fabricante · Transformador','distribuidor':'Distribuidor Nacional',
+  'importador':'Importador Internacional','agente':'Agente Comercial',
+  'logistica':'Logística Especializada','laboratorio':'Laboratorio · Certificación',
+  'palets-cajones':'Embalaje · Palets y Cajones','arquitecto':'Arquitecto · Diseñador',
+  'constructora':'Constructora · Promotora','comprador':'Comprador Corporativo','instalador':'Instalador · Colocador'
+};
 
 // ── Países del mundo (ISO + español) ────────
 (function populatePaises() {
@@ -1926,68 +1923,112 @@ var ST = { plan:null, price:0, actors:[], step:1 };
 })();
 
 var PLAN_NAMES   = { free:'Directorio', presencia:'Presencia', profesional:'Profesional', elite:'Élite' };
-var PLAN_PERIODS = { free:'Sin coste', presencia:'€49/mes · anual', profesional:'€129/mes · anual', elite:'€299/mes · anual' };
-var ACTOR_NAMES  = { cantera:'Propietarios de canteras', distribuidor:'Distribuidores', fabricante:'Fabricantes y talleres', arquitecto:'Estudios de arquitectura', constructora:'Constructoras', maquinaria:'Maquinaria industrial', laboratorio:'Laboratorios y certificación', logistica:'Logística' };
 
 
-function selectPlanRadio(plan, price, input) {
-  document.querySelectorAll('.plan-card').forEach(function(c){ c.classList.remove('selected'); });
-  var label = input.closest('.plan-card');
-  if(label) label.classList.add('selected');
-  ST.plan  = plan;
-  ST.price = price;
+// == 1. Selección de actor (paso 1) ==
+function selectActor(card) {
+  document.querySelectorAll('.actor-card').forEach(function(c){ c.classList.remove('selected'); });
+  card.classList.add('selected');
+  ST.actorKey = card.dataset.actor;
   document.getElementById('btn1').disabled = false;
+  var isCantera = ST.actorKey === 'cantera-local' || ST.actorKey === 'cantera-export';
+  var secCant = document.getElementById('sec_cantera');
+  if (secCant) secCant.style.display = isCantera ? 'block' : 'none';
   updateSidebarBadge();
-  updateTierUI();
 }
-// == 1. Select plan ==
+
+// == 2. Renderizar planes dinámicamente (paso 2) ==
+function renderPlanCards() {
+  var actor = ACTORS_DATA[ST.actorKey];
+  if (!actor) return;
+  var isSupply = actor.sector === 'supply';
+  var p = actor.pricing;
+
+  document.getElementById('s2-actor-name').textContent = actor.nombre;
+
+  var roiEl = document.getElementById('s2-roi');
+  if (actor.roi) { roiEl.textContent = '💡 ' + actor.roi; roiEl.style.display = 'block'; }
+  else { roiEl.style.display = 'none'; }
+
+  document.getElementById('compare-supply').style.display = isSupply ? 'block' : 'none';
+  document.getElementById('compare-demand').style.display = isSupply ? 'none' : 'block';
+
+  var plans = [];
+  if (isSupply) {
+    plans = [
+      { key:'free',        tag:'Gratuito',    tagCls:'t-free', name:'Directorio',  price:0,            feats:FEATS.supply.free,        featured:false, popular:false },
+      { key:'presencia',   tag:'Entrada',     tagCls:'t-base', name:'Presencia',   price:p.presencia,  feats:FEATS.supply.presencia,   featured:false, popular:false },
+      { key:'profesional', tag:'Recomendado', tagCls:'t-pro',  name:'Profesional', price:p.profesional,feats:FEATS.supply.profesional, featured:true,  popular:true  },
+      { key:'elite',       tag:'Premium',     tagCls:'t-elite',name:'Élite',       price:p.elite,      feats:FEATS.supply.elite,       featured:false, popular:false }
+    ];
+  } else {
+    plans = [
+      { key:'free',        tag:'Especificador',tagCls:'t-free', name:'Directorio',  price:0,            feats:FEATS.demand.free,        featured:false, popular:false },
+      { key:'profesional', tag:'Recomendado',  tagCls:'t-pro',  name:'Profesional', price:p.profesional,feats:FEATS.demand.profesional, featured:true,  popular:true  }
+    ];
+    if (p.elite !== null) {
+      plans.push({ key:'elite', tag:'Premium', tagCls:'t-elite', name:'Élite', price:p.elite, feats:FEATS.demand.elite, featured:false, popular:false });
+    }
+  }
+
+  var html = '';
+  plans.forEach(function(plan) {
+    var priceStr   = plan.price === 0 ? '0<sup>€</sup>' : '<sup>€</sup>' + plan.price.toLocaleString('es-ES');
+    var billingStr = plan.price === 0
+      ? (isSupply ? 'Sin tarjeta · Sin compromiso' : 'Siempre gratuito para compradores')
+      : '€' + plan.price.toLocaleString('es-ES') + '/año · facturación anual';
+    var featsHtml = plan.feats.map(function(f){
+      var off = f.charAt(0) === '—';
+      var txt = off ? f.slice(1).trim() : f;
+      return '<li' + (off ? ' class="off"' : '') + '><span class="fi">' + (off ? '·' : '›') + '</span>' + txt + '</li>';
+    }).join('');
+    html += '<div class="plan-card-wrap">' +
+      '<label class="plan-card' + (plan.featured ? ' featured' : '') + '" data-plan="' + plan.key + '" data-price="' + plan.price + '">' +
+      (plan.popular ? '<div class="plan-popular">Más popular</div>' : '') +
+      '<div class="plan-check">✓</div>' +
+      '<div class="plan-tag ' + plan.tagCls + '">' + plan.tag + '</div>' +
+      '<div class="plan-name">' + plan.name + '</div>' +
+      '<div class="plan-price-line"><div class="plan-price">' + priceStr + '</div>' + (plan.price > 0 ? '<span class="plan-pm">/año</span>' : '') + '</div>' +
+      '<div class="plan-billing">' + billingStr + '</div>' +
+      '<div class="plan-divider"></div>' +
+      '<ul class="plan-feats">' + featsHtml + '</ul>' +
+      '</label></div>';
+  });
+
+  var container = document.getElementById('plans-dynamic');
+  container.innerHTML = html;
+  container.style.gridTemplateColumns = 'repeat(' + plans.length + ',1fr)';
+
+  container.querySelectorAll('.plan-card').forEach(function(card) {
+    card.addEventListener('click', function(e){ e.stopPropagation(); e.preventDefault(); selectPlan(card); });
+  });
+
+  ST.plan = null; ST.price = 0;
+  document.getElementById('btn2').disabled = true;
+  updateSidebarBadge();
+}
+
+// == 3. Selección de plan ==
 function selectPlan(card) {
-  document.querySelectorAll('.plan-card').forEach(function(c){ c.classList.remove('selected'); });
+  document.querySelectorAll('#plans-dynamic .plan-card').forEach(function(c){ c.classList.remove('selected'); });
   card.classList.add('selected');
   ST.plan  = card.dataset.plan;
-  ST.price = parseInt(card.dataset.price);
-  document.getElementById('btn1').disabled = false;
+  ST.price = parseInt(card.dataset.price) || 0;
+  document.getElementById('btn2').disabled = false;
   updateSidebarBadge();
   updateTierUI();
-}
-
-// Robust plan card click - handles clicks on child elements too
-(function() {
-  document.querySelectorAll('.plan-card').forEach(function(card) {
-    card.addEventListener('click', function(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      selectPlan(card);
-    });
-  });
-})();
-
-// == 2. Toggle actor ==
-function toggleActor(card) {
-  card.classList.toggle('selected');
-  var a = card.dataset.actor;
-  var i = ST.actors.indexOf(a);
-  if (i >= 0) ST.actors.splice(i, 1); else ST.actors.push(a);
-  var n = ST.actors.length;
-  document.getElementById('actorCount').textContent = n + ' seleccionado' + (n !== 1 ? 's':'');
-  document.getElementById('btn2').disabled = n === 0;
-  updateSidebarBadge();
-  // Show cantera fields
-  document.getElementById('sec_cantera').style.display = ST.actors.includes('cantera') ? 'block' : 'none';
 }
 
 // == Sidebar badge ==
 function updateSidebarBadge() {
   var b = document.getElementById('planBadge');
-  if (!ST.plan) { b.classList.remove('show'); return; }
+  if (!ST.actorKey) { b.classList.remove('show'); return; }
   b.classList.add('show');
-  document.getElementById('spbName').textContent  = PLAN_NAMES[ST.plan] || '-';
-  document.getElementById('spbPrice').textContent = PLAN_PERIODS[ST.plan] || '-';
+  document.getElementById('spbName').textContent  = PLAN_NAMES[ST.plan] || '—';
+  document.getElementById('spbPrice').textContent = ST.price > 0 ? '€' + ST.price.toLocaleString('es-ES') + '/año' : (ST.plan ? 'Gratuito' : '—');
   var actEl = document.getElementById('spbActors');
-  if (ST.actors.length > 0) {
-    actEl.style.display = 'block';
-    actEl.textContent = ST.actors.map(function(a){ return ACTOR_NAMES[a]||a; }).join(' · ');
-  } else { actEl.style.display = 'none'; }
+  actEl.style.display = 'block';
+  actEl.textContent = ACTOR_NAMES[ST.actorKey] || ST.actorKey;
 }
 
 // == Tier-based UI ==
@@ -2030,6 +2071,7 @@ function goTo(n) {
   ST.step = n;
   updateSteps(n);
   window.scrollTo({ top:0, behavior:'smooth' });
+  if (n === 2) renderPlanCards();
   if (n === 4) fillReview();
 }
 
@@ -2085,13 +2127,13 @@ function fillReview() {
   function v(id) { var e=document.getElementById(id); return e ? (e.value.trim()||'—') : '—'; }
 
   document.getElementById('rv_plan').textContent   = PLAN_NAMES[ST.plan] || '-';
-  document.getElementById('rv_actors').textContent = ST.actors.map(function(a){ return ACTOR_NAMES[a]||a; }).join(' · ') || '-';
+  document.getElementById('rv_actors').textContent = ST.actorKey ? (ACTORS_DATA[ST.actorKey] ? ACTORS_DATA[ST.actorKey].nombre : ST.actorKey) : '-';
 
   var priceEl = document.getElementById('rv_price');
   if (ST.price === 0) { priceEl.innerHTML = '<span style="font-size:28px;font-family:Cormorant Garamond,serif;color:#A67C52">Gratuito</span>'; }
-  else { priceEl.innerHTML = '<sup>€</sup>' + ST.price; }
+  else { priceEl.innerHTML = '<sup>€</sup>' + ST.price.toLocaleString('es-ES'); }
 
-  document.getElementById('rv_period').textContent  = PLAN_PERIODS[ST.plan] || '-';
+  document.getElementById('rv_period').textContent = ST.price > 0 ? '€' + ST.price.toLocaleString('es-ES') + ' · facturación anual' : 'Sin coste';
   document.getElementById('rv_nombre').textContent  = v('f_nombre');
   var paisSel = document.getElementById('f_pais');
   document.getElementById('rv_pais').textContent = paisSel && paisSel.selectedIndex > 0 ? paisSel.options[paisSel.selectedIndex].text : '—';
@@ -2178,7 +2220,7 @@ function submitForm() {
       linkedin:           v('f_linkedin')   || null,
       responsable_nombre: v('f_resp_nombre'),
       responsable_cargo:  v('f_resp_cargo'),
-      tipo_empresa:       (ST.actors && ST.actors.length) ? (ACTOR_NAMES[ST.actors[0]] || ST.actors[0]) : null,
+      tipo_empresa:       ST.actorKey ? (ACTOR_NAMES[ST.actorKey] || ST.actorKey) : null,
       tier:               ST.plan || 'free',
       activo:             ST.plan === 'free',
       plan_activo:        ST.plan === 'free',
@@ -2194,7 +2236,7 @@ function submitForm() {
       if (selCants.length) fullPayload.canteras   = selCants.map(function(i){ return i.id; });
     }
 
-    if (ST.actors && ST.actors.length) fullPayload.sector = ST.actors;
+    if (ST.actorKey) fullPayload.sector = [ST.actorKey];
 
     // Payload mínimo de reserva (solo columnas originales seguras)
     var safePayload = {
