@@ -1325,15 +1325,15 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="step-row" id="si2">
         <div class="step-dot"><span class="step-num">2</span></div>
         <div class="step-info">
-          <div class="step-name">Tu plan</div>
-          <div class="step-desc">Adaptado a tu perfil</div>
+          <div class="step-name">Tus datos</div>
+          <div class="step-desc">Empresa, contacto y especialización</div>
         </div>
       </div>
       <div class="step-row" id="si3">
         <div class="step-dot"><span class="step-num">3</span></div>
         <div class="step-info">
-          <div class="step-name">Tus datos</div>
-          <div class="step-desc">Empresa, contacto y especialización</div>
+          <div class="step-name">Tu plan</div>
+          <div class="step-desc">Precios adaptados a tu perfil</div>
         </div>
       </div>
       <div class="step-row" id="si4">
@@ -1369,15 +1369,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class="actors-section-hd">Proveedores &amp; servicios</div>
 
-        <div class="actor-card" data-actor="cantera-local" onclick="selectActor(this)">
-          <div class="ac-top"><span class="ac-icon">⛰</span><span class="ac-check">✓</span></div>
-          <div class="ac-name">Cantera · Pequeño productor</div>
-          <div class="ac-desc">Explotación local, 1–5 variedades, venta regional o nacional.</div>
-        </div>
-        <div class="actor-card" data-actor="cantera-export" onclick="selectActor(this)">
-          <div class="ac-top"><span class="ac-icon">🌍</span><span class="ac-check">✓</span></div>
-          <div class="ac-name">Cantera · Exportadora</div>
-          <div class="ac-desc">Exportación activa, ferias internacionales, clientes en varios países.</div>
+        <div class="actor-card" data-actor="cantera" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">⛏</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Cantera · Productor</div>
+          <div class="ac-desc">Extracción y venta de bloques o planchas. Local, regional o con exportación activa.</div>
         </div>
         <div class="actor-card" data-actor="fabricante" onclick="selectActor(this)">
           <div class="ac-top"><span class="ac-icon">🏭</span><span class="ac-check">✓</span></div>
@@ -1385,14 +1380,9 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="ac-desc">Corte, pulido, CNC. Planchas, encimeras, pavimentos y elaborados.</div>
         </div>
         <div class="actor-card" data-actor="distribuidor" onclick="selectActor(this)">
-          <div class="ac-top"><span class="ac-icon">🏪</span><span class="ac-check">✓</span></div>
-          <div class="ac-name">Distribuidor nacional</div>
-          <div class="ac-desc">Importación y distribución local a instaladores, constructoras y decoradores.</div>
-        </div>
-        <div class="actor-card" data-actor="importador" onclick="selectActor(this)">
           <div class="ac-top"><span class="ac-icon">📦</span><span class="ac-check">✓</span></div>
-          <div class="ac-name">Importador · Distribuidor internacional</div>
-          <div class="ac-desc">Grandes volúmenes de importación. Redistribución en mercados destino.</div>
+          <div class="ac-name">Distribuidor · Importador</div>
+          <div class="ac-desc">Compra, importación y distribución de piedra natural a profesionales y mercados destino.</div>
         </div>
         <div class="actor-card" data-actor="agente" onclick="selectActor(this)">
           <div class="ac-top"><span class="ac-icon">🤝</span><span class="ac-check">✓</span></div>
@@ -1413,6 +1403,11 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="ac-top"><span class="ac-icon">🪵</span><span class="ac-check">✓</span></div>
           <div class="ac-name">Embalaje · Palets y Cajones</div>
           <div class="ac-desc">Fabricación de palets, cajones y embalajes para exportación de piedra natural.</div>
+        </div>
+        <div class="actor-card" data-actor="maquinaria" onclick="selectActor(this)">
+          <div class="ac-top"><span class="ac-icon">⚙️</span><span class="ac-check">✓</span></div>
+          <div class="ac-name">Maquinaria industrial</div>
+          <div class="ac-desc">Fabricantes y distribuidores de maquinaria para extracción, corte, pulido y transformación.</div>
         </div>
 
         <div class="actors-section-hd">Compradores &amp; prescriptores <span class="demand-badge">Acceso gratuito</span></div>
@@ -1447,12 +1442,12 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <!-- ══════════════════════════
-         S2 · PLAN DINÁMICO
+         S3 · PLAN DINÁMICO
     ══════════════════════════ -->
-    <div class="screen" id="s2">
-      <div class="screen-eyebrow">Paso 2 de 4</div>
+    <div class="screen" id="s3">
+      <div class="screen-eyebrow">Paso 3 de 4</div>
       <h1 class="screen-title">Elige tu<br><em>plan de visibilidad</em></h1>
-      <p class="screen-desc">Precios adaptados a tu perfil como <strong id="s2-actor-name">—</strong>. Facturación anual, cancela cuando quieras.</p>
+      <p class="screen-desc">Precios calculados para tu perfil como <strong id="s2-actor-name">—</strong>. Facturación anual, cancela cuando quieras.</p>
       <div id="s2-roi" style="display:none;background:rgba(201,168,76,0.06);border-left:2px solid #A67C52;padding:12px 16px;margin-bottom:28px;font-size:12px;color:#4a4845;line-height:1.7;"></div>
 
       <div class="plans-grid" id="plans-dynamic" style="margin-top:36px;margin-bottom:44px;"></div>
@@ -1486,18 +1481,18 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
 
       <div class="btn-row">
-        <button class="btn-back" onclick="goTo(1)">← Volver</button>
-        <button class="btn-next" id="btn2" disabled onclick="goTo(3)">Continuar →</button>
+        <button class="btn-back" onclick="goTo(2)">← Volver</button>
+        <button class="btn-next" id="btn3" disabled onclick="goTo(4)">Continuar →</button>
       </div>
     </div>
 
     <!-- ══════════════════════════
-         S3 · FORMULARIO
+         S2 · FORMULARIO
     ══════════════════════════ -->
-    <div class="screen" id="s3">
-      <div class="screen-eyebrow">Paso 3 de 4</div>
-      <h1 class="screen-title">Completa<br><em>tu perfil</em></h1>
-      <p class="screen-desc">Los campos con <span style="color:#A67C52">*</span> son obligatorios. El resto enriquece tu visibilidad en el directorio.</p>
+    <div class="screen" id="s2">
+      <div class="screen-eyebrow">Paso 2 de 4</div>
+      <h1 class="screen-title">Cuéntanos<br><em>quién eres</em></h1>
+      <p class="screen-desc">Campos con <span style="color:#A67C52">*</span> obligatorios. Cuanto más completo, mejor visibilidad tendrás en el directorio. Los precios los verás en el siguiente paso.</p>
 
       <div class="fsections">
 
@@ -1643,7 +1638,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="fsec" id="sec_imagenes">
           <div class="fsec-hd">Imágenes y catálogo</div>
           <div id="img_notice_free" style="display:none">
-            <div class="tier-notice">Plan Directorio: las imágenes no se publican. <a href="#" onclick="goTo(1);return false">Cambia tu plan</a> a Presencia o superior para añadir fotos a tu ficha.</div>
+            <div class="tier-notice">Podrás subir imágenes en el paso siguiente al elegir el plan Presencia o superior.</div>
           </div>
           <div id="img_fields">
             <div class="uzone" style="margin-bottom:2px" id="uz_logo">
@@ -1710,8 +1705,8 @@ document.addEventListener('DOMContentLoaded', function() {
       </div><!-- /fsections -->
 
       <div class="btn-row">
-        <button class="btn-back" onclick="goTo(2)">← Volver</button>
-        <button class="btn-next" onclick="validateS3()">Revisar solicitud →</button>
+        <button class="btn-back" onclick="goTo(1)">← Volver</button>
+        <button class="btn-next" onclick="validateS3()">Continuar →</button>
       </div>
     </div>
 
@@ -1762,7 +1757,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <button class="btn-submit" onclick="submitForm()">Enviar solicitud de alta →</button>
 
       <div class="btn-row" style="border:none;padding-top:16px;margin-top:4px;">
-        <button class="btn-back" onclick="goTo(3)">← Modificar datos</button>
+        <button class="btn-back" onclick="goTo(3)">← Cambiar plan</button>
         <span class="btn-row-info">Revisión en 24–48h</span>
       </div>
     </div>
@@ -1810,15 +1805,14 @@ var ST = { plan:null, price:0, actorKey:null, step:1 };
 
 // ── Datos por perfil ─────────────────────────
 var ACTORS_DATA = {
-  'cantera-local':  { nombre:'Cantera · Pequeño productor',         sector:'supply', roi:'Un solo importador nuevo puede amortizar 5 años de suscripción.',       pricing:{ presencia:290,  profesional:590,  elite:990   } },
-  'cantera-export': { nombre:'Cantera Exportadora',                  sector:'supply', roi:'Un contenedor a un buyer nuevo vale 10 años de la suscripción Élite.',  pricing:{ presencia:590,  profesional:1490, elite:2900  } },
-  'fabricante':     { nombre:'Fabricante · Transformador',           sector:'supply', roi:'Un distribuidor nuevo en tu mercado justifica el plan al primer mes.',   pricing:{ presencia:390,  profesional:890,  elite:1900  } },
-  'distribuidor':   { nombre:'Distribuidor Nacional',                sector:'supply', roi:'Un arquitecto recurrente vale más que 10 años de suscripción.',         pricing:{ presencia:490,  profesional:990,  elite:1790  } },
-  'importador':     { nombre:'Importador Internacional',             sector:'supply', roi:'Encontrar el proveedor que tu competencia no conoce lo vale todo.',      pricing:{ presencia:790,  profesional:1990, elite:3900  } },
-  'agente':         { nombre:'Agente Comercial',                     sector:'supply', roi:'Una representación nueva vale decenas de miles en comisiones al año.',   pricing:{ presencia:149,  profesional:390,  elite:690   } },
-  'logistica':      { nombre:'Logística Especializada en Piedra',    sector:'supply', roi:'Un cliente que mueve 20 contenedores/año vale 24.000€ en facturación.',  pricing:{ presencia:390,  profesional:890,  elite:1490  } },
-  'laboratorio':    { nombre:'Laboratorio · Certificación',          sector:'supply', roi:'Aparecer cuando una cantera necesita certificar para exportar.',         pricing:{ presencia:290,  profesional:690,  elite:1190  } },
-  'palets-cajones': { nombre:'Embalaje · Palets y Cajones',          sector:'supply', roi:'Un exportador recurrente puede mover 200+ palets al año contigo.',      pricing:{ presencia:290,  profesional:690,  elite:1190  } },
+  'cantera':        { nombre:'Cantera · Productor',                  sector:'supply', roi:'Un solo comprador internacional nuevo puede amortizar años de suscripción. El plan te diferencia, no el nombre.',   pricing:{ presencia:390,  profesional:990,  elite:1900  } },
+  'fabricante':     { nombre:'Fabricante · Transformador',           sector:'supply', roi:'Un distribuidor nuevo en un mercado donde no estabas puede generar 200K€ en el primer año.',                       pricing:{ presencia:390,  profesional:890,  elite:1900  } },
+  'distribuidor':   { nombre:'Distribuidor · Importador',            sector:'supply', roi:'Encontrar un proveedor exclusivo antes que tu competencia puede definir tu margen durante años.',                  pricing:{ presencia:590,  profesional:1290, elite:2500  } },
+  'agente':         { nombre:'Agente Comercial',                     sector:'supply', roi:'Una representación nueva vale decenas de miles en comisiones al año. El Élite se amortiza en una sola operación.', pricing:{ presencia:149,  profesional:390,  elite:690   } },
+  'logistica':      { nombre:'Logística Especializada en Piedra',    sector:'supply', roi:'Un cliente que mueve 20 contenedores/año supone 24.000€ en facturación recurrente.',                               pricing:{ presencia:390,  profesional:890,  elite:1490  } },
+  'laboratorio':    { nombre:'Laboratorio · Certificación',          sector:'supply', roi:'Aparecer cuando una cantera necesita certificar para exportar a EE.UU. o Alemania tiene un valor enorme.',         pricing:{ presencia:290,  profesional:690,  elite:1190  } },
+  'palets-cajones': { nombre:'Embalaje · Palets y Cajones',          sector:'supply', roi:'Un exportador recurrente puede mover 200+ palets al año contigo. Visibilidad en el momento de necesidad.',         pricing:{ presencia:290,  profesional:690,  elite:1190  } },
+  'maquinaria':     { nombre:'Maquinaria Industrial',                sector:'supply', roi:'Los fabricantes y canteras buscan maquinaria cuando crecen. Estar presente en ese momento lo es todo.',            pricing:{ presencia:390,  profesional:890,  elite:1490  } },
   'arquitecto':     { nombre:'Arquitecto · Diseñador de Interiores', sector:'demand', roi:'', pricing:{ presencia:0, profesional:190, elite:490  } },
   'constructora':   { nombre:'Constructora · Promotora',             sector:'demand', roi:'', pricing:{ presencia:0, profesional:490, elite:990  } },
   'comprador':      { nombre:'Comprador Corporativo',                sector:'demand', roi:'', pricing:{ presencia:0, profesional:390, elite:790  } },
@@ -1843,12 +1837,12 @@ var FEATS = {
 // ── Nombres de plan/actor ─────────────────────
 var PLAN_NAMES  = { free:'Directorio', presencia:'Presencia', profesional:'Profesional', elite:'Élite' };
 var ACTOR_NAMES = {
-  'cantera-local':'Cantera · Pequeño productor','cantera-export':'Cantera Exportadora',
-  'fabricante':'Fabricante · Transformador','distribuidor':'Distribuidor Nacional',
-  'importador':'Importador Internacional','agente':'Agente Comercial',
-  'logistica':'Logística Especializada','laboratorio':'Laboratorio · Certificación',
-  'palets-cajones':'Embalaje · Palets y Cajones','arquitecto':'Arquitecto · Diseñador',
-  'constructora':'Constructora · Promotora','comprador':'Comprador Corporativo','instalador':'Instalador · Colocador'
+  'cantera':'Cantera · Productor','fabricante':'Fabricante · Transformador',
+  'distribuidor':'Distribuidor · Importador','agente':'Agente Comercial',
+  'logistica':'Logística Especializada en Piedra','laboratorio':'Laboratorio · Certificación',
+  'palets-cajones':'Embalaje · Palets y Cajones','maquinaria':'Maquinaria Industrial',
+  'arquitecto':'Arquitecto · Diseñador de Interiores','constructora':'Constructora · Promotora',
+  'comprador':'Comprador Corporativo','instalador':'Instalador · Colocador'
 };
 
 // ── Países del mundo (ISO + español) ────────
@@ -1931,7 +1925,7 @@ function selectActor(card) {
   card.classList.add('selected');
   ST.actorKey = card.dataset.actor;
   document.getElementById('btn1').disabled = false;
-  var isCantera = ST.actorKey === 'cantera-local' || ST.actorKey === 'cantera-export';
+  var isCantera = ST.actorKey === 'cantera';
   var secCant = document.getElementById('sec_cantera');
   if (secCant) secCant.style.display = isCantera ? 'block' : 'none';
   updateSidebarBadge();
@@ -2004,7 +1998,7 @@ function renderPlanCards() {
   });
 
   ST.plan = null; ST.price = 0;
-  document.getElementById('btn2').disabled = true;
+  document.getElementById('btn3').disabled = true;
   updateSidebarBadge();
 }
 
@@ -2014,7 +2008,7 @@ function selectPlan(card) {
   card.classList.add('selected');
   ST.plan  = card.dataset.plan;
   ST.price = parseInt(card.dataset.price) || 0;
-  document.getElementById('btn2').disabled = false;
+  document.getElementById('btn3').disabled = false;
   updateSidebarBadge();
   updateTierUI();
 }
@@ -2071,7 +2065,7 @@ function goTo(n) {
   ST.step = n;
   updateSteps(n);
   window.scrollTo({ top:0, behavior:'smooth' });
-  if (n === 2) renderPlanCards();
+  if (n === 3) renderPlanCards();
   if (n === 4) fillReview();
 }
 
@@ -2119,7 +2113,7 @@ function validateS3() {
     window.scrollTo({ top:top, behavior:'smooth' });
     return;
   }
-  goTo(4);
+  goTo(3);
 }
 
 // == Fill review ==
