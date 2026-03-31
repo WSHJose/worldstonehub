@@ -2599,11 +2599,11 @@ footer{background:#111110!important;color:#e8e6e2!important;}
       <div class="stat-label" data-i18n="index.hero.stat1">Canteras registradas</div>
     </div>
     <div class="stat">
-      <div class="stat-num">200<span>+</span></div>
+      <div class="stat-num">22.000<span>+</span></div>
       <div class="stat-label" data-i18n="index.hero.stat2">Tipos de piedra</div>
     </div>
     <div class="stat">
-      <div class="stat-num">50</div>
+      <div class="stat-num">138</div>
       <div class="stat-label" data-i18n="index.hero.stat3">Países cubiertos</div>
     </div>
     <div class="stat">
@@ -2743,7 +2743,7 @@ footer{background:#111110!important;color:#e8e6e2!important;}
       <h2 class="section-title" style="font-size:clamp(30px,3.5vw,46px);text-align:center">
         <span data-i18n="index.search.titlePre">Encuentra la piedra,</span><br><em data-i18n="index.search.titleEm">cantera o proveedor</em><span data-i18n="index.search.titleSuf"> perfecto</span>
       </h2>
-      <p class="sp-subtitle" data-i18n="index.search.subtitle">200 materiales · 180 canteras · 7 empresas en directorio · todo en tiempo real</p>
+      <p class="sp-subtitle" id="spSubtitle" data-i18n="index.search.subtitle">22.000+ materiales · 180 canteras · todo en tiempo real</p>
     </div>
 
     <!-- Search input -->
@@ -2752,17 +2752,11 @@ footer{background:#111110!important;color:#e8e6e2!important;}
       <input type="text" id="globalSearch" class="sp-input"
         placeholder="Busca: mármol blanco Italia, Carrara, granito negro, Levantina, encimera cocina…"
         data-i18n-attr="placeholder:search.placeholder"
-        autocomplete="off" spellcheck="false"/>
+        autocomplete="new-password" spellcheck="false" name="search"/>
       <span class="sp-kbd" data-i18n="index.search.esc">ESC para cerrar</span>
     </div>
 
-    <!-- Filter pills -->
-    <div class="sp-filters" id="spFilters">
-      <button class="sp-pill active" data-type="all"><span data-i18n="index.search.pillTodos">Todos</span> <span class="sp-pill-count" id="cntAll">383</span></button>
-      <button class="sp-pill" data-type="material"><span data-i18n="index.search.pillMateriales">Materiales</span> <span class="sp-pill-count" id="cntMat">200</span></button>
-      <button class="sp-pill" data-type="cantera"><span data-i18n="index.search.pillCanteras">Canteras</span> <span class="sp-pill-count" id="cntCan">180</span></button>
-      <button class="sp-pill" data-type="proveedor"><span data-i18n="index.search.pillProveedores">Proveedores</span> <span class="sp-pill-count" id="cntPro">3</span></button>
-    </div>
+    <!-- Filter pills removed — búsqueda unificada -->
 
     <!-- Trending searches (visible when input empty) -->
     <div class="sp-trending" id="spTrending">

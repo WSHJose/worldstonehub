@@ -315,6 +315,15 @@ nav{
       </div>
     </div>
 
+    <!-- Quality filter toggle -->
+    <div style="padding:10px 16px 4px;border-bottom:1px solid rgba(255,255,255,.06);">
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dm-muted);margin-bottom:8px;">Calidad de ficha</div>
+      <div style="display:flex;gap:6px;">
+        <button id="qbtn-stars" onclick="setQuality(50)" style="flex:1;padding:5px 0;font-size:10px;font-weight:600;letter-spacing:1px;border-radius:4px;cursor:pointer;border:1px solid rgba(201,168,76,.5);background:rgba(201,168,76,.15);color:#c9a84c;">★★+ Calidad</button>
+        <button id="qbtn-all" onclick="setQuality(0)" style="flex:1;padding:5px 0;font-size:10px;font-weight:600;letter-spacing:1px;border-radius:4px;cursor:pointer;border:1px solid rgba(255,255,255,.12);background:transparent;color:var(--dm-muted);">Todos</button>
+      </div>
+    </div>
+
     <div class="sb-body">
       <!-- Category filter -->
       <div class="sb-sec open" id="sec-cat">
@@ -449,6 +458,7 @@ let allData = [];
 let filteredData = [];
 let map, activeCat = null, activeColor = null, activeCountry = null;
 let searchTerm = '';
+let activeQuality = 50; // default: ★★+ (content_score >= 50)
 
 // ─────────────────────────────────────────────
 //  INIT
@@ -501,7 +511,7 @@ function applyJitter(d) {
 }
 
 async function loadData() {
-  const fields = 'id,nombre_comercial,categoria,color_principal,origen_pais,origen_region,lat,lng';
+  const fields = 'id,nombre_comercial,categoria,color_principal,origen_pais,origen_region,lat,lng,content_score';
   const hdrs = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` };
   const PAGE = 3500;
 
@@ -522,6 +532,9 @@ async function loadData() {
     console.error('loadData error:', e);
     allData = [];
   }
+
+  // Por defecto mostrar solo ★★ y ★★★ (content_score >= 50)
+  activeQuality = 50;
 
   buildFilters();
   updateStats();
@@ -717,6 +730,17 @@ function buildFilters() {
   ).join('');
 }
 
+function setQuality(minScore) {
+  activeQuality = minScore;
+  document.getElementById('qbtn-stars').style.background = minScore > 0 ? 'rgba(201,168,76,.15)' : 'transparent';
+  document.getElementById('qbtn-stars').style.borderColor = minScore > 0 ? 'rgba(201,168,76,.5)' : 'rgba(255,255,255,.12)';
+  document.getElementById('qbtn-stars').style.color = minScore > 0 ? '#c9a84c' : 'var(--dm-muted)';
+  document.getElementById('qbtn-all').style.background = minScore === 0 ? 'rgba(201,168,76,.15)' : 'transparent';
+  document.getElementById('qbtn-all').style.borderColor = minScore === 0 ? 'rgba(201,168,76,.5)' : 'rgba(255,255,255,.12)';
+  document.getElementById('qbtn-all').style.color = minScore === 0 ? '#c9a84c' : 'var(--dm-muted)';
+  applyFilters();
+}
+
 function toggleSec(id) {
   document.getElementById('sec-' + id).classList.toggle('open');
 }
@@ -759,6 +783,7 @@ function updateBadge(id, count) {
 function applyFilters() {
   const s = searchTerm.toLowerCase();
   filteredData = allData.filter(d => {
+    if (activeQuality > 0 && (d.content_score || 0) < activeQuality) return false;
     if (activeCat && d.categoria !== activeCat) return false;
     if (activeColor && d.color_principal !== activeColor) return false;
     if (activeCountry) {

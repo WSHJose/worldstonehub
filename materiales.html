@@ -303,12 +303,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
     <div class="search-row">
       <div class="search-wrap">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" id="searchInput" placeholder="Buscar material, color, país, acabado…" data-i18n-attr="placeholder:search.placeholderMateriales">
+        <input type="text" id="searchInput" placeholder="Buscar material, color, país, acabado…" data-i18n-attr="placeholder:search.placeholderMateriales" autocomplete="new-password" name="mat-search">
       </div>
       <select id="sortSelect" class="sort-select" title="Ordenar por">
         <option value="calidad" selected>★ Calidad de ficha</option>
         <option value="az">A → Z</option>
         <option value="za">Z → A</option>
+        <option value="precio_asc">Precio ↑</option>
+        <option value="precio_desc">Precio ↓</option>
         <option value="pais">Por país</option>
         <option value="cat">Por categoría</option>
       </select>
@@ -754,6 +756,17 @@ function applyFilters() {
     if (activeSort === 'cat') {
       return (a.categoria||'').localeCompare(b.categoria||'', 'es') || (a.nombre_comercial||'').localeCompare(b.nombre_comercial||'', 'es');
     }
+    if (activeSort === 'precio_asc' || activeSort === 'precio_desc') {
+      // Extract first number from precio_orientativo text (e.g. "€40–€80/m²" → 40)
+      function extractPrecio(s) {
+        if (!s) return activeSort === 'precio_asc' ? Infinity : -1;
+        var m = (s+'').match(/[\d]+([.,]\d+)?/);
+        return m ? parseFloat(m[0].replace(',','.')) : (activeSort === 'precio_asc' ? Infinity : -1);
+      }
+      var pa = extractPrecio(a.precio_orientativo);
+      var pb = extractPrecio(b.precio_orientativo);
+      return activeSort === 'precio_asc' ? pa - pb : pb - pa;
+    }
     return (a.nombre_comercial||'').localeCompare(b.nombre_comercial||'', 'es'); // az
   });
 
@@ -883,7 +896,7 @@ function showFeaturedStone() {
    correcto con slug de cada ficha
 ══════════════════════════════════════ */
 (function loadMateriales() {
-  var SELECT = 'slug,nombre_comercial,nombres_alternativos,categoria,origen_pais,origen_region,color_principal,color_acento,acabados_disponibles,usos_recomendados,propiedades_tecnicas,tags_busqueda,imagen_url_principal,activo,content_score';
+  var SELECT = 'slug,nombre_comercial,nombres_alternativos,categoria,origen_pais,origen_region,color_principal,color_acento,acabados_disponibles,usos_recomendados,propiedades_tecnicas,tags_busqueda,imagen_url_principal,activo,content_score,precio_orientativo';
   var BASE   = SB_URL + '/rest/v1/materiales?select=' + SELECT + '&activo=eq.true&order=content_score.desc.nullslast,nombre_comercial.asc';
   var PAGE   = 1000;
   var allData = [];
