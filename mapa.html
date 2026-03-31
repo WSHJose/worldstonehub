@@ -513,21 +513,33 @@ function applyJitter(d) {
 async function loadData() {
   const fields = 'id,nombre_comercial,categoria,color_principal,origen_pais,origen_region,lat,lng,content_score';
   const hdrs = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` };
-  const PAGE = 3500;
+  const PAGE = 1000; // Supabase default max rows per request
 
   function fetchPage(offset) {
     const url = `${SB_URL}/rest/v1/materiales?select=${fields}&lat=not.is.null&order=id.asc&limit=${PAGE}&offset=${offset}`;
     return fetch(url, { headers: hdrs }).then(r => r.ok ? r.json() : []).catch(() => []);
   }
 
+  // Fetch quality materials directly (content_score >= 50) — small set, always complete
+  async function fetchQuality() {
+    const url = `${SB_URL}/rest/v1/materiales?select=${fields}&lat=not.is.null&content_score=gte.50&order=content_score.desc&limit=500`;
+    return fetch(url, { headers: hdrs }).then(r => r.ok ? r.json() : []).catch(() => []);
+  }
+
   try {
-    // 7 pages covers all 22,145 geolocated materials
-    const results = await Promise.all([
-      fetchPage(0), fetchPage(PAGE), fetchPage(PAGE*2), fetchPage(PAGE*3),
-      fetchPage(PAGE*4), fetchPage(PAGE*5), fetchPage(PAGE*6),
-    ]);
+    // Load quality materials immediately (needed for default view)
+    const qualityRaw = await fetchQuality();
+    const qualityData = qualityRaw.filter(d => d.lat != null && d.lng != null).map(applyJitter);
+
+    // Load all geolocated materials in background (25 pages × 1000 = 25k max)
+    const pageNums = Array.from({ length: 25 }, (_, i) => i * PAGE);
+    const results = await Promise.all(pageNums.map(offset => fetchPage(offset)));
     const raw = results.flat();
-    allData = raw.filter(d => d.lat != null && d.lng != null).map(applyJitter);
+
+    // Merge: quality materials first, then add any from full load not already present
+    const qualityIds = new Set(qualityData.map(d => d.id));
+    const restData = raw.filter(d => d.lat != null && d.lng != null && !qualityIds.has(d.id)).map(applyJitter);
+    allData = [...qualityData, ...restData];
   } catch (e) {
     console.error('loadData error:', e);
     allData = [];
