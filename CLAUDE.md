@@ -9,7 +9,7 @@
 **World Stone Hub** — directorio B2B del sector de la piedra natural (mármol, granito, cuarcita, etc.).
 Conecta proveedores, canteras, distribuidores y compradores a nivel mundial.
 
-- **Live site:** https://WSHJose.github.io/worldstonehub/
+- **Live site:** https://worldstonehub.com (dominio activo desde 2026-04-01 · DNS propagando)
 - **Repo GitHub:** https://github.com/WSHJose/worldstonehub
 - **Deploy:** GitHub Pages (rama `main`, automático en cada push)
 - **Propietario:** Jose (WSHJose)
@@ -219,7 +219,7 @@ SVG data-URI: fondo `#1a1917`, letra W en `#A67C52`
 - Regiones mostrándose sin corchetes
 
 ### Pendiente crítico ⚠️
-- [ ] Dominio propio (worldstonehub.com) — actualizar `SITE_URL` en Supabase secrets tras compra
+- [ ] Oferta de Fundadores — página/PDF con condiciones especiales para primeros clientes
 - [ ] `visibility_score`: conectar a alguna página (proveedores.html o panel.html)
 - [ ] `content_score` visible en admin para poder editar/revisar fichas bajas
 
