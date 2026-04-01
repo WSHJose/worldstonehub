@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Templates Outreach Fundadores — World Stone Hub</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold:  #A67C52;
+      --elite: #C9A84C;
+      --bg:    #f8f7f5;
+      --bg2:   #ffffff;
+      --ink:   #1A1917;
+      --ink2:  #4a4845;
+      --ink3:  #8a8784;
+      --border:#e2e0dc;
+      --green: #27ae60;
+    }
+    body { background: var(--bg); font-family: 'Instrument Sans', sans-serif; color: var(--ink); font-size: 15px; }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--ink);
+      padding: 0 2rem; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .nav-brand { color: #fff; font-size: 13px; font-weight: 600; opacity: 0.85; }
+    .nav-brand em { color: var(--gold); font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 15px; }
+    .nav-back { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 13px; }
+    .nav-back:hover { color: var(--gold); }
+
+    /* ── HEADER ── */
+    .page-header {
+      background: var(--ink);
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 600; color: #fff; margin-bottom: 0.6rem;
+    }
+    .page-header h1 em { color: var(--elite); font-style: italic; }
+    .page-header p { color: rgba(255,255,255,0.5); max-width: 520px; margin: 0 auto; font-size: 0.95rem; line-height: 1.6; }
+
+    /* ── MAIN ── */
+    .main { max-width: 860px; margin: 3rem auto; padding: 0 1.5rem 4rem; }
+
+    /* ── INSTRUCTIONS ── */
+    .instructions {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--elite);
+      border-radius: 0 8px 8px 0;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2.5rem;
+      font-size: 14px; color: var(--ink2); line-height: 1.6;
+    }
+    .instructions strong { color: var(--ink); }
+
+    /* ── TEMPLATE CARD ── */
+    .template-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .card-header {
+      padding: 1.2rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .card-header-left { display: flex; align-items: center; gap: 0.8rem; }
+    .card-number {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--ink); color: var(--elite);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500;
+      flex-shrink: 0;
+    }
+    .card-title { font-weight: 700; font-size: 15px; color: var(--ink); }
+    .card-channel {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.2rem 0.65rem; border-radius: 100px;
+    }
+    .ch-whatsapp { background: #e8f8ee; color: #1f7a42; border: 1px solid #9fdbb7; }
+    .ch-email    { background: #fff3e0; color: #b25800; border: 1px solid #f5c078; }
+    .ch-linkedin { background: #e8f0ff; color: #1a5fba; border: 1px solid #9ab8f0; }
+    .ch-multi    { background: #f4f0ec; color: var(--gold); border: 1px solid #d4b896; }
+
+    .card-body { padding: 1.5rem; }
+
+    /* Subject line */
+    .subject-line {
+      display: flex; gap: 0.6rem; align-items: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.6rem 1rem;
+      margin-bottom: 1.2rem;
+      font-size: 13px;
+    }
+    .subject-label { color: var(--ink3); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+    .subject-text { color: var(--ink); font-weight: 600; }
+
+    /* Message box */
+    .message-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+      font-size: 14px; line-height: 1.8;
+      color: var(--ink2);
+      white-space: pre-wrap;
+      font-family: inherit;
+      position: relative;
+    }
+    .placeholder {
+      display: inline;
+      background: rgba(201,168,76,0.18);
+      color: #8a5c1a;
+      border-radius: 3px;
+      padding: 0 3px;
+      font-style: italic;
+      font-size: 0.9em;
+    }
+
+    /* Copy button */
+    .copy-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--ink); color: #fff;
+      border: none; cursor: pointer;
+      padding: 0.55rem 1.2rem; border-radius: 6px;
+      font-size: 13px; font-weight: 600;
+      font-family: inherit; letter-spacing: 0.02em;
+      margin-top: 1rem;
+      transition: background 0.2s;
+    }
+    .copy-btn:hover { background: #333; }
+    .copy-btn.copied { background: var(--green); }
+    .copy-btn svg { flex-shrink: 0; }
+
+    /* Tips */
+    .tip-box {
+      margin-top: 1rem;
+      background: #f4f2ef;
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+      font-size: 13px; color: var(--ink2); line-height: 1.6;
+    }
+    .tip-box strong { color: var(--gold); }
+
+    /* ── SECTION TITLE ── */
+    .section-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.5rem;
+    }
+    .section-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    /* ── QUICK TIPS ── */
+    .quick-tips {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem; margin-top: 2.5rem;
+    }
+    .qt-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem;
+    }
+    .qt-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .qt-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 0.3rem; }
+    .qt-card p { font-size: 12px; color: var(--ink2); line-height: 1.5; }
+
+    @media (max-width: 600px) {
+      .card-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">WORLD STONE <em>Hub</em> · Templates Fundadores</span>
+  <a href="fundadores.html" class="nav-back">← Volver a Fundadores</a>
+</nav>
+
+<!-- HEADER -->
+<div class="page-header">
+  <h1>Templates de <em>Outreach</em></h1>
+  <p>5 mensajes listos para usar. Personaliza los campos marcados en amarillo y envía. Sin rodeos.</p>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <div class="instructions">
+    <strong>Cómo usar estos templates:</strong> Los campos <span style="background:rgba(201,168,76,0.25);color:#8a5c1a;padding:0 4px;border-radius:3px;font-style:italic;">[en cursiva amarilla]</span> son variables que debes personalizar antes de enviar. Cada mensaje tiene un botón de copiar. Adapta el tono a tu relación con el contacto.
+  </div>
+
+  <!-- ── TEMPLATE 1: WHATSAPP FRÍO ── -->
+  <div class="template-card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-number">01</div>
+        <span class="card-title">WhatsApp — Primer contacto frío</span>
+      </div>
+      <span class="card-channel ch-whatsapp">📱 WhatsApp</span>
+    </div>
+    <div class="card-body">
+      <div class="subject-line">
+        <span class="subject-label">Contexto</span>
+        <span class="subject-text">Para contactos del sector que no te conocen. Directo y breve.</span>
+      </div>
+      <div class="message-box" id="msg-01">Hola <span class="placeholder">[Nombre]</span>, soy Jose, fundador de World Stone Hub.
+
+Estamos creando el primer directorio B2B serio del sector de la piedra natural en español — ya tenemos 22.000+ materiales de 138 países y el directorio activo.
+
+Antes del lanzamiento público tenemos 20 plazas para Fundadores con precio bloqueado de por vida y acceso Elite completo. He pensado en <span class="placeholder">[nombre empresa]</span> porque <span class="placeholder">[razón concreta: "sois referentes en distribución en España" / "vi vuestros materiales en la feria de Verona" / etc.]</span>.
+
+¿Te interesa? Te mando la info en un minuto.
+
+worldstonehub.com</div>
+      <button class="copy-btn" onclick="copyMsg('msg-01', this)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M2 9.5V2.5A.5.5 0 012.5 2h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Copiar mensaje
+      </button>
+      <div class="tip-box">
+        <strong>💡 Tip:</strong> La clave está en la razón concreta. No mandes el mismo mensaje a todos. Un detalle específico sobre su empresa multiplica la tasa de respuesta por 3.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TEMPLATE 2: EMAIL FORMAL ── -->
+  <div class="template-card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-number">02</div>
+        <span class="card-title">Email — Propuesta formal</span>
+      </div>
+      <span class="card-channel ch-email">✉️ Email</span>
+    </div>
+    <div class="card-body">
+      <div class="subject-line">
+        <span class="subject-label">Asunto</span>
+        <span class="subject-text">Programa Fundadores World Stone Hub — 20 plazas antes del lanzamiento</span>
+      </div>
+      <div class="message-box" id="msg-02">Hola <span class="placeholder">[Nombre]</span>,
+
+Me pongo en contacto porque estoy lanzando World Stone Hub, el primer directorio B2B del sector de la piedra natural a nivel internacional, y creo que <span class="placeholder">[nombre empresa]</span> encaja perfectamente en lo que estamos construyendo.
+
+En cifras rápidas: 22.000+ fichas de materiales, 138 países de origen, mapa interactivo, directorio de proveedores con ficha completa. Todo enfocado al profesional del sector, no al consumidor final.
+
+Antes del lanzamiento público tenemos abiertas 20 plazas de Fundador:
+• Precio bloqueado de por vida (entre un 34% y un 41% menos que la tarifa estándar)
+• Acceso Elite completo desde el día uno
+• Badge "Fundador" permanente en el perfil
+• Onboarding personalizado incluido
+
+El precio para <span class="placeholder">[tipo de empresa]</span> es de <span class="placeholder">[precio fundador]</span> €/año, frente a los <span class="placeholder">[precio normal]</span> €/año que será la tarifa oficial.
+
+Adjunto la oferta completa. Si quieres reservar tu plaza o tienes alguna pregunta, responde a este email o entra directamente en:
+
+worldstonehub.com/fundadores
+
+Un saludo,
+Jose
+World Stone Hub
+hola@worldstonehub.com</div>
+      <button class="copy-btn" onclick="copyMsg('msg-02', this)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M2 9.5V2.5A.5.5 0 012.5 2h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Copiar mensaje
+      </button>
+      <div class="tip-box">
+        <strong>💡 Tip:</strong> Adjunta el PDF de <code>fundadores-oferta.html</code> (imprimir → guardar como PDF desde el navegador). En el email pon el precio exacto de su tipo de empresa: eso muestra que has hecho los deberes.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TEMPLATE 3: LINKEDIN DM ── -->
+  <div class="template-card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-number">03</div>
+        <span class="card-title">LinkedIn — DM directo</span>
+      </div>
+      <span class="card-channel ch-linkedin">🔗 LinkedIn</span>
+    </div>
+    <div class="card-body">
+      <div class="subject-line">
+        <span class="subject-label">Contexto</span>
+        <span class="subject-text">Corto. LinkedIn penaliza los mensajes largos en solicitudes de conexión.</span>
+      </div>
+      <div class="message-box" id="msg-03">Hola <span class="placeholder">[Nombre]</span>,
+
+Estoy lanzando World Stone Hub — directorio B2B de piedra natural, 22k+ materiales, 138 países.
+
+Tengo 20 plazas de Fundador con precio bloqueado para siempre y acceso Elite. He pensado en vosotros por <span class="placeholder">[razón concreta]</span>.
+
+¿Puedo mandarte la info?
+
+Jose · worldstonehub.com</div>
+      <button class="copy-btn" onclick="copyMsg('msg-03', this)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M2 9.5V2.5A.5.5 0 012.5 2h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Copiar mensaje
+      </button>
+      <div class="tip-box">
+        <strong>💡 Tip:</strong> Termina siempre con una pregunta de sí/no. "¿Puedo mandarte la info?" tiene mucho más respuesta que mandarlo todo de golpe.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TEMPLATE 4: YA EN CATÁLOGO ── -->
+  <div class="template-card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-number">04</div>
+        <span class="card-title">"Ya estás en el catálogo" — WhatsApp / Email</span>
+      </div>
+      <span class="card-channel ch-multi">📋 WhatsApp o Email</span>
+    </div>
+    <div class="card-body">
+      <div class="subject-line">
+        <span class="subject-label">Contexto</span>
+        <span class="subject-text">Cuando la empresa ya tiene materiales indexados en WSH. Muy alta tasa de apertura.</span>
+      </div>
+      <div class="message-box" id="msg-04">Hola <span class="placeholder">[Nombre]</span>,
+
+Te escribo porque ya tenemos <span class="placeholder">[nombre empresa / sus materiales: "Blanco Macael", "Nero Marquina", etc.]</span> en el catálogo de World Stone Hub.
+
+worldstonehub.com es el primer directorio B2B especializado en piedra natural — 22.000+ materiales de 138 países. Vuestros materiales ya aparecen cuando alguien busca <span class="placeholder">[categoría / país de origen]</span>.
+
+Antes del lanzamiento oficial tengo 20 plazas de Fundador para reclamar vuestro perfil verificado y añadir toda la información de empresa: galería, contacto, catálogos, posicionamiento prioritario. Con precio bloqueado de por vida.
+
+¿Queréis ver cómo aparecéis ahora mismo?
+worldstonehub.com/materiales
+
+Jose · World Stone Hub</div>
+      <button class="copy-btn" onclick="copyMsg('msg-04', this)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M2 9.5V2.5A.5.5 0 012.5 2h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Copiar mensaje
+      </button>
+      <div class="tip-box">
+        <strong>💡 Tip:</strong> Este es el template más poderoso. "Ya estás aquí" genera curiosidad inmediata. Envía el link directo a la ficha de su material si lo tienes. La tasa de clic es muy alta.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TEMPLATE 5: SEGUIMIENTO ── -->
+  <div class="template-card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-number">05</div>
+        <span class="card-title">Seguimiento — Sin respuesta tras 5-7 días</span>
+      </div>
+      <span class="card-channel ch-multi">🔄 WhatsApp o Email</span>
+    </div>
+    <div class="card-body">
+      <div class="subject-line">
+        <span class="subject-label">Contexto</span>
+        <span class="subject-text">Un único seguimiento, nunca más de uno. Breve y con urgencia real.</span>
+      </div>
+      <div class="message-box" id="msg-05">Hola <span class="placeholder">[Nombre]</span>, ¿pudiste ver mi mensaje anterior sobre el programa de Fundadores de WSH?
+
+Solo quería comentarte que ya quedan <span class="placeholder">[número real de plazas libres]</span> plazas disponibles de las 20. Una vez se cubran, cierra el programa.
+
+Si no es el momento adecuado, sin problema. Pero si te interesa echar un vistazo antes de que se agoten, aquí tienes la info completa:
+
+worldstonehub.com/fundadores
+
+Jose</div>
+      <button class="copy-btn" onclick="copyMsg('msg-05', this)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M2 9.5V2.5A.5.5 0 012.5 2h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Copiar mensaje
+      </button>
+      <div class="tip-box">
+        <strong>💡 Tip:</strong> Un solo seguimiento. Más de uno daña la relación. Pon el número real de plazas libres — la escasez honesta funciona, la artificial se nota.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── QUICK TIPS ── -->
+  <div style="margin-top: 3rem;">
+    <p class="section-label">Estrategia</p>
+    <h2 class="section-heading">Consejos de outreach</h2>
+    <div class="quick-tips">
+      <div class="qt-card">
+        <div class="qt-icon">🎯</div>
+        <h4>Calidad > Cantidad</h4>
+        <p>20 contactos muy bien elegidos y personalizados valen más que 200 mensajes genéricos. Prioriza empresas con presencia online activa.</p>
+      </div>
+      <div class="qt-card">
+        <div class="qt-icon">⏰</div>
+        <h4>Momento óptimo</h4>
+        <p>Martes a jueves, entre las 9:00 y las 11:30. Evita lunes por la mañana y viernes tarde. Para WhatsApp, no más tarde de las 19:00.</p>
+      </div>
+      <div class="qt-card">
+        <div class="qt-icon">📊</div>
+        <h4>Lleva un registro</h4>
+        <p>Anota en una hoja: empresa, contacto, canal, fecha de envío, respuesta. Te ayuda a no hacer doble seguimiento y medir qué funciona.</p>
+      </div>
+      <div class="qt-card">
+        <div class="qt-icon">🌍</div>
+        <h4>Sectores prioritarios</h4>
+        <p>Empieza por canteras y fabricantes: son los que más valor tienen en el directorio y los que más rápido ven el ROI de aparecer.</p>
+      </div>
+      <div class="qt-card">
+        <div class="qt-icon">🤝</div>
+        <h4>Ferias y eventos</h4>
+        <p>Marmomac (Verona), Cevisama, Marmomacc... Los asistentes son leads perfectos. El template 01 funciona muy bien post-evento.</p>
+      </div>
+      <div class="qt-card">
+        <div class="qt-icon">📋</div>
+        <h4>Adjunta la oferta</h4>
+        <p>En emails, adjunta siempre el PDF de la oferta (fundadores-oferta.html → imprimir → PDF). Da seriedad y permite que lo reenvíen internamente.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function copyMsg(id, btn) {
+    const el = document.getElementById(id);
+    // Get text content (without HTML tags for placeholders)
+    let text = el.innerText || el.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> ¡Copiado!`;
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M2 9.5V2.5A.5.5 0 012.5 2h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> Copiar mensaje`;
+      }, 2500);
+    }).catch(() => {
+      // Fallback
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+      window.getSelection().removeAllRanges();
+      btn.classList.add('copied');
+      btn.textContent = '¡Copiado!';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M2 9.5V2.5A.5.5 0 012.5 2h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> Copiar mensaje`;
+      }, 2500);
+    });
+  }
+</script>
+</body>
+</html>
