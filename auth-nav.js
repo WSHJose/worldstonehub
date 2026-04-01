@@ -35,20 +35,41 @@
     var s = document.createElement('style');
     s.id = 'wsh-auth-styles';
     s.textContent = [
+      /* ── NAV AUTH SLOT — espacio reservado fijo para evitar layout shift ── */
+      '#nav-auth-item{',
+        'display:inline-flex;align-items:center;justify-content:flex-end;',
+        'min-width:268px;',
+        'padding-left:20px;',
+        'border-left:1px solid #e2e0dc;',
+        'margin-left:8px;',
+      '}',
+
+      /* Skeleton placeholder mientras carga auth */
+      '.nav-auth-skeleton{',
+        'display:inline-flex;align-items:center;gap:8px;',
+      '}',
+      '.nav-auth-skeleton-btn{',
+        'height:30px;border-radius:2px;background:#e2e0dc;',
+        'animation:navSkeletonPulse 1.4s ease-in-out infinite;',
+      '}',
+      '@keyframes navSkeletonPulse{0%,100%{opacity:.5}50%{opacity:1}}',
+
       /* ── NAV AUTH ESTADO A (sin sesión) ── */
+      '.nav-auth-a{display:inline-flex;align-items:center;gap:8px;}',
+
       '.nav-btn-login{',
         'font-family:"Instrument Sans",sans-serif;font-size:10px;letter-spacing:2px;',
         'text-transform:uppercase;color:#4a4845;background:none;',
-        'border:1px solid #d4d0ca;padding:7px 14px;cursor:pointer;',
-        'transition:border-color .2s,color .2s;vertical-align:middle;',
+        'border:1px solid #d4d0ca;padding:7px 14px;cursor:pointer;white-space:nowrap;',
+        'transition:border-color .2s,color .2s;',
       '}',
       '.nav-btn-login:hover{border-color:#A67C52;color:#A67C52;}',
 
       '.nav-btn-cta{',
         'font-family:"Instrument Sans",sans-serif;font-size:10px;letter-spacing:1.5px;',
         'text-transform:uppercase;background:#A67C52;color:#fff!important;',
-        'padding:8px 16px;text-decoration:none;display:inline-block;',
-        'vertical-align:middle;transition:background .2s;margin-left:8px;',
+        'padding:8px 16px;text-decoration:none;display:inline-block;white-space:nowrap;',
+        'transition:background .2s;',
       '}',
       '.nav-btn-cta:hover{background:#1A1917!important;}',
 
@@ -367,7 +388,6 @@
       var label   = email.split('@')[0].replace(/[._-]/g, ' ').slice(0, 20);
 
       slot.innerHTML =
-        '<span class="nav-auth-sep"></span>' +
         '<div class="nav-user-menu" id="wsh-user-menu">' +
           '<div class="nav-avatar" title="' + escHtml(email) + '">' + initial + '</div>' +
           '<span class="nav-user-label" id="wsh-user-label">' + escHtml(label) + '</span>' +
@@ -404,9 +424,10 @@
     } else {
       /* Estado A — sin sesión */
       slot.innerHTML =
-        '<span class="nav-auth-sep"></span>' +
-        '<button class="nav-btn-login" id="wsh-btn-open-login">Iniciar sesi\u00f3n</button>' +
-        '<a href="registro.html" class="nav-btn-cta">Publicar empresa</a>';
+        '<div class="nav-auth-a">' +
+          '<button class="nav-btn-login" id="wsh-btn-open-login">Iniciar sesi\u00f3n</button>' +
+          '<a href="registro.html" class="nav-btn-cta">Publicar empresa</a>' +
+        '</div>';
 
       document.getElementById('wsh-btn-open-login').addEventListener('click', openLoginModal);
     }
@@ -443,9 +464,13 @@
     injectStyles();
     injectModal();
 
-    /* Limpia el slot de inmediato para evitar flash del contenido viejo */
+    /* Muestra skeleton inmediato para reservar espacio y evitar layout shift */
     var slot = document.getElementById('nav-auth-item');
-    if (slot) slot.innerHTML = '<span class="nav-auth-sep"></span>';
+    if (slot) slot.innerHTML =
+      '<div class="nav-auth-skeleton">' +
+        '<div class="nav-auth-skeleton-btn" style="width:90px"></div>' +
+        '<div class="nav-auth-skeleton-btn" style="width:130px"></div>' +
+      '</div>';
 
     function run() {
       var client = getClient();
