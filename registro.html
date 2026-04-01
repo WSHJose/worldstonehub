@@ -242,7 +242,40 @@ nav {
 .plan-price { font-family:'Cormorant Garamond',serif; font-size:42px; line-height:1; color:#A67C52; }
 .plan-price sup { font-size:18px; vertical-align:super; }
 .plan-pm { font-size:11px; color:#8a8784; }
-.plan-billing { font-size:9px; color:#8a8784; letter-spacing:1px; margin-bottom:20px; }
+.plan-billing { font-size:9px; color:#8a8784; letter-spacing:1px; margin-bottom:6px; }
+.plan-saving  { font-size:9px; color:#27ae60; letter-spacing:0.5px; margin-bottom:14px; font-weight:600; }
+
+/* ── Billing toggle ── */
+.bill-toggle-wrap {
+  display: flex; align-items: center; gap: 4px;
+  margin-bottom: 4px;
+}
+.bill-btn {
+  padding: 7px 20px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+  border: 1px solid var(--border2);
+  background: var(--bg-mid);
+  color: var(--ink-4);
+  cursor: pointer;
+  transition: all 0.18s;
+  border-radius: 4px;
+}
+.bill-btn:first-child { border-radius: 4px 0 0 4px; }
+.bill-btn:nth-child(2) { border-radius: 0 4px 4px 0; border-left: none; }
+.bill-btn.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+.bill-save-badge {
+  display: inline-flex; align-items: center;
+  background: rgba(39,174,96,0.1);
+  color: #1b7a3e;
+  font-size: 10px; font-weight: 600;
+  padding: 4px 10px; border-radius: 20px;
+  letter-spacing: 0.3px; margin-left: 8px;
+}
 .plan-divider { height:1px; background:var(--border); margin:0 0 18px; }
 .plan-feats { list-style:none; display:flex; flex-direction:column; gap:9px; flex:1; }
 .plan-feats li {
@@ -1447,10 +1480,17 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="screen" id="s3">
       <div class="screen-eyebrow">Paso 3 de 4</div>
       <h1 class="screen-title">Elige tu<br><em>plan de visibilidad</em></h1>
-      <p class="screen-desc">Precios calculados para tu perfil como <strong id="s2-actor-name">—</strong>. Facturación anual, cancela cuando quieras.</p>
+      <p class="screen-desc">Precios calculados para tu perfil como <strong id="s2-actor-name">—</strong>. Cancela cuando quieras.</p>
       <div id="s2-roi" style="display:none;background:rgba(201,168,76,0.06);border-left:2px solid #A67C52;padding:12px 16px;margin-bottom:28px;font-size:12px;color:#4a4845;line-height:1.7;"></div>
 
-      <div class="plans-grid" id="plans-dynamic" style="margin-top:36px;margin-bottom:44px;"></div>
+      <!-- Toggle facturación -->
+      <div class="bill-toggle-wrap">
+        <button class="bill-btn active" data-mode="annual" onclick="toggleBilling('annual')">Anual</button>
+        <button class="bill-btn" data-mode="monthly" onclick="toggleBilling('monthly')">Mensual</button>
+        <span class="bill-save-badge" id="bill-save-badge">Ahorra 2 meses con anual</span>
+      </div>
+
+      <div class="plans-grid" id="plans-dynamic" style="margin-top:28px;margin-bottom:44px;"></div>
 
       <!-- Comparativa supply (4 planes) -->
       <div id="compare-supply" class="compare-wrap">
@@ -1793,25 +1833,30 @@ document.addEventListener('DOMContentLoaded', function() {
 // WORLD STONE HUB - REGISTRO
 // ===========================================
 
-// ── Stripe Payment Links ─────────────────────
-var STRIPE_PAYMENT_LINKS = {
-  presencia:   'https://buy.stripe.com/test_4gM28k7nd49w3dA3JjfYY01',
-  profesional: 'https://buy.stripe.com/test_cNiaEQ8rh8pM9BY1BbfYY00',
-  elite:       'https://buy.stripe.com/test_cNi8wI0YP35s3dAgw5fYY02'
-};
+// ── Stripe Checkout via Edge Function ────────
+var CHECKOUT_URL = 'https://whcptmdapnavcxcszwwk.supabase.co/functions/v1/create-checkout';
 
 // ── Estado global ───────────────────────────
-var ST = { plan:null, price:0, actorKey:null, step:1 };
+var ST = { plan:null, price:0, actorKey:null, step:1, billing:'annual' };
+
+// ── Toggle facturación ───────────────────────
+function toggleBilling(mode) {
+  ST.billing = mode;
+  document.querySelectorAll('.bill-btn').forEach(function(b){
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  if (ST.actorKey) renderPlanCards();
+}
 
 // ── Datos por perfil ─────────────────────────
 var ACTORS_DATA = {
   'cantera':        { nombre:'Cantera · Productor',                  sector:'supply', roi:'Un solo comprador internacional nuevo puede amortizar años de suscripción. El plan te diferencia, no el nombre.',   pricing:{ presencia:390,  profesional:990,  elite:1900  } },
-  'fabricante':     { nombre:'Fabricante · Transformador',           sector:'supply', roi:'Un distribuidor nuevo en un mercado donde no estabas puede generar 200K€ en el primer año.',                       pricing:{ presencia:390,  profesional:890,  elite:1900  } },
-  'distribuidor':   { nombre:'Distribuidor · Importador',            sector:'supply', roi:'Encontrar un proveedor exclusivo antes que tu competencia puede definir tu margen durante años.',                  pricing:{ presencia:590,  profesional:1290, elite:2500  } },
-  'agente':         { nombre:'Agente Comercial',                     sector:'supply', roi:'Una representación nueva vale decenas de miles en comisiones al año. El Élite se amortiza en una sola operación.', pricing:{ presencia:149,  profesional:390,  elite:690   } },
+  'fabricante':     { nombre:'Fabricante · Transformador',           sector:'supply', roi:'Un distribuidor nuevo en un mercado donde no estabas puede generar 200K€ en el primer año.',                       pricing:{ presencia:390,  profesional:890,  elite:1490  } },
+  'distribuidor':   { nombre:'Distribuidor · Importador',            sector:'supply', roi:'Encontrar un proveedor exclusivo antes que tu competencia puede definir tu margen durante años.',                  pricing:{ presencia:590,  profesional:1290, elite:1990  } },
+  'agente':         { nombre:'Agente Comercial',                     sector:'supply', roi:'Una representación nueva vale decenas de miles en comisiones al año. El Élite se amortiza en una sola operación.', pricing:{ presencia:99,   profesional:390,  elite:490   } },
   'logistica':      { nombre:'Logística Especializada en Piedra',    sector:'supply', roi:'Un cliente que mueve 20 contenedores/año supone 24.000€ en facturación recurrente.',                               pricing:{ presencia:390,  profesional:890,  elite:1490  } },
   'laboratorio':    { nombre:'Laboratorio · Certificación',          sector:'supply', roi:'Aparecer cuando una cantera necesita certificar para exportar a EE.UU. o Alemania tiene un valor enorme.',         pricing:{ presencia:290,  profesional:690,  elite:1190  } },
-  'palets-cajones': { nombre:'Embalaje · Palets y Cajones',          sector:'supply', roi:'Un exportador recurrente puede mover 200+ palets al año contigo. Visibilidad en el momento de necesidad.',         pricing:{ presencia:290,  profesional:690,  elite:1190  } },
+  'palets-cajones': { nombre:'Embalaje · Palets y Cajones',          sector:'supply', roi:'Un exportador recurrente puede mover 200+ palets al año contigo. Visibilidad en el momento de necesidad.',         pricing:{ presencia:199,  profesional:690,  elite:1190  } },
   'maquinaria':     { nombre:'Maquinaria Industrial',                sector:'supply', roi:'Los fabricantes y canteras buscan maquinaria cuando crecen. Estar presente en ese momento lo es todo.',            pricing:{ presencia:390,  profesional:890,  elite:1490  } },
   'arquitecto':     { nombre:'Arquitecto · Diseñador de Interiores', sector:'demand', roi:'', pricing:{ presencia:0, profesional:190, elite:490  } },
   'constructora':   { nombre:'Constructora · Promotora',             sector:'demand', roi:'', pricing:{ presencia:0, profesional:490, elite:990  } },
@@ -1965,25 +2010,56 @@ function renderPlanCards() {
     }
   }
 
+  // Mostrar/ocultar badge de ahorro
+  var saveBadge = document.getElementById('bill-save-badge');
+  if (saveBadge) saveBadge.style.display = ST.billing === 'annual' ? 'inline-flex' : 'none';
+
+  var isMonthly = ST.billing === 'monthly';
+
   var html = '';
   plans.forEach(function(plan) {
-    var priceStr   = plan.price === 0 ? '0<sup>€</sup>' : '<sup>€</sup>' + plan.price.toLocaleString('es-ES');
-    var billingStr = plan.price === 0
-      ? (isSupply ? 'Sin tarjeta · Sin compromiso' : 'Siempre gratuito para compradores')
-      : '€' + plan.price.toLocaleString('es-ES') + '/año · facturación anual';
+    // Calcular precio efectivo según periodo
+    var annualPrice   = plan.price;                            // precio anual original
+    var monthlyPrice  = annualPrice > 0 ? Math.round(annualPrice / 10) : 0; // ÷10 redondo
+    var displayPrice  = isMonthly ? monthlyPrice : annualPrice;
+    var dataPrice     = isMonthly ? monthlyPrice : annualPrice; // guardamos el precio que pagará
+
+    var priceStr = displayPrice === 0
+      ? '0<sup>€</sup>'
+      : '<sup>€</sup>' + displayPrice.toLocaleString('es-ES');
+
+    var billingStr;
+    if (displayPrice === 0) {
+      billingStr = isSupply ? 'Sin tarjeta · Sin compromiso' : 'Siempre gratuito para compradores';
+    } else if (isMonthly) {
+      var annualEquiv = monthlyPrice * 12;
+      billingStr = '€' + monthlyPrice + '/mes · facturación mensual';
+    } else {
+      var monthlyEquiv = monthlyPrice;
+      billingStr = '€' + annualPrice.toLocaleString('es-ES') + '/año · equivale a €' + monthlyEquiv + '/mes';
+    }
+
+    var savingHtml = '';
+    if (annualPrice > 0 && !isMonthly) {
+      var saving = (monthlyPrice * 12) - annualPrice;
+      if (saving > 0) savingHtml = '<div class="plan-saving">Ahorras €' + saving + ' vs mensual</div>';
+    }
+
     var featsHtml = plan.feats.map(function(f){
       var off = f.charAt(0) === '—';
       var txt = off ? f.slice(1).trim() : f;
       return '<li' + (off ? ' class="off"' : '') + '><span class="fi">' + (off ? '·' : '›') + '</span>' + txt + '</li>';
     }).join('');
+
     html += '<div class="plan-card-wrap">' +
-      '<label class="plan-card' + (plan.featured ? ' featured' : '') + '" data-plan="' + plan.key + '" data-price="' + plan.price + '">' +
+      '<label class="plan-card' + (plan.featured ? ' featured' : '') + '" data-plan="' + plan.key + '" data-price="' + dataPrice + '" data-annual="' + annualPrice + '">' +
       (plan.popular ? '<div class="plan-popular">Más popular</div>' : '') +
       '<div class="plan-check">✓</div>' +
       '<div class="plan-tag ' + plan.tagCls + '">' + plan.tag + '</div>' +
       '<div class="plan-name">' + plan.name + '</div>' +
-      '<div class="plan-price-line"><div class="plan-price">' + priceStr + '</div>' + (plan.price > 0 ? '<span class="plan-pm">/año</span>' : '') + '</div>' +
+      '<div class="plan-price-line"><div class="plan-price">' + priceStr + '</div>' + (displayPrice > 0 ? '<span class="plan-pm">' + (isMonthly ? '/mes' : '/año') + '</span>' : '') + '</div>' +
       '<div class="plan-billing">' + billingStr + '</div>' +
+      savingHtml +
       '<div class="plan-divider"></div>' +
       '<ul class="plan-feats">' + featsHtml + '</ul>' +
       '</label></div>';
@@ -2127,7 +2203,12 @@ function fillReview() {
   if (ST.price === 0) { priceEl.innerHTML = '<span style="font-size:28px;font-family:Cormorant Garamond,serif;color:#A67C52">Gratuito</span>'; }
   else { priceEl.innerHTML = '<sup>€</sup>' + ST.price.toLocaleString('es-ES'); }
 
-  document.getElementById('rv_period').textContent = ST.price > 0 ? '€' + ST.price.toLocaleString('es-ES') + ' · facturación anual' : 'Sin coste';
+  var periodoTxt = ST.price > 0
+    ? (ST.billing === 'monthly'
+        ? '€' + ST.price.toLocaleString('es-ES') + '/mes · facturación mensual'
+        : '€' + ST.price.toLocaleString('es-ES') + '/año · facturación anual')
+    : 'Sin coste';
+  document.getElementById('rv_period').textContent = periodoTxt;
   document.getElementById('rv_nombre').textContent  = v('f_nombre');
   var paisSel = document.getElementById('f_pais');
   document.getElementById('rv_pais').textContent = paisSel && paisSel.selectedIndex > 0 ? paisSel.options[paisSel.selectedIndex].text : '—';
@@ -2280,22 +2361,42 @@ function submitForm() {
       });
     } catch(e) { console.warn('WSH send-welcome omitido:', e); }
 
-    // 4) Redirigir (plan gratuito ya se insertó con estado=activo) o ir a Stripe
+    // 4) Redirigir a Stripe Checkout o gracias.html
     if (ST.plan === 'free') {
       window.location.href = 'gracias.html';
     } else {
-      var payLink = STRIPE_PAYMENT_LINKS[ST.plan];
-      if (payLink) {
-        // Pasar email pre-relleno al checkout de Stripe
-        var emailVal = document.getElementById('f_email');
-        if (emailVal && emailVal.value.trim()) {
-          payLink += '?prefilled_email=' + encodeURIComponent(emailVal.value.trim());
+      // Llamar a Edge Function para crear sesión de pago dinámica
+      var emailVal = document.getElementById('f_email');
+      var emailStr = (emailVal && emailVal.value.trim()) ? emailVal.value.trim() : v('f_resp_email');
+      btn.textContent = 'Redirigiendo a Stripe…';
+      fetch(CHECKOUT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          actor:          ST.actorKey,
+          plan:           ST.plan,
+          billing:        ST.billing || 'annual',
+          email:          emailStr,
+          nombre_empresa: nombreEmpresa
+        })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          console.error('Checkout error:', data);
+          alert('Error al iniciar el pago. Por favor escríbenos a hello@worldstonehub.com\n\n' + (data.error || ''));
+          btn.textContent = 'Enviar solicitud de alta →';
+          btn.disabled = false;
         }
-        window.location.href = payLink;
-      } else {
-        // Payment Link aún no configurado: pantalla de éxito con CTA manual
-        showSuccessScreen();
-      }
+      })
+      .catch(function(err) {
+        console.error('Checkout fetch error:', err);
+        alert('Error de conexión al iniciar el pago. Inténtalo de nuevo.');
+        btn.textContent = 'Enviar solicitud de alta →';
+        btn.disabled = false;
+      });
     }
   })
   .catch(function(err) {
@@ -2322,15 +2423,35 @@ function showSuccessScreen() {
   if (!isFree && stripeCta) {
     stripeCta.style.display = 'block';
     var PLAN_DISPLAY = { presencia:'Plan Presencia', profesional:'Plan Profesional', elite:'Plan Élite' };
-    var PLAN_PRICE   = { presencia:'49 EUR / mes', profesional:'129 EUR / mes', elite:'299 EUR / mes' };
-    document.getElementById('stripe-plan-name').textContent  = PLAN_DISPLAY[ST.plan] || ST.plan;
-    document.getElementById('stripe-plan-price').textContent = PLAN_PRICE[ST.plan] || '';
+    var periodoLabel = ST.billing === 'monthly' ? '/mes · facturación mensual' : '/año · facturación anual';
+    document.getElementById('stripe-plan-name').textContent  = (PLAN_DISPLAY[ST.plan] || ST.plan) + ' · ' + (ACTORS_DATA[ST.actorKey] ? ACTORS_DATA[ST.actorKey].nombre : '');
+    document.getElementById('stripe-plan-price').textContent = ST.price > 0 ? '€' + ST.price.toLocaleString('es-ES') + periodoLabel : 'Gratuito';
     var payBtn = document.getElementById('stripe-pay-btn');
-    if (payBtn && STRIPE_PAYMENT_LINKS[ST.plan]) {
-      var emailVal = document.getElementById('f_email');
-      var link = STRIPE_PAYMENT_LINKS[ST.plan];
-      if (emailVal && emailVal.value.trim()) link += '?prefilled_email=' + encodeURIComponent(emailVal.value.trim());
-      payBtn.href = link;
+    if (payBtn) {
+      payBtn.onclick = function(e) {
+        e.preventDefault();
+        payBtn.textContent = 'Conectando con Stripe…';
+        payBtn.style.opacity = '0.7';
+        var emailEl = document.getElementById('f_email');
+        fetch(CHECKOUT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            actor:          ST.actorKey,
+            plan:           ST.plan,
+            billing:        ST.billing || 'annual',
+            email:          (emailEl && emailEl.value.trim()) || '',
+            nombre_empresa: document.getElementById('f_empresa') ? document.getElementById('f_empresa').value.trim() : ''
+          })
+        })
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          if (d.url) { window.location.href = d.url; }
+          else { alert('Error al iniciar el pago: ' + (d.error||'')); payBtn.textContent = 'Pagar ahora →'; payBtn.style.opacity = '1'; }
+        })
+        .catch(function(){ alert('Error de conexión.'); payBtn.textContent = 'Pagar ahora →'; payBtn.style.opacity = '1'; });
+        return false;
+      };
     }
   }
 }

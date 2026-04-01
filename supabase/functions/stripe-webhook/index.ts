@@ -1,115 +1,93 @@
-import Stripe from "https://esm.sh/stripe@14.21.0?target=deno&no-check";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+// Supabase Edge Function: stripe-webhook
+// Activa proveedor en Supabase tras pago exitoso en Stripe
 
-const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
-  apiVersion: "2023-10-16",
-  httpClient: Stripe.createFetchHttpClient(),
-});
+const STRIPE_WEBHOOK_SECRET  = Deno.env.get('STRIPE_WEBHOOK_SECRET')!;
+const SUPABASE_URL            = Deno.env.get('SUPABASE_URL')!;
+const SUPABASE_SERVICE_KEY    = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
-const supabase = createClient(
-  Deno.env.get("SUPABASE_URL")!,
-  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-);
-
-// Detectar plan por amount_total si metadata.plan no está presente
-function planFromAmount(amount: number | null): string {
-  if (!amount) return "presencia";
-  if (amount >= 29900) return "elite";
-  if (amount >= 12900) return "profesional";
-  return "presencia";
-}
-
-async function sendWelcomeEmail(email: string, nombre_empresa: string, plan: string) {
-  const RESEND_KEY = Deno.env.get("RESEND_API_KEY");
-  if (!RESEND_KEY) {
-    console.warn("No RESEND_API_KEY — email omitido");
-    return;
-  }
-  try {
-    await supabase.functions.invoke("send-welcome", {
-      body: { email, nombre_empresa, plan },
-    });
-    console.log(`✓ Welcome email enviado a ${email}`);
-  } catch (e) {
-    console.error("Error enviando welcome email:", e);
-  }
+async function verifyStripeSignature(payload: string, sigHeader: string, secret: string): Promise<boolean> {
+  const parts  = sigHeader.split(',');
+  const tPart  = parts.find((p) => p.startsWith('t='));
+  const v1Part = parts.find((p) => p.startsWith('v1='));
+  if (!tPart || !v1Part) return false;
+  const timestamp      = tPart.slice(2);
+  const signature      = v1Part.slice(3);
+  const signedPayload  = `${timestamp}.${payload}`;
+  const key = await crypto.subtle.importKey(
+    'raw', new TextEncoder().encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+  );
+  const sigBytes = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(signedPayload));
+  const computed = Array.from(new Uint8Array(sigBytes)).map((b) => b.toString(16).padStart(2, '0')).join('');
+  return computed === signature;
 }
 
 Deno.serve(async (req: Request) => {
-  const signature = req.headers.get("stripe-signature");
-  if (!signature) {
-    return new Response("No signature", { status: 400 });
-  }
+  if (req.method !== 'POST') return new Response('Method not allowed', { status: 405 });
 
-  const body = await req.text();
+  const body      = await req.text();
+  const sigHeader = req.headers.get('stripe-signature') || '';
+  const valid     = await verifyStripeSignature(body, sigHeader, STRIPE_WEBHOOK_SECRET);
+  if (!valid) { console.error('Invalid Stripe signature'); return new Response('Invalid signature', { status: 400 }); }
 
-  let event: Stripe.Event;
-  try {
-    event = await stripe.webhooks.constructEventAsync(
-      body,
-      signature,
-      Deno.env.get("STRIPE_WEBHOOK_SECRET")!
+  const event = JSON.parse(body) as { type: string; data: { object: Record<string, unknown> } };
+  console.log(`Stripe event: ${event.type}`);
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object as {
+      customer_email?: string;
+      metadata?: { actor?: string; plan?: string; billing?: string; nombre_empresa?: string };
+      subscription?: string;
+    };
+    const email          = session.customer_email || '';
+    const actor          = session.metadata?.actor || '';
+    const plan           = session.metadata?.plan || '';
+    const billing        = session.metadata?.billing || 'annual';
+    const subscriptionId = session.subscription || null;
+    console.log(`Activating: ${email} -> ${actor}/${plan}/${billing}`);
+
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/proveedores?email=eq.${encodeURIComponent(email)}`,
+      {
+        method: 'PATCH',
+        headers: {
+          apikey: SUPABASE_SERVICE_KEY,
+          Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=representation',
+        },
+        body: JSON.stringify({
+          activo: true,
+          plan,
+          billing_period: billing,
+          stripe_subscription_id: subscriptionId,
+          actor_type: actor,
+          activado_at: new Date().toISOString(),
+        }),
+      }
     );
-  } catch (err) {
-    console.error("Webhook signature failed:", err.message);
-    return new Response(`Webhook Error: ${err.message}`, { status: 400 });
+    const data = await res.json();
+    if (!res.ok) console.error('Error activating:', data);
+    else console.log('Activated:', data);
   }
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object as Stripe.Checkout.Session;
-
-    const email =
-      session.customer_details?.email ?? session.customer_email ?? null;
-
-    // Plan: primero desde metadata, luego por importe, luego default
-    const plan =
-      (session.metadata?.plan as string) ||
-      planFromAmount(session.amount_total) ||
-      "presencia";
-
-    if (!email) {
-      console.error("No email in session:", session.id);
-      return new Response(JSON.stringify({ received: true }), {
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    console.log(`Activating provider — email: ${email}, plan: ${plan}`);
-
-    // 1) Activar proveedor en la BD
-    const { data: proveedor, error } = await supabase
-      .from("proveedores")
-      .update({
-        estado: "activo",
-        activo: true,
-        plan_activo: true,
-        plan: plan,
-      })
-      .eq("email", email)
-      .select("nombre_empresa")
-      .maybeSingle();
-
-    if (error) {
-      console.error("DB error:", error.message);
-      return new Response("DB error", { status: 500 });
-    }
-
-    if (!proveedor) {
-      console.warn(`⚠ No se encontró proveedor con email: ${email} — puede haber un email diferente o ya estaba activado`);
-      // Devolver 200 para que Stripe no reintente indefinidamente
-      return new Response(JSON.stringify({ received: true, warning: "no_provider_found" }), {
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    console.log("✓ Provider activated:", email);
-
-    // 2) Enviar email de bienvenida
-    const nombre_empresa = proveedor?.nombre_empresa ?? email;
-    await sendWelcomeEmail(email, nombre_empresa, plan);
+  if (event.type === 'customer.subscription.deleted') {
+    const sub = event.data.object as { id: string };
+    await fetch(`${SUPABASE_URL}/rest/v1/proveedores?stripe_subscription_id=eq.${sub.id}`, {
+      method: 'PATCH',
+      headers: {
+        apikey: SUPABASE_SERVICE_KEY,
+        Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ activo: false, plan: 'free' }),
+    });
   }
 
-  return new Response(JSON.stringify({ received: true }), {
-    headers: { "Content-Type": "application/json" },
-  });
+  if (event.type === 'invoice.payment_failed') {
+    const invoice = event.data.object as { customer_email?: string; subscription?: string };
+    console.warn(`Payment failed: ${invoice.customer_email} / sub ${invoice.subscription}`);
+  }
+
+  return new Response(JSON.stringify({ received: true }), { headers: { 'Content-Type': 'application/json' } });
 });
