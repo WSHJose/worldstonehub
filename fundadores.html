@@ -837,6 +837,7 @@
     btn.textContent = 'Enviando...';
 
     try {
+      // 1. Guardar en Supabase
       const res = await fetch(`${SUPABASE_URL}/rest/v1/solicitudes_fundadores`, {
         method: 'POST',
         headers: {
@@ -852,6 +853,20 @@
         const err = await res.text();
         throw new Error(err);
       }
+
+      // 2. Notificación por email (FormSubmit - no bloquea el flujo)
+      fetch('https://formsubmit.co/ajax/hello@worldstonehub.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject: `⭐ Nueva solicitud Fundador — ${empresa}`,
+          nombre, empresa, email,
+          tipo_empresa: tipo || '—',
+          pais: pais || '—',
+          mensaje: mensaje || '—',
+          _template: 'table'
+        })
+      }).catch(() => {}); // silencioso si falla
 
       document.getElementById('form-area').style.display = 'none';
       document.getElementById('form-success').style.display = 'block';
