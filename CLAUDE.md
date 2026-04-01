@@ -44,9 +44,13 @@ Conecta proveedores, canteras, distribuidores y compradores a nivel mundial.
 - ⚠️ Las JWT keys antiguas (eyJhbGci...) fueron desactivadas el 2026-03-25
 
 ### Stripe
-- Actualmente en **TEST MODE**
-- Los 3 payment links están en `registro.html` líneas ~1849-1851
-- ⚠️ Pendiente cambio a LIVE antes del lanzamiento
+- **LIVE MODE** activo desde 2026-04-01
+- 3 productos: `prod_UFp0wbjjA0P39j` (Presencia) · `prod_UFp0DiTVCMUFTl` (Profesional) · `prod_UFp0jz4JHheaR6` (Elite)
+- 40 precios creados (20 anual + 20 mensual, lookup_key por actor+importe+periodo)
+- Webhook: `we_1THJQn5kSYznftY2B2tDPrnX` → `supabase.co/functions/v1/stripe-webhook`
+- Edge Function `create-checkout`: genera sesión dinámica por actor+plan+billing
+- Edge Function `stripe-webhook`: activa proveedor en DB tras `checkout.session.completed`
+- **Sin payment links estáticos** — todo dinámico vía Edge Functions
 
 ### Google Analytics
 - `G-Z386REXEZF` — configurado en sector pages y `proveedor.html`
@@ -210,12 +214,12 @@ SVG data-URI: fondo `#1a1917`, letra W en `#A67C52`
 - Sistema de contribuciones (tabla DB + admin UI)
 - Panel de proveedor
 - Admin: gestión proveedores, anuncios, contribuciones
-- Registro con Stripe (TEST MODE)
+- Registro con Stripe **LIVE** — Edge Functions + precios dinámicos por actor
 - `content_score` calculado automáticamente
 - Regiones mostrándose sin corchetes
 
 ### Pendiente crítico ⚠️
-- [ ] Stripe: cambiar payment links de TEST a LIVE (`registro.html` ~líneas 1849-1851)
+- [ ] Dominio propio (worldstonehub.com) — actualizar `SITE_URL` en Supabase secrets tras compra
 - [ ] `visibility_score`: conectar a alguna página (proveedores.html o panel.html)
 - [ ] `content_score` visible en admin para poder editar/revisar fichas bajas
 
