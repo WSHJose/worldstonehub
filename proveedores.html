@@ -313,7 +313,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
     </div>
   </div>
   <!-- SLOT: PROVEEDORES-TOP -->
-  <div class="ph-right">
+  <div class="ph-right" id="heroAdWrapper" style="display:none">
     <div class="ad-container" id="heroAdSlot">
       <div class="ad-placeholder">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
@@ -363,7 +363,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:16px 60px;display:fl
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-logo">World<span>Stone</span>Hub</div>
-    <div class="footer-note" data-i18n="footer.note">© 2025 WorldStoneHub · Directorio global de piedra natural</div>
+    <div class="footer-note" data-i18n="footer.note">© 2026 WorldStoneHub · Directorio global de piedra natural</div>
   </div>
 </footer>
 
@@ -851,6 +851,7 @@ window.addEventListener('popstate', function(e) {
       if (!slot) return;
       var href = ad.url_destino ? (ad.url_destino.startsWith('http') ? ad.url_destino : 'https://'+ad.url_destino) : '#';
       slot.innerHTML = '<a class="ad-link" href="'+href+'" target="_blank" rel="noopener"><img src="'+(ad.imagen_url||'')+'" alt="'+(ad.texto_alt||'Publicidad')+'" loading="lazy"></a>';
+      var wrapper=document.getElementById('heroAdWrapper'); if(wrapper) wrapper.style.display='';
     }).catch(function(){});
 })();
 
