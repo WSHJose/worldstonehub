@@ -5,7 +5,8 @@
       "Bash(ls -la *.html)",
       "Bash(wc -l src/pages/*.astro)",
       "Bash(ls *.html)",
-      "Bash(npx astro:*)"
+      "Bash(npx astro:*)",
+      "Bash(npm install:*)"
     ]
   }
 }
