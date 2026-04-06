@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node index.js)"
+      "Bash(node index.js)",
+      "Bash(ls -la *.html)",
+      "Bash(wc -l src/pages/*.astro)",
+      "Bash(ls *.html)",
+      "Bash(npx astro:*)"
     ]
   }
 }

@@ -1,0 +1,186 @@
+---
+import Page from '../layouts/Page.astro';
+---
+
+<Page
+  title="Aviso Legal, Privacidad y Términos de Uso · World Stone Hub"
+  description="Aviso legal, política de privacidad, términos de uso y política de cookies de World Stone Hub."
+  ogTitle="Aviso Legal y Privacidad · World Stone Hub"
+  ogDescription="Aviso legal, política de privacidad, términos de uso y política de cookies de World Stone Hub."
+  ogUrl="https://worldstonehub.com/legal.html"
+  noIndex={true}
+>
+
+<style slot="head">
+.page-wrap{max-width:780px;margin:0 auto;padding:120px 40px 80px;}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;line-height:1.1;margin-bottom:8px;}
+.page-title em{color:var(--gold);font-style:italic;}
+.page-updated{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);margin-bottom:60px;}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:48px;flex-wrap:wrap;}
+.tab{padding:12px 24px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-4);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Instrument Sans',sans-serif;}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.page-wrap h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--ink);margin:40px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.page-wrap h3{font-size:14px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin:28px 0 10px;}
+.page-wrap p{color:var(--ink-2);font-size:15px;margin-bottom:16px;}
+.page-wrap ul{color:var(--ink-2);font-size:15px;margin:0 0 16px 20px;}
+.page-wrap ul li{margin-bottom:6px;}
+.page-wrap strong{color:var(--ink);font-weight:600;}
+.page-wrap a{color:var(--gold);}
+.highlight-box{background:var(--bg-soft);border-left:3px solid var(--gold);padding:16px 20px;margin:24px 0;}
+.highlight-box p{margin:0;font-size:14px;}
+.page-wrap table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:14px;}
+.page-wrap table th{background:var(--bg-soft);color:var(--ink);font-weight:600;text-align:left;padding:10px 14px;border:1px solid var(--border);}
+.page-wrap table td{padding:10px 14px;border:1px solid var(--border);color:var(--ink-2);vertical-align:top;}
+@media(max-width:768px){.page-wrap{padding:100px 24px 60px;}.page-title{font-size:38px;}.tab{padding:10px 14px;font-size:9px;}}
+</style>
+
+<div class="page-wrap">
+  <p style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Legal</p>
+  <h1 class="page-title">Aviso Legal<br><em>&amp; Privacidad</em></h1>
+  <div class="page-updated">Última actualización: Marzo 2026 · Versión 1.0</div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('aviso',this)">Aviso Legal</button>
+    <button class="tab" onclick="showTab('privacidad',this)">Política de Privacidad</button>
+    <button class="tab" onclick="showTab('terminos',this)">Términos de Uso</button>
+    <button class="tab" onclick="showTab('cookies',this)">Política de Cookies</button>
+  </div>
+
+  <!-- AVISO LEGAL -->
+  <div class="tab-content active" id="tab-aviso">
+    <h2>Aviso Legal</h2>
+    <h3>Datos del titular</h3>
+    <p>En cumplimiento de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y del Comercio Electrónico (LSSI-CE), se informa:</p>
+    <ul>
+      <li><strong>Titular:</strong> Jose Ignacio Ribelles Gomez</li>
+      <li><strong>NIF:</strong> disponible bajo solicitud formal a <a href="mailto:legal@worldstonehub.com">legal@worldstonehub.com</a></li>
+      <li><strong>Domicilio:</strong> Petrer, Alicante, España</li>
+      <li><strong>Email:</strong> <a href="mailto:hola@worldstonehub.com">hola@worldstonehub.com</a></li>
+      <li><strong>Nombre comercial:</strong> World Stone Hub</li>
+      <li><strong>Dominio:</strong> worldstonehub.com</li>
+      <li><strong>Actividad:</strong> Portal B2B del sector de la piedra natural</li>
+    </ul>
+    <h3>Objeto y ámbito de aplicación</h3>
+    <p>World Stone Hub (worldstonehub.com) es un portal B2B internacional que ofrece un directorio de empresas, materiales y canteras del sector de la piedra natural. El acceso y uso de este sitio implica la aceptación íntegra de las condiciones aquí descritas, que el titular se reserva el derecho a modificar en cualquier momento.</p>
+    <h3>Propiedad intelectual e industrial</h3>
+    <p>Los contenidos del portal, incluyendo textos, imágenes, diseño gráfico, logotipos, código fuente y base de datos, son propiedad de Jose Ignacio Ribelles Gomez o de sus proveedores de contenido, y están protegidos por la legislación española e internacional en materia de propiedad intelectual e industrial.</p>
+    <p>Queda expresamente prohibida la reproducción, distribución, transformación, comunicación pública o cualquier otra forma de explotación de los contenidos, total o parcial, sin autorización previa y por escrito del titular.</p>
+    <h3>Responsabilidad</h3>
+    <p>World Stone Hub no garantiza la exactitud, completitud o actualidad de los contenidos del portal ni de las fichas de las empresas listadas. Los datos publicados en el directorio son responsabilidad exclusiva de cada empresa. El portal actúa como intermediario y no se responsabiliza de las relaciones comerciales que se establezcan entre usuarios.</p>
+    <p>El titular se reserva el derecho a interrumpir el acceso al portal por razones técnicas o de mantenimiento sin previo aviso.</p>
+    <h3>Legislación aplicable</h3>
+    <p>Este aviso legal se rige por la legislación española. Para la resolución de cualquier controversia, las partes se someten a los juzgados y tribunales de Alicante, con renuncia expresa a cualquier otro fuero.</p>
+  </div>
+
+  <!-- PRIVACIDAD -->
+  <div class="tab-content" id="tab-privacidad">
+    <h2>Política de Privacidad</h2>
+    <p>En cumplimiento del Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD), te informamos sobre el tratamiento de tus datos personales.</p>
+    <h3>Responsable del tratamiento</h3>
+    <ul>
+      <li><strong>Nombre:</strong> Jose Ignacio Ribelles Gomez</li>
+      <li><strong>NIF:</strong> disponible bajo solicitud formal a <a href="mailto:legal@worldstonehub.com">legal@worldstonehub.com</a></li>
+      <li><strong>Dirección:</strong> Petrer, Alicante, España</li>
+      <li><strong>Email:</strong> <a href="mailto:hola@worldstonehub.com">hola@worldstonehub.com</a></li>
+    </ul>
+    <h3>Datos que recogemos y finalidad</h3>
+    <table>
+      <tr><th>Origen</th><th>Datos tratados</th><th>Finalidad</th><th>Base jurídica</th></tr>
+      <tr><td>Formulario de alta</td><td>Razón social, email, teléfono, nombre del responsable</td><td>Gestión del alta en el directorio y relación contractual</td><td>Ejecución de contrato (art. 6.1.b RGPD)</td></tr>
+      <tr><td>Navegación</td><td>IP, páginas visitadas, duración de sesión, dispositivo</td><td>Análisis estadístico y mejora del servicio</td><td>Interés legítimo (art. 6.1.f RGPD)</td></tr>
+      <tr><td>Pagos</td><td>Email de facturación. Los datos de pago son tratados exclusivamente por Stripe Inc.</td><td>Gestión de la suscripción y facturación</td><td>Ejecución de contrato (art. 6.1.b RGPD)</td></tr>
+      <tr><td>Comunicaciones</td><td>Email y nombre</td><td>Envío de novedades y comunicaciones del servicio</td><td>Consentimiento (art. 6.1.a RGPD)</td></tr>
+    </table>
+    <h3>Conservación de datos</h3>
+    <ul>
+      <li>Datos contractuales y de facturación: 4 años (obligaciones fiscales)</li>
+      <li>Datos de navegación: 12 meses</li>
+      <li>Comunicaciones comerciales: hasta retirada del consentimiento</li>
+    </ul>
+    <h3>Destinatarios y transferencias internacionales</h3>
+    <ul>
+      <li><strong>Google LLC</strong> (Google Analytics, Google Workspace) — EEUU. Garantías mediante Cláusulas Contractuales Tipo. <a href="https://policies.google.com/privacy" target="_blank">Política de privacidad de Google</a>.</li>
+      <li><strong>Stripe Inc.</strong> — procesador de pagos, EEUU. Garantías mediante Cláusulas Contractuales Tipo. <a href="https://stripe.com/es/privacy" target="_blank">Política de privacidad de Stripe</a>.</li>
+      <li><strong>GitHub Inc.</strong> — alojamiento web. <a href="https://docs.github.com/es/site-policy/privacy-policies/github-privacy-statement" target="_blank">Política de privacidad de GitHub</a>.</li>
+    </ul>
+    <p>No se realizarán otras cesiones de datos a terceros salvo obligación legal.</p>
+    <h3>Tus derechos</h3>
+    <p>Puedes ejercer en cualquier momento tus derechos de <strong>acceso, rectificación, supresión, oposición, limitación y portabilidad</strong> escribiendo a <a href="mailto:legal@worldstonehub.com">legal@worldstonehub.com</a> con copia de tu documento de identidad.</p>
+    <p>Si consideras que tus derechos no han sido atendidos, puedes presentar una reclamación ante la <strong>Agencia Española de Protección de Datos</strong> en <a href="https://www.aepd.es" target="_blank">aepd.es</a>.</p>
+  </div>
+
+  <!-- TÉRMINOS -->
+  <div class="tab-content" id="tab-terminos">
+    <h2>Términos de Uso y Condiciones de Servicio</h2>
+    <p>El uso del portal worldstonehub.com y la contratación de cualquiera de sus planes implica la aceptación plena de las presentes condiciones.</p>
+    <h3>Acceso al portal</h3>
+    <p>El acceso a la versión pública del directorio es gratuito. El alta de fichas de empresa, ya sea en el plan Directorio (gratuito) o en planes de pago (Presencia, Profesional, Elite), requiere registro previo y aceptación de estas condiciones.</p>
+    <h3>Alta en el directorio</h3>
+    <p>Toda solicitud de alta está sujeta a revisión editorial en un plazo de 24-48 horas hábiles. World Stone Hub se reserva el derecho de rechazar o dar de baja fichas que no pertenezcan al sector de la piedra natural, contengan información falsa, incumplan la legislación vigente o perjudiquen los intereses del portal o del sector.</p>
+    <h3>Planes y suscripciones de pago</h3>
+    <ul>
+      <li>Los planes de pago se contratan con facturación mensual o anual según lo seleccionado.</li>
+      <li>El pago se procesa de forma segura a través de Stripe Inc. World Stone Hub no almacena datos de tarjeta.</li>
+      <li>La suscripción se renueva automáticamente al final de cada periodo salvo cancelación previa.</li>
+      <li>Puedes cancelar en cualquier momento desde tu cuenta o escribiendo a <a href="mailto:hola@worldstonehub.com">hola@worldstonehub.com</a>. La cancelación tiene efecto al final del periodo en curso.</li>
+      <li>No se realizan reembolsos por el periodo en curso salvo error imputable al portal.</li>
+      <li>World Stone Hub se reserva el derecho de modificar precios con preaviso mínimo de 30 días.</li>
+    </ul>
+    <h3>Obligaciones del usuario</h3>
+    <ul>
+      <li>Proporcionar información veraz, actualizada y completa en su ficha.</li>
+      <li>Mantener la confidencialidad de sus credenciales de acceso.</li>
+      <li>No utilizar el portal para fines ilícitos o contrarios a estas condiciones.</li>
+      <li>Actualizar su ficha cuando la información deje de ser vigente.</li>
+    </ul>
+    <h3>Contenido e imágenes</h3>
+    <p>Las empresas son las únicas responsables de la veracidad y legalidad del contenido e imágenes publicados en sus fichas. Al publicar, la empresa garantiza disponer de los derechos necesarios y otorga a World Stone Hub una licencia no exclusiva para publicarlos en el portal y sus canales de comunicación.</p>
+    <h3>Limitación de responsabilidad</h3>
+    <p>World Stone Hub actúa como directorio intermediario y no es parte en las transacciones comerciales entre empresas. No asume responsabilidad por los daños derivados de las relaciones comerciales establecidas a través del portal ni por la inexactitud de la información facilitada por las empresas.</p>
+    <h3>Modificación de condiciones</h3>
+    <p>World Stone Hub se reserva el derecho a modificar estas condiciones en cualquier momento. Los cambios entrarán en vigor desde su publicación. El uso continuado del portal implica la aceptación de las nuevas condiciones.</p>
+    <h3>Legislación aplicable</h3>
+    <p>Estas condiciones se rigen por la legislación española. Para cualquier controversia, las partes se someten a los Juzgados y Tribunales de Alicante.</p>
+  </div>
+
+  <!-- COOKIES -->
+  <div class="tab-content" id="tab-cookies">
+    <h2>Política de Cookies</h2>
+    <p>Este sitio utiliza cookies y tecnologías similares para mejorar la experiencia de usuario y analizar el tráfico del portal.</p>
+    <h3>Qué es una cookie</h3>
+    <p>Una cookie es un pequeño archivo de texto que se almacena en tu dispositivo cuando visitas un sitio web. Permite que el sitio recuerde tus preferencias y acciones para facilitarte una navegación más fluida.</p>
+    <h3>Cookies que utilizamos</h3>
+    <table>
+      <tr><th>Cookie</th><th>Proveedor</th><th>Tipo</th><th>Finalidad</th><th>Duración</th></tr>
+      <tr><td>wsh_lang</td><td>worldstonehub.com</td><td>Técnica (necesaria)</td><td>Recordar el idioma seleccionado (ES/EN)</td><td>1 año</td></tr>
+      <tr><td>wsh_cookies_consent</td><td>worldstonehub.com</td><td>Técnica (necesaria)</td><td>Guardar la preferencia del banner de cookies</td><td>1 año</td></tr>
+      <tr><td>_ga, _ga_*</td><td>Google Analytics</td><td>Analítica</td><td>Distinguir usuarios únicos y medir el uso del portal de forma anónima</td><td>2 años</td></tr>
+      <tr><td>_gid</td><td>Google Analytics</td><td>Analítica</td><td>Distinguir usuarios durante una sesión</td><td>24 horas</td></tr>
+    </table>
+    <h3>Cookies técnicas (necesarias)</h3>
+    <p>Son imprescindibles para el funcionamiento del portal. No requieren consentimiento previo.</p>
+    <h3>Cookies analíticas</h3>
+    <p>Utilizadas por Google Analytics para medir el uso del portal de forma agregada y anónima. Solo se activan con tu consentimiento a través del banner de cookies. <a href="https://policies.google.com/privacy" target="_blank">Política de privacidad de Google</a>.</p>
+    <h3>Cómo gestionar las cookies</h3>
+    <p>Puedes gestionar tu preferencia desde el banner al acceder al portal por primera vez, o configurar tu navegador:</p>
+    <ul>
+      <li><a href="https://support.google.com/chrome/answer/95647" target="_blank">Google Chrome</a></li>
+      <li><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias" target="_blank">Mozilla Firefox</a></li>
+      <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank">Safari</a></li>
+      <li><a href="https://support.microsoft.com/es-es/topic/delete-and-manage-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank">Microsoft Edge</a></li>
+    </ul>
+  </div>
+</div>
+
+<script slot="scripts" is:inline>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(function(el){ el.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
+</Page>
