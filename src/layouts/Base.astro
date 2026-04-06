@@ -1,0 +1,76 @@
+---
+/**
+ * Base.astro — Shell HTML mínimo: <html>, <head>, GA4, fuentes, favicon.
+ * No incluye navbar ni footer — úsalo solo para páginas que los omiten (404, etc.)
+ * Para páginas normales usa Page.astro.
+ */
+interface Props {
+  title: string;
+  description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogUrl?: string;
+  canonicalUrl?: string;
+  bodyClass?: string;
+  noIndex?: boolean;
+}
+
+const {
+  title,
+  description = 'World Stone Hub — El directorio B2B de referencia para el sector de la piedra natural.',
+  ogTitle,
+  ogDescription,
+  ogUrl,
+  canonicalUrl,
+  bodyClass = '',
+  noIndex = false,
+} = Astro.props;
+
+const GA_ID = 'G-Z386REXEZF';
+const resolvedOgUrl = ogUrl ?? Astro.url.href;
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  {description && <meta name="description" content={description} />}
+  {noIndex && <meta name="robots" content="noindex" />}
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={ogTitle ?? title} />
+  {(ogDescription ?? description) && <meta property="og:description" content={ogDescription ?? description} />}
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={resolvedOgUrl} />
+
+  <!-- Canonical -->
+  {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+
+  <!-- Favicon SVG inline -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231a1917'/><text x='50%25' y='54%25' font-family='serif' font-size='20' fill='%23A67C52' text-anchor='middle' dominant-baseline='middle'>W</text></svg>" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/src/styles/global.css" />
+
+  <!-- GA4 -->
+  <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+  <script define:vars={{ GA_ID }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+  </script>
+
+  <!-- Slot para CSS adicional por página -->
+  <slot name="head" />
+</head>
+<body class={bodyClass}>
+  <slot />
+</body>
+</html>

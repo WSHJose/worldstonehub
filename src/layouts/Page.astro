@@ -1,0 +1,72 @@
+---
+/**
+ * Page.astro — Layout estándar con navbar y footer.
+ * Úsalo en la mayoría de páginas públicas.
+ *
+ * Uso:
+ *   <Page title="Mi página" activePage="materiales">
+ *     <!-- contenido -->
+ *   </Page>
+ */
+import Base from './Base.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogUrl?: string;
+  canonicalUrl?: string;
+  activePage?: string;
+  noIndex?: boolean;
+  bodyClass?: string;
+  /** Clases extra para el <main> */
+  mainClass?: string;
+}
+
+const {
+  title,
+  description,
+  ogTitle,
+  ogDescription,
+  ogUrl,
+  canonicalUrl,
+  activePage,
+  noIndex,
+  bodyClass = '',
+  mainClass = '',
+} = Astro.props;
+---
+
+<Base
+  title={title}
+  description={description}
+  ogTitle={ogTitle}
+  ogDescription={ogDescription}
+  ogUrl={ogUrl}
+  canonicalUrl={canonicalUrl}
+  noIndex={noIndex}
+  bodyClass={bodyClass}
+>
+  <!-- CSS adicional de la página hija -->
+  <slot name="head" slot="head" />
+
+  <Navbar activePage={activePage} />
+
+  <main class={mainClass}>
+    <slot />
+  </main>
+
+  <Footer />
+
+  <!-- Supabase JS (CDN) — disponible para todos los scripts de página -->
+  <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- i18n y auth -->
+  <script is:inline src="/i18n.js"></script>
+  <script is:inline src="/auth-nav.js"></script>
+
+  <!-- Scripts adicionales de la página hija -->
+  <slot name="scripts" />
+</Base>

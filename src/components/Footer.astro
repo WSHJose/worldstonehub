@@ -1,0 +1,63 @@
+---
+/**
+ * Footer.astro — Pie de página global.
+ */
+const LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 48" style="height:38px;width:auto;display:block;" aria-label="World Stone Hub">
+  <text x="0" y="30" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-size="18" letter-spacing="6" fill="#F0EDE8">WORLD STONE</text>
+  <line x1="208" y1="7" x2="208" y2="41" stroke="#A67C52" stroke-width="0.75" opacity="0.6"/>
+  <text x="220" y="34" font-family="'Cormorant Garamond','Cormorant',Georgia,'Times New Roman',serif" font-weight="300" font-style="italic" font-size="30" letter-spacing="0.5" fill="#A67C52">Hub</text>
+</svg>`;
+---
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="/index.html" class="logo" style="text-decoration:none;" set:html={LOGO_SVG} />
+      <p class="footer-tagline" data-i18n="footer.tagline">
+        El portal internacional de referencia para todos los profesionales del sector de la piedra natural y artificial.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title" data-i18n="footer.col.directorio">Directorio</div>
+      <ul>
+        <li><a href="/canteras.html" data-i18n="footer.links.canteras">Canteras del mundo</a></li>
+        <li><a href="/mapa.html" data-i18n="footer.links.mapa">Mapa de canteras</a></li>
+        <li><a href="/materiales.html" data-i18n="footer.links.materiales">Materiales</a></li>
+        <li><a href="/proveedores.html" data-i18n="footer.links.directorio">Directorio</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title" data-i18n="footer.col.publicar">Publicar</div>
+      <ul>
+        <li><a href="/registro.html" data-i18n="footer.links.publicar">Publicar mi empresa</a></li>
+        <li><a href="/registro.html" data-i18n="footer.links.planes">Planes y precios</a></li>
+        <li><a href="/registro.html?tipo=cantera" data-i18n="footer.links.reclamar">Reclamar cantera</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title" data-i18n="footer.col.portal">Portal</div>
+      <ul>
+        <li><a href="/nosotros.html" data-i18n="footer.links.sobre">Sobre World Stone Hub</a></li>
+        <li><a href="/blog.html" data-i18n="footer.links.blog">Blog del sector</a></li>
+        <li><a href="/contacto.html" data-i18n="footer.links.contacto">Contacto</a></li>
+        <li><a href="/legal.html" data-i18n="footer.links.legal">Aviso legal</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">
+      <span data-i18n="footer.copyright">© 2026 World Stone Hub · Where Stone Meets The World</span>
+      · <a href="/legal.html" data-i18n="footer.avisoLink">Aviso Legal &amp; Privacidad</a>
+    </div>
+    <div class="footer-langs">
+      <a href="#" class="active">ES</a>
+      <a href="#" title="Próximamente" style="opacity:0.35;cursor:not-allowed;pointer-events:none;">EN</a>
+      <a href="#" title="Próximamente" style="opacity:0.35;cursor:not-allowed;pointer-events:none;">IT</a>
+      <a href="#" title="Próximamente" style="opacity:0.35;cursor:not-allowed;pointer-events:none;">PT</a>
+    </div>
+  </div>
+</footer>
