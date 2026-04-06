@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Stone Hub — Brand Book v2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Surfaces */
+  --surface-0:      #FFFFFF;
+  --surface-1:      #F8F7F5;
+  --surface-2:      #F0EFED;
+  --surface-3:      #EDE8DF;
+  --surface-dark:   #1A1917;
+  --surface-deeper: #0E0D0C;
+
+  /* Text */
+  --text-primary:   #1A1917;
+  --text-secondary: #4A4845;
+  --text-muted:     #8A8784;
+  --text-faint:     #B8B5B0;
+  --text-on-dark:   #F0EDE8;
+  --text-on-dark-2: #C9B99A;
+
+  /* Borders */
+  --border:         #E2E0DC;
+  --border-strong:  #C8C5BF;
+
+  /* Accent */
+  --ochre:          #A67C52;
+  --ochre-dark:     #8F6A40;
+  --ochre-tint:     #F5EFEA;
+
+  /* Sand — decorative */
+  --sand:           #C9B99A;
+
+  /* Elite — restricted */
+  --elite:          #C9A84C;
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-mono:    'DM Mono', monospace;
+  --font-body:    'Instrument Sans', sans-serif;
+
+  /* Spacing */
+  --sp-1:   4px;
+  --sp-2:   8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-24: 96px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #F5F2ED;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ── COVER ── */
+.cover {
+  min-height: 100vh;
+  background: var(--surface-dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 64px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 85% 15%, rgba(166,124,82,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 10% 90%, rgba(201,185,154,0.07) 0%, transparent 50%);
+  pointer-events: none;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(166,124,82,0.4), transparent);
+}
+.cover-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+}
+.cover-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sand);
+}
+.cover-version {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.cover-center {
+  position: relative;
+  padding: 80px 0 40px;
+}
+.cover-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 48px;
+}
+.cover-wm-text {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 6px;
+  color: var(--text-on-dark);
+  line-height: 1;
+}
+.cover-wm-sep {
+  width: 1px;
+  height: 44px;
+  background: var(--ochre);
+  opacity: 0.65;
+  flex-shrink: 0;
+}
+.cover-wm-hub {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ochre);
+  line-height: 1;
+}
+.cover-title {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 11vw, 130px);
+  font-weight: 300;
+  color: var(--text-on-dark);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+.cover-title em {
+  font-style: italic;
+  color: var(--sand);
+  display: block;
+}
+.cover-sub {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-top: 24px;
+}
+.cover-bottom {
+  display: flex;
+  gap: 48px;
+  border-top: 1px solid rgba(201,185,154,0.15);
+  padding-top: 24px;
+  position: relative;
+}
+.cover-meta-item {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.cover-meta-item span {
+  display: block;
+  color: var(--sand);
+  margin-top: 5px;
+  font-size: 10px;
+}
+
+/* ── LAYOUT ── */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 96px 64px;
+  border-bottom: 1px solid var(--border);
+}
+.section:last-child { border-bottom: none; }
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #9C8571;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  max-width: 40px;
+  height: 1px;
+  background: var(--sand);
+  opacity: 0.5;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4.5vw, 52px);
+  font-weight: 300;
+  line-height: 1.05;
+  margin-bottom: 32px;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+.section-title em { font-style: italic; color: var(--ochre); }
+.section-intro {
+  max-width: 640px;
+  color: #6B5B4E;
+  font-size: 15px;
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+
+/* ── DIAGNOSTICO ── */
+.diag-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 48px;
+}
+.diag-col {
+  padding: 40px;
+}
+.diag-col:first-child { background: var(--surface-3); }
+.diag-col:last-child  { background: var(--surface-dark); }
+.diag-col-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.diag-col:first-child .diag-col-title { color: #9C8571; }
+.diag-col:last-child  .diag-col-title { color: var(--sand); }
+.badge-ok   { background: var(--ochre); color: white; padding: 2px 8px; font-size: 8px; letter-spacing: 1px; }
+.badge-fix  { background: #6B5B4E; color: #EDE8DF; padding: 2px 8px; font-size: 8px; letter-spacing: 1px; }
+.diag-item {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  font-size: 13px;
+  line-height: 1.6;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.diag-col:last-child .diag-item {
+  border-bottom-color: rgba(255,255,255,0.06);
+  color: rgba(240,237,232,0.7);
+  font-size: 13px;
+}
+.diag-item:last-child { border-bottom: none; }
+.diag-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.diag-col:first-child .diag-dot { background: var(--ochre); }
+.diag-col:last-child  .diag-dot { background: #6B5B4E; }
+.diag-verdict {
+  background: var(--surface-dark);
+  color: var(--text-on-dark);
+  padding: 32px 40px;
+  margin-top: 2px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.5;
+  border-left: 3px solid var(--ochre);
+}
+
+/* ── TAGLINE ── */
+.tagline-block {
+  background: var(--surface-dark);
+  padding: 80px 64px;
+  text-align: center;
+  margin: 64px 0;
+  position: relative;
+  overflow: hidden;
+}
+.tagline-block::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(166,124,82,0.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+.tagline-main {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.5vw, 44px);
+  font-weight: 300;
+  color: var(--text-on-dark);
+  font-style: italic;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  position: relative;
+}
+.tagline-alt {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  position: relative;
+}
+
+/* ── POSITIONING ── */
+.pos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 48px;
+}
+.pos-card {
+  background: var(--surface-3);
+  padding: 36px;
+}
+.pos-card:first-child {
+  background: var(--surface-dark);
+  color: var(--text-on-dark);
+}
+.pos-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9C8571;
+  margin-bottom: 14px;
+}
+.pos-card:first-child .pos-label { color: var(--sand); }
+.pos-text {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.45;
+  color: #4A4540;
+}
+.pos-card:first-child .pos-text { color: var(--text-on-dark); }
+
+/* ── VALUES ── */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 48px;
+}
+.value-item {
+  background: var(--surface-3);
+  padding: 36px 32px;
+}
+.value-num {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--sand);
+  margin-bottom: 18px;
+}
+.value-name {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 400;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+.value-desc {
+  font-size: 13px;
+  color: #6B5B4E;
+  line-height: 1.65;
+}
+
+/* ── COLOR SYSTEM ── */
+.color-group {
+  margin-top: 48px;
+}
+.color-group + .color-group { margin-top: 32px; }
+.color-group-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 2px;
+}
+.swatch {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px 14px;
+  min-height: 110px;
+  position: relative;
+}
+.swatch-token {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+  margin-bottom: 4px;
+}
+.swatch-name {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+.swatch-hex {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+}
+.swatch-use {
+  font-family: var(--font-body);
+  font-size: 9px;
+  line-height: 1.4;
+  margin-top: 5px;
+  opacity: 0.65;
+}
+.s-light .swatch-token,
+.s-light .swatch-name,
+.s-light .swatch-hex,
+.s-light .swatch-use { color: #4A4540; }
+.s-mid .swatch-token,
+.s-mid .swatch-name,
+.s-mid .swatch-hex,
+.s-mid .swatch-use { color: #4A4540; }
+.s-dark .swatch-token,
+.s-dark .swatch-name,
+.s-dark .swatch-hex,
+.s-dark .swatch-use { color: #EDE8DF; }
+.swatch-elite .swatch-token,
+.swatch-elite .swatch-name,
+.swatch-elite .swatch-hex,
+.swatch-elite .swatch-use { color: #1A1917; }
+
+/* Elite restricted badge */
+.swatch-restricted {
+  position: absolute;
+  top: 10px; right: 10px;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.25);
+  color: #1A1917;
+  padding: 2px 6px;
+}
+
+/* ── SURFACE HIERARCHY ── */
+.surface-stack {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.surface-level {
+  display: grid;
+  grid-template-columns: 80px 200px 1fr;
+  gap: 0;
+  align-items: stretch;
+  min-height: 72px;
+}
+.surface-swatch {
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.surface-meta {
+  padding: 16px 20px;
+  background: var(--surface-3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  border-right: none;
+}
+.surface-level-num {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.surface-level-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--text-primary);
+}
+.surface-hex {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+}
+.surface-rule {
+  padding: 16px 24px;
+  background: #FAFAF8;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #6B5B4E;
+  line-height: 1.5;
+  border-left: 1px solid var(--border);
+}
+.surface-level.surface-dark-level .surface-meta { background: var(--surface-dark); }
+.surface-level.surface-dark-level .surface-level-num { color: #6B5B4E; }
+.surface-level.surface-dark-level .surface-level-name { color: var(--text-on-dark); }
+.surface-level.surface-dark-level .surface-hex { color: var(--sand); }
+.surface-level.surface-dark-level .surface-rule { background: #1e1d1b; border-left-color: rgba(255,255,255,0.08); color: rgba(240,237,232,0.55); }
+
+/* ── TYPOGRAPHY SCALE ── */
+.type-scale {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.type-row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0;
+  background: var(--surface-3);
+  align-items: center;
+  min-height: 80px;
+}
+.type-meta {
+  padding: 24px;
+  border-right: 1px solid var(--border);
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+.type-level {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ochre);
+  margin-bottom: 4px;
+}
+.type-spec {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.type-use {
+  font-size: 11px;
+  color: #9C8571;
+  margin-top: 4px;
+}
+.type-sample { padding: 28px 32px; }
+
+.ts-disp-xl  { font-family: var(--font-display); font-size: clamp(42px, 6vw, 72px); font-weight: 300; line-height: 1.0; color: var(--text-primary); }
+.ts-disp-xl em { font-style: italic; color: var(--ochre); }
+.ts-disp-l   { font-family: var(--font-display); font-size: clamp(30px, 4vw, 48px); font-weight: 300; line-height: 1.05; color: var(--text-primary); }
+.ts-disp-l em  { font-style: italic; color: var(--ochre); }
+.ts-disp-m   { font-family: var(--font-display); font-size: clamp(22px, 2.5vw, 32px); font-weight: 300; line-height: 1.1; color: var(--text-primary); }
+.ts-body-l   { font-family: var(--font-body); font-size: 16px; line-height: 1.75; color: var(--text-secondary); font-weight: 400; }
+.ts-body-m   { font-family: var(--font-body); font-size: 14px; line-height: 1.65; color: var(--text-secondary); }
+.ts-body-s   { font-family: var(--font-body); font-size: 12px; line-height: 1.6; font-weight: 300; color: #6B5B4E; }
+.ts-label    { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); }
+.ts-mono     { font-family: var(--font-mono); font-size: 12px; color: #6B5B4E; letter-spacing: 0.06em; }
+
+/* ── LOGO SYSTEM ── */
+.logo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 48px;
+}
+.logo-bg {
+  padding: 56px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.logo-bg-light { background: var(--surface-3); }
+.logo-bg-dark  { background: var(--surface-dark); }
+
+.wm-render {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.wm-text-main {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 6px;
+  line-height: 1;
+}
+.wm-sep {
+  width: 1px;
+  height: 42px;
+  flex-shrink: 0;
+}
+.wm-hub {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ochre);
+  line-height: 1;
+}
+.logo-bg-light .wm-text-main { color: var(--text-primary); }
+.logo-bg-dark  .wm-text-main { color: var(--text-on-dark); }
+.logo-bg-light .wm-sep { background: var(--ochre); opacity: 0.65; }
+.logo-bg-dark  .wm-sep { background: var(--ochre); opacity: 0.55; }
+
+.logo-anatomy {
+  margin-top: 48px;
+  background: #FAFAF8;
+  border: 1px solid var(--border);
+  padding: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.anatomy-item { }
+.anatomy-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.anatomy-value {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.logo-note {
+  font-size: 12px;
+  line-height: 1.6;
+  font-style: italic;
+}
+.logo-bg-light .logo-note { color: #9C8571; }
+.logo-bg-dark  .logo-note { color: #6B5B4E; }
+
+/* ── SPACING ── */
+.spacing-table {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.spacing-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 140px 200px;
+  align-items: center;
+  gap: 0;
+  background: var(--surface-3);
+  min-height: 52px;
+}
+.sp-token {
+  padding: 12px 20px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--ochre);
+  border-right: 1px solid var(--border);
+}
+.sp-bar-wrap {
+  padding: 12px 24px;
+  border-right: 1px solid var(--border);
+}
+.sp-bar {
+  background: var(--ochre);
+  height: 8px;
+  opacity: 0.35;
+}
+.sp-value {
+  padding: 12px 20px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+.sp-use {
+  padding: 12px 20px;
+  font-size: 11px;
+  color: #6B5B4E;
+}
+
+/* ── COMPONENTS ── */
+.comp-section {
+  margin-top: 48px;
+}
+.comp-section + .comp-section { margin-top: 40px; }
+.comp-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.comp-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 24px;
+  background: var(--surface-0);
+  border: 1px solid var(--border);
+}
+.comp-row--dark {
+  background: var(--surface-dark);
+  border-color: rgba(255,255,255,0.06);
+}
+.comp-row--mid {
+  background: var(--surface-1);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.btn-primary {
+  background: var(--text-primary);
+  color: #F8F7F5;
+}
+.btn-primary:hover { background: var(--ochre); }
+.btn-ochre {
+  background: var(--ochre);
+  color: #F8F7F5;
+  border: 1px solid var(--ochre);
+}
+.btn-ochre:hover { background: var(--ochre-dark); }
+.btn-outline {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+}
+.btn-outline:hover { border-color: var(--ochre); color: var(--ochre); }
+.btn-ghost-dark {
+  background: transparent;
+  color: var(--text-on-dark);
+  border: 1px solid rgba(201,185,154,0.3);
+}
+.btn-sm { padding: 8px 16px; font-size: 8px; }
+
+/* Badges / Tags */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+}
+.tag-ochre {
+  background: var(--ochre-tint);
+  border: 1px solid rgba(166,124,82,0.22);
+  color: var(--ochre);
+}
+.tag-neutral {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+.tag-sand {
+  background: rgba(201,185,154,0.15);
+  border: 1px solid rgba(201,185,154,0.35);
+  color: #9C8571;
+}
+.tag-elite {
+  background: var(--elite);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.tag-dark {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(240,237,232,0.7);
+}
+
+/* Quality stars */
+.stars-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+  background: var(--surface-0);
+  border: 1px solid var(--border);
+  margin-top: 12px;
+}
+.star-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.star-score {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  width: 80px;
+}
+.stars {
+  display: flex;
+  gap: 3px;
+  font-size: 13px;
+}
+.star-3 { color: var(--elite); }
+.star-2 { color: var(--ochre); }
+.star-none { color: var(--border-strong); }
+.star-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Cards */
+.cards-demo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 12px;
+}
+.demo-card {
+  background: var(--surface-0);
+  border: 1px solid var(--border);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.demo-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--ochre);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s;
+}
+.demo-card-img {
+  height: 120px;
+  background: var(--surface-2);
+  margin: -24px -24px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.demo-card-img-inner {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+}
+.demo-card-tag { margin-bottom: 10px; }
+.demo-card-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+.demo-card-meta {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.demo-card-desc {
+  font-size: 11px;
+  color: #6B5B4E;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.demo-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.demo-card-link {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ochre);
+  text-decoration: none;
+}
+
+/* ── PHOTOGRAPHY ── */
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 48px;
+}
+.photo-col {
+  padding: 36px;
+}
+.photo-col:first-child { background: var(--surface-3); }
+.photo-col:last-child  { background: #F0EBE3; }
+.photo-col-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9C8571;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.photo-item {
+  font-size: 13px;
+  color: #6B5B4E;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  line-height: 1.55;
+  display: flex;
+  gap: 10px;
+}
+.photo-item:last-child { border-bottom: none; }
+.photo-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+.photo-col:first-child .photo-dot { background: var(--ochre); }
+.photo-col:last-child  .photo-dot { background: #9C8571; }
+
+.ratio-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-top: 2px;
+}
+.ratio-item {
+  background: var(--surface-0);
+  border: 1px solid var(--border);
+  padding: 20px 16px;
+}
+.ratio-box-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.ratio-box {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+.ratio-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--ochre);
+  margin-bottom: 4px;
+  text-align: center;
+}
+.ratio-use {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ── VOICE & TONE ── */
+.voice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 48px;
+}
+.voice-col {
+  padding: 40px;
+}
+.voice-col:first-child { background: var(--surface-3); }
+.voice-col:last-child  { background: var(--surface-dark); color: var(--text-on-dark); }
+.voice-col-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.voice-col:first-child .voice-col-title { color: #9C8571; }
+.voice-col:last-child  .voice-col-title { color: var(--sand); }
+.voice-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.voice-col:last-child .voice-item { color: rgba(240,237,232,0.7); }
+.v-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+.voice-col:first-child .v-dot { background: var(--ochre); }
+.voice-col:last-child  .v-dot { background: #6B5B4E; }
+
+.copy-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 2px;
+}
+.copy-ex {
+  background: var(--surface-3);
+  padding: 28px 36px;
+  display: grid;
+  grid-template-columns: 130px 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+.copy-ex-context {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9C8571;
+  padding-top: 2px;
+}
+.copy-ex-bad {
+  font-size: 13px;
+  color: #9C8571;
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+.copy-ex-good {
+  font-size: 13.5px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.copy-ex-good::before {
+  content: '→  ';
+  color: var(--ochre);
+  font-family: var(--font-mono);
+}
+
+/* ── RULES ── */
+.rules-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 48px;
+}
+.rules-col {
+  padding: 40px;
+}
+.rules-col:first-child { background: var(--surface-3); }
+.rules-col:last-child  { background: #EDE5DA; }
+.rules-col-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9C8571;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.badge-do   { background: var(--ochre); color: white; padding: 2px 8px; font-size: 8px; letter-spacing: 1px; }
+.badge-dont { background: #6B5B4E; color: white; padding: 2px 8px; font-size: 8px; letter-spacing: 1px; }
+.rule-item {
+  font-size: 13px;
+  color: #6B5B4E;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  line-height: 1.55;
+}
+.rule-item:last-child { border-bottom: none; }
+
+/* ── CSS TOKENS ── */
+.code-block {
+  background: var(--surface-dark);
+  padding: 32px 36px;
+  overflow-x: auto;
+  margin-top: 32px;
+  position: relative;
+}
+.code-block::before {
+  content: 'CSS';
+  position: absolute;
+  top: 12px; right: 16px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: rgba(201,185,154,0.4);
+  text-transform: uppercase;
+}
+.code-block pre {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.85;
+  color: var(--sand);
+  white-space: pre;
+}
+.code-comment { color: #4A4540; }
+.code-token   { color: #C9B99A; }
+.code-value   { color: #A67C52; }
+.code-special { color: var(--elite); }
+
+/* ── SUMMARY ── */
+.summary-block {
+  background: var(--surface-dark);
+  padding: 80px 64px;
+  margin-top: 64px;
+  position: relative;
+  overflow: hidden;
+}
+.summary-block::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 70% at 85% 20%, rgba(166,124,82,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.summary-title {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 300;
+  color: var(--text-on-dark);
+  margin-bottom: 48px;
+  font-style: italic;
+  position: relative;
+}
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  position: relative;
+}
+.summary-item-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sand);
+  margin-bottom: 10px;
+}
+.summary-item-value {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 300;
+  color: #D4C9B8;
+  line-height: 1.45;
+}
+.summary-item-value em { font-style: italic; color: var(--sand); }
+
+/* ── FOOTER ── */
+.doc-footer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+}
+.doc-footer-left {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: #9C8571;
+  text-transform: uppercase;
+}
+.doc-footer-right {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-faint);
+}
+
+@media (max-width: 860px) {
+  .cover { padding: 40px 32px; }
+  .section { padding: 64px 32px; }
+  .diag-grid, .pos-grid, .voice-grid, .rules-grid,
+  .logo-grid, .photo-grid { grid-template-columns: 1fr; }
+  .values-grid { grid-template-columns: 1fr 1fr; }
+  .type-row { grid-template-columns: 1fr; }
+  .type-meta { border-right: none; border-bottom: 1px solid var(--border); }
+  .summary-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .copy-ex { grid-template-columns: 1fr; gap: 12px; }
+  .surface-level { grid-template-columns: 60px 160px 1fr; }
+  .cards-demo { grid-template-columns: 1fr; }
+  .ratio-grid { grid-template-columns: 1fr 1fr; }
+  .cover-bottom { flex-wrap: wrap; gap: 20px; }
+  .tagline-block { padding: 56px 32px; }
+  .summary-block { padding: 56px 32px; }
+  .doc-footer { flex-direction: column; gap: 12px; text-align: center; }
+  .spacing-row { grid-template-columns: 80px 1fr 100px; }
+  .sp-use { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-top">
+    <div class="cover-label">World Stone Hub — Brand Identity System</div>
+    <div class="cover-version">Brand Book v2.0 · Abril 2026</div>
+  </div>
+  <div class="cover-center">
+    <div class="cover-wordmark">
+      <div class="cover-wm-text">WORLD STONE</div>
+      <div class="cover-wm-sep"></div>
+      <div class="cover-wm-hub">Hub</div>
+    </div>
+    <h1 class="cover-title">Brand<br><em>Book</em></h1>
+    <p class="cover-sub">Sistema de identidad visual · Guía de referencia completa · Versión 2.0</p>
+  </div>
+  <div class="cover-bottom">
+    <div class="cover-meta-item">Documento <span>Brand Book v2.0</span></div>
+    <div class="cover-meta-item">Proyecto <span>World Stone Hub</span></div>
+    <div class="cover-meta-item">Estado <span>Sistema completo</span></div>
+    <div class="cover-meta-item">Anterior <span>v1.0 Marzo 2026</span></div>
+    <div class="cover-meta-item">Fecha <span>Abril 2026</span></div>
+  </div>
+</div>
+
+<!-- ══ 00 DIAGNÓSTICO ══ -->
+<section class="section">
+  <div class="section-label">00 — Diagnóstico de marca</div>
+  <h2 class="section-title">Análisis crítico<br><em>de la versión anterior</em></h2>
+  <p class="section-intro">Antes de definir el sistema, hay que auditar lo que existe. Esta sección documenta lo que v1 resolvió bien y los errores estructurales que generaron deriva de identidad en producción.</p>
+
+  <div class="diag-grid">
+    <div class="diag-col">
+      <div class="diag-col-title"><span class="badge-ok">FUNCIONA</span></div>
+      <div class="diag-item"><span class="diag-dot"></span>El trio tipográfico Cormorant / DM Mono / Instrument Sans es correcto. Cormorant remite a catálogos de arquitectura premium (Domus, Abitare). DM Mono da precisión técnica. El conjunto tiene carácter.</div>
+      <div class="diag-item"><span class="diag-dot"></span>El ocre <code style="font-family:var(--font-mono);font-size:11px;">#A67C52</code> como único color de acento es una decisión valiente. Los competidores usan azules corporativos genéricos. El ocre tierra es coherente con el material y disruptivo en el sector.</div>
+      <div class="diag-item"><span class="diag-dot"></span>El ruido de textura sutil (body::before) es una referencia directa a la superficie de la piedra. Es un detalle de autor, no un capricho.</div>
+      <div class="diag-item"><span class="diag-dot"></span>El split hero (blanco izquierda / oscuro derecha) funciona como metáfora: luz y sombra en la piedra, cantera vs proyecto final.</div>
+      <div class="diag-item"><span class="diag-dot"></span>La voz editorial documentada en v1 es auténtica y diferenciada del tono genérico de los directorios B2B.</div>
+    </div>
+    <div class="diag-col">
+      <div class="diag-col-title"><span class="badge-fix">FALLA EN V1</span></div>
+      <div class="diag-item"><span class="diag-dot"></span>Paleta de solo 5 colores: insuficiente para un producto digital. Sin sistema de bordes, jerarquía de texto ni niveles de superficie — los devs inventan valores (<code style="font-family:var(--font-mono);font-size:10px;color:#C9B99A;">#f0ede8, #b8b3ab, #111110</code>) sin documentar.</div>
+      <div class="diag-item"><span class="diag-dot"></span>El color <code style="font-family:var(--font-mono);font-size:10px;color:#C9B99A;">#C9A84C</code> (elite gold) aparece en producción para estrellas ★★★ y plan Élite pero no estaba documentado. Deriva garantizada.</div>
+      <div class="diag-item"><span class="diag-dot"></span>El logo documentado en v1 (hexágono geométrico) no existe en el site real. El logo real es un wordmark tipográfico. Brecha grave entre documento y producción.</div>
+      <div class="diag-item"><span class="diag-dot"></span>Cero sistema de espaciado ni escala tipográfica. Con 20+ páginas y múltiples devs, la inconsistencia visual es matemáticamente inevitable.</div>
+      <div class="diag-item"><span class="diag-dot"></span>La ausencia de guía para "estados de diferenciación" llevó a introducir <code style="font-family:var(--font-mono);font-size:10px;color:#C9B99A;">#27ae60</code> (verde) — color completamente ajeno a la paleta — para señalar "acceso gratuito".</div>
+    </div>
+  </div>
+
+  <div class="diag-verdict">
+    "WSH tiene la dirección correcta. El problema no es la marca — es la ausencia de sistema. Este documento cierra esa brecha: de 5 tokens sin uso definido a un sistema completo de 20+ tokens con reglas de aplicación."
+  </div>
+</section>
+
+<!-- ══ 01 POSICIONAMIENTO ══ -->
+<section class="section">
+  <div class="section-label">01 — Posicionamiento estratégico</div>
+  <h2 class="section-title">Quiénes somos<br><em>y por qué existimos</em></h2>
+  <p class="section-intro">World Stone Hub es la infraestructura digital del sector de la piedra natural. No somos otro directorio B2B. Somos la plataforma que conecta todo el ecosistema — desde la cantera hasta el proyecto terminado — con la calidad visual y la seriedad que el sector merece.</p>
+
+  <div class="pos-grid">
+    <div class="pos-card">
+      <div class="pos-label">Propuesta de valor</div>
+      <div class="pos-text">La primera plataforma global de piedra natural diseñada a la altura del material que presenta.</div>
+    </div>
+    <div class="pos-card">
+      <div class="pos-label">A quién servimos</div>
+      <div class="pos-text">Todo el ecosistema: canteras, productores, distribuidores, arquitectos, instaladores y compradores.</div>
+    </div>
+    <div class="pos-card">
+      <div class="pos-label">Diferenciación</div>
+      <div class="pos-text">Diseño editorial premium, cobertura global real y datos técnicos verificados — no solo listings vacíos.</div>
+    </div>
+    <div class="pos-card">
+      <div class="pos-label">Modelo de negocio</div>
+      <div class="pos-text">Listings de pago por visibilidad (8 tipos de proveedor). Acceso gratuito para prescriptores y compradores.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TAGLINE -->
+<div class="tagline-block">
+  <div class="tagline-main">"Where stone meets the world."</div>
+  <div class="tagline-alt">Claim principal · World Stone Hub · 2026</div>
+</div>
+
+<!-- ══ 02 VALORES ══ -->
+<section class="section">
+  <div class="section-label">02 — Valores de marca</div>
+  <h2 class="section-title">Los principios que<br><em>guían cada decisión</em></h2>
+
+  <div class="values-grid">
+    <div class="value-item">
+      <div class="value-num">01</div>
+      <div class="value-name">Autoridad</div>
+      <div class="value-desc">Hablamos con conocimiento real del sector. No somos generalistas. Cada decisión de contenido y diseño refleja expertise en piedra natural, no en B2B genérico.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-num">02</div>
+      <div class="value-name">Precisión</div>
+      <div class="value-desc">Los datos técnicos son la moneda de valor. Densidad, absorción, Mohs, origen exacto. La imprecisión destruye la confianza en un sector donde el error tiene coste real en obra.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-num">03</div>
+      <div class="value-name">Equidad global</div>
+      <div class="value-desc">Una cantera de Alicante tiene el mismo derecho a visibilidad que una de Carrara o Minas Gerais. El mapa de la piedra es global y WSH lo refleja sin jerarquías de origen.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-num">04</div>
+      <div class="value-name">Confianza</div>
+      <div class="value-desc">Los listings son reales. Los datos están verificados. La plataforma es honesta sobre lo que es y lo que no es. La confianza se construye con consistencia, no con marketing.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-num">05</div>
+      <div class="value-name">Belleza funcional</div>
+      <div class="value-desc">La piedra natural es uno de los materiales más bellos del planeta. WSH lo presenta con la calidad visual que merece — sin sacrificar velocidad ni usabilidad.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-num">06</div>
+      <div class="value-name">Permanencia</div>
+      <div class="value-desc">Como el material que representa, WSH está construido para durar. Sin tendencias visuales, sin ruido estético. Decisiones de diseño pensadas para el largo plazo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 03 SISTEMA DE COLOR ══ -->
+<section class="section">
+  <div class="section-label">03 — Sistema de color</div>
+  <h2 class="section-title">Tierra, mineral<br><em>y profundidad</em></h2>
+  <p class="section-intro">La paleta extrae los tonos directamente de la piedra natural: el blanco roto del mármol, el ocre de la arenisca, el gris pardo del granito, el negro cálido de la pizarra. 20 tokens organizados en 6 grupos funcionales. Ningún color es decorativo — todos tienen un uso definido.</p>
+
+  <!-- Surfaces -->
+  <div class="color-group">
+    <div class="color-group-label">Superficies — fondos y niveles de página</div>
+    <div class="swatches">
+      <div class="swatch s-light" style="background:#FFFFFF; border:1px solid #E2E0DC;">
+        <div class="swatch-token">--surface-0</div>
+        <div class="swatch-name">Pure White</div>
+        <div class="swatch-hex">#FFFFFF</div>
+        <div class="swatch-use">Cards, inputs, modales, tablas</div>
+      </div>
+      <div class="swatch s-light" style="background:#F8F7F5;">
+        <div class="swatch-token">--surface-1</div>
+        <div class="swatch-name">Warm White</div>
+        <div class="swatch-hex">#F8F7F5</div>
+        <div class="swatch-use">Fondo principal de página</div>
+      </div>
+      <div class="swatch s-mid" style="background:#F0EFED;">
+        <div class="swatch-token">--surface-2</div>
+        <div class="swatch-name">Stone Mid</div>
+        <div class="swatch-hex">#F0EFED</div>
+        <div class="swatch-use">Hover, chips, paneles secundarios</div>
+      </div>
+      <div class="swatch s-mid" style="background:#EDE8DF;">
+        <div class="swatch-token">--surface-3</div>
+        <div class="swatch-name">Stone Cream</div>
+        <div class="swatch-hex">#EDE8DF</div>
+        <div class="swatch-use">Callouts, bloques destacados, citas</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Text -->
+  <div class="color-group">
+    <div class="color-group-label">Texto — jerarquía tipográfica</div>
+    <div class="swatches">
+      <div class="swatch s-dark" style="background:#1A1917;">
+        <div class="swatch-token">--text-primary</div>
+        <div class="swatch-name">Ink</div>
+        <div class="swatch-hex">#1A1917</div>
+        <div class="swatch-use">Títulos, texto principal</div>
+      </div>
+      <div class="swatch s-dark" style="background:#4A4845;">
+        <div class="swatch-token">--text-secondary</div>
+        <div class="swatch-name">Ink Mid</div>
+        <div class="swatch-hex">#4A4845</div>
+        <div class="swatch-use">Cuerpo de texto, descripciones</div>
+      </div>
+      <div class="swatch s-light" style="background:#8A8784; border:1px solid #E2E0DC;">
+        <div class="swatch-token">--text-muted</div>
+        <div class="swatch-name">Ink Muted</div>
+        <div class="swatch-hex">#8A8784</div>
+        <div class="swatch-use">Labels, metadatos, fechas</div>
+      </div>
+      <div class="swatch s-light" style="background:#B8B5B0; border:1px solid #E2E0DC;">
+        <div class="swatch-token">--text-faint</div>
+        <div class="swatch-name">Ink Faint</div>
+        <div class="swatch-hex">#B8B5B0</div>
+        <div class="swatch-use">Placeholders, estados deshabilitados</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Borders -->
+  <div class="color-group">
+    <div class="color-group-label">Bordes — separadores y contornos</div>
+    <div class="swatches">
+      <div class="swatch s-light" style="background:#E2E0DC; border:1px solid #C8C5BF;">
+        <div class="swatch-token">--border</div>
+        <div class="swatch-name">Border</div>
+        <div class="swatch-hex">#E2E0DC</div>
+        <div class="swatch-use">Bordes por defecto, divisores</div>
+      </div>
+      <div class="swatch s-light" style="background:#C8C5BF; border:1px solid #B0ADA8;">
+        <div class="swatch-token">--border-strong</div>
+        <div class="swatch-name">Border Strong</div>
+        <div class="swatch-hex">#C8C5BF</div>
+        <div class="swatch-use">Bordes en hover, inputs activos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accent -->
+  <div class="color-group">
+    <div class="color-group-label">Acento — Stone Ochre (el color de marca)</div>
+    <div class="swatches">
+      <div class="swatch s-dark" style="background:#A67C52;">
+        <div class="swatch-token">--ochre</div>
+        <div class="swatch-name">Stone Ochre</div>
+        <div class="swatch-hex">#A67C52</div>
+        <div class="swatch-use">CTAs, nav activo, links, eyebrows, iconos</div>
+      </div>
+      <div class="swatch s-dark" style="background:#8F6A40;">
+        <div class="swatch-token">--ochre-dark</div>
+        <div class="swatch-name">Ochre Dark</div>
+        <div class="swatch-hex">#8F6A40</div>
+        <div class="swatch-use">Hover y pressed del ochre principal</div>
+      </div>
+      <div class="swatch s-light" style="background:#F5EFEA; border:1px solid #E2E0DC;">
+        <div class="swatch-token">--ochre-tint</div>
+        <div class="swatch-name">Ochre Tint</div>
+        <div class="swatch-hex">#F5EFEA</div>
+        <div class="swatch-use">Fondo de chips, tags, badges ochre</div>
+      </div>
+      <div class="swatch s-light" style="background:#C9B99A; border:1px solid #B0A890;">
+        <div class="swatch-token">--sand</div>
+        <div class="swatch-name">Stone Sand</div>
+        <div class="swatch-hex">#C9B99A</div>
+        <div class="swatch-use">Solo decorativo sobre fondos oscuros</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dark -->
+  <div class="color-group">
+    <div class="color-group-label">Superficies oscuras — paneles premium y fondos de sección</div>
+    <div class="swatches">
+      <div class="swatch s-dark" style="background:#1A1917;">
+        <div class="swatch-token">--surface-dark</div>
+        <div class="swatch-name">Stone Dark</div>
+        <div class="swatch-hex">#1A1917</div>
+        <div class="swatch-use">Hero panels, footer, tarjetas premium</div>
+      </div>
+      <div class="swatch s-dark" style="background:#0E0D0C;">
+        <div class="swatch-token">--surface-deeper</div>
+        <div class="swatch-name">Stone Deeper</div>
+        <div class="swatch-hex">#0E0D0C</div>
+        <div class="swatch-use">Elementos anidados en dark surface</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Elite -->
+  <div class="color-group">
+    <div class="color-group-label">Élite — uso restringido · Solo plan Élite y calificación ★★★</div>
+    <div class="swatches">
+      <div class="swatch swatch-elite" style="background:#C9A84C; position:relative;">
+        <span class="swatch-restricted">Solo Elite</span>
+        <div class="swatch-token">--elite</div>
+        <div class="swatch-name">Elite Gold</div>
+        <div class="swatch-hex">#C9A84C</div>
+        <div class="swatch-use">★★★ materiales · Badge Élite · Solo estos dos usos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 04 JERARQUÍA DE SUPERFICIES ══ -->
+<section class="section">
+  <div class="section-label">04 — Jerarquía de superficies</div>
+  <h2 class="section-title">5 niveles,<br><em>cero ambigüedad</em></h2>
+  <p class="section-intro">El mayor problema de identidad en una interfaz de tonos cálidos similares es la deriva de superficie. Este sistema define exactamente qué fondo usar en cada contexto. Regla: nunca saltar más de un nivel en una misma sección.</p>
+
+  <div class="surface-stack">
+    <div class="surface-level">
+      <div class="surface-swatch" style="background:#FFFFFF;"></div>
+      <div class="surface-meta">
+        <div class="surface-level-num">Nivel 0</div>
+        <div class="surface-level-name">Pure White</div>
+        <div class="surface-hex">#FFFFFF · --surface-0</div>
+      </div>
+      <div class="surface-rule">Cards individuales, campos de formulario, modales, filas de tabla. El blanco más limpio — para elementos que necesitan destacar del fondo de página.</div>
+    </div>
+    <div class="surface-level">
+      <div class="surface-swatch" style="background:#F8F7F5;"></div>
+      <div class="surface-meta">
+        <div class="surface-level-num">Nivel 1</div>
+        <div class="surface-level-name">Warm White</div>
+        <div class="surface-hex">#F8F7F5 · --surface-1</div>
+      </div>
+      <div class="surface-rule">Fondo principal de todas las páginas. El color base del site. Warm, no frío — refuerza la calidez del material.</div>
+    </div>
+    <div class="surface-level">
+      <div class="surface-swatch" style="background:#F0EFED;"></div>
+      <div class="surface-meta">
+        <div class="surface-level-num">Nivel 2</div>
+        <div class="surface-level-name">Stone Mid</div>
+        <div class="surface-hex">#F0EFED · --surface-2</div>
+      </div>
+      <div class="surface-rule">Fondos de hover, fondos de chips y filtros, paneles secundarios dentro de una sección. Diferencia sin contrastar.</div>
+    </div>
+    <div class="surface-level">
+      <div class="surface-swatch" style="background:#EDE8DF;"></div>
+      <div class="surface-meta">
+        <div class="surface-level-num">Nivel 3</div>
+        <div class="surface-level-name">Stone Cream</div>
+        <div class="surface-hex">#EDE8DF · --surface-3</div>
+      </div>
+      <div class="surface-rule">Callout boxes, bloques de cita, secciones de captación, documentos de marca. El cream más pronunciado — solo para elementos que necesitan atención especial.</div>
+    </div>
+    <div class="surface-level surface-dark-level">
+      <div class="surface-swatch" style="background:#1A1917;"></div>
+      <div class="surface-meta">
+        <div class="surface-level-num">Dark</div>
+        <div class="surface-level-name">Stone Dark</div>
+        <div class="surface-hex">#1A1917 · --surface-dark</div>
+      </div>
+      <div class="surface-rule">Hero panels, footer, tarjetas de Fundadores, secciones de conversión premium. Contraste máximo — usar con intención, nunca por defecto.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 05 TIPOGRAFÍA ══ -->
+<section class="section">
+  <div class="section-label">05 — Sistema tipográfico</div>
+  <h2 class="section-title">Tres fuentes,<br><em>un solo carácter</em></h2>
+  <p class="section-intro">Cada fuente tiene un rol único e irremplazable. Mezclarlos fuera de su rol destruye la coherencia. Cormorant para emoción y jerarquía visual. DM Mono para datos y precisión técnica. Instrument Sans para legibilidad y UI.</p>
+
+  <div class="type-scale">
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-level">Display XL</div>
+        <div class="type-spec">Cormorant Garamond<br>Weight 300 · clamp(52px→96px)<br>Line-height 1.0</div>
+        <div class="type-use">Cover headlines · Landing hero</div>
+      </div>
+      <div class="type-sample">
+        <div class="ts-disp-xl">Piedra <em>natural</em></div>
+      </div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-level">Display L</div>
+        <div class="type-spec">Cormorant Garamond<br>Weight 300 · clamp(34px→52px)<br>Line-height 1.05</div>
+        <div class="type-use">Títulos de sección · H2</div>
+      </div>
+      <div class="type-sample">
+        <div class="ts-disp-l">Tierra, mineral <em>y profundidad</em></div>
+      </div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-level">Display M</div>
+        <div class="type-spec">Cormorant Garamond<br>Weight 300 · clamp(22px→32px)<br>Line-height 1.1</div>
+        <div class="type-use">Nombres de material · Títulos de card</div>
+      </div>
+      <div class="type-sample">
+        <div class="ts-disp-m">Mármol Blanco Macael</div>
+      </div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-level">Body L</div>
+        <div class="type-spec">Instrument Sans<br>Weight 400 · 16–17px<br>Line-height 1.75</div>
+        <div class="type-use">Descripciones largas · Intro párrafos</div>
+      </div>
+      <div class="type-sample">
+        <div class="ts-body-l">La plataforma de referencia para profesionales de la piedra natural y artificial. Canteras, fabricantes y distribuidores en un único ecosistema global.</div>
+      </div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-level">Body M</div>
+        <div class="type-spec">Instrument Sans<br>Weight 400 · 14px<br>Line-height 1.65</div>
+        <div class="type-use">Texto estándar · Listas · Descripción de card</div>
+      </div>
+      <div class="type-sample">
+        <div class="ts-body-m">Mármol blanco de grano fino con veteado gris azulado. Resistencia a la compresión: 120 MPa. Absorción de agua: 0.15%. Extracción: Macael, Almería, España.</div>
+      </div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-level">Body S</div>
+        <div class="type-spec">Instrument Sans<br>Weight 300 · 12px<br>Line-height 1.6</div>
+        <div class="type-use">Notas · Texto secundario · Footer</div>
+      </div>
+      <div class="type-sample">
+        <div class="ts-body-s">Los precios indicados son orientativos y pueden variar según volumen, acabado y destino. Consultar con el proveedor para presupuesto personalizado.</div>
+      </div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-level">Label / Eyebrow</div>
+        <div class="type-spec">DM Mono<br>Weight 400 · 8–10px<br>Letter-spacing 0.22em · Uppercase</div>
+        <div class="type-use">Eyebrows · Nav · Metadatos · Badges</div>
+      </div>
+      <div class="type-sample">
+        <div class="ts-label">CANTERA · MÁRMOL · REF# WSH-0042 · MACAEL, ALMERÍA, ES · CONTENT SCORE ★★★</div>
+      </div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-level">Mono Data</div>
+        <div class="type-spec">DM Mono<br>Weight 300 · 11–13px<br>Letter-spacing 0.06em</div>
+        <div class="type-use">Fichas técnicas · Coordenadas · Precios · Datos</div>
+      </div>
+      <div class="type-sample">
+        <div class="ts-mono">Densidad: 2.720 kg/m³ · Absorción: 0.15% · Mohs: 3.5 · Lat 37.3418° N · Lng 2.1927° W</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 06 LOGO ══ -->
+<section class="section">
+  <div class="section-label">06 — Identidad visual · Logo</div>
+  <h2 class="section-title">El wordmark real,<br><em>documentado correctamente</em></h2>
+  <p class="section-intro">El logo de WSH es un wordmark tipográfico puro. No existe ningún símbolo o icono adicional. La identidad se construye exclusivamente desde la tipografía y el color. La línea vertical de separación actúa como elemento estructural que conecta el nombre con el concepto.</p>
+
+  <div class="logo-grid">
+    <div class="logo-bg logo-bg-light">
+      <div class="wm-render">
+        <div class="wm-text-main">WORLD STONE</div>
+        <div class="wm-sep"></div>
+        <div class="wm-hub">Hub</div>
+      </div>
+      <p class="logo-note">Versión principal sobre fondos claros. Usar en navegación, headers de página, materiales de comunicación estándar. El entorno mínimo recomendado es el equivalente a la altura de "Hub" en cada dirección.</p>
+    </div>
+    <div class="logo-bg logo-bg-dark">
+      <div class="wm-render">
+        <div class="wm-text-main">WORLD STONE</div>
+        <div class="wm-sep"></div>
+        <div class="wm-hub">Hub</div>
+      </div>
+      <p class="logo-note">Versión sobre fondos oscuros. Usar en footer, paneles hero dark, materiales premium. "Hub" mantiene siempre el mismo ochre (#A67C52) independientemente del fondo.</p>
+    </div>
+  </div>
+
+  <div class="logo-anatomy">
+    <div class="anatomy-item">
+      <div class="anatomy-label">WORLD STONE</div>
+      <div class="anatomy-value">Cormorant Garamond<br>Weight 300<br>Font-size 18px (nav)<br>Letter-spacing 6px<br>Color: --text-primary o --text-on-dark</div>
+    </div>
+    <div class="anatomy-item">
+      <div class="anatomy-label">Separador vertical</div>
+      <div class="anatomy-value">Línea SVG 1px<br>Color: --ochre (#A67C52)<br>Opacity: 0.65<br>Altura: proporcional al conjunto<br>Margen horizontal: 14–20px</div>
+    </div>
+    <div class="anatomy-item">
+      <div class="anatomy-label">Hub</div>
+      <div class="anatomy-value">Cormorant Garamond<br>Weight 300 · Italic<br>Font-size 30px (nav)<br>Letter-spacing 0.5px<br>Color: --ochre (#A67C52) · Siempre</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 07 ESPACIADO ══ -->
+<section class="section">
+  <div class="section-label">07 — Sistema de espaciado</div>
+  <h2 class="section-title">Escala de 8px.<br><em>Sin excepciones.</em></h2>
+  <p class="section-intro">Todos los márgenes, padding y gaps del site deben usar múltiplos de 4px. El espaciado no es un detalle — es estructura visual. Un spacing incorrecto es tan visible como un color incorrecto.</p>
+
+  <div class="spacing-table">
+    <div class="spacing-row">
+      <div class="sp-token">--sp-1</div>
+      <div class="sp-bar-wrap"><div class="sp-bar" style="width:4px;"></div></div>
+      <div class="sp-value">4px</div>
+      <div class="sp-use">Micro · Gaps entre iconos e inline labels</div>
+    </div>
+    <div class="spacing-row">
+      <div class="sp-token">--sp-2</div>
+      <div class="sp-bar-wrap"><div class="sp-bar" style="width:8px;"></div></div>
+      <div class="sp-value">8px</div>
+      <div class="sp-use">XS · Spacing interno de chips y badges</div>
+    </div>
+    <div class="spacing-row">
+      <div class="sp-token">--sp-3</div>
+      <div class="sp-bar-wrap"><div class="sp-bar" style="width:12px;"></div></div>
+      <div class="sp-value">12px</div>
+      <div class="sp-use">SM · Padding compacto en componentes pequeños</div>
+    </div>
+    <div class="spacing-row">
+      <div class="sp-token">--sp-4</div>
+      <div class="sp-bar-wrap"><div class="sp-bar" style="width:16px;"></div></div>
+      <div class="sp-value">16px</div>
+      <div class="sp-use">MD · Espaciado estándar entre elementos de UI</div>
+    </div>
+    <div class="spacing-row">
+      <div class="sp-token">--sp-6</div>
+      <div class="sp-bar-wrap"><div class="sp-bar" style="width:24px;"></div></div>
+      <div class="sp-value">24px</div>
+      <div class="sp-use">LG · Padding interno de cards y secciones</div>
+    </div>
+    <div class="spacing-row">
+      <div class="sp-token">--sp-8</div>
+      <div class="sp-bar-wrap"><div class="sp-bar" style="width:32px;"></div></div>
+      <div class="sp-value">32px</div>
+      <div class="sp-use">XL · Entre componentes, grupos de elementos</div>
+    </div>
+    <div class="spacing-row">
+      <div class="sp-token">--sp-12</div>
+      <div class="sp-bar-wrap"><div class="sp-bar" style="width:48px;"></div></div>
+      <div class="sp-value">48px</div>
+      <div class="sp-use">2XL · Padding de secciones, cabeceras de página</div>
+    </div>
+    <div class="spacing-row">
+      <div class="sp-token">--sp-16</div>
+      <div class="sp-bar-wrap"><div class="sp-bar" style="width:64px;"></div></div>
+      <div class="sp-value">64px</div>
+      <div class="sp-use">3XL · Breaks entre secciones mayores</div>
+    </div>
+    <div class="spacing-row">
+      <div class="sp-token">--sp-24</div>
+      <div class="sp-bar-wrap"><div class="sp-bar" style="width:96px;"></div></div>
+      <div class="sp-value">96px</div>
+      <div class="sp-use">4XL · Padding de secciones de página en desktop</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 08 COMPONENTES ══ -->
+<section class="section">
+  <div class="section-label">08 — Componentes UI</div>
+  <h2 class="section-title">Los bloques<br><em>del sistema</em></h2>
+  <p class="section-intro">Componentes rendered con los tokens reales del sistema. Estas son las únicas variantes permitidas. Ante la necesidad de un nuevo componente, primero verificar si uno de estos resuelve el problema con ajustes menores.</p>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="comp-label">Botones — 3 variantes · Nunca crear una cuarta sin documentarla aquí</div>
+    <div class="comp-row">
+      <a class="btn btn-primary">Explorar directorio</a>
+      <a class="btn btn-ochre">Publicar mi empresa →</a>
+      <a class="btn btn-outline">Ver precios</a>
+      <a class="btn btn-primary btn-sm">Ver más</a>
+      <a class="btn btn-ochre btn-sm">Solicitar plaza →</a>
+      <a class="btn btn-outline btn-sm">Filtrar</a>
+    </div>
+    <div class="comp-row comp-row--dark" style="margin-top:2px;">
+      <a class="btn btn-ochre">Registrar empresa →</a>
+      <a class="btn btn-ghost-dark">Ver todos los materiales</a>
+      <a class="btn btn-outline" style="border-color:rgba(201,185,154,0.3);color:rgba(240,237,232,0.7);">Más información</a>
+    </div>
+  </div>
+
+  <!-- Tags & Badges -->
+  <div class="comp-section">
+    <div class="comp-label">Tags y badges — filtros, categorías, estados</div>
+    <div class="comp-row comp-row--mid">
+      <span class="tag tag-ochre">Mármol</span>
+      <span class="tag tag-ochre">Granito</span>
+      <span class="tag tag-ochre">Plan Élite</span>
+      <span class="tag tag-neutral">España</span>
+      <span class="tag tag-neutral">Italia</span>
+      <span class="tag tag-neutral">Brasil</span>
+      <span class="tag tag-sand">Verificado</span>
+      <span class="tag tag-sand">Distribuidor</span>
+      <span class="tag tag-elite">★ Élite</span>
+    </div>
+    <div class="comp-row comp-row--dark" style="margin-top:2px;">
+      <span class="tag tag-dark">Arquitectura</span>
+      <span class="tag tag-dark">20 plazas</span>
+      <span class="tag tag-ochre" style="background:rgba(166,124,82,0.15);border-color:rgba(166,124,82,0.3);">Fundadores</span>
+    </div>
+  </div>
+
+  <!-- Star quality system -->
+  <div class="comp-section">
+    <div class="comp-label">Sistema de calidad — content_score → estrellas visibles en catálogo</div>
+    <div class="stars-demo">
+      <div class="star-row">
+        <div class="star-score">Score ≥ 80</div>
+        <div class="stars star-3">★★★</div>
+        <div class="star-desc">Ficha completa · Todos los campos técnicos · Imagen principal de calidad · Coordenadas verificadas · Color: <code style="font-family:var(--font-mono);font-size:10px;">--elite (#C9A84C)</code></div>
+      </div>
+      <div class="star-row">
+        <div class="star-score">Score 50–79</div>
+        <div class="stars star-2">★★</div>
+        <div class="star-desc">Ficha media · Datos principales cubiertos · Color: <code style="font-family:var(--font-mono);font-size:10px;">--ochre (#A67C52)</code></div>
+      </div>
+      <div class="star-row">
+        <div class="star-score">Score &lt; 50</div>
+        <div class="stars star-none">—</div>
+        <div class="star-desc">Sin badge · Ficha básica · No se penaliza, simplemente no se destaca</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cards -->
+  <div class="comp-section">
+    <div class="comp-label">Cards de material — estructura estándar del catálogo</div>
+    <div class="cards-demo">
+      <div class="demo-card">
+        <div class="demo-card-img"><div class="demo-card-img-inner">Fotografía material</div></div>
+        <div class="demo-card-tag"><span class="tag tag-elite">★★★</span></div>
+        <div class="demo-card-name">Mármol Blanco Macael</div>
+        <div class="demo-card-meta">Mármol · España · Almería</div>
+        <div class="demo-card-desc">Blanco de grano fino con veteado gris. Densidad 2.720 kg/m³. Acabados pulido y apomazado.</div>
+        <div class="demo-card-footer">
+          <span class="demo-card-link">Ver ficha →</span>
+          <span class="tag tag-ochre">Cantera</span>
+        </div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-img"><div class="demo-card-img-inner">Fotografía material</div></div>
+        <div class="demo-card-tag"><span class="tag tag-ochre" style="font-size:10px;">★★</span></div>
+        <div class="demo-card-name">Granito Negro Zimbawe</div>
+        <div class="demo-card-meta">Granito · Zimbabwe · Harare</div>
+        <div class="demo-card-desc">Negro absoluto, cristales de cuarzo visibles. Alta resistencia al desgaste. Para exteriores.</div>
+        <div class="demo-card-footer">
+          <span class="demo-card-link">Ver ficha →</span>
+          <span class="tag tag-neutral">Importado</span>
+        </div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-img"><div class="demo-card-img-inner">Fotografía material</div></div>
+        <div class="demo-card-tag" style="height:24px;"></div>
+        <div class="demo-card-name">Travertino Romano</div>
+        <div class="demo-card-meta">Travertino · Italia · Tivoli</div>
+        <div class="demo-card-desc">Clásico travertino romano. Poros visibles, acabado sin relleno o relleno con resina.</div>
+        <div class="demo-card-footer">
+          <span class="demo-card-link">Ver ficha →</span>
+          <span class="tag tag-neutral">Distribuidor</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 09 FOTOGRAFÍA ══ -->
+<section class="section">
+  <div class="section-label">09 — Fotografía y materialidad</div>
+  <h2 class="section-title">La fotografía<br><em>es el producto</em></h2>
+  <p class="section-intro">En un directorio de materiales de piedra natural, una imagen mal hecha destruye la percepción de marca más que cualquier color incorrecto. La fotografía no es un complemento — es la prueba de autoridad de la plataforma.</p>
+
+  <div class="photo-grid">
+    <div class="photo-col">
+      <div class="photo-col-title"><span class="badge-ok">LO QUE FUNCIONA</span></div>
+      <div class="photo-item"><span class="photo-dot"></span>Luz rasante lateral — revela textura superficial, vetas, cristales y poros. Hace visible lo que el material es.</div>
+      <div class="photo-item"><span class="photo-dot"></span>Fondo neutro (blanco, gris claro) o contexto arquitectónico real. Nunca fondos de color o degradados.</div>
+      <div class="photo-item"><span class="photo-dot"></span>Referencia de escala — una mano, un objeto conocido o una aplicación real en proyecto.</div>
+      <div class="photo-item"><span class="photo-dot"></span>Vetas horizontales — las vetas en sentido horizontal comunican monumentalidad y estabilidad visual.</div>
+      <div class="photo-item"><span class="photo-dot"></span>Un acabado por fotografía — pulido, apomazado y envejecido deben ser imágenes separadas. No mezclar.</div>
+      <div class="photo-item"><span class="photo-dot"></span>Alta resolución (mínimo 1400px en lado largo) — la textura de la piedra se ve o no se ve. No hay término medio.</div>
+    </div>
+    <div class="photo-col">
+      <div class="photo-col-title"><span class="badge-fix">LO QUE DESTRUYE</span></div>
+      <div class="photo-item"><span class="photo-dot"></span>Flash directo frontal — aplana la textura completamente. El material pierde toda profundidad y personalidad.</div>
+      <div class="photo-item"><span class="photo-dot"></span>Muestras pequeñas (10×10 cm) pretendiendo representar una losa o un revestimiento de fachada.</div>
+      <div class="photo-item"><span class="photo-dot"></span>Imágenes de stock genéricas o con watermarks visibles — son la señal más clara de que el proveedor no está comprometido.</div>
+      <div class="photo-item"><span class="photo-dot"></span>Formato cuadrado forzado — el formato natural de una losa es rectangular (3:2 o 4:3). Recortar a cuadrado pierde contexto.</div>
+      <div class="photo-item"><span class="photo-dot"></span>Fondos de colores saturados, renders 3D de baja calidad o composiciones fotográficas artificiales.</div>
+      <div class="photo-item"><span class="photo-dot"></span>Saturación digital excesiva — la piedra natural tiene colores sutiles. Aumentar saturación es falsificar el material.</div>
+    </div>
+  </div>
+
+  <div class="ratio-grid" style="margin-top:2px;">
+    <div class="ratio-item">
+      <div class="ratio-box-wrap"><div class="ratio-box" style="width:80px;height:60px;"></div></div>
+      <div class="ratio-label">4:3</div>
+      <div class="ratio-use">Imagen principal de ficha de material</div>
+    </div>
+    <div class="ratio-item">
+      <div class="ratio-box-wrap"><div class="ratio-box" style="width:80px;height:45px;"></div></div>
+      <div class="ratio-label">16:9</div>
+      <div class="ratio-use">Galería de proyecto · Aplicación en obra</div>
+    </div>
+    <div class="ratio-item">
+      <div class="ratio-box-wrap"><div class="ratio-box" style="width:70px;height:70px;"></div></div>
+      <div class="ratio-label">1:1</div>
+      <div class="ratio-use">Thumbnail catálogo (con padding blanco)</div>
+    </div>
+    <div class="ratio-item">
+      <div class="ratio-box-wrap"><div class="ratio-box" style="width:84px;height:36px;"></div></div>
+      <div class="ratio-label">21:9</div>
+      <div class="ratio-use">Hero de sección · Banner panorámico</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 10 VOZ Y TONO ══ -->
+<section class="section">
+  <div class="section-label">10 — Voz y tono</div>
+  <h2 class="section-title">Cómo habla<br><em>World Stone Hub</em></h2>
+  <p class="section-intro">La voz de WSH es la de un experto del sector que respeta la inteligencia del usuario. No vende. Informa. No exagera. Precisa. No es frío — es directo con calidez. El tono puede variar (más editorial en fichas de material, más técnico en datos, más cálido en onboarding) pero la voz es siempre la misma.</p>
+
+  <div class="voice-grid">
+    <div class="voice-col">
+      <div class="voice-col-title">WSH es —</div>
+      <div class="voice-item"><span class="v-dot"></span><span>Preciso y sin ambigüedad. Los datos hablan por sí solos cuando están bien presentados.</span></div>
+      <div class="voice-item"><span class="v-dot"></span><span>Respetuoso con el conocimiento del sector. Sin condescendencia hacia profesionales expertos.</span></div>
+      <div class="voice-item"><span class="v-dot"></span><span>Global en perspectiva. No hay materiales "mejores" por origen ni canteras más importantes por tamaño.</span></div>
+      <div class="voice-item"><span class="v-dot"></span><span>Editorial cuando habla de materiales. La piedra tiene historia geológica, cultural y arquitectónica.</span></div>
+      <div class="voice-item"><span class="v-dot"></span><span>Conciso. Una frase buena vale más que un párrafo mediocre. El espacio en blanco es parte de la voz.</span></div>
+    </div>
+    <div class="voice-col">
+      <div class="voice-col-title">WSH nunca —</div>
+      <div class="voice-item"><span class="v-dot"></span><span>Usa superlativos vacíos: "el mejor directorio", "líder mundial", "único en su clase".</span></div>
+      <div class="voice-item"><span class="v-dot"></span><span>Habla de precios sin contexto o comparativas de mercado verificadas.</span></div>
+      <div class="voice-item"><span class="v-dot"></span><span>Copia el tono exclamativo y genérico de los directorios B2B convencionales.</span></div>
+      <div class="voice-item"><span class="v-dot"></span><span>Ignora al especificador: arquitectos e interioristas son usuarios clave, no compradores secundarios.</span></div>
+      <div class="voice-item"><span class="v-dot"></span><span>Usa jargon técnico sin contexto cuando la audiencia es mixta (sector + arquitectos + compradores).</span></div>
+    </div>
+  </div>
+
+  <div class="copy-examples">
+    <div class="copy-ex">
+      <div class="copy-ex-context">Ficha de material</div>
+      <div class="copy-ex-bad">Hermoso mármol blanco de alta calidad con preciosas vetas perfectas para cualquier proyecto.</div>
+      <div class="copy-ex-good">Mármol blanco de grano fino. Veteado gris azulado. Dureza Mohs 3.5. Extracción: Macael, Almería, ES.</div>
+    </div>
+    <div class="copy-ex">
+      <div class="copy-ex-context">CTA de registro</div>
+      <div class="copy-ex-bad">¡Regístrate gratis ahora y da a conocer tus productos al mundo entero!</div>
+      <div class="copy-ex-good">Lista tu empresa. Llega a compradores y especificadores en 138 países.</div>
+    </div>
+    <div class="copy-ex">
+      <div class="copy-ex-context">Onboarding</div>
+      <div class="copy-ex-bad">Bienvenido a nuestra increíble plataforma. Estamos aquí para ayudarte a crecer.</div>
+      <div class="copy-ex-good">Tu ficha está activa. Completa los datos técnicos para aparecer en búsquedas de proyectos.</div>
+    </div>
+    <div class="copy-ex">
+      <div class="copy-ex-context">Estado vacío</div>
+      <div class="copy-ex-bad">¡Ups! No hemos encontrado resultados. Prueba con otros términos de búsqueda.</div>
+      <div class="copy-ex-good">Sin resultados para esta búsqueda. Prueba con: blanco, Italia, granito, Carrara…</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 11 REGLAS ══ -->
+<section class="section">
+  <div class="section-label">11 — Reglas de aplicación</div>
+  <h2 class="section-title">Lo que protege<br><em>la identidad de WSH</em></h2>
+
+  <div class="rules-grid">
+    <div class="rules-col">
+      <div class="rules-col-title"><span class="badge-do">HACER</span></div>
+      <div class="rule-item">Usar únicamente los tokens CSS documentados en este sistema. Ante la duda, usar una variante más clara del mismo color.</div>
+      <div class="rule-item">Para diferenciar dos grupos (ej. proveedores vs compradores), usar superficie y peso tipográfico — nunca introducir un nuevo color.</div>
+      <div class="rule-item">Para estados de éxito o confirmación, usar texto con --ochre + un icono (✓, ◆). Sin verde. Sin color nuevo.</div>
+      <div class="rule-item">Transiciones en hover: siempre 200–250ms ease-out. Predecible, suave, sin rebote.</div>
+      <div class="rule-item">Cormorant Garamond en títulos de comunicaciones externas. Siempre. Es el distintivo visual más reconocible de WSH.</div>
+      <div class="rule-item">Priorizar fotografía real de materiales en alta resolución. Una buena imagen vale más que cualquier elemento gráfico adicional.</div>
+      <div class="rule-item">Mantener abundante espacio en blanco. Un directorio B2B premium necesita respiro, no densidad.</div>
+      <div class="rule-item">Los datos técnicos (densidad, absorción, Mohs, coordenadas) usan siempre DM Mono — es la "voz técnica" de la plataforma.</div>
+    </div>
+    <div class="rules-col">
+      <div class="rules-col-title"><span class="badge-dont">NO HACER</span></div>
+      <div class="rule-item">Introducir ningún color fuera de la paleta documentada. Ni verde para "gratis", ni azul para "verificado", ni rojo para "error". El sistema tiene soluciones para todo.</div>
+      <div class="rule-item">Usar gradientes entre dos valores de ochre diferentes — crea ilusión de colores no aprobados y rompe la coherencia cromática.</div>
+      <div class="rule-item">Usar Cormorant Garamond por debajo de 16px — pierde legibilidad y elegancia simultáneamente. Usar Body S en esos casos.</div>
+      <div class="rule-item">Usar DM Mono en párrafos de más de 2 líneas — es tipografía de display técnico, no de lectura.</div>
+      <div class="rule-item">Poner texto blanco sobre --surface-1 (#F8F7F5) o --surface-2 (#F0EFED) — contraste insuficiente, accesibilidad comprometida.</div>
+      <div class="rule-item">Usar --elite (#C9A84C) fuera del sistema de estrellas y el plan Élite. Es el color de "máxima calidad" — usarlo en más contextos lo vacía de significado.</div>
+      <div class="rule-item">Publicar fichas de material sin imagen principal o sin datos técnicos mínimos. La calidad del dato es identidad de marca.</div>
+      <div class="rule-item">Aplicar la misma jerarquía visual a una ficha ★★★ y a una sin estrella. La calidad de contenido debe ser visualmente evidente.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 12 TOKENS CSS ══ -->
+<section class="section">
+  <div class="section-label">12 — Tokens CSS · Referencia para desarrolladores</div>
+  <h2 class="section-title">El sistema en código.<br><em>Copiar, no reinventar.</em></h2>
+  <p class="section-intro">Este bloque de CSS debe estar en el <code style="font-family:var(--font-mono);font-size:12px;">:root</code> de cada archivo HTML del proyecto. Si un valor no está aquí, no existe en la marca. Si necesitas un valor que no está aquí, documéntalo en este sistema antes de usarlo en producción.</p>
+
+  <div class="code-block">
+    <pre><span class="code-comment">/* ─────────────────────────────────────────
+   WORLD STONE HUB — CSS Design Tokens v2.0
+   Brand Book v2 · Abril 2026
+   ───────────────────────────────────────── */</span>
+
+:root {
+
+  <span class="code-comment">/* ── SURFACES ── */</span>
+  <span class="code-token">--surface-0</span>:      <span class="code-value">#FFFFFF</span>;   <span class="code-comment">/* Cards, inputs, modals */</span>
+  <span class="code-token">--surface-1</span>:      <span class="code-value">#F8F7F5</span>;   <span class="code-comment">/* Page background */</span>
+  <span class="code-token">--surface-2</span>:      <span class="code-value">#F0EFED</span>;   <span class="code-comment">/* Hover, chips, secondary panels */</span>
+  <span class="code-token">--surface-3</span>:      <span class="code-value">#EDE8DF</span>;   <span class="code-comment">/* Callouts, featured areas */</span>
+  <span class="code-token">--surface-dark</span>:   <span class="code-value">#1A1917</span>;   <span class="code-comment">/* Dark panels, footer, premium cards */</span>
+  <span class="code-token">--surface-deeper</span>: <span class="code-value">#0E0D0C</span>;   <span class="code-comment">/* Nested dark elements */</span>
+
+  <span class="code-comment">/* ── TEXT ── */</span>
+  <span class="code-token">--text-primary</span>:   <span class="code-value">#1A1917</span>;   <span class="code-comment">/* Headings, primary text */</span>
+  <span class="code-token">--text-secondary</span>: <span class="code-value">#4A4845</span>;   <span class="code-comment">/* Body text, descriptions */</span>
+  <span class="code-token">--text-muted</span>:     <span class="code-value">#8A8784</span>;   <span class="code-comment">/* Labels, metadata, captions */</span>
+  <span class="code-token">--text-faint</span>:     <span class="code-value">#B8B5B0</span>;   <span class="code-comment">/* Placeholders, disabled */</span>
+  <span class="code-token">--text-on-dark</span>:   <span class="code-value">#F0EDE8</span>;   <span class="code-comment">/* Primary text on dark surfaces */</span>
+  <span class="code-token">--text-on-dark-2</span>: <span class="code-value">#C9B99A</span>;   <span class="code-comment">/* Secondary text on dark surfaces */</span>
+
+  <span class="code-comment">/* ── BORDERS ── */</span>
+  <span class="code-token">--border</span>:         <span class="code-value">#E2E0DC</span>;   <span class="code-comment">/* Default borders, dividers */</span>
+  <span class="code-token">--border-strong</span>:  <span class="code-value">#C8C5BF</span>;   <span class="code-comment">/* Hover borders, active inputs */</span>
+
+  <span class="code-comment">/* ── ACCENT — Stone Ochre ── */</span>
+  <span class="code-token">--ochre</span>:          <span class="code-value">#A67C52</span>;   <span class="code-comment">/* THE brand accent — CTAs, active, links */</span>
+  <span class="code-token">--ochre-dark</span>:     <span class="code-value">#8F6A40</span>;   <span class="code-comment">/* Hover / pressed state of ochre */</span>
+  <span class="code-token">--ochre-tint</span>:     <span class="code-value">#F5EFEA</span>;   <span class="code-comment">/* Chip/tag backgrounds */</span>
+
+  <span class="code-comment">/* ── SAND — decorative only ── */</span>
+  <span class="code-token">--sand</span>:           <span class="code-value">#C9B99A</span>;   <span class="code-comment">/* Accents on dark surfaces only */</span>
+
+  <span class="code-comment">/* ── ELITE — restricted use ── */</span>
+  <span class="code-special">--elite</span>:          <span class="code-special">#C9A84C</span>;   <span class="code-comment">/* ONLY: ★★★ stars + Elite plan badge */</span>
+
+  <span class="code-comment">/* ── TYPOGRAPHY ── */</span>
+  <span class="code-token">--font-display</span>: <span class="code-value">'Cormorant Garamond'</span>, Georgia, serif;
+  <span class="code-token">--font-mono</span>:    <span class="code-value">'DM Mono'</span>, monospace;
+  <span class="code-token">--font-body</span>:    <span class="code-value">'Instrument Sans'</span>, sans-serif;
+
+  <span class="code-comment">/* ── SPACING — 4px base scale ── */</span>
+  <span class="code-token">--sp-1</span>:  <span class="code-value">4px</span>;    <span class="code-token">--sp-2</span>:  <span class="code-value">8px</span>;
+  <span class="code-token">--sp-3</span>:  <span class="code-value">12px</span>;   <span class="code-token">--sp-4</span>:  <span class="code-value">16px</span>;
+  <span class="code-token">--sp-6</span>:  <span class="code-value">24px</span>;   <span class="code-token">--sp-8</span>:  <span class="code-value">32px</span>;
+  <span class="code-token">--sp-12</span>: <span class="code-value">48px</span>;   <span class="code-token">--sp-16</span>: <span class="code-value">64px</span>;
+  <span class="code-token">--sp-24</span>: <span class="code-value">96px</span>;
+
+}</pre>
+  </div>
+</section>
+
+<!-- ══ RESUMEN ══ -->
+<div class="summary-block">
+  <div style="max-width:1100px;margin:0 auto;">
+    <p class="summary-title">El sistema en una página.</p>
+    <div class="summary-grid">
+      <div>
+        <div class="summary-item-label">Color de acento</div>
+        <div class="summary-item-value">Stone Ochre <em>#A67C52</em> — único. Sin excepciones.</div>
+      </div>
+      <div>
+        <div class="summary-item-label">Color restringido</div>
+        <div class="summary-item-value">Elite Gold <em>#C9A84C</em> — solo estrellas ★★★ y plan Élite.</div>
+      </div>
+      <div>
+        <div class="summary-item-label">Tipografía display</div>
+        <div class="summary-item-value">Cormorant Garamond — weight 300, <em>italics para énfasis.</em></div>
+      </div>
+      <div>
+        <div class="summary-item-label">Dato técnico</div>
+        <div class="summary-item-value">DM Mono — <em>siempre</em> para datos técnicos y metadatos.</div>
+      </div>
+      <div>
+        <div class="summary-item-label">Color nuevo</div>
+        <div class="summary-item-value">Si no está en los tokens, <em>no existe.</em> Documentar antes de usar.</div>
+      </div>
+      <div>
+        <div class="summary-item-label">Diferenciación</div>
+        <div class="summary-item-value">Superficie + peso tipográfico. <em>Nunca un color nuevo.</em></div>
+      </div>
+      <div>
+        <div class="summary-item-label">Fotografía</div>
+        <div class="summary-item-value">Luz rasante lateral. 4:3 landscape. <em>Alta resolución.</em></div>
+      </div>
+      <div>
+        <div class="summary-item-label">Voz</div>
+        <div class="summary-item-value">Experto que informa. <em>Nunca</em> vendedor que exagera.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<div class="doc-footer">
+  <div class="doc-footer-left">World Stone Hub · Brand Book v2.0 · Abril 2026</div>
+  <div class="doc-footer-right">Sistema de identidad visual · Uso interno</div>
+</div>
+
+</body>
+</html>
