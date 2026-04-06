@@ -14,7 +14,7 @@
     "astro": "^6.0.0"
   },
   "lint-staged": {
-    "*.{js,ts,astro,html,css,json}": "prettier --write"
+    "*.{js,ts,astro,css,json}": "prettier --write"
   },
   "devDependencies": {
     "husky": "^9.1.7",
