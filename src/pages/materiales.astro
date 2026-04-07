@@ -1,5 +1,5 @@
 ---
-import Page from "../layouts/Page.astro";
+import Page from '../layouts/Page.astro';
 ---
 
 <Page
@@ -10,7 +10,7 @@ import Page from "../layouts/Page.astro";
   ogUrl="https://worldstonehub.com/materiales.html"
   activePage="materiales"
 >
-  <style slot="head">
+  <style slot="head" is:global>
     /* ── PAGE HEADER 50/50 ── */
     .page-header {
       background: var(--bg);
@@ -33,10 +33,10 @@ import Page from "../layouts/Page.astro";
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 16px;
-      font-family: "DM Mono", monospace;
+      font-family: 'DM Mono', monospace;
     }
     .ph-left h1 {
-      font-family: "Cormorant Garamond", serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 48px;
       font-weight: 300;
       line-height: 1;
@@ -71,7 +71,7 @@ import Page from "../layouts/Page.astro";
       border-right: none;
     }
     .stat-n {
-      font-family: "DM Mono", monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 24px;
       font-weight: 400;
       color: var(--ink);
@@ -156,6 +156,7 @@ import Page from "../layouts/Page.astro";
       flex-wrap: wrap;
       gap: 6px;
       align-items: center;
+      padding-bottom: 4px;
     }
     .filter-row + .filter-row {
       padding-top: 4px;
@@ -183,7 +184,7 @@ import Page from "../layouts/Page.astro";
       background: transparent;
       cursor: pointer;
       transition: all 0.2s;
-      font-family: "Instrument Sans", sans-serif;
+      font-family: 'Instrument Sans', sans-serif;
       font-weight: 500;
       white-space: nowrap;
     }
@@ -223,7 +224,7 @@ import Page from "../layouts/Page.astro";
       border: 1px solid var(--border-md);
       border-radius: var(--radius);
       font-size: 11px;
-      font-family: "Instrument Sans", sans-serif;
+      font-family: 'Instrument Sans', sans-serif;
       background: var(--bg-soft);
       color: var(--ink-2);
       outline: none;
@@ -280,7 +281,7 @@ import Page from "../layouts/Page.astro";
       font-size: 9px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      font-family: "Instrument Sans", sans-serif;
+      font-family: 'Instrument Sans', sans-serif;
       font-weight: 600;
     }
     .active-tag-x {
@@ -360,7 +361,7 @@ import Page from "../layouts/Page.astro";
       flex-shrink: 0;
     }
     .card-swatch::after {
-      content: "";
+      content: '';
       position: absolute;
       inset: 0;
       background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
@@ -378,7 +379,7 @@ import Page from "../layouts/Page.astro";
       border-radius: 30px;
       background: rgba(255, 255, 255, 0.88);
       color: var(--ink-2);
-      font-family: "Instrument Sans", sans-serif;
+      font-family: 'Instrument Sans', sans-serif;
       font-weight: 600;
       backdrop-filter: blur(4px);
     }
@@ -421,7 +422,7 @@ import Page from "../layouts/Page.astro";
       gap: 8px;
     }
     .card-nombre {
-      font-family: "Cormorant Garamond", serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 20px;
       font-weight: 400;
       line-height: 1.15;
@@ -464,7 +465,7 @@ import Page from "../layouts/Page.astro";
       background: var(--bg-soft);
       border: 1px solid var(--border);
       border-radius: 2px;
-      font-family: "Instrument Sans", sans-serif;
+      font-family: 'Instrument Sans', sans-serif;
     }
     .acabado-more {
       font-size: 8px;
@@ -490,7 +491,7 @@ import Page from "../layouts/Page.astro";
       font-size: 9px;
       letter-spacing: 0.5px;
       color: var(--ink-4);
-      font-family: "DM Mono", monospace;
+      font-family: 'DM Mono', monospace;
     }
     .spec-k {
       color: var(--gold);
@@ -509,7 +510,7 @@ import Page from "../layouts/Page.astro";
     .card-precio {
       font-size: 10px;
       color: var(--ink-4);
-      font-family: "DM Mono", monospace;
+      font-family: 'DM Mono', monospace;
       letter-spacing: 0.5px;
     }
     .card-ver-btn {
@@ -525,7 +526,7 @@ import Page from "../layouts/Page.astro";
         background 0.2s,
         color 0.2s,
         border-color 0.2s;
-      font-family: "Instrument Sans", sans-serif;
+      font-family: 'Instrument Sans', sans-serif;
       font-weight: 600;
       white-space: nowrap;
     }
@@ -539,7 +540,7 @@ import Page from "../layouts/Page.astro";
       letter-spacing: 1px;
       padding: 4px 8px;
       border-radius: 2px;
-      font-family: "DM Mono", monospace;
+      font-family: 'DM Mono', monospace;
       font-weight: 400;
       flex-shrink: 0;
       line-height: 1;
@@ -603,7 +604,7 @@ import Page from "../layouts/Page.astro";
       border-radius: 30px;
       background: rgba(255, 255, 255, 0.92);
       color: var(--ink-2);
-      font-family: "Instrument Sans", sans-serif;
+      font-family: 'Instrument Sans', sans-serif;
       font-weight: 600;
       backdrop-filter: blur(4px);
     }
@@ -615,7 +616,7 @@ import Page from "../layouts/Page.astro";
       letter-spacing: 3px;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.45);
-      font-family: "DM Mono", monospace;
+      font-family: 'DM Mono', monospace;
     }
     .featured-stone-body {
       position: absolute;
@@ -625,7 +626,7 @@ import Page from "../layouts/Page.astro";
       padding: 22px 26px 26px;
     }
     .featured-stone-name {
-      font-family: "Cormorant Garamond", serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 28px;
       font-weight: 300;
       color: #fff;
@@ -652,7 +653,7 @@ import Page from "../layouts/Page.astro";
       border: 1px solid rgba(255, 255, 255, 0.45);
       padding: 9px 18px;
       transition: all 0.2s;
-      font-family: "Instrument Sans", sans-serif;
+      font-family: 'Instrument Sans', sans-serif;
       font-weight: 600;
     }
     .featured-stone-cta:hover {
@@ -680,7 +681,7 @@ import Page from "../layouts/Page.astro";
     .empty-state p {
       font-size: 18px;
       color: var(--ink-4);
-      font-family: "Cormorant Garamond", serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
     }
     .empty-state small {
@@ -755,18 +756,15 @@ import Page from "../layouts/Page.astro";
   <header class="page-header">
     <div class="ph-left">
       <div>
-        <p class="ph-eyebrow" data-i18n="hero.materiales.eyebrow">
-          Directorio técnico
-        </p>
+        <p class="ph-eyebrow" data-i18n="hero.materiales.eyebrow">Directorio técnico</p>
         <h1>
           <span data-i18n="hero.materiales.title">Materiales de</span><br /><em
             data-i18n="hero.materiales.titleItalic">Piedra Natural</em
           >
         </h1>
         <p class="ph-desc" data-i18n="hero.materiales.desc">
-          Fichas técnicas completas de materiales de piedra natural y
-          superficies. Propiedades, acabados, formatos, origen y proyectos de
-          referencia.
+          Fichas técnicas completas de materiales de piedra natural y superficies. Propiedades,
+          acabados, formatos, origen y proyectos de referencia.
         </p>
       </div>
       <div class="ph-stats">
@@ -808,8 +806,7 @@ import Page from "../layouts/Page.astro";
             fill="none"
             stroke="currentColor"
             stroke-width="2.5"
-            ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"
-            ></path></svg
+            ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg
           >
           <input
             type="text"
@@ -833,70 +830,52 @@ import Page from "../layouts/Page.astro";
       </div>
       <div class="filter-row">
         <span class="filter-label" data-i18n="filter.categoria">Categoría</span>
-        <button class="filter-chip" data-group="cat" data-val="mármol"
-          >Mármol</button
-        >
-        <button class="filter-chip" data-group="cat" data-val="granito"
-          >Granito</button
-        >
-        <button class="filter-chip" data-group="cat" data-val="caliza"
-          >Caliza</button
-        >
-        <button class="filter-chip" data-group="cat" data-val="arenisca"
-          >Arenisca</button
-        >
-        <button class="filter-chip" data-group="cat" data-val="cuarcita"
-          >Cuarcita</button
-        >
-        <button class="filter-chip" data-group="cat" data-val="pizarra"
-          >Pizarra</button
-        >
-        <button class="filter-chip" data-group="cat" data-val="travertino"
-          >Travertino</button
-        >
-        <button class="filter-chip" data-group="cat" data-val="ónix"
-          >Ónix</button
-        >
+        <button class="filter-chip" data-group="cat" data-val="mármol">Mármol</button>
+        <button class="filter-chip" data-group="cat" data-val="granito">Granito</button>
+        <button class="filter-chip" data-group="cat" data-val="caliza">Caliza</button>
+        <button class="filter-chip" data-group="cat" data-val="arenisca">Arenisca</button>
+        <button class="filter-chip" data-group="cat" data-val="cuarcita">Cuarcita</button>
+        <button class="filter-chip" data-group="cat" data-val="pizarra">Pizarra</button>
+        <button class="filter-chip" data-group="cat" data-val="travertino">Travertino</button>
+        <button class="filter-chip" data-group="cat" data-val="ónix">Ónix</button>
+        <button class="filter-chip" data-group="cat" data-val="basalto">Basalto</button>
+        <button class="filter-chip" data-group="cat" data-val="alabastro">Alabastro</button>
+        <button class="filter-chip" data-group="cat" data-val="andesita">Andesita</button>
+        <button class="filter-chip" data-group="cat" data-val="calcarenita">Calcarenita</button>
+        <button class="filter-chip" data-group="cat" data-val="filita">Filita</button>
+        <button class="filter-chip" data-group="cat" data-val="pórfido">Pórfido</button>
+        <button class="filter-chip" data-group="cat" data-val="toba">Toba</button>
+        <button class="filter-chip" data-group="cat" data-val="piedra azul">Piedra Azul</button>
       </div>
       <div class="filter-row">
         <span class="filter-label" data-i18n="filter.color">Color</span>
         <button class="filter-chip" data-group="color" data-val="Blanco"
-          ><span
-            class="color-dot"
-            style="background:#f2ede8;border:1px solid #ccc;"
+          ><span class="color-dot" style="background:#f2ede8;border:1px solid #ccc;"
           ></span>Blanco</button
         >
         <button class="filter-chip" data-group="color" data-val="Beige"
-          ><span class="color-dot" style="background:#d9c4a8;"
-          ></span>Beige</button
+          ><span class="color-dot" style="background:#d9c4a8;"></span>Beige</button
         >
         <button class="filter-chip" data-group="color" data-val="Gris"
-          ><span class="color-dot" style="background:#9a9590;"
-          ></span>Gris</button
+          ><span class="color-dot" style="background:#9a9590;"></span>Gris</button
         >
         <button class="filter-chip" data-group="color" data-val="Negro"
-          ><span class="color-dot" style="background:#2c2a27;"
-          ></span>Negro</button
+          ><span class="color-dot" style="background:#2c2a27;"></span>Negro</button
         >
         <button class="filter-chip" data-group="color" data-val="Verde"
-          ><span class="color-dot" style="background:#5a9060;"
-          ></span>Verde</button
+          ><span class="color-dot" style="background:#5a9060;"></span>Verde</button
         >
         <button class="filter-chip" data-group="color" data-val="Rojo"
-          ><span class="color-dot" style="background:#b05050;"
-          ></span>Rojo</button
+          ><span class="color-dot" style="background:#b05050;"></span>Rojo</button
         >
         <button class="filter-chip" data-group="color" data-val="Azul"
-          ><span class="color-dot" style="background:#4878b0;"
-          ></span>Azul</button
+          ><span class="color-dot" style="background:#4878b0;"></span>Azul</button
         >
         <button class="filter-chip" data-group="color" data-val="Dorado"
-          ><span class="color-dot" style="background:#c89830;"
-          ></span>Dorado</button
+          ><span class="color-dot" style="background:#c89830;"></span>Dorado</button
         >
         <button class="filter-chip" data-group="color" data-val="Marrón"
-          ><span class="color-dot" style="background:#8a6040;"
-          ></span>Marrón</button
+          ><span class="color-dot" style="background:#8a6040;"></span>Marrón</button
         >
         <div class="filter-sep"></div>
         <button class="clear-btn" id="clearFilters" data-i18n="filter.limpiar"
@@ -907,8 +886,7 @@ import Page from "../layouts/Page.astro";
   </div>
 
   <!-- ACTIVE FILTERS BANNER -->
-  <div class="active-banner" id="activeBanner" role="status" aria-live="polite">
-  </div>
+  <div class="active-banner" id="activeBanner" role="status" aria-live="polite"></div>
 
   <!-- GRID -->
   <section class="grid-section">
@@ -919,10 +897,7 @@ import Page from "../layouts/Page.astro";
           <p data-i18n="materiales.loading">Cargando materiales</p>
         </div>
       </div>
-      <div
-        id="loadMoreWrap"
-        style="display:none;text-align:center;padding:40px 0 16px;"
-      >
+      <div id="loadMoreWrap" style="display:none;text-align:center;padding:40px 0 16px;">
         <button
           id="loadMoreBtn"
           style="background:none;border:1px solid #c8c5bf;padding:13px 40px;font-family:'Instrument Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;cursor:pointer;color:#4a4845;transition:all .2s;"
@@ -941,49 +916,48 @@ import Page from "../layouts/Page.astro";
   </section>
 
   <script slot="scripts" is:inline>
-    var SB_URL = "https://whcptmdapnavcxcszwwk.supabase.co";
-    var SB_KEY = "sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO";
+    var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
+    var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
     var DB = [];
     var activeFilters = { cat: null, color: null };
-    var searchQuery = "";
-    var activeSort = "calidad";
+    var searchQuery = '';
+    var activeSort = 'calidad';
 
     var ACABADOS_ES = {
-      Polished: "Pulido",
-      Honed: "Apomazado",
-      Brushed: "Cepillado",
-      Flamed: "Flameado",
-      Sandblasted: "Arenado",
-      "Bush Hammered": "Abujardado",
-      Tumbled: "Envejecido",
-      Antiqued: "Envejecido",
-      Split: "Partido",
-      Sawn: "Aserrado",
-      "Machine Cut": "Corte máquina",
-      "Natural Surface": "Superficie natural",
-      "Acid Washing": "Lavado ácido",
-      Leathered: "Cuero",
-      Filled: "Relleno",
-      Chiseled: "Cincelado",
-      Combed: "Peinado",
-      Grooved: "Estriado",
-      Hammered: "Martillado",
-      "Resin Treated": "Tratado resina",
-      "Water Jet": "Chorro agua",
-      "Sawn Cut": "Serrado",
-      "River Worn": "Rodado",
-      "Feature Rocks": "Piedra decorativa",
-      Rockfaced: "Rústico",
-      Sanded: "Lijado",
-      Pickling: "Decapado",
-      Lappato: "Lappato",
-      "Shot Blasted": "Granallado",
-      Leather: "Cuero",
+      Polished: 'Pulido',
+      Honed: 'Apomazado',
+      Brushed: 'Cepillado',
+      Flamed: 'Flameado',
+      Sandblasted: 'Arenado',
+      'Bush Hammered': 'Abujardado',
+      Tumbled: 'Envejecido',
+      Antiqued: 'Envejecido',
+      Split: 'Partido',
+      Sawn: 'Aserrado',
+      'Machine Cut': 'Corte máquina',
+      'Natural Surface': 'Superficie natural',
+      'Acid Washing': 'Lavado ácido',
+      Leathered: 'Cuero',
+      Filled: 'Relleno',
+      Chiseled: 'Cincelado',
+      Combed: 'Peinado',
+      Grooved: 'Estriado',
+      Hammered: 'Martillado',
+      'Resin Treated': 'Tratado resina',
+      'Water Jet': 'Chorro agua',
+      'Sawn Cut': 'Serrado',
+      'River Worn': 'Rodado',
+      'Feature Rocks': 'Piedra decorativa',
+      Rockfaced: 'Rústico',
+      Sanded: 'Lijado',
+      Pickling: 'Decapado',
+      Lappato: 'Lappato',
+      'Shot Blasted': 'Granallado',
+      Leather: 'Cuero',
     };
     var _ACABADOS_LOWER = {};
     (function () {
-      for (var k in ACABADOS_ES)
-        _ACABADOS_LOWER[k.toLowerCase()] = ACABADOS_ES[k];
+      for (var k in ACABADOS_ES) _ACABADOS_LOWER[k.toLowerCase()] = ACABADOS_ES[k];
     })();
     function tradAcabado(a) {
       if (!a) return a;
@@ -991,266 +965,266 @@ import Page from "../layouts/Page.astro";
     }
 
     var COLOR_MAP = {
-      blanco: ["#f7f5f2", "#ece9e4"],
-      negro: ["#2c2a27", "#1a1917"],
-      antracita: ["#4a4845", "#2c2a27"],
-      gris: ["#b0aaa4", "#8a8480"],
-      plateado: ["#c8c4be", "#a8a49e"],
-      beige: ["#d9c4a8", "#c4a87e"],
-      crema: ["#f0e4cc", "#e0ccaa"],
-      arena: ["#d8c498", "#c0a870"],
-      miel: ["#d4a84c", "#b88830"],
-      marrón: ["#9a7456", "#7a5438"],
-      marron: ["#9a7456", "#7a5438"],
-      chocolate: ["#6d4c3a", "#4e3428"],
-      café: ["#8a6450", "#6a4438"],
-      verde: ["#7ab07e", "#4a8a50"],
-      esmeralda: ["#3a9a70", "#1a7a50"],
-      rojo: ["#c06050", "#903838"],
-      rosa: ["#d898a8", "#b86880"],
-      burdeos: ["#8a3848", "#6a2030"],
-      coral: ["#e08868", "#c06040"],
-      azul: ["#6090c0", "#3060a0"],
-      "azul celeste": ["#80b0e0", "#5090c8"],
-      "azul imperial": ["#3050a0", "#183080"],
-      amarillo: ["#e8d060", "#c8a830"],
-      dorado: ["#c89830", "#a87010"],
-      naranja: ["#e09050", "#c06820"],
-      morado: ["#9060b0", "#703090"],
-      violeta: ["#7858a8", "#503880"],
-      lila: ["#b090c8", "#9068a8"],
-      translúcido: ["#a8d8e0", "#78b8c8"],
-      white: ["#f7f5f2", "#ece9e4"],
-      ivory: ["#f0e8d8", "#e0d0b8"],
-      "semi white": ["#f0eee8", "#e0dcd4"],
-      black: ["#2c2a27", "#1a1917"],
-      anthracite: ["#4a4845", "#2c2a27"],
-      grey: ["#b0aaa4", "#8a8480"],
-      gray: ["#b0aaa4", "#8a8480"],
-      silver: ["#c8c4be", "#a8a49e"],
-      cream: ["#f0e4cc", "#e0ccaa"],
-      buff: ["#d8c498", "#c0a870"],
-      sand: ["#d8c498", "#c0a870"],
-      taupe: ["#c4b49a", "#a89878"],
-      brown: ["#9a7456", "#7a5438"],
-      coffee: ["#8a6450", "#6a4438"],
-      walnut: ["#6d4c3a", "#4e3428"],
-      green: ["#7ab07e", "#4a8a50"],
-      emerald: ["#3a9a70", "#1a7a50"],
-      forest: ["#3a7040", "#206030"],
-      red: ["#c06050", "#903838"],
-      pink: ["#d898a8", "#b86880"],
-      rose: ["#d898a8", "#b86880"],
-      burgundy: ["#8a3848", "#6a2030"],
-      bordeaux: ["#8a3848", "#6a2030"],
-      blue: ["#6090c0", "#3060a0"],
-      navy: ["#2a4870", "#183058"],
-      cobalt: ["#3060b0", "#1848a0"],
-      yellow: ["#e8d060", "#c8a830"],
-      gold: ["#c89830", "#a87010"],
-      amber: ["#d08820", "#b06800"],
-      orange: ["#e09050", "#c06820"],
-      ochre: ["#c89040", "#a87020"],
-      purple: ["#9060b0", "#703090"],
-      violet: ["#7858a8", "#503880"],
-      lilac: ["#b090c8", "#9068a8"],
-      multicolor: ["#d4c4b0", "#b8a890"],
+      blanco: ['#f7f5f2', '#ece9e4'],
+      negro: ['#2c2a27', '#1a1917'],
+      antracita: ['#4a4845', '#2c2a27'],
+      gris: ['#b0aaa4', '#8a8480'],
+      plateado: ['#c8c4be', '#a8a49e'],
+      beige: ['#d9c4a8', '#c4a87e'],
+      crema: ['#f0e4cc', '#e0ccaa'],
+      arena: ['#d8c498', '#c0a870'],
+      miel: ['#d4a84c', '#b88830'],
+      marrón: ['#9a7456', '#7a5438'],
+      marron: ['#9a7456', '#7a5438'],
+      chocolate: ['#6d4c3a', '#4e3428'],
+      café: ['#8a6450', '#6a4438'],
+      verde: ['#7ab07e', '#4a8a50'],
+      esmeralda: ['#3a9a70', '#1a7a50'],
+      rojo: ['#c06050', '#903838'],
+      rosa: ['#d898a8', '#b86880'],
+      burdeos: ['#8a3848', '#6a2030'],
+      coral: ['#e08868', '#c06040'],
+      azul: ['#6090c0', '#3060a0'],
+      'azul celeste': ['#80b0e0', '#5090c8'],
+      'azul imperial': ['#3050a0', '#183080'],
+      amarillo: ['#e8d060', '#c8a830'],
+      dorado: ['#c89830', '#a87010'],
+      naranja: ['#e09050', '#c06820'],
+      morado: ['#9060b0', '#703090'],
+      violeta: ['#7858a8', '#503880'],
+      lila: ['#b090c8', '#9068a8'],
+      translúcido: ['#a8d8e0', '#78b8c8'],
+      white: ['#f7f5f2', '#ece9e4'],
+      ivory: ['#f0e8d8', '#e0d0b8'],
+      'semi white': ['#f0eee8', '#e0dcd4'],
+      black: ['#2c2a27', '#1a1917'],
+      anthracite: ['#4a4845', '#2c2a27'],
+      grey: ['#b0aaa4', '#8a8480'],
+      gray: ['#b0aaa4', '#8a8480'],
+      silver: ['#c8c4be', '#a8a49e'],
+      cream: ['#f0e4cc', '#e0ccaa'],
+      buff: ['#d8c498', '#c0a870'],
+      sand: ['#d8c498', '#c0a870'],
+      taupe: ['#c4b49a', '#a89878'],
+      brown: ['#9a7456', '#7a5438'],
+      coffee: ['#8a6450', '#6a4438'],
+      walnut: ['#6d4c3a', '#4e3428'],
+      green: ['#7ab07e', '#4a8a50'],
+      emerald: ['#3a9a70', '#1a7a50'],
+      forest: ['#3a7040', '#206030'],
+      red: ['#c06050', '#903838'],
+      pink: ['#d898a8', '#b86880'],
+      rose: ['#d898a8', '#b86880'],
+      burgundy: ['#8a3848', '#6a2030'],
+      bordeaux: ['#8a3848', '#6a2030'],
+      blue: ['#6090c0', '#3060a0'],
+      navy: ['#2a4870', '#183058'],
+      cobalt: ['#3060b0', '#1848a0'],
+      yellow: ['#e8d060', '#c8a830'],
+      gold: ['#c89830', '#a87010'],
+      amber: ['#d08820', '#b06800'],
+      orange: ['#e09050', '#c06820'],
+      ochre: ['#c89040', '#a87020'],
+      purple: ['#9060b0', '#703090'],
+      violet: ['#7858a8', '#503880'],
+      lilac: ['#b090c8', '#9068a8'],
+      multicolor: ['#d4c4b0', '#b8a890'],
     };
     function getSwatchGradient(c) {
-      if (!c) return ["#c8c4be", "#a8a49e"];
+      if (!c) return ['#c8c4be', '#a8a49e'];
       var cl = c.toLowerCase();
       var keys = Object.keys(COLOR_MAP);
       for (var i = 0; i < keys.length; i++) {
         if (cl.indexOf(keys[i]) !== -1) return COLOR_MAP[keys[i]];
       }
-      return ["#c8c4be", "#a8a49e"];
+      return ['#c8c4be', '#a8a49e'];
     }
     function getColorGroup(cp) {
-      if (!cp) return "";
+      if (!cp) return '';
       var c = cp.toLowerCase();
       if (
-        c.indexOf("blanco") !== -1 ||
-        c.indexOf("white") !== -1 ||
-        c.indexOf("ivory") !== -1 ||
-        c.indexOf("semi white") !== -1
+        c.indexOf('blanco') !== -1 ||
+        c.indexOf('white') !== -1 ||
+        c.indexOf('ivory') !== -1 ||
+        c.indexOf('semi white') !== -1
       )
-        return "Blanco";
+        return 'Blanco';
       if (
-        c.indexOf("negro") !== -1 ||
-        c.indexOf("antracita") !== -1 ||
-        c.indexOf("black") !== -1 ||
-        c.indexOf("anthracite") !== -1
+        c.indexOf('negro') !== -1 ||
+        c.indexOf('antracita') !== -1 ||
+        c.indexOf('black') !== -1 ||
+        c.indexOf('anthracite') !== -1
       )
-        return "Negro";
+        return 'Negro';
       if (
-        c.indexOf("gris") !== -1 ||
-        c.indexOf("plateado") !== -1 ||
-        c.indexOf("grey") !== -1 ||
-        c.indexOf("gray") !== -1 ||
-        c.indexOf("silver") !== -1
+        c.indexOf('gris') !== -1 ||
+        c.indexOf('plateado') !== -1 ||
+        c.indexOf('grey') !== -1 ||
+        c.indexOf('gray') !== -1 ||
+        c.indexOf('silver') !== -1
       )
-        return "Gris";
+        return 'Gris';
       if (
-        c.indexOf("beige") !== -1 ||
-        c.indexOf("crema") !== -1 ||
-        c.indexOf("arena") !== -1 ||
-        c.indexOf("miel") !== -1 ||
-        c.indexOf("cream") !== -1 ||
-        c.indexOf("buff") !== -1 ||
-        c.indexOf("sand") !== -1 ||
-        c.indexOf("taupe") !== -1
+        c.indexOf('beige') !== -1 ||
+        c.indexOf('crema') !== -1 ||
+        c.indexOf('arena') !== -1 ||
+        c.indexOf('miel') !== -1 ||
+        c.indexOf('cream') !== -1 ||
+        c.indexOf('buff') !== -1 ||
+        c.indexOf('sand') !== -1 ||
+        c.indexOf('taupe') !== -1
       )
-        return "Beige";
+        return 'Beige';
       if (
-        c.indexOf("marrón") !== -1 ||
-        c.indexOf("marron") !== -1 ||
-        c.indexOf("chocolate") !== -1 ||
-        c.indexOf("café") !== -1 ||
-        c.indexOf("brown") !== -1 ||
-        c.indexOf("coffee") !== -1 ||
-        c.indexOf("walnut") !== -1
+        c.indexOf('marrón') !== -1 ||
+        c.indexOf('marron') !== -1 ||
+        c.indexOf('chocolate') !== -1 ||
+        c.indexOf('café') !== -1 ||
+        c.indexOf('brown') !== -1 ||
+        c.indexOf('coffee') !== -1 ||
+        c.indexOf('walnut') !== -1
       )
-        return "Marrón";
+        return 'Marrón';
       if (
-        c.indexOf("verde") !== -1 ||
-        c.indexOf("esmeralda") !== -1 ||
-        c.indexOf("green") !== -1 ||
-        c.indexOf("emerald") !== -1 ||
-        c.indexOf("forest") !== -1
+        c.indexOf('verde') !== -1 ||
+        c.indexOf('esmeralda') !== -1 ||
+        c.indexOf('green') !== -1 ||
+        c.indexOf('emerald') !== -1 ||
+        c.indexOf('forest') !== -1
       )
-        return "Verde";
+        return 'Verde';
       if (
-        c.indexOf("azul") !== -1 ||
-        c.indexOf("blue") !== -1 ||
-        c.indexOf("navy") !== -1 ||
-        c.indexOf("cobalt") !== -1
+        c.indexOf('azul') !== -1 ||
+        c.indexOf('blue') !== -1 ||
+        c.indexOf('navy') !== -1 ||
+        c.indexOf('cobalt') !== -1
       )
-        return "Azul";
+        return 'Azul';
       if (
-        c.indexOf("rojo") !== -1 ||
-        c.indexOf("rosa") !== -1 ||
-        c.indexOf("burdeos") !== -1 ||
-        c.indexOf("coral") !== -1 ||
-        c.indexOf("red") !== -1 ||
-        c.indexOf("pink") !== -1 ||
-        c.indexOf("rose") !== -1 ||
-        c.indexOf("burgundy") !== -1 ||
-        c.indexOf("bordeaux") !== -1 ||
-        c.indexOf("lilac") !== -1 ||
-        c.indexOf("lila") !== -1 ||
-        c.indexOf("purple") !== -1 ||
-        c.indexOf("violet") !== -1 ||
-        c.indexOf("morado") !== -1
+        c.indexOf('rojo') !== -1 ||
+        c.indexOf('rosa') !== -1 ||
+        c.indexOf('burdeos') !== -1 ||
+        c.indexOf('coral') !== -1 ||
+        c.indexOf('red') !== -1 ||
+        c.indexOf('pink') !== -1 ||
+        c.indexOf('rose') !== -1 ||
+        c.indexOf('burgundy') !== -1 ||
+        c.indexOf('bordeaux') !== -1 ||
+        c.indexOf('lilac') !== -1 ||
+        c.indexOf('lila') !== -1 ||
+        c.indexOf('purple') !== -1 ||
+        c.indexOf('violet') !== -1 ||
+        c.indexOf('morado') !== -1
       )
-        return "Rojo";
+        return 'Rojo';
       if (
-        c.indexOf("dorado") !== -1 ||
-        c.indexOf("amarillo") !== -1 ||
-        c.indexOf("oro") !== -1 ||
-        c.indexOf("gold") !== -1 ||
-        c.indexOf("yellow") !== -1 ||
-        c.indexOf("amber") !== -1 ||
-        c.indexOf("ochre") !== -1 ||
-        c.indexOf("orange") !== -1 ||
-        c.indexOf("naranja") !== -1
+        c.indexOf('dorado') !== -1 ||
+        c.indexOf('amarillo') !== -1 ||
+        c.indexOf('oro') !== -1 ||
+        c.indexOf('gold') !== -1 ||
+        c.indexOf('yellow') !== -1 ||
+        c.indexOf('amber') !== -1 ||
+        c.indexOf('ochre') !== -1 ||
+        c.indexOf('orange') !== -1 ||
+        c.indexOf('naranja') !== -1
       )
-        return "Dorado";
-      return "";
+        return 'Dorado';
+      return '';
     }
     var FLAG_CODES = {
-      España: "es",
-      Italia: "it",
-      Portugal: "pt",
-      Grecia: "gr",
-      Turquía: "tr",
-      Francia: "fr",
-      Alemania: "de",
-      Austria: "at",
-      Bélgica: "be",
-      "Países Bajos": "nl",
-      Suecia: "se",
-      Noruega: "no",
-      Finlandia: "fi",
-      Polonia: "pl",
-      "República Checa": "cz",
-      Eslovenia: "si",
-      Croacia: "hr",
-      Serbia: "rs",
-      Bulgaria: "bg",
-      Rumanía: "ro",
-      Ucrania: "ua",
-      Rusia: "ru",
-      India: "in",
-      China: "cn",
-      Brasil: "br",
-      "Estados Unidos": "us",
-      México: "mx",
-      Canadá: "ca",
-      Argentina: "ar",
-      Chile: "cl",
-      Perú: "pe",
-      Colombia: "co",
-      Australia: "au",
-      Sudáfrica: "za",
-      Marruecos: "ma",
-      Egipto: "eg",
-      Irán: "ir",
-      Pakistán: "pk",
-      Vietnam: "vn",
-      Indonesia: "id",
-      Tailandia: "th",
-      Japón: "jp",
-      "Corea del Sur": "kr",
-      Israel: "il",
-      "Arabia Saudita": "sa",
-      Etiopía: "et",
-      Tanzania: "tz",
-      Zimbabwe: "zw",
-      Madagascar: "mg",
-      Bolivia: "bo",
-      Ecuador: "ec",
-      Venezuela: "ve",
-      Uruguay: "uy",
-      Paraguay: "py",
-      Honduras: "hn",
-      Guatemala: "gt",
-      Cuba: "cu",
-      Nigeria: "ng",
-      Ghana: "gh",
-      Angola: "ao",
-      Mozambique: "mz",
-      Namibia: "na",
-      Kenia: "ke",
-      Túnez: "tn",
-      Argelia: "dz",
-      Azerbaiyán: "az",
-      Georgia: "ge",
-      Armenia: "am",
-      Hungría: "hu",
-      Eslovaquia: "sk",
-      Letonia: "lv",
-      Lituania: "lt",
-      Estonia: "ee",
-      Suiza: "ch",
-      "Reino Unido": "gb",
-      Irlanda: "ie",
-      "Nueva Zelanda": "nz",
-      Filipinas: "ph",
-      Malasia: "my",
-      "Sri Lanka": "lk",
-      Nepal: "np",
-      Afganistán: "af",
-      Libia: "ly",
-      Sudán: "sd",
-      Moldavia: "md",
-      Bielorrusia: "by",
-      Kosovo: "xk",
-      Montenegro: "me",
-      Albania: "al",
+      España: 'es',
+      Italia: 'it',
+      Portugal: 'pt',
+      Grecia: 'gr',
+      Turquía: 'tr',
+      Francia: 'fr',
+      Alemania: 'de',
+      Austria: 'at',
+      Bélgica: 'be',
+      'Países Bajos': 'nl',
+      Suecia: 'se',
+      Noruega: 'no',
+      Finlandia: 'fi',
+      Polonia: 'pl',
+      'República Checa': 'cz',
+      Eslovenia: 'si',
+      Croacia: 'hr',
+      Serbia: 'rs',
+      Bulgaria: 'bg',
+      Rumanía: 'ro',
+      Ucrania: 'ua',
+      Rusia: 'ru',
+      India: 'in',
+      China: 'cn',
+      Brasil: 'br',
+      'Estados Unidos': 'us',
+      México: 'mx',
+      Canadá: 'ca',
+      Argentina: 'ar',
+      Chile: 'cl',
+      Perú: 'pe',
+      Colombia: 'co',
+      Australia: 'au',
+      Sudáfrica: 'za',
+      Marruecos: 'ma',
+      Egipto: 'eg',
+      Irán: 'ir',
+      Pakistán: 'pk',
+      Vietnam: 'vn',
+      Indonesia: 'id',
+      Tailandia: 'th',
+      Japón: 'jp',
+      'Corea del Sur': 'kr',
+      Israel: 'il',
+      'Arabia Saudita': 'sa',
+      Etiopía: 'et',
+      Tanzania: 'tz',
+      Zimbabwe: 'zw',
+      Madagascar: 'mg',
+      Bolivia: 'bo',
+      Ecuador: 'ec',
+      Venezuela: 've',
+      Uruguay: 'uy',
+      Paraguay: 'py',
+      Honduras: 'hn',
+      Guatemala: 'gt',
+      Cuba: 'cu',
+      Nigeria: 'ng',
+      Ghana: 'gh',
+      Angola: 'ao',
+      Mozambique: 'mz',
+      Namibia: 'na',
+      Kenia: 'ke',
+      Túnez: 'tn',
+      Argelia: 'dz',
+      Azerbaiyán: 'az',
+      Georgia: 'ge',
+      Armenia: 'am',
+      Hungría: 'hu',
+      Eslovaquia: 'sk',
+      Letonia: 'lv',
+      Lituania: 'lt',
+      Estonia: 'ee',
+      Suiza: 'ch',
+      'Reino Unido': 'gb',
+      Irlanda: 'ie',
+      'Nueva Zelanda': 'nz',
+      Filipinas: 'ph',
+      Malasia: 'my',
+      'Sri Lanka': 'lk',
+      Nepal: 'np',
+      Afganistán: 'af',
+      Libia: 'ly',
+      Sudán: 'sd',
+      Moldavia: 'md',
+      Bielorrusia: 'by',
+      Kosovo: 'xk',
+      Montenegro: 'me',
+      Albania: 'al',
     };
     function getFlag(p) {
-      if (!p) return "";
-      if (Array.isArray(p)) p = p[0] || "";
+      if (!p) return '';
+      if (Array.isArray(p)) p = p[0] || '';
       p = String(p);
       var code = FLAG_CODES[p];
       if (!code) {
@@ -1262,42 +1236,43 @@ import Page from "../layouts/Page.astro";
           }
         }
       }
-      if (!code) return "";
+      if (!code) return '';
       return (
         '<img src="https://flagicons.lipis.dev/flags/1x1/' +
         code +
         '.svg" width="18" height="18" alt="' +
-        p.replace(/"/g, "&quot;") +
+        p.replace(/"/g, '&quot;') +
         '" style="border-radius:3px;flex-shrink:0;display:inline-block;vertical-align:middle" loading="lazy" onerror="this.style.display=\'none\'">'
       );
     }
+
     function esc(s) {
-      return (s || "")
+      return (s || '')
         .toString()
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
     }
     function trunc(s, n) {
-      s = (s || "").toString();
-      return s.length > n ? s.slice(0, n) + "…" : s;
+      s = (s || '').toString();
+      return s.length > n ? s.slice(0, n) + '…' : s;
     }
     function arr(v) {
       if (!v) return [];
       if (Array.isArray(v)) return v;
-      if (typeof v === "string") {
+      if (typeof v === 'string') {
         var s = v.trim();
-        if (s.charAt(0) === "[") {
+        if (s.charAt(0) === '[') {
           try {
             var p = JSON.parse(s);
             if (Array.isArray(p)) return p;
           } catch (e) {}
         }
-        if (s.charAt(0) === "{" && s.charAt(s.length - 1) === "}") {
+        if (s.charAt(0) === '{' && s.charAt(s.length - 1) === '}') {
           var inner = s.slice(1, -1);
           try {
-            var p2 = JSON.parse("[" + inner + "]");
+            var p2 = JSON.parse('[' + inner + ']');
             return p2.map(String);
           } catch (e) {}
           return [inner];
@@ -1308,85 +1283,89 @@ import Page from "../layouts/Page.astro";
     }
     function getRegionDisplay(v) {
       var items = arr(v);
-      if (!items.length) return "";
+      if (!items.length) return '';
       var r = String(items[0]).trim();
       var m = r.match(/\(([^)]+)\)/);
       if (m) return m[1].trim();
       return r;
     }
+    /* ══════════════════════════════════════
+   BUILD CARD
+══════════════════════════════════════ */
     function buildCard(m) {
       var colors = getSwatchGradient(m.color_principal);
-      var gradient =
-        "linear-gradient(135deg," + colors[0] + " 0%," + colors[1] + " 100%)";
-      var paises = arr(m.origen_pais),
-        regionStr = trunc(getRegionDisplay(m.origen_region), 30);
-      var flag = getFlag(paises[0]),
-        paisStr = paises.slice(0, 2).join(" · ");
-      var acabados = arr(m.acabados_disponibles),
-        MAX_ACAB = 4,
-        acabHtml = "";
-      for (var i = 0; i < Math.min(acabados.length, MAX_ACAB); i++)
-        acabHtml +=
-          '<span class="acabado-pill">' +
-          esc(tradAcabado(acabados[i])) +
-          "</span>";
-      if (acabados.length > MAX_ACAB)
-        acabHtml +=
-          '<span class="acabado-more">+' +
-          (acabados.length - MAX_ACAB) +
-          " más</span>";
-      var pt = m.propiedades_tecnicas || {},
-        specsHtml = "";
-      if (
-        pt.densidad_kg_m3 ||
-        pt.absorcion_agua_pct ||
-        pt.resistencia_flexion_mpa
-      ) {
+      var gradient = 'linear-gradient(135deg,' + colors[0] + ' 0%,' + colors[1] + ' 100%)';
+      var paises = arr(m.origen_pais);
+      var regionStr = trunc(getRegionDisplay(m.origen_region), 30);
+      var flag = getFlag(paises[0]);
+      var paisStr = paises.slice(0, 2).join(' · ');
+      var acabados = arr(m.acabados_disponibles);
+      var MAX_ACAB = 4;
+      var acabHtml = '';
+      for (var i = 0; i < Math.min(acabados.length, MAX_ACAB); i++) {
+        acabHtml += '<span class="acabado-pill">' + esc(tradAcabado(acabados[i])) + '</span>';
+      }
+      if (acabados.length > MAX_ACAB) {
+        acabHtml += '<span class="acabado-more">+' + (acabados.length - MAX_ACAB) + ' más</span>';
+      }
+
+      // Technical specs desde propiedades_tecnicas (JSONB)
+      var pt = m.propiedades_tecnicas || {};
+      var specsHtml = '';
+      if (pt.densidad_kg_m3 || pt.absorcion_agua_pct || pt.resistencia_flexion_mpa) {
         specsHtml = '<div class="card-specs">';
         if (pt.densidad_kg_m3)
           specsHtml +=
             '<span class="spec-item"><span class="spec-k">ρ</span> ' +
             pt.densidad_kg_m3 +
-            " kg/m³</span>";
+            ' kg/m³</span>';
         if (pt.absorcion_agua_pct)
           specsHtml +=
             '<span class="spec-item"><span class="spec-k">Abs.</span> ' +
             pt.absorcion_agua_pct +
-            "%</span>";
+            '%</span>';
         if (pt.resistencia_flexion_mpa)
           specsHtml +=
             '<span class="spec-item"><span class="spec-k">Flex.</span> ' +
             pt.resistencia_flexion_mpa +
-            " MPa</span>";
-        specsHtml += "</div>";
+            ' MPa</span>';
+        specsHtml += '</div>';
       }
+
+      // "Ver ficha" sólo si existe slug — vinculado a material.html?id=<slug>
       var verBtn = m.slug
         ? '<a class="card-ver-btn" href="material.html?id=' +
           esc(m.slug) +
           '" onclick="event.stopPropagation()">Ver ficha →</a>'
-        : "";
-      var score = m.content_score || 0,
-        qualityBadge = "";
-      if (score >= 80)
+        : '';
+
+      // Badge de calidad de contenido
+      var score = m.content_score || 0;
+      var qualityBadge = '';
+      if (score >= 80) {
         qualityBadge =
           '<span class="card-quality-badge card-quality-full" title="Ficha completa · ' +
           score +
           '/100">★★★</span>';
-      else if (score >= 50)
+      } else if (score >= 50) {
         qualityBadge =
           '<span class="card-quality-badge card-quality-mid" title="Ficha parcial · ' +
           score +
           '/100">★★</span>';
+      }
+
+      // Franja de color acento
       var accentColors = getSwatchGradient(m.color_acento || m.color_principal);
       var accentStripe =
         '<span class="card-accent-stripe" style="background:linear-gradient(90deg,' +
         accentColors[0] +
-        "," +
+        ',' +
         accentColors[1] +
         ');"></span>';
+
       return (
         '<div class="material-card" onclick="' +
-        (m.slug ? "location.href='material.html?id=" + esc(m.slug) + "'" : "") +
+        (m.slug ? "location.href='material.html?id=" + esc(m.slug) + "'" : '') +
         '">' +
         '<div class="card-swatch" style="background:' +
         gradient +
@@ -1395,46 +1374,46 @@ import Page from "../layouts/Page.astro";
           ? '<img src="' +
             esc(m.imagen_url_principal) +
             '" alt="' +
-            esc(m.nombre_comercial || "") +
+            esc(m.nombre_comercial || '') +
             '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy" onerror="this.parentElement.style.background=\'#e8e5e0\'">'
-          : "") +
+          : '') +
         '<span class="card-cat-pill">' +
-        esc(m.categoria || "") +
-        "</span>" +
-        "</div>" +
+        esc(m.categoria || '') +
+        '</span>' +
+        '</div>' +
         accentStripe +
         '<div class="card-body">' +
         '<div class="card-nombre">' +
-        esc(m.nombre_comercial || "Sin nombre") +
-        "</div>" +
+        esc(m.nombre_comercial || 'Sin nombre') +
+        '</div>' +
         (paisStr || regionStr
           ? '<div class="card-origen">' +
-            (flag ? '<span class="card-flag">' + flag + "</span>" : "") +
-            (paisStr ? "<span>" + esc(paisStr) + "</span>" : "") +
+            (flag ? '<span class="card-flag">' + flag + '</span>' : '') +
+            (paisStr ? '<span>' + esc(paisStr) + '</span>' : '') +
             (regionStr
               ? '<span class="card-origen-sep">·</span><span style="color:var(--ink-4)">' +
                 esc(regionStr) +
-                "</span>"
-              : "") +
-            "</div>"
-          : "") +
-        (acabHtml ? '<div class="card-acabados">' + acabHtml + "</div>" : "") +
+                '</span>'
+              : '') +
+            '</div>'
+          : '') +
+        (acabHtml ? '<div class="card-acabados">' + acabHtml + '</div>' : '') +
         specsHtml +
-        "</div>" +
+        '</div>' +
         '<div class="card-footer">' +
         verBtn +
         qualityBadge +
-        "</div>" +
-        "</div>"
+        '</div>' +
+        '</div>'
       );
     }
     var PAGE_SIZE = 48,
       currentPage = 1,
       filteredList = [];
     function renderGrid(list, reset) {
-      var container = document.getElementById("gridContainer");
-      var moreWrap = document.getElementById("loadMoreWrap");
-      var moreInfo = document.getElementById("loadMoreInfo");
+      var container = document.getElementById('gridContainer');
+      var moreWrap = document.getElementById('loadMoreWrap');
+      var moreInfo = document.getElementById('loadMoreInfo');
       if (reset) {
         currentPage = 1;
         filteredList = list;
@@ -1442,86 +1421,78 @@ import Page from "../layouts/Page.astro";
       if (!filteredList.length) {
         container.innerHTML =
           '<div class="empty-state"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><p>Sin resultados</p><small>Prueba con otros filtros o términos</small></div>';
-        moreWrap.style.display = "none";
+        moreWrap.style.display = 'none';
         return;
       }
       var visible = filteredList.slice(0, currentPage * PAGE_SIZE);
       var html = '<div class="cards-grid">';
-      for (var i = 0; i < visible.length; i++)
-        html += buildCard(filteredList[i]);
-      html += "</div>";
+      for (var i = 0; i < visible.length; i++) html += buildCard(filteredList[i]);
+      html += '</div>';
       container.innerHTML = html;
       var remaining = filteredList.length - visible.length;
       if (remaining > 0) {
-        moreWrap.style.display = "block";
+        moreWrap.style.display = 'block';
         moreInfo.textContent =
-          "Mostrando " +
-          visible.length +
-          " de " +
-          filteredList.length +
-          " materiales";
-      } else moreWrap.style.display = "none";
+          'Mostrando ' + visible.length + ' de ' + filteredList.length + ' materiales';
+      } else moreWrap.style.display = 'none';
     }
-    document
-      .getElementById("loadMoreBtn")
-      .addEventListener("click", function () {
-        currentPage++;
-        renderGrid(null, false);
-        var grid = document.querySelector(".cards-grid");
-        if (grid) {
-          var lastCard = grid.children[(currentPage - 1) * PAGE_SIZE];
-          if (lastCard)
-            lastCard.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      });
+    document.getElementById('loadMoreBtn').addEventListener('click', function () {
+      currentPage++;
+      renderGrid(null, false);
+      var grid = document.querySelector('.cards-grid');
+      if (grid) {
+        var lastCard = grid.children[(currentPage - 1) * PAGE_SIZE];
+        if (lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
     function applyFilters() {
       var q = searchQuery.trim().toLowerCase(),
         fc = activeFilters.cat,
         fcolor = activeFilters.color;
       var CAT_NORM = {
-        bluestone: "piedra azul",
-        "blue stone": "piedra azul",
-        esquisto: "pizarra",
-        phyllite: "pizarra",
-        filita: "pizarra",
-        gneis: "granito",
-        gneiss: "granito",
-        felsite: "basalto",
-        rhyolite: "basalto",
-        soapstone: "pizarra",
-        cantera: "caliza",
-        limestone: "caliza",
-        jade: "ónix",
-        serpentinite: "ónix",
-        mármol: "mármol",
-        marble: "mármol",
-        granite: "granito",
-        sandstone: "arenisca",
-        quartzite: "cuarcita",
-        slate: "pizarra",
-        travertine: "travertino",
-        onyx: "ónix",
-        basalt: "basalto",
-        alabaster: "alabastro",
-        andesite: "andesita",
-        porphyry: "pórfido",
-        tuff: "toba",
-        "toba volcánica": "toba",
+        bluestone: 'piedra azul',
+        'blue stone': 'piedra azul',
+        esquisto: 'pizarra',
+        phyllite: 'pizarra',
+        filita: 'pizarra',
+        gneis: 'granito',
+        gneiss: 'granito',
+        felsite: 'basalto',
+        rhyolite: 'basalto',
+        soapstone: 'pizarra',
+        cantera: 'caliza',
+        limestone: 'caliza',
+        jade: 'ónix',
+        serpentinite: 'ónix',
+        mármol: 'mármol',
+        marble: 'mármol',
+        granite: 'granito',
+        sandstone: 'arenisca',
+        quartzite: 'cuarcita',
+        slate: 'pizarra',
+        travertine: 'travertino',
+        onyx: 'ónix',
+        basalt: 'basalto',
+        alabaster: 'alabastro',
+        andesite: 'andesita',
+        porphyry: 'pórfido',
+        tuff: 'toba',
+        'toba volcánica': 'toba',
       };
       var result = DB.filter(function (m) {
         if (fc) {
-          var catRaw = (m.categoria || "").toLowerCase();
+          var catRaw = (m.categoria || '').toLowerCase();
           var catNorm = CAT_NORM[catRaw] || catRaw;
           if (catNorm !== fc) return false;
         }
         if (fcolor && getColorGroup(m.color_principal) !== fcolor) return false;
         if (q) {
-          var names = arr(m.nombres_alternativos).join(" "),
-            usos = arr(m.usos_recomendados).join(" ");
-          var acab = arr(m.acabados_disponibles).join(" "),
-            pais = arr(m.origen_pais).join(" ");
+          var names = arr(m.nombres_alternativos).join(' '),
+            usos = arr(m.usos_recomendados).join(' ');
+          var acab = arr(m.acabados_disponibles).join(' '),
+            pais = arr(m.origen_pais).join(' ');
           var reg = getRegionDisplay(m.origen_region),
-            tags = arr(m.tags_busqueda).join(" ");
+            tags = arr(m.tags_busqueda).join(' ');
           var hay = [
             m.nombre_comercial,
             names,
@@ -1534,171 +1505,142 @@ import Page from "../layouts/Page.astro";
             acab,
             tags,
           ]
-            .join(" ")
+            .join(' ')
             .toLowerCase();
           if (hay.indexOf(q) === -1) return false;
         }
         return true;
       });
       result.sort(function (a, b) {
-        if (activeSort === "calidad") {
+        if (activeSort === 'calidad') {
           var sa = a.content_score || 0,
             sb = b.content_score || 0;
           return (
-            sb - sa ||
-            (a.nombre_comercial || "").localeCompare(
-              b.nombre_comercial || "",
-              "es",
-            )
+            sb - sa || (a.nombre_comercial || '').localeCompare(b.nombre_comercial || '', 'es')
           );
         }
-        if (activeSort === "za")
-          return (b.nombre_comercial || "").localeCompare(
-            a.nombre_comercial || "",
-            "es",
-          );
-        if (activeSort === "pais") {
-          var pa = arr(a.origen_pais)[0] || "",
-            pb = arr(b.origen_pais)[0] || "";
+        if (activeSort === 'za')
+          return (b.nombre_comercial || '').localeCompare(a.nombre_comercial || '', 'es');
+        if (activeSort === 'pais') {
+          var pa = arr(a.origen_pais)[0] || '',
+            pb = arr(b.origen_pais)[0] || '';
           return (
-            pa.localeCompare(pb, "es") ||
-            (a.nombre_comercial || "").localeCompare(
-              b.nombre_comercial || "",
-              "es",
-            )
+            pa.localeCompare(pb, 'es') ||
+            (a.nombre_comercial || '').localeCompare(b.nombre_comercial || '', 'es')
           );
         }
-        if (activeSort === "cat")
+        if (activeSort === 'cat')
           return (
-            (a.categoria || "").localeCompare(b.categoria || "", "es") ||
-            (a.nombre_comercial || "").localeCompare(
-              b.nombre_comercial || "",
-              "es",
-            )
+            (a.categoria || '').localeCompare(b.categoria || '', 'es') ||
+            (a.nombre_comercial || '').localeCompare(b.nombre_comercial || '', 'es')
           );
-        if (activeSort === "precio_asc" || activeSort === "precio_desc") {
+        if (activeSort === 'precio_asc' || activeSort === 'precio_desc') {
           function extractP(s) {
-            if (!s) return activeSort === "precio_asc" ? Infinity : -1;
-            var mx = (s + "").match(/[\d]+([.,]\d+)?/);
+            if (!s) return activeSort === 'precio_asc' ? Infinity : -1;
+            var mx = (s + '').match(/[\d]+([.,]\d+)?/);
             return mx
-              ? parseFloat(mx[0].replace(",", "."))
-              : activeSort === "precio_asc"
+              ? parseFloat(mx[0].replace(',', '.'))
+              : activeSort === 'precio_asc'
                 ? Infinity
                 : -1;
           }
           var pa = extractP(a.precio_orientativo),
             pb = extractP(b.precio_orientativo);
-          return activeSort === "precio_asc" ? pa - pb : pb - pa;
+          return activeSort === 'precio_asc' ? pa - pb : pb - pa;
         }
-        return (a.nombre_comercial || "").localeCompare(
-          b.nombre_comercial || "",
-          "es",
-        );
+        return (a.nombre_comercial || '').localeCompare(b.nombre_comercial || '', 'es');
       });
       renderGrid(result, true);
-      document.getElementById("resultsCount").textContent =
+      document.getElementById('resultsCount').textContent =
         result.length === DB.length
-          ? DB.length + " materiales"
-          : result.length + " de " + DB.length;
+          ? DB.length + ' materiales'
+          : result.length + ' de ' + DB.length;
       updateActiveBanner();
     }
-    document
-      .getElementById("searchInput")
-      .addEventListener("input", function () {
-        searchQuery = this.value;
-        applyFilters();
-      });
-    document.querySelectorAll(".filter-chip").forEach(function (btn) {
-      btn.addEventListener("click", function () {
+    document.getElementById('searchInput').addEventListener('input', function () {
+      searchQuery = this.value;
+      applyFilters();
+    });
+    document.querySelectorAll('.filter-chip').forEach(function (btn) {
+      btn.addEventListener('click', function () {
         var group = this.dataset.group,
           val = this.dataset.val;
         if (activeFilters[group] === val) {
           activeFilters[group] = null;
-          this.classList.remove("active");
+          this.classList.remove('active');
         } else {
-          document
-            .querySelectorAll('[data-group="' + group + '"]')
-            .forEach(function (b) {
-              b.classList.remove("active");
-            });
+          document.querySelectorAll('[data-group="' + group + '"]').forEach(function (b) {
+            b.classList.remove('active');
+          });
           activeFilters[group] = val;
-          this.classList.add("active");
+          this.classList.add('active');
         }
         applyFilters();
       });
     });
-    document
-      .getElementById("clearFilters")
-      .addEventListener("click", function () {
-        clearAllFilters();
-      });
-    document
-      .getElementById("sortSelect")
-      .addEventListener("change", function () {
-        activeSort = this.value;
-        applyFilters();
-      });
+    document.getElementById('clearFilters').addEventListener('click', function () {
+      clearAllFilters();
+    });
+    document.getElementById('sortSelect').addEventListener('change', function () {
+      activeSort = this.value;
+      applyFilters();
+    });
     function updateActiveBanner() {
-      var banner = document.getElementById("activeBanner");
+      var banner = document.getElementById('activeBanner');
       if (!banner) return;
       var tags = [];
       if (activeFilters.cat)
         tags.push(
           '<span class="active-tag">' +
-            esc(
-              activeFilters.cat.charAt(0).toUpperCase() +
-                activeFilters.cat.slice(1),
-            ) +
-            '<span class="active-tag-x" onclick="clearFilter(\'cat\')">×</span></span>',
+            esc(activeFilters.cat.charAt(0).toUpperCase() + activeFilters.cat.slice(1)) +
+            '<span class="active-tag-x" onclick="clearFilter(\'cat\')">×</span></span>'
         );
       if (activeFilters.color)
         tags.push(
           '<span class="active-tag">' +
             esc(activeFilters.color) +
-            '<span class="active-tag-x" onclick="clearFilter(\'color\')">×</span></span>',
+            '<span class="active-tag-x" onclick="clearFilter(\'color\')">×</span></span>'
         );
       if (searchQuery.trim())
         tags.push(
           '<span class="active-tag">«' +
             esc(trunc(searchQuery.trim(), 24)) +
-            '»<span class="active-tag-x" onclick="clearSearch()">×</span></span>',
+            '»<span class="active-tag-x" onclick="clearSearch()">×</span></span>'
         );
       if (tags.length) {
-        banner.className = "active-banner visible";
+        banner.className = 'active-banner visible';
         banner.innerHTML =
-          tags.join("") +
+          tags.join('') +
           '<button class="active-banner-clear" onclick="clearAllFilters()">Limpiar todo ×</button>';
       } else {
-        banner.className = "active-banner";
-        banner.innerHTML = "";
+        banner.className = 'active-banner';
+        banner.innerHTML = '';
       }
     }
     function clearFilter(group) {
       activeFilters[group] = null;
-      document
-        .querySelectorAll('[data-group="' + group + '"]')
-        .forEach(function (b) {
-          b.classList.remove("active");
-        });
+      document.querySelectorAll('[data-group="' + group + '"]').forEach(function (b) {
+        b.classList.remove('active');
+      });
       applyFilters();
     }
     function clearSearch() {
-      searchQuery = "";
-      document.getElementById("searchInput").value = "";
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
       applyFilters();
     }
     function clearAllFilters() {
       activeFilters = { cat: null, color: null };
-      searchQuery = "";
-      document.getElementById("searchInput").value = "";
-      document.querySelectorAll(".filter-chip").forEach(function (b) {
-        b.classList.remove("active");
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      document.querySelectorAll('.filter-chip').forEach(function (b) {
+        b.classList.remove('active');
       });
       applyFilters();
     }
     function showFeaturedStone() {
-      var loading = document.getElementById("featuredLoading"),
-        slot = document.getElementById("featuredSlot");
+      var loading = document.getElementById('featuredLoading'),
+        slot = document.getElementById('featuredSlot');
       if (!slot) return;
       var pool = DB.filter(function (m) {
         return m.imagen_url_principal && (m.content_score || 0) >= 80;
@@ -1712,61 +1654,61 @@ import Page from "../layouts/Page.astro";
           return m.imagen_url_principal;
         }).slice(0, 200);
       if (!pool.length) {
-        if (loading) loading.style.display = "none";
+        if (loading) loading.style.display = 'none';
         return;
       }
       var m = pool[Math.floor(Math.random() * pool.length)];
       var flag = getFlag(arr(m.origen_pais)[0]),
-        pais = arr(m.origen_pais)[0] || "";
-      if (loading) loading.style.display = "none";
+        pais = arr(m.origen_pais)[0] || '';
+      if (loading) loading.style.display = 'none';
       slot.innerHTML =
         '<div class="featured-stone"><img src="' +
         esc(m.imagen_url_principal) +
         '" alt="' +
-        esc(m.nombre_comercial || "") +
+        esc(m.nombre_comercial || '') +
         '" loading="lazy"><div class="featured-stone-overlay"></div><span class="featured-stone-eyebrow">Piedra destacada</span><span class="featured-stone-badge">' +
-        esc(m.categoria || "") +
+        esc(m.categoria || '') +
         '</span><div class="featured-stone-body"><div class="featured-stone-name">' +
-        esc(m.nombre_comercial || "") +
-        "</div>" +
+        esc(m.nombre_comercial || '') +
+        '</div>' +
         (pais
           ? '<div class="featured-stone-origin">' +
-            (flag || "") +
-            "<span>" +
+            (flag || '') +
+            '<span>' +
             esc(pais) +
-            "</span></div>"
-          : "") +
+            '</span></div>'
+          : '') +
         (m.slug
           ? '<a class="featured-stone-cta" href="material.html?id=' +
             esc(m.slug) +
             '" onclick="event.stopPropagation()">Ver ficha →</a>'
-          : "") +
-        "</div></div>";
+          : '') +
+        '</div></div>';
       if (m.slug) {
-        document.getElementById("featuredPanel").style.cursor = "pointer";
-        document.getElementById("featuredPanel").onclick = function (e) {
-          if (!e.target.closest(".featured-stone-cta"))
-            location.href = "material.html?id=" + encodeURIComponent(m.slug);
+        document.getElementById('featuredPanel').style.cursor = 'pointer';
+        document.getElementById('featuredPanel').onclick = function (e) {
+          if (!e.target.closest('.featured-stone-cta'))
+            location.href = 'material.html?id=' + encodeURIComponent(m.slug);
         };
       }
     }
     (function loadMateriales() {
       var SELECT =
-        "slug,nombre_comercial,nombres_alternativos,categoria,origen_pais,origen_region,color_principal,color_acento,acabados_disponibles,usos_recomendados,propiedades_tecnicas,tags_busqueda,imagen_url_principal,activo,content_score,precio_orientativo";
+        'slug,nombre_comercial,nombres_alternativos,categoria,origen_pais,origen_region,color_principal,color_acento,acabados_disponibles,usos_recomendados,propiedades_tecnicas,tags_busqueda,imagen_url_principal,activo,content_score,precio_orientativo';
       var BASE =
         SB_URL +
-        "/rest/v1/materiales?select=" +
+        '/rest/v1/materiales?select=' +
         SELECT +
-        "&activo=eq.true&order=content_score.desc.nullslast,nombre_comercial.asc";
+        '&activo=eq.true&order=content_score.desc.nullslast,nombre_comercial.asc';
       var PAGE = 1000,
         allData = [];
       function fetchPage(offset) {
         return fetch(BASE, {
           headers: {
             apikey: SB_KEY,
-            Authorization: "Bearer " + SB_KEY,
-            Accept: "application/json",
-            Range: offset + "-" + (offset + PAGE - 1),
+            Authorization: 'Bearer ' + SB_KEY,
+            Accept: 'application/json',
+            Range: offset + '-' + (offset + PAGE - 1),
           },
         }).then(function (r) {
           return r.json();
@@ -1776,10 +1718,10 @@ import Page from "../layouts/Page.astro";
         fetchPage(offset)
           .then(function (data) {
             if (!Array.isArray(data)) {
-              document.getElementById("gridContainer").innerHTML =
+              document.getElementById('gridContainer').innerHTML =
                 '<div class="empty-state"><p>Error al cargar</p><small>' +
                 JSON.stringify(data).slice(0, 120) +
-                "</small></div>";
+                '</small></div>';
               return;
             }
             allData = allData.concat(data);
@@ -1795,11 +1737,9 @@ import Page from "../layouts/Page.astro";
                 });
                 if (m.color_principal) colores[m.color_principal] = 1;
               });
-              document.getElementById("statMateriales").textContent = DB.length;
-              document.getElementById("statPaises").textContent =
-                Object.keys(paises).length;
-              document.getElementById("statColores").textContent =
-                Object.keys(colores).length;
+              document.getElementById('statMateriales').textContent = DB.length;
+              document.getElementById('statPaises').textContent = Object.keys(paises).length;
+              document.getElementById('statColores').textContent = Object.keys(colores).length;
               showFeaturedStone();
               applyFilters();
             }
@@ -1809,10 +1749,10 @@ import Page from "../layouts/Page.astro";
               DB = allData;
               applyFilters();
             } else
-              document.getElementById("gridContainer").innerHTML =
+              document.getElementById('gridContainer').innerHTML =
                 '<div class="empty-state"><p>No se pudo conectar</p><small>' +
                 err.message +
-                "</small></div>";
+                '</small></div>';
           });
       }
       loadAll(0);
