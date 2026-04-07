@@ -1,0 +1,1243 @@
+---
+import Page from '../layouts/Page.astro';
+---
+
+<Page
+  title="Canteras del Mundo — Directorio Global de Piedra Natural · World Stone Hub"
+  description="Directorio global de canteras de piedra natural. Explora más de 200 yacimientos activos en Europa, Asia, América y África. Fichas técnicas completas con producción, materiales y localización."
+  ogTitle="Canteras del Mundo — World Stone Hub"
+  ogDescription="Directorio global de canteras de piedra natural con fichas técnicas completas."
+  ogUrl="https://worldstonehub.com/canteras"
+  activePage="canteras"
+>
+  <style slot="head">
+    :root {
+      --bg-warm: #f2ede8;
+      --border-md: #d4d0cb;
+      --gold-lt: #c4a882;
+      --gold-bg: rgba(166, 124, 82, 0.08);
+      --red: #6b5b4e;
+      --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 6px 28px rgba(0, 0, 0, 0.1);
+    }
+    body {
+      background: var(--bg-soft);
+    }
+
+    /* PAGE HEADER 50/50 */
+    .page-header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 280px;
+      margin-top: 70px;
+    }
+    .ph-left {
+      padding: 52px 56px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--border);
+    }
+    .ph-eyebrow {
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      font-family: var(--font-mono);
+    }
+    .ph-left h1 {
+      font-family: var(--font-disp);
+      font-size: 48px;
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -1px;
+      color: var(--ink);
+    }
+    .ph-left h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .ph-left p {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--ink-3);
+      max-width: 420px;
+      line-height: 1.75;
+      padding-top: 12px;
+    }
+    .ph-stats {
+      display: flex;
+      gap: 0;
+      margin-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .stat-block {
+      flex: 1;
+      padding: 16px 20px 0;
+      border-right: 1px solid var(--border);
+    }
+    .stat-block:last-child {
+      border-right: none;
+    }
+    .stat-n {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--ink);
+      display: block;
+      line-height: 1;
+    }
+    .stat-l {
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      display: block;
+      margin-top: 5px;
+    }
+
+    /* AD SLOT */
+    .ph-right {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-soft);
+    }
+    .ad-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ad-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .ad-link img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .ad-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--bg-soft);
+      padding: 24px;
+    }
+    .ad-placeholder svg {
+      opacity: 0.2;
+    }
+    .ad-placeholder-text {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      text-align: center;
+    }
+    .ad-placeholder-sub {
+      font-size: 11px;
+      color: var(--ink-4);
+      text-align: center;
+    }
+    .ad-label {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      z-index: 2;
+    }
+
+    /* TOOLBAR */
+    .toolbar {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 48px;
+      position: sticky;
+      top: 70px;
+      z-index: 90;
+    }
+    .toolbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .search-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .search-wrap {
+      flex: 1;
+      position: relative;
+      max-width: 460px;
+    }
+    .search-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    #searchInput {
+      width: 100%;
+      height: 40px;
+      padding: 0 14px 0 40px;
+      border: 1px solid var(--border-md);
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-family: inherit;
+      background: var(--bg-soft);
+      color: var(--ink);
+      outline: none;
+      transition:
+        border 0.2s,
+        box-shadow 0.2s;
+    }
+    #searchInput:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(166, 124, 82, 0.12);
+      background: #fff;
+    }
+    #searchInput::placeholder {
+      color: var(--ink-4);
+    }
+    .results-count {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      white-space: nowrap;
+    }
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .filter-label {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      margin-right: 4px;
+      white-space: nowrap;
+    }
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 30px;
+      padding: 0 14px;
+      border: 1px solid var(--border-md);
+      border-radius: 30px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .filter-chip:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .filter-chip.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #fff;
+    }
+    .filter-sep {
+      width: 1px;
+      height: 18px;
+      background: var(--border);
+      margin: 0 4px;
+    }
+    .clear-btn {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-family: inherit;
+      transition: color 0.2s;
+    }
+    .clear-btn:hover {
+      color: var(--gold);
+    }
+
+    /* GRID */
+    .grid-section {
+      padding: 40px 48px 80px;
+    }
+    .grid-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    /* CARD */
+    .cantera-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      transition:
+        box-shadow 0.25s,
+        transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .cantera-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .card-stripe {
+      height: 6px;
+    }
+    .card-body {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .card-tipo {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      font-family: var(--font-mono);
+    }
+    .status-badge {
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 30px;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+    .status-activa {
+      background: #f5efea;
+      color: #a67c52;
+      border: 1px solid rgba(166, 124, 82, 0.25);
+    }
+    .status-selectiva {
+      background: rgba(201, 185, 154, 0.15);
+      color: #9c8571;
+      border: 1px solid rgba(201, 185, 154, 0.35);
+    }
+    .status-historica {
+      background: #f0efed;
+      color: #8a8784;
+      border: 1px solid #e2e0dc;
+    }
+    .status-inactiva {
+      background: #f0efed;
+      color: #b8b5b0;
+      border: 1px solid #e2e0dc;
+    }
+    .card-nombre {
+      font-family: var(--font-disp);
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+    .card-loc {
+      font-size: 12px;
+      color: var(--ink-4);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .card-loc svg {
+      flex-shrink: 0;
+      opacity: 0.5;
+    }
+    .card-materiales {
+      font-size: 12px;
+      color: var(--ink-3);
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .card-props {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .card-prop {
+      background: var(--bg-soft);
+      padding: 10px 12px;
+      border-radius: var(--radius);
+    }
+    .cp-label {
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      display: block;
+      margin-bottom: 3px;
+    }
+    .cp-value {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-2);
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-soft);
+    }
+    .card-pais {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      color: var(--ink-3);
+    }
+    .card-flag {
+      font-size: 18px;
+      line-height: 1;
+    }
+    .card-ver-btn {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 7px 14px;
+      border: 1px solid rgba(166, 124, 82, 0.35);
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition:
+        background 0.2s,
+        color 0.2s;
+      font-family: inherit;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .card-ver-btn:hover {
+      background: var(--gold);
+      color: #fff;
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      padding: 80px 0;
+      text-align: center;
+    }
+    .empty-state svg {
+      opacity: 0.2;
+      margin-bottom: 20px;
+    }
+    .empty-state p {
+      font-size: 16px;
+      color: var(--ink-4);
+      font-family: var(--font-disp);
+      font-style: italic;
+    }
+    .empty-state small {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      display: block;
+      margin-top: 8px;
+    }
+
+    /* LOADING */
+    .loading-state {
+      padding: 80px 0;
+      text-align: center;
+    }
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .loading-state p {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .page-header {
+        grid-template-columns: 1fr;
+      }
+      .ph-left {
+        border-right: none;
+      }
+      .ph-right {
+        min-height: 200px;
+        border-top: 1px solid var(--border);
+      }
+      .page-header,
+      .toolbar,
+      .grid-section {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+    @media (max-width: 640px) {
+      .ph-left h1 {
+        font-size: 36px;
+      }
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+      .ph-stats {
+        flex-wrap: wrap;
+      }
+      .stat-block {
+        flex: 0 0 50%;
+      }
+    }
+  </style>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <div class="ph-left">
+      <div>
+        <p class="ph-eyebrow" data-i18n="hero.canteras.eyebrow">
+          Lapidis &middot; Directorio global
+        </p>
+        <h1>
+          <span data-i18n="hero.canteras.title">Canteras</span><br /><em
+            data-i18n="hero.canteras.titleItalic">del Mundo</em>
+        </h1>
+        <p data-i18n="hero.canteras.desc">
+          Directorio global de canteras de piedra natural. Explora producci&oacute;n, materiales,
+          localizaci&oacute;n y ficha t&eacute;cnica completa de cada yacimiento.
+        </p>
+      </div>
+      <div class="ph-stats">
+        <div class="stat-block">
+          <span class="stat-n" id="statCanteras">&mdash;</span>
+          <span class="stat-l" data-i18n="stats.canteras">Canteras</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-n" id="statPaises">&mdash;</span>
+          <span class="stat-l" data-i18n="stats.paises">Pa&iacute;ses</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-n">6</span>
+          <span class="stat-l" data-i18n="canteras.stats.continentes">Continentes</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-n">31</span>
+          <span class="stat-l" data-i18n="canteras.stats.tipos">Tipos</span>
+        </div>
+      </div>
+    </div>
+    <div class="ph-right">
+      <div class="ad-container" id="heroAdSlot">
+        <div class="ad-placeholder">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path>
+          </svg>
+          <span class="ad-placeholder-text" data-i18n="ad.placeholder">Espacio publicitario</span>
+          <span class="ad-placeholder-sub">CANTERAS-TOP</span>
+        </div>
+      </div>
+      <div class="ad-label" data-i18n="ad.label">Publicidad</div>
+    </div>
+  </header>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="toolbar-inner">
+      <div class="search-row">
+        <div class="search-wrap">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg
+          >
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Buscar cantera, país, material…"
+            data-i18n-attr="placeholder:search.placeholderCanteras"
+          />
+        </div>
+        <span class="results-count" id="resultsCount"></span>
+      </div>
+      <div class="filter-row">
+        <span class="filter-label" data-i18n="canteras.filter.continente">Continente</span>
+        <button
+          class="filter-chip"
+          data-group="continente"
+          data-val="Europa"
+          data-i18n="canteras.continentes.europa">Europa</button
+        >
+        <button
+          class="filter-chip"
+          data-group="continente"
+          data-val="Asia"
+          data-i18n="canteras.continentes.asia">Asia</button
+        >
+        <button
+          class="filter-chip"
+          data-group="continente"
+          data-val="América"
+          data-i18n="canteras.continentes.america">Am&eacute;rica</button
+        >
+        <button
+          class="filter-chip"
+          data-group="continente"
+          data-val="África"
+          data-i18n="canteras.continentes.africa">&Aacute;frica</button
+        >
+        <button
+          class="filter-chip"
+          data-group="continente"
+          data-val="Oceanía"
+          data-i18n="canteras.continentes.oceania">Ocean&iacute;a</button
+        >
+        <div class="filter-sep"></div>
+        <span class="filter-label" data-i18n="canteras.filter.tipo">Tipo</span>
+        <button
+          class="filter-chip"
+          data-group="tipo"
+          data-val="Mármol"
+          data-i18n="canteras.tipos.marmol">M&aacute;rmol</button
+        >
+        <button
+          class="filter-chip"
+          data-group="tipo"
+          data-val="Granito"
+          data-i18n="canteras.tipos.granito">Granito</button
+        >
+        <button
+          class="filter-chip"
+          data-group="tipo"
+          data-val="Cuarcita"
+          data-i18n="canteras.tipos.cuarcita">Cuarcita</button
+        >
+        <button
+          class="filter-chip"
+          data-group="tipo"
+          data-val="Travertino"
+          data-i18n="canteras.tipos.travertino">Travertino</button
+        >
+        <button
+          class="filter-chip"
+          data-group="tipo"
+          data-val="Caliza"
+          data-i18n="canteras.tipos.caliza">Caliza</button
+        >
+        <button
+          class="filter-chip"
+          data-group="tipo"
+          data-val="Pizarra"
+          data-i18n="canteras.tipos.pizarra">Pizarra</button
+        >
+        <button
+          class="filter-chip"
+          data-group="tipo"
+          data-val="Ónix"
+          data-i18n="canteras.tipos.onix">&Oacute;nix</button
+        >
+        <div class="filter-sep"></div>
+        <span class="filter-label" data-i18n="canteras.filter.estado">Estado</span>
+        <button
+          class="filter-chip"
+          data-group="estado"
+          data-val="Activa"
+          data-i18n="canteras.estados.activa">Activa</button
+        >
+        <button
+          class="filter-chip"
+          data-group="estado"
+          data-val="Selectiva"
+          data-i18n="canteras.estados.selectiva">Selectiva</button
+        >
+        <button
+          class="filter-chip"
+          data-group="estado"
+          data-val="Histórica"
+          data-i18n="canteras.estados.historica">Hist&oacute;rica</button
+        >
+        <div class="filter-sep"></div>
+        <button class="clear-btn" id="clearFilters" data-i18n="filter.limpiar"
+          >Limpiar filtros</button
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <section class="grid-section">
+    <div class="grid-inner">
+      <div id="gridContainer">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p data-i18n="canteras.loading">Cargando canteras</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script slot="scripts" is:inline>
+    var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
+    var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+
+    var DB = [];
+    var activeFilters = { continente: null, tipo: null, estado: null };
+    var searchQuery = '';
+
+    /* COLOR MAP */
+    var TIPO_COLORS = {
+      Mármol: 'linear-gradient(90deg,#b0bec5,#90a4ae)',
+      Granito: 'linear-gradient(90deg,#8d6e63,#6d4c41)',
+      Cuarcita: 'linear-gradient(90deg,#ce93d8,#9c27b0)',
+      Travertino: 'linear-gradient(90deg,#d4a96a,#b8853a)',
+      Caliza: 'linear-gradient(90deg,#c5c5c5,#9e9e9e)',
+      Pizarra: 'linear-gradient(90deg,#607d8b,#455a64)',
+      Ónix: 'linear-gradient(90deg,#80cbc4,#26a69a)',
+      Basalto: 'linear-gradient(90deg,#546e7a,#37474f)',
+      Arenisca: 'linear-gradient(90deg,#ffcc80,#fb8c00)',
+      Dolomita: 'linear-gradient(90deg,#b2dfdb,#4db6ac)',
+      Serpentino: 'linear-gradient(90deg,#a5d6a7,#388e3c)',
+      Cuarzo: 'linear-gradient(90deg,#f48fb1,#e91e63)',
+      Esquisto: 'linear-gradient(90deg,#9fa8da,#3f51b5)',
+      Alabastro: 'linear-gradient(90deg,#fff9c4,#f9a825)',
+      Lava: 'linear-gradient(90deg,#ff8a65,#d84315)',
+      Volcánica: 'linear-gradient(90deg,#ef9a9a,#c62828)',
+      Toba: 'linear-gradient(90deg,#c8e6c9,#2e7d32)',
+      Gabro: 'linear-gradient(90deg,#78909c,#37474f)',
+      Pórfido: 'linear-gradient(90deg,#7e57c2,#4527a0)',
+      Conglomerado: 'linear-gradient(90deg,#ffb74d,#ef6c00)',
+    };
+    var DEFAULT_COLOR = 'linear-gradient(90deg,#bdbdbd,#9e9e9e)';
+
+    /* FLAG MAP */
+    var FLAG_CODES = {
+      España: 'es',
+      Italia: 'it',
+      Portugal: 'pt',
+      Grecia: 'gr',
+      Turquía: 'tr',
+      Francia: 'fr',
+      Alemania: 'de',
+      Austria: 'at',
+      Bélgica: 'be',
+      'Países Bajos': 'nl',
+      Suecia: 'se',
+      Noruega: 'no',
+      Finlandia: 'fi',
+      Polonia: 'pl',
+      'República Checa': 'cz',
+      Eslovenia: 'si',
+      Croacia: 'hr',
+      Serbia: 'rs',
+      Bulgaria: 'bg',
+      Rumanía: 'ro',
+      Ucrania: 'ua',
+      Rusia: 'ru',
+      India: 'in',
+      China: 'cn',
+      Brasil: 'br',
+      'Estados Unidos': 'us',
+      México: 'mx',
+      Canadá: 'ca',
+      Argentina: 'ar',
+      Chile: 'cl',
+      Perú: 'pe',
+      Colombia: 'co',
+      Australia: 'au',
+      Sudáfrica: 'za',
+      Marruecos: 'ma',
+      Egipto: 'eg',
+      Irán: 'ir',
+      Pakistán: 'pk',
+      Vietnam: 'vn',
+      Indonesia: 'id',
+      Tailandia: 'th',
+      Japón: 'jp',
+      'Corea del Sur': 'kr',
+      Israel: 'il',
+      'Arabia Saudita': 'sa',
+      Etiopía: 'et',
+      Tanzania: 'tz',
+      Zimbabwe: 'zw',
+      Madagascar: 'mg',
+      Bolivia: 'bo',
+      Ecuador: 'ec',
+      Venezuela: 've',
+      Uruguay: 'uy',
+      Paraguay: 'py',
+      Honduras: 'hn',
+      Guatemala: 'gt',
+      Cuba: 'cu',
+      Nigeria: 'ng',
+      Ghana: 'gh',
+      Angola: 'ao',
+      Mozambique: 'mz',
+      Namibia: 'na',
+      Kenia: 'ke',
+      Uganda: 'ug',
+      Túnez: 'tn',
+      Argelia: 'dz',
+      Azerbaiyán: 'az',
+      Georgia: 'ge',
+      Armenia: 'am',
+      Hungría: 'hu',
+      Eslovaquia: 'sk',
+      Letonia: 'lv',
+      Lituania: 'lt',
+      Estonia: 'ee',
+      Suiza: 'ch',
+      'Reino Unido': 'gb',
+      Irlanda: 'ie',
+      'Nueva Zelanda': 'nz',
+      Filipinas: 'ph',
+      Malasia: 'my',
+      Camboya: 'kh',
+      Myanmar: 'mm',
+      Laos: 'la',
+      'Sri Lanka': 'lk',
+      Nepal: 'np',
+      Afganistán: 'af',
+      Libia: 'ly',
+      Sudán: 'sd',
+      Moldavia: 'md',
+      Bielorrusia: 'by',
+      Kosovo: 'xk',
+      Montenegro: 'me',
+      Albania: 'al',
+      Macedonia: 'mk',
+    };
+    function getFlag(pais) {
+      if (!pais) return '';
+      var code = FLAG_CODES[pais];
+      if (!code) {
+        var pl = pais.toLowerCase();
+        for (var k in FLAG_CODES) {
+          if (k.toLowerCase() === pl) {
+            code = FLAG_CODES[k];
+            break;
+          }
+        }
+      }
+      if (!code) return '';
+      return (
+        '<img src="https://flagicons.lipis.dev/flags/1x1/' +
+        code +
+        '.svg" ' +
+        'width="18" height="18" alt="' +
+        pais.replace(/"/g, '&quot;') +
+        '" ' +
+        'style="border-radius:3px;flex-shrink:0;display:inline-block;vertical-align:middle" ' +
+        'loading="lazy" onerror="this.style.display=\'none\'">'
+      );
+    }
+
+    function getStripe(tipo) {
+      for (var k in TIPO_COLORS) {
+        if (tipo && tipo.indexOf(k) !== -1) return TIPO_COLORS[k];
+      }
+      return DEFAULT_COLOR;
+    }
+
+    function getStatusClass(estado) {
+      if (!estado) return 'status-inactiva';
+      var e = estado.toLowerCase();
+      if (e.indexOf('activ') !== -1 && e.indexOf('select') === -1) return 'status-activa';
+      if (e.indexOf('select') !== -1) return 'status-selectiva';
+      if (e.indexOf('hist') !== -1) return 'status-historica';
+      return 'status-inactiva';
+    }
+
+    function esc(s) {
+      return (s || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function trunc(s, n) {
+      if (!s) return '';
+      s = s.toString();
+      return s.length > n ? s.slice(0, n) + '\u2026' : s;
+    }
+
+    function buildCard(c) {
+      var stripe = getStripe(c.tipo_piedra);
+      var statusClass = getStatusClass(c.estado_operativo);
+      var statusLabel = c.estado_operativo || 'Desconocido';
+      var flag = getFlag(c.pais);
+      var mats = c.materiales ? trunc(c.materiales, 72) : '';
+      var locStr = [c.localizacion, c.pais].filter(Boolean).join(', ');
+
+      var propsHtml = '';
+      if (c.anio_inicio) {
+        propsHtml +=
+          '<div class="card-prop"><span class="cp-label">Fundada</span><span class="cp-value">' +
+          esc(c.anio_inicio) +
+          '</span></div>';
+      }
+      if (c.produccion_anual) {
+        propsHtml +=
+          '<div class="card-prop"><span class="cp-label">Producci\u00f3n</span><span class="cp-value">' +
+          esc(trunc(c.produccion_anual, 18)) +
+          '</span></div>';
+      }
+
+      var verBtn = c.slug
+        ? '<a class="card-ver-btn" href="/cantera?id=' + esc(c.slug) + '">Ver ficha \u2192</a>'
+        : '';
+
+      return (
+        '<div class="cantera-card">' +
+        '<div class="card-stripe" style="background:' +
+        stripe +
+        '"></div>' +
+        '<div class="card-body">' +
+        '<div class="card-top">' +
+        '<span class="card-tipo">' +
+        esc(c.tipo_piedra || 'Piedra natural') +
+        '</span>' +
+        '<span class="status-badge ' +
+        statusClass +
+        '">' +
+        esc(statusLabel) +
+        '</span>' +
+        '</div>' +
+        '<div class="card-nombre">' +
+        esc(c.nombre || 'Sin nombre') +
+        '</div>' +
+        (locStr
+          ? '<div class="card-loc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
+            esc(locStr) +
+            '</div>'
+          : '') +
+        (mats ? '<div class="card-materiales">' + esc(mats) + '</div>' : '') +
+        (propsHtml ? '<div class="card-props">' + propsHtml + '</div>' : '') +
+        '</div>' +
+        '<div class="card-footer">' +
+        '<div class="card-pais"><span class="card-flag">' +
+        flag +
+        '</span><span>' +
+        esc(c.pais || '') +
+        '</span></div>' +
+        verBtn +
+        '</div>' +
+        '</div>'
+      );
+    }
+
+    function renderGrid(list) {
+      var container = document.getElementById('gridContainer');
+      if (!list.length) {
+        container.innerHTML =
+          '<div class="empty-state">' +
+          '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>' +
+          '<p>Sin resultados para esta b\u00fasqueda</p>' +
+          '<small>Prueba con otros filtros o t\u00e9rminos</small>' +
+          '</div>';
+        return;
+      }
+      var html = '<div class="cards-grid">';
+      for (var i = 0; i < list.length; i++) {
+        html += buildCard(list[i]);
+      }
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    function applyFilters() {
+      var q = searchQuery.trim().toLowerCase();
+      var fc = activeFilters.continente;
+      var ft = activeFilters.tipo;
+      var fe = activeFilters.estado;
+
+      var result = DB.filter(function (c) {
+        if (fc && (c.continente || '').indexOf(fc) === -1) return false;
+        if (ft && (c.tipo_piedra || '').indexOf(ft) === -1) return false;
+        if (fe) {
+          var sc = getStatusClass(c.estado_operativo);
+          var expected = 'status-' + fe.toLowerCase();
+          if (sc !== expected) return false;
+        }
+        if (q) {
+          var hay = [
+            c.nombre,
+            c.pais,
+            c.localizacion,
+            c.continente,
+            c.tipo_piedra,
+            c.materiales,
+            c.color_principal,
+            c.proyectos_clave,
+            c.empresa_propietaria,
+            c.datos_historicos,
+          ]
+            .join(' ')
+            .toLowerCase();
+          if (hay.indexOf(q) === -1) return false;
+        }
+        return true;
+      });
+
+      renderGrid(result);
+      document.getElementById('resultsCount').textContent =
+        result.length === DB.length ? DB.length + ' canteras' : result.length + ' de ' + DB.length;
+    }
+
+    /* EVENTS */
+    document.getElementById('searchInput').addEventListener('input', function () {
+      searchQuery = this.value;
+      applyFilters();
+    });
+
+    document.querySelectorAll('.filter-chip').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var group = this.dataset.group;
+        var val = this.dataset.val;
+        if (activeFilters[group] === val) {
+          activeFilters[group] = null;
+          this.classList.remove('active');
+        } else {
+          document.querySelectorAll('[data-group="' + group + '"]').forEach(function (b) {
+            b.classList.remove('active');
+          });
+          activeFilters[group] = val;
+          this.classList.add('active');
+        }
+        applyFilters();
+      });
+    });
+
+    document.getElementById('clearFilters').addEventListener('click', function () {
+      activeFilters = { continente: null, tipo: null, estado: null };
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      document.querySelectorAll('.filter-chip').forEach(function (b) {
+        b.classList.remove('active');
+      });
+      applyFilters();
+    });
+
+    /* PLACEHOLDER CARDS */
+    function renderPlaceholders() {
+      var PLACEHOLDERS = [
+        {
+          nombre: 'Cantera de Macael',
+          tipo_piedra: 'M\u00e1rmol',
+          localizacion: 'Macael, Almer\u00eda',
+          pais: 'Espa\u00f1a',
+          estado_operativo: 'Activa',
+          anio_inicio: '1850',
+          produccion_anual: '250.000 t/a\u00f1o',
+          slug: 'cantera-macael',
+        },
+        {
+          nombre: 'Cava dei Tirreni',
+          tipo_piedra: 'Travertino',
+          localizacion: 'Guidonia, Lazio',
+          pais: 'Italia',
+          estado_operativo: 'Activa',
+          anio_inicio: '1920',
+          produccion_anual: '180.000 t/a\u00f1o',
+          slug: 'cava-dei-tirreni',
+        },
+        {
+          nombre: 'Afyon Iscehisar',
+          tipo_piedra: 'M\u00e1rmol',
+          localizacion: 'Iscehisar, Afyon',
+          pais: 'Turqu\u00eda',
+          estado_operativo: 'Activa',
+          anio_inicio: '1975',
+          produccion_anual: '320.000 t/a\u00f1o',
+          slug: 'afyon-iscehisar',
+        },
+        {
+          nombre: 'Rajasthan Pink Quarry',
+          tipo_piedra: 'Granito',
+          localizacion: 'Jalore, Rajasthan',
+          pais: 'India',
+          estado_operativo: 'Activa',
+          anio_inicio: '1990',
+          produccion_anual: '420.000 t/a\u00f1o',
+          slug: 'rajasthan-pink',
+        },
+        {
+          nombre: 'Vila Vi\u00e7osa',
+          tipo_piedra: 'M\u00e1rmol',
+          localizacion: 'Vila Vi\u00e7osa, Alentejo',
+          pais: 'Portugal',
+          estado_operativo: 'Activa',
+          anio_inicio: '1910',
+          produccion_anual: '95.000 t/a\u00f1o',
+          slug: 'vila-vicosa',
+        },
+        {
+          nombre: 'Carrara Fantiscritti',
+          tipo_piedra: 'M\u00e1rmol',
+          localizacion: 'Carrara, Toscana',
+          pais: 'Italia',
+          estado_operativo: 'Activa',
+          anio_inicio: '1870',
+          produccion_anual: '500.000 t/a\u00f1o',
+          slug: 'carrara-fantiscritti',
+        },
+      ];
+      document.getElementById('statCanteras').textContent = '200+';
+      document.getElementById('statPaises').textContent = '40+';
+      var html = '<div class="cards-grid">';
+      PLACEHOLDERS.forEach(function (c) {
+        html += buildCard(c);
+      });
+      html += '</div>';
+      html +=
+        '<div style="text-align:center;padding:40px 0 20px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);">Cargando directorio completo \u2014 Datos de muestra</div>';
+      document.getElementById('gridContainer').innerHTML = html;
+    }
+
+    /* SUPABASE LOAD */
+    (function loadCanteras() {
+      var url = SB_URL + '/rest/v1/canteras?select=*&order=nombre.asc&limit=500';
+      fetch(url, {
+        headers: {
+          apikey: SB_KEY,
+          Authorization: 'Bearer ' + SB_KEY,
+          Accept: 'application/json',
+        },
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          if (!Array.isArray(data)) {
+            document.getElementById('gridContainer').innerHTML =
+              '<div class="empty-state"><p>Error al cargar canteras</p><small>' +
+              JSON.stringify(data).slice(0, 120) +
+              '</small></div>';
+            return;
+          }
+          DB = data.filter(function (c) {
+            return c.nombre;
+          });
+          if (DB.length === 0) {
+            renderPlaceholders();
+            return;
+          }
+          document.getElementById('statCanteras').textContent = DB.length;
+          var paises = {};
+          DB.forEach(function (c) {
+            if (c.pais) paises[c.pais] = 1;
+          });
+          document.getElementById('statPaises').textContent = Object.keys(paises).length;
+          applyFilters();
+        })
+        .catch(function (err) {
+          document.getElementById('gridContainer').innerHTML =
+            '<div class="empty-state"><p>No se pudo conectar a la base de datos</p><small>' +
+            err.message +
+            '</small></div>';
+        });
+    })();
+
+    /* Anuncio CANTERAS-TOP */
+    (function loadAd() {
+      var today = new Date().toISOString().slice(0, 10);
+      var url =
+        SB_URL +
+        '/rest/v1/anuncios?espacio_codigo=eq.CANTERAS-TOP&activo=eq.true&select=imagen_url,url_destino,texto_alt,fecha_inicio,fecha_fin&limit=5';
+      fetch(url, { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          if (!Array.isArray(data) || !data.length) return;
+          var valid = data.filter(function (a) {
+            if (a.fecha_inicio && a.fecha_inicio > today) return false;
+            if (a.fecha_fin && a.fecha_fin < today) return false;
+            return true;
+          });
+          if (!valid.length) return;
+          var ad = valid[0];
+          var slot = document.getElementById('heroAdSlot');
+          if (!slot) return;
+          var href = ad.url_destino
+            ? ad.url_destino.startsWith('http')
+              ? ad.url_destino
+              : 'https://' + ad.url_destino
+            : '#';
+          slot.innerHTML =
+            '<a class="ad-link" href="' +
+            href +
+            '" target="_blank" rel="noopener">' +
+            '<img src="' +
+            (ad.imagen_url || '') +
+            '" alt="' +
+            (ad.texto_alt || 'Publicidad') +
+            '" loading="lazy">' +
+            '</a>';
+        })
+        .catch(function () {});
+    })();
+  </script>
+</Page>
