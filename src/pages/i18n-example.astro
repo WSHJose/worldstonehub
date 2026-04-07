@@ -1,0 +1,52 @@
+---
+import Page from '../layouts/Page.astro';
+---
+
+<Page title="i18n Example" noIndex={true}>
+  <style slot="head">
+    .container {
+      margin-top: 64px;
+      max-width: 800px;
+      margin: 64px auto;
+      padding: 48px;
+    }
+    code {
+      background: var(--bg-soft);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+    }
+    pre {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+  </style>
+
+  <div class="container">
+    <h1>i18n Example</h1>
+    <p>This page demonstrates the i18n system used in World Stone Hub.</p>
+
+    <h2>How it works</h2>
+    <p>
+      Add <code>data-i18n="key.path"</code> to any element, and the text will be replaced with the translated
+      string from <code>i18n.js</code>.
+    </p>
+
+    <h2>Examples</h2>
+    <p data-i18n="nav.inicio">Este texto se reemplazará</p>
+    <p data-i18n="nav.canteras">Este texto se reemplazará</p>
+
+    <h2>Technical notes</h2>
+    <p>
+      The <code>i18n.js</code> script handles language switching via buttons with <code
+        >data-lang</code
+      > attribute.
+    </p>
+    <p>Translations are stored as a nested object in JavaScript.</p>
+  </div>
+</Page>

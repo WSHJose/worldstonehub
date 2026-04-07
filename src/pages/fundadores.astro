@@ -1,0 +1,186 @@
+---
+import Page from '../layouts/Page.astro';
+---
+
+<Page
+  title="Programa Fundadores — World Stone Hub"
+  description="Acceso Elite con precio bloqueado de por vida. Solo 20 plazas. Exclusivo para la fase de lanzamiento."
+>
+  <style slot="head">
+    .hero {
+      margin-top: 64px;
+      background: linear-gradient(135deg, var(--ink) 0%, #2a2622 100%);
+      color: #fff;
+      padding: 80px 48px;
+      text-align: center;
+    }
+    .hero-title {
+      font-family: var(--font-disp);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .hero-desc {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 32px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.7;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--ink);
+      padding: 16px 48px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .cta-btn:hover {
+      opacity: 0.85;
+    }
+
+    .content {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 80px 48px;
+    }
+    .section {
+      margin-bottom: 80px;
+    }
+    .section-title {
+      font-family: var(--font-disp);
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 32px;
+      color: var(--ink);
+    }
+    .section-text {
+      font-size: 1.1rem;
+      color: var(--ink-mid);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+    .benefit-card {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      padding: 32px;
+      border-radius: 12px;
+    }
+    .benefit-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+    .benefit-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--ink);
+    }
+    .benefit-text {
+      font-size: 0.95rem;
+      color: var(--ink-mid);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 48px 24px;
+      }
+      .content {
+        padding: 48px 24px;
+      }
+    }
+  </style>
+
+  <div class="hero">
+    <h1 class="hero-title">Programa de <em style="color:var(--gold)">Fundadores</em></h1>
+    <p class="hero-desc">
+      Precio bloqueado de por vida. Acceso Elite desde el d&iacute;a uno. Solo 20 plazas globales.
+    </p>
+    <a href="/fundadores-oferta" class="cta-btn">Ver oferta completa</a>
+  </div>
+
+  <div class="content">
+    <section class="section">
+      <h2 class="section-title">¿Por qu&eacute; ser Fundador?</h2>
+      <p class="section-text">
+        Ser Fundador de World Stone Hub no es solo un precio especial. Es asegurar tu
+        posici&oacute;n como socio clave en la revoluci&oacute;n digital del sector de la piedra
+        natural.
+      </p>
+
+      <div class="benefits">
+        <div class="benefit-card">
+          <div class="benefit-icon">🔒</div>
+          <div class="benefit-title">Precio Bloqueado</div>
+          <div class="benefit-text">
+            Tu tarifa nunca sube. Mientras la suscripci&oacute;n est&eacute; activa, pagas el mismo
+            precio. Punto.
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">⭐</div>
+          <div class="benefit-title">Badge Fundador</div>
+          <div class="benefit-text">
+            Distintivo permanente en tu perfil. Acreditaci&oacute;n de que estuviste desde la fase
+            0.
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">📈</div>
+          <div class="benefit-title">Posicionamiento Prioritario</div>
+          <div class="benefit-text">
+            Tu empresa aparece primero en b&uacute;squedas y listados respecto a otros planes.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">¿C&oacute;mo reservar?</h2>
+      <p class="section-text">
+        No hay pago inmediato. Simplemente contacta, confirma tu plaza, y comenzamos el onboarding.
+      </p>
+      <p class="section-text">
+        <strong>Correo:</strong>
+        <a href="mailto:hello@worldstonehub.com" style="color:var(--gold)"
+          >hello@worldstonehub.com</a
+        >
+      </p>
+      <p class="section-text">
+        <strong>WhatsApp:</strong> Env&iacute;a un mensaje a Jose, fundador, y te envi&aacute; la documentaci&oacute;n
+        completa.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Preguntas frecuentes</h2>
+      <div style="margin-bottom:24px">
+        <strong style="display:block;margin-bottom:8px"
+          >¿Puedo cambiar de plan despu&eacute;s?</strong
+        >
+        <p class="section-text">
+          S&iacute;, pero si dejas de ser Fundador, no puedes volver al precio bloqueado.
+        </p>
+      </div>
+      <div style="margin-bottom:24px">
+        <strong style="display:block;margin-bottom:8px"
+          >¿Est&aacute;n las 20 plazas disponibles?</strong
+        >
+        <p class="section-text">
+          Contacta ahora para confirmar. El programa cierra cuando se completen las 20.
+        </p>
+      </div>
+    </section>
+  </div>
+</Page>

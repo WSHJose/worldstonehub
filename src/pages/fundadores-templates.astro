@@ -1,0 +1,335 @@
+---
+import Page from '../layouts/Page.astro';
+---
+
+<Page title="Templates Outreach Fundadores — World Stone Hub" noIndex={true}>
+  <style slot="head">
+    nav {
+      background: var(--ink);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav-brand {
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0.85;
+    }
+    .nav-brand em {
+      color: var(--gold);
+      font-style: italic;
+      font-family: var(--font-disp);
+      font-size: 15px;
+    }
+    .nav-back {
+      color: rgba(255, 255, 255, 0.55);
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .nav-back:hover {
+      color: var(--gold);
+    }
+
+    .page-header {
+      background: var(--ink);
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-family: var(--font-disp);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+    .page-header h1 em {
+      color: #c9a84c;
+      font-style: italic;
+    }
+    .page-header p {
+      color: rgba(255, 255, 255, 0.5);
+      max-width: 520px;
+      margin: 0 auto;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .main {
+      max-width: 860px;
+      margin: 3rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .instructions {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid #c9a84c;
+      border-radius: 0 8px 8px 0;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2.5rem;
+      font-size: 14px;
+      color: var(--ink-mid);
+      line-height: 1.6;
+    }
+    .instructions strong {
+      color: var(--ink);
+    }
+
+    .template-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .card-header {
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-soft);
+    }
+    .card-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .card-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #c9a84c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+    .card-title {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--ink);
+    }
+    .card-channel {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.65rem;
+      border-radius: 100px;
+    }
+    .ch-email {
+      background: #fff3e0;
+      color: #b25800;
+      border: 1px solid #f5c078;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .subject-line {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.6rem 1rem;
+      margin-bottom: 1.2rem;
+      font-size: 13px;
+    }
+    .subject-label {
+      color: var(--ink-muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+    .subject-text {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .message-box {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--ink-mid);
+      white-space: pre-wrap;
+      font-family: inherit;
+      position: relative;
+    }
+    .placeholder {
+      display: inline;
+      background: rgba(201, 168, 76, 0.18);
+      color: #8a5c1a;
+      border-radius: 3px;
+      padding: 0 3px;
+      font-style: italic;
+      font-size: 0.9em;
+    }
+
+    .copy-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      padding: 0.55rem 1.2rem;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      letter-spacing: 0.02em;
+      margin-top: 1rem;
+      transition: background 0.2s;
+    }
+    .copy-btn:hover {
+      background: #333;
+    }
+
+    .tip-box {
+      margin-top: 1rem;
+      background: #f4f2ef;
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.6;
+    }
+    .tip-box strong {
+      color: var(--gold);
+    }
+
+    @media (max-width: 600px) {
+      .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+
+  <nav>
+    <span class="nav-brand">WORLD STONE <em>Hub</em> · Templates Fundadores</span>
+    <a href="/fundadores" class="nav-back">← Volver a Fundadores</a>
+  </nav>
+
+  <div class="page-header">
+    <h1>Templates de <em>Outreach</em></h1>
+    <p>
+      5 mensajes listos para usar. Personaliza los campos marcados en amarillo y env&iacute;a. Sin
+      rodeos.
+    </p>
+  </div>
+
+  <div class="main">
+    <div class="instructions">
+      <strong>C&oacute;mo usar estos templates:</strong> Los campos <span
+        style="background:rgba(201,168,76,0.25);color:#8a5c1a;padding:0 4px;border-radius:3px;font-style:italic;"
+        >[en cursiva amarilla]</span
+      > son variables que debes personalizar antes de enviar.
+    </div>
+
+    <div class="template-card">
+      <div class="card-header">
+        <div class="card-header-left">
+          <div class="card-number">01</div>
+          <span class="card-title">Email — Propuesta formal</span>
+        </div>
+        <span class="card-channel ch-email">✉️ Email</span>
+      </div>
+      <div class="card-body">
+        <div class="subject-line">
+          <span class="subject-label">Asunto</span>
+          <span class="subject-text"
+            >Programa Fundadores World Stone Hub — 20 plazas antes del lanzamiento</span
+          >
+        </div>
+        <div class="message-box" id="msg-01">
+          Hola <span class="placeholder">[Nombre]</span>, Me pongo en contacto porque estoy lanzando
+          World Stone Hub, el primer directorio B2B del sector de la piedra natural a nivel
+          internacional. En cifras r&aacute;pidas: 22.000+ fichas de materiales, 138 pa&iacute;ses
+          de origen. Antes del lanzamiento oficial tengo abiertas 20 plazas de Fundador con precio
+          bloqueado de por vida (34-41% descuento vs. tarifa est&aacute;ndar). El precio para <span
+            class="placeholder">[tipo de empresa]</span
+          > es de <span class="placeholder">[precio]</span> €/a&ntilde;o. ¿Te interesa conocer m&aacute;s?
+          Jose · World Stone Hub hello@worldstonehub.com worldstonehub.com/fundadores
+        </div>
+        <button class="copy-btn" onclick="copyMsg('msg-01', this)"> 📋 Copiar mensaje </button>
+        <div class="tip-box">
+          <strong>💡 Tip:</strong> Personaliza el precio exacto seg&uacute;n su tipo de empresa. Eso muestra
+          que hiciste los deberes.
+        </div>
+      </div>
+    </div>
+
+    <div class="template-card">
+      <div class="card-header">
+        <div class="card-header-left">
+          <div class="card-number">02</div>
+          <span class="card-title">WhatsApp — Primer contacto</span>
+        </div>
+        <span class="card-channel ch-email">📱 WhatsApp</span>
+      </div>
+      <div class="card-body">
+        <div class="message-box" id="msg-02">
+          Hola <span class="placeholder">[Nombre]</span>, soy Jose, fundador de World Stone Hub.
+          Estamos creando el directorio B2B global de piedra natural — 22k+ materiales, 138
+          pa&iacute;ses. Tengo 20 plazas Fundador con precio bloqueado y acceso Elite. He pensado en
+          vosotros porque <span class="placeholder">[raz&oacute;n concreta]</span>. ¿Te interesa?
+          Mando la info en un minuto. worldstonehub.com
+        </div>
+        <button class="copy-btn" onclick="copyMsg('msg-02', this)"> 📋 Copiar mensaje </button>
+      </div>
+    </div>
+  </div>
+
+  <script slot="scripts" is:inline>
+    function copyMsg(id, btn) {
+      const el = document.getElementById(id);
+      let text = el.innerText || el.textContent;
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          btn.textContent = '✓ ¡Copiado!';
+          setTimeout(() => {
+            btn.textContent = '📋 Copiar mensaje';
+          }, 2500);
+        })
+        .catch(() => {
+          const range = document.createRange();
+          range.selectNodeContents(el);
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(range);
+          document.execCommand('copy');
+          window.getSelection().removeAllRanges();
+          btn.textContent = '✓ ¡Copiado!';
+          setTimeout(() => {
+            btn.textContent = '📋 Copiar mensaje';
+          }, 2500);
+        });
+    }
+  </script>
+</Page>

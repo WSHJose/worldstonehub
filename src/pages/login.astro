@@ -1,0 +1,217 @@
+---
+import Page from '../layouts/Page.astro';
+---
+
+<Page title="Iniciar sesión — World Stone Hub" noIndex={true}>
+  <style slot="head">
+    .login-shell {
+      margin-top: 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 64px);
+    }
+
+    .login-brand {
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 80px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-brand::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse 70% 50% at 60% 20%,
+        rgba(166, 124, 82, 0.15) 0%,
+        transparent 60%
+      );
+    }
+    .brand-quote {
+      position: relative;
+      font-family: var(--font-disp);
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 300;
+      font-style: italic;
+      color: #f5f2ed;
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+    .brand-quote em {
+      font-style: normal;
+      color: #c9b99a;
+    }
+    .brand-meta {
+      position: relative;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #9c8571;
+      border-top: 1px solid rgba(201, 185, 154, 0.2);
+      padding-top: 20px;
+      display: flex;
+      gap: 32px;
+    }
+    .brand-meta-item span {
+      display: block;
+      color: #c9b99a;
+      margin-top: 3px;
+      font-size: 11px;
+    }
+
+    .login-form-side {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 72px 80px;
+      background: var(--bg);
+    }
+    .login-card {
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .login-title {
+      font-family: var(--font-disp);
+      font-size: 28px;
+      font-weight: 300;
+      margin-bottom: 28px;
+      color: var(--ink);
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 8px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      border-radius: 2px;
+      font-size: 14px;
+      outline: none;
+    }
+    .form-group input:focus {
+      border-color: var(--gold);
+    }
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      border-radius: 2px;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    .login-btn:hover {
+      opacity: 0.9;
+    }
+    .login-links {
+      font-size: 13px;
+      margin-top: 24px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .login-links a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .login-error {
+      color: #c62828;
+      font-size: 13px;
+      margin-top: 16px;
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .login-shell {
+        grid-template-columns: 1fr;
+      }
+      .login-brand {
+        min-height: 200px;
+        padding: 40px 24px;
+      }
+    }
+  </style>
+
+  <div class="login-shell">
+    <div class="login-brand">
+      <div class="brand-quote">
+        El directorio B2B de piedra natural que <em>conecta al mundo</em>
+      </div>
+      <div class="brand-meta">
+        <div>Materiales<span>22.000+</span></div>
+        <div>Pa&iacute;ses<span>138</span></div>
+        <div>Empresas<span>7000+</span></div>
+      </div>
+    </div>
+
+    <div class="login-form-side">
+      <div class="login-card">
+        <h1 class="login-title">Iniciar sesi&oacute;n</h1>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="tu@email.com" />
+        </div>
+
+        <div class="form-group">
+          <label>Contrase&ntilde;a</label>
+          <input type="password" id="password" placeholder="••••••••" />
+        </div>
+
+        <button class="login-btn" onclick="handleLogin()">Entrar</button>
+
+        <div id="error" class="login-error"></div>
+
+        <div class="login-links">
+          <a href="/registro">Registrarse</a>
+          <a href="#">¿Olvid&aacute;ste tu contrase&ntilde;a?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script slot="scripts" is:inline>
+    window.handleLogin = function () {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('error');
+
+      if (!email || !password) {
+        errorEl.textContent = 'Por favor completa todos los campos';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      const SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
+      const SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+      const db = supabase.createClient(SB_URL, SB_KEY);
+
+      db.auth.signInWithPassword({ email, password }).then((r) => {
+        if (r.error) {
+          errorEl.textContent = r.error.message;
+          errorEl.style.display = 'block';
+        } else {
+          window.location.href = '/panel';
+        }
+      });
+    };
+  </script>
+</Page>

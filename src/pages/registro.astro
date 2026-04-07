@@ -1,0 +1,267 @@
+---
+import Page from '../layouts/Page.astro';
+---
+
+<Page title="Alta Profesional — World Stone Hub">
+  <style slot="head">
+    .shell {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: calc(100vh - 70px);
+      margin-top: 70px;
+      width: 100%;
+    }
+
+    .sidebar {
+      background: #f0efed;
+      border-right: 1px solid var(--border);
+      padding: 48px 28px;
+      position: sticky;
+      top: 70px;
+      height: calc(100vh - 70px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-title {
+      font-family: var(--font-disp);
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .sidebar-title em {
+      color: var(--gold);
+      font-style: italic;
+      display: block;
+    }
+    .sidebar-sub {
+      font-size: 12px;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+    .step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 14px 0;
+    }
+    .step-dot {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 1px solid var(--border-mid);
+      background: #f0efed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--ink-muted);
+      z-index: 1;
+    }
+    .step-row.active .step-dot {
+      border-color: var(--gold);
+      background: rgba(160, 120, 60, 0.08);
+      color: var(--gold);
+    }
+    .step-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-muted);
+    }
+    .step-row.active .step-name {
+      color: var(--ink);
+    }
+
+    .main {
+      padding: 48px 56px 80px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .main-title {
+      font-family: var(--font-disp);
+      font-size: 32px;
+      font-weight: 300;
+      margin-bottom: 32px;
+    }
+
+    .form-section {
+      margin-bottom: 40px;
+    }
+    .form-section-title {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group.full {
+      grid-column: 1/-1;
+    }
+    label {
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    input,
+    select {
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--ink);
+      border-radius: 2px;
+      outline: none;
+    }
+    input:focus,
+    select:focus {
+      border-color: var(--gold);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .btn {
+      padding: 13px 28px;
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    .btn.secondary {
+      background: var(--ink);
+    }
+
+    @media (max-width: 900px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        height: auto;
+        position: static;
+      }
+    }
+  </style>
+
+  <div class="shell">
+    <div class="sidebar">
+      <div>
+        <div class="sidebar-title">Alta <em>Profesional</em></div>
+        <p class="sidebar-sub">Ingresa tu información en 3 pasos</p>
+      </div>
+
+      <div class="step-list" style="flex:1">
+        <div class="step-row active">
+          <div class="step-dot">1</div>
+          <div class="step-name">Datos básicos</div>
+        </div>
+        <div class="step-row">
+          <div class="step-dot">2</div>
+          <div class="step-name">Plan</div>
+        </div>
+        <div class="step-row">
+          <div class="step-dot">3</div>
+          <div class="step-name">Pago</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <h1 class="main-title">Datos básicos</h1>
+
+      <div class="form-section">
+        <div class="form-section-title">Información personal</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre *</label>
+            <input type="text" placeholder="Juan" required />
+          </div>
+          <div class="form-group">
+            <label>Apellido *</label>
+            <input type="text" placeholder="García" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Email *</label>
+            <input type="email" placeholder="juan@empresa.com" required />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">Empresa</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre empresa *</label>
+            <input type="text" placeholder="Tu empresa S.L." required />
+          </div>
+          <div class="form-group">
+            <label>Sector *</label>
+            <select required>
+              <option value="">— Selecciona —</option>
+              <option>Cantera</option>
+              <option>Fabricante</option>
+              <option>Distribuidor</option>
+              <option>Arquitecto</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>País *</label>
+            <input type="text" placeholder="España" required />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn" onclick="nextStep()">Siguiente paso →</button>
+      </div>
+    </div>
+  </div>
+
+  <script slot="scripts" is:inline>
+    const SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
+    const SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+    const db = supabase.createClient(SB_URL, SB_KEY);
+
+    window.nextStep = function () {
+      alert('Ir a paso 2: Seleccionar plan');
+    };
+  </script>
+</Page>

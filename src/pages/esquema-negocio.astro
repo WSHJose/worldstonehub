@@ -1,0 +1,99 @@
+---
+import Page from '../layouts/Page.astro';
+---
+
+<Page title="Esquema de Negocio — World Stone Hub">
+  <style slot="head">
+    .container {
+      margin-top: 64px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 60px 48px;
+    }
+    h1 {
+      font-family: var(--font-disp);
+      font-size: 2.8rem;
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+    h2 {
+      font-family: var(--font-disp);
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-top: 48px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1rem;
+      color: var(--ink-mid);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .card {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      padding: 28px;
+      border-radius: 8px;
+    }
+    .card h3 {
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .card p {
+      margin-bottom: 0;
+    }
+  </style>
+
+  <div class="container">
+    <h1>Esquema de Negocio</h1>
+
+    <p>
+      World Stone Hub opera bajo un modelo B2B de suscripción por plan, dirigido a profesionales del
+      sector de la piedra natural a nivel global.
+    </p>
+
+    <h2>Actores principales</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Canteras</h3>
+        <p>
+          Productoras de piedra natural. Suministran datos de yacimientos, materiales y producción.
+        </p>
+      </div>
+      <div class="card">
+        <h3>Fabricantes</h3>
+        <p>Procesan y transforman la piedra. Enumeran productos finales en el catálogo.</p>
+      </div>
+      <div class="card">
+        <h3>Distribuidores</h3>
+        <p>Intermediarios en la cadena de suministro. Conectan productores con clientes finales.</p>
+      </div>
+      <div class="card">
+        <h3>Arquitectos</h3>
+        <p>Especificadores y compradores de materiales. Acceden a catálogos, mapa y proveedores.</p>
+      </div>
+    </div>
+
+    <h2>Fuentes de ingresos</h2>
+    <p>
+      <strong>Suscripciones recurrentes:</strong> Planes anuales y mensuales por tipo de empresa (Presencia,
+      Profesional, Elite).
+    </p>
+    <p><strong>Publicidad:</strong> Anuncios en espacios específicos (hero, catálogo, mapa).</p>
+    <p><strong>Servicios premium:</strong> Onboarding, fotografía, diseño de ficha.</p>
+
+    <h2>Propuesta de valor</h2>
+    <p>
+      Un único lugar donde toda la industria de la piedra natural se reúne: datos, contactos,
+      especificaciones técnicas y oportunidades comerciales en un directorio verificado y
+      actualizado.
+    </p>
+  </div>
+</Page>

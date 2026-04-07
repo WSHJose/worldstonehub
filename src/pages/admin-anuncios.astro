@@ -1,0 +1,133 @@
+---
+import Page from '../layouts/Page.astro';
+---
+
+<Page title="Admin — Anuncios" noIndex={true}>
+  <style slot="head">
+    .admin-container {
+      margin-top: 64px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .admin-title {
+      font-family: var(--font-disp);
+      font-size: 2rem;
+      margin-bottom: 32px;
+    }
+    .form-section {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 32px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      outline: none;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .btn {
+      padding: 12px 24px;
+      background: var(--gold);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    .btn.secondary {
+      background: var(--ink);
+      color: white;
+    }
+  </style>
+
+  <div class="admin-container">
+    <h1 class="admin-title">Gestión de Anuncios</h1>
+
+    <div class="form-section">
+      <h2 style="font-size:1.3rem;margin-bottom:20px">Crear nuevo anuncio</h2>
+
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" placeholder="Ej: Banner CANTERAS-TOP" />
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Espacio</label>
+          <select>
+            <option>CANTERAS-TOP</option>
+            <option>MATERIALES-TOP</option>
+            <option>PROVEEDORES-TOP</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Estado</label>
+          <select>
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>URL de imagen</label>
+        <input type="text" placeholder="https://..." />
+      </div>
+
+      <div class="form-group">
+        <label>URL destino</label>
+        <input type="text" placeholder="https://..." />
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Fecha inicio</label>
+          <input type="date" />
+        </div>
+        <div class="form-group">
+          <label>Fecha fin</label>
+          <input type="date" />
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px">
+        <button class="btn">Crear anuncio</button>
+        <button class="btn secondary">Cancelar</button>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2 style="font-size:1.3rem;margin-bottom:20px">Anuncios activos</h2>
+      <p style="color:var(--ink-muted)">Cargando anuncios...</p>
+    </div>
+  </div>
+</Page>
