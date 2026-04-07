@@ -10,409 +10,1129 @@ import Page from '../layouts/Page.astro';
   ogUrl="https://worldstonehub.com/blog.html"
   activePage="blog"
 >
-
-<style slot="head">
-body{background:var(--bg-soft);}
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:.35;}
-
-/* ── HERO ── */
-.blog-hero{padding:140px 60px 72px;position:relative;overflow:hidden;background:#fff;border-bottom:1px solid var(--border);}
-.blog-hero::after{content:'';position:absolute;right:0;top:0;width:45%;height:100%;background:repeating-linear-gradient(20deg,transparent,transparent 60px,rgba(26,25,23,.02) 60px,rgba(26,25,23,.02) 61px);pointer-events:none;}
-.blog-hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
-.blog-hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--gold);}
-.blog-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,72px);font-weight:300;line-height:.92;letter-spacing:-2px;margin-bottom:20px;}
-.blog-hero h1 em{font-style:italic;color:var(--gold);}
-.blog-hero-desc{font-size:16px;color:var(--ink-3);line-height:1.7;max-width:520px;margin-bottom:40px;}
-.blog-hero-stats{display:flex;gap:0;border-top:1px solid var(--border);padding-top:32px;max-width:480px;}
-.hero-stat{padding:0 40px 0 0;border-right:1px solid var(--border);margin-right:40px;}
-.hero-stat:last-child{border-right:none;margin-right:0;}
-.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--ink);line-height:1;}
-.hero-stat-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-4);margin-top:4px;}
-
-/* ── TOOLBAR ── */
-.blog-toolbar{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:70px;z-index:100;padding:0 60px;}
-.blog-toolbar-inner{display:flex;align-items:center;gap:20px;height:56px;}
-.blog-search{flex:0 0 280px;position:relative;}
-.blog-search input{width:100%;border:1px solid var(--border);background:var(--bg-soft);padding:8px 12px 8px 36px;font-family:'Instrument Sans',sans-serif;font-size:12px;color:var(--ink);outline:none;transition:border-color .2s;}
-.blog-search input:focus{border-color:var(--gold);}
-.blog-search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink-4);}
-.cat-tabs{display:flex;gap:0;border-left:1px solid var(--border);padding-left:20px;}
-.cat-tab{background:none;border:none;font-family:'Instrument Sans',sans-serif;font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-4);cursor:pointer;padding:0 16px;height:56px;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;}
-.cat-tab:hover{color:var(--ink-2);}
-.cat-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
-.blog-count{margin-left:auto;font-size:11px;color:var(--ink-4);letter-spacing:1px;white-space:nowrap;}
-
-/* ── LAYOUT ── */
-.blog-body{max-width:1280px;margin:0 auto;padding:60px 60px 100px;display:grid;grid-template-columns:1fr 320px;gap:60px;align-items:start;}
-.blog-sidebar{position:sticky;top:128px;}
-
-/* ── FEATURED CARD ── */
-.featured-article{display:grid;grid-template-columns:1fr 1fr;gap:0;background:#fff;border:1px solid var(--border);margin-bottom:40px;overflow:hidden;transition:box-shadow .25s;}
-.featured-article:hover{box-shadow:0 8px 32px rgba(0,0,0,.12);}
-.fa-img{aspect-ratio:4/3;overflow:hidden;position:relative;}
-.fa-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
-.featured-article:hover .fa-img img{transform:scale(1.04);}
-.fa-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
-.fa-body{padding:40px;}
-.fa-cat{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;margin-bottom:12px;display:inline-flex;align-items:center;gap:6px;}
-.fa-cat-dot{width:6px;height:6px;border-radius:50%;display:inline-block;}
-.fa-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,2.5vw,36px);font-weight:300;line-height:1.1;letter-spacing:-.5px;margin-bottom:12px;}
-.fa-excerpt{font-size:13px;color:var(--ink-3);line-height:1.7;margin-bottom:24px;}
-.fa-meta{display:flex;align-items:center;gap:16px;font-size:11px;color:var(--ink-4);}
-.fa-meta-sep{width:3px;height:3px;border-radius:50%;background:var(--border-md);}
-.fa-cta{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;color:var(--gold);margin-top:20px;transition:gap .2s;}
-.fa-cta:hover{gap:14px;}
-
-/* ── ARTICLES GRID ── */
-.articles-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
-.article-card{background:#fff;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:border-color .2s,box-shadow .2s;}
-.article-card:hover{border-color:var(--border-md);box-shadow:0 2px 16px rgba(0,0,0,.07);}
-.ac-img{aspect-ratio:16/9;overflow:hidden;position:relative;}
-.ac-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
-.article-card:hover .ac-img img{transform:scale(1.04);}
-.ac-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
-.ac-body{padding:22px 24px 20px;}
-.ac-cat{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:3.5px;text-transform:uppercase;margin-bottom:8px;display:inline-flex;align-items:center;gap:5px;}
-.ac-cat-dot{width:5px;height:5px;border-radius:50%;display:inline-block;}
-.ac-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;line-height:1.2;letter-spacing:-.3px;margin-bottom:8px;}
-.ac-excerpt{font-size:12px;color:var(--ink-3);line-height:1.65;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.ac-meta{display:flex;align-items:center;gap:10px;font-size:10px;color:var(--ink-4);margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
-.ac-meta-sep{width:2px;height:2px;border-radius:50%;background:var(--border-md);}
-
-/* ── LOAD MORE ── */
-.load-more-wrap{text-align:center;margin-top:48px;}
-.btn-load-more{background:none;border:1px solid var(--border-md);color:var(--ink-2);font-family:'Instrument Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;padding:14px 36px;cursor:pointer;transition:all .25s;}
-.btn-load-more:hover{border-color:var(--gold);color:var(--gold);}
-.load-more-count{font-size:11px;color:var(--ink-4);margin-top:12px;}
-
-/* ── EMPTY STATE ── */
-.blog-empty{text-align:center;padding:80px 40px;color:var(--ink-4);}
-.blog-empty-icon{font-size:40px;margin-bottom:16px;opacity:.3;}
-.blog-empty-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:8px;color:var(--ink-3);}
-.blog-empty-desc{font-size:13px;line-height:1.7;}
-
-/* ── SIDEBAR ── */
-.sidebar-block{background:#fff;border:1px solid var(--border);padding:28px 24px;margin-bottom:24px;}
-.sb-title{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-4);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);}
-.sb-cat-list{display:flex;flex-direction:column;gap:0;}
-.sb-cat-item{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:color .2s;}
-.sb-cat-item:last-child{border-bottom:none;}
-.sb-cat-item:hover{color:var(--gold);}
-.sb-cat-name{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:1px;}
-.sb-cat-dot{width:6px;height:6px;border-radius:50%;}
-.sb-cat-count{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-4);}
-.sb-newsletter{text-align:center;}
-.sb-nl-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:8px;}
-.sb-nl-desc{font-size:12px;color:var(--ink-3);line-height:1.6;margin-bottom:16px;}
-.sb-nl-form{display:flex;flex-direction:column;gap:8px;}
-.sb-nl-input{border:1px solid var(--border);background:var(--bg-soft);padding:9px 12px;font-family:'Instrument Sans',sans-serif;font-size:12px;outline:none;transition:border-color .2s;}
-.sb-nl-input:focus{border-color:var(--gold);}
-.sb-nl-btn{background:var(--ink);color:#f8f7f5;border:none;padding:10px;font-family:'Instrument Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;transition:background .2s;}
-.sb-nl-btn:hover{background:var(--gold);}
-.sb-tag-cloud{display:flex;flex-wrap:wrap;gap:6px;}
-.sb-tag{background:var(--bg-soft);border:1px solid var(--border);font-size:10px;letter-spacing:1px;padding:4px 10px;cursor:pointer;transition:all .2s;}
-.sb-tag:hover{border-color:var(--gold);color:var(--gold);}
-
-/* ── SKELETON ── */
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.skel{background:linear-gradient(90deg,var(--bg-warm) 25%,var(--bg-soft) 50%,var(--bg-warm) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:2px;}
-.skel-card{background:#fff;border:1px solid var(--border);overflow:hidden;}
-.skel-img{aspect-ratio:16/9;}
-.skel-body{padding:22px 24px 20px;display:flex;flex-direction:column;gap:10px;}
-.skel-line{height:10px;border-radius:2px;}
-
-/* ── CATEGORY COLORS ── */
-.cat-tendencias{color:#A67C52;}.cat-tendencias .fa-cat-dot,.cat-tendencias .ac-cat-dot,.cat-tendencias .sb-cat-dot{background:#A67C52;}
-.cat-proyectos{color:#4a7a6a;}.cat-proyectos .fa-cat-dot,.cat-proyectos .ac-cat-dot,.cat-proyectos .sb-cat-dot{background:#4a7a6a;}
-.cat-ferias{color:#6a5a8a;}.cat-ferias .fa-cat-dot,.cat-ferias .ac-cat-dot,.cat-ferias .sb-cat-dot{background:#6a5a8a;}
-.cat-guias{color:#4a6080;}.cat-guias .fa-cat-dot,.cat-guias .ac-cat-dot,.cat-guias .sb-cat-dot{background:#4a6080;}
-.cat-noticias{color:#8a4a3a;}.cat-noticias .fa-cat-dot,.cat-noticias .ac-cat-dot,.cat-noticias .sb-cat-dot{background:#8a4a3a;}
-
-@media(max-width:1100px){.blog-body{grid-template-columns:1fr;}.blog-sidebar{display:none;}.articles-grid{grid-template-columns:1fr;}.featured-article{grid-template-columns:1fr;}}
-@media(max-width:768px){.blog-hero,.blog-toolbar{padding-left:20px;padding-right:20px;}.blog-hero{padding-top:120px;}.blog-body{padding:40px 20px 80px;}.blog-toolbar-inner{overflow-x:auto;}.cat-tabs{border-left:none;padding-left:0;}}
-</style>
-
-<!-- HERO -->
-<section class="blog-hero">
-  <div class="blog-hero-eyebrow">World Stone Hub · Editorial</div>
-  <h1>Blog del sector<br><em>de la piedra natural</em></h1>
-  <p class="blog-hero-desc">Tendencias de diseño, proyectos de arquitectura, ferias internacionales y guías técnicas para profesionales del sector.</p>
-  <div class="blog-hero-stats">
-    <div class="hero-stat">
-      <div class="hero-stat-num" id="statArticulos">—</div>
-      <div class="hero-stat-lbl">Artículos</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num">5</div>
-      <div class="hero-stat-lbl">Categorías</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num">116</div>
-      <div class="hero-stat-lbl">Países cubiertos</div>
-    </div>
-  </div>
-</section>
-
-<!-- TOOLBAR -->
-<div class="blog-toolbar">
-  <div class="blog-toolbar-inner">
-    <div class="blog-search">
-      <svg class="blog-search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M10 10l2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-      <input type="text" id="blogSearch" placeholder="Buscar artículos..." autocomplete="off">
-    </div>
-    <div class="cat-tabs">
-      <button class="cat-tab active" data-cat="">Todos</button>
-      <button class="cat-tab" data-cat="tendencias">Tendencias</button>
-      <button class="cat-tab" data-cat="proyectos">Proyectos</button>
-      <button class="cat-tab" data-cat="ferias">Ferias</button>
-      <button class="cat-tab" data-cat="guias">Guías</button>
-      <button class="cat-tab" data-cat="noticias">Noticias</button>
-    </div>
-    <div class="blog-count" id="blogCount"></div>
-  </div>
-</div>
-
-<!-- CONTENIDO -->
-<div class="blog-body">
-  <div class="blog-main">
-    <div id="featured-wrap"></div>
-    <div class="articles-grid" id="articles-grid"></div>
-    <div class="load-more-wrap" id="load-more-wrap" style="display:none">
-      <button class="btn-load-more" id="btnLoadMore">Cargar más artículos</button>
-      <div class="load-more-count" id="loadMoreCount"></div>
-    </div>
-  </div>
-
-  <aside class="blog-sidebar">
-    <div class="sidebar-block">
-      <div class="sb-title">Categorías</div>
-      <div class="sb-cat-list" id="sbCatList"></div>
-    </div>
-    <div class="sidebar-block sb-newsletter">
-      <div class="sb-title">Newsletter del sector</div>
-      <p class="sb-nl-title">Novedades directas<br><em style="font-style:italic;color:var(--gold)">a tu bandeja</em></p>
-      <p class="sb-nl-desc">Resumen mensual de tendencias, ferias y proyectos impresionantes de piedra natural.</p>
-      <form class="sb-nl-form" onsubmit="handleNL(event)">
-        <input class="sb-nl-input" type="email" placeholder="tu@email.com" required id="nlEmail">
-        <button class="sb-nl-btn" type="submit">Suscribirme →</button>
-      </form>
-    </div>
-    <div class="sidebar-block">
-      <div class="sb-title">Etiquetas populares</div>
-      <div class="sb-tag-cloud" id="sbTagCloud"></div>
-    </div>
-  </aside>
-</div>
-
-<script slot="scripts" is:inline>
-var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
-
-var CAT_LABELS = {tendencias:'Tendencias',proyectos:'Proyectos',ferias:'Ferias',guias:'Guías',noticias:'Noticias'};
-var CAT_COLORS = {tendencias:'#A67C52',proyectos:'#4a7a6a',ferias:'#6a5a8a',guias:'#4a6080',noticias:'#8a4a3a'};
-var CAT_BG = {tendencias:'#fdf6ef',proyectos:'#f0f8f4',ferias:'#f4f2f9',guias:'#f0f4f8',noticias:'#fdf0ee'};
-
-var PAGE_SIZE = 9;
-var allArticles = [];
-var filtered = [];
-var currentPage = 1;
-var activeCat = '';
-var activeSearch = '';
-
-function sbFetch(endpoint) {
-  return fetch(SB_URL + '/rest/v1/' + endpoint, {
-    headers: {'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Accept': 'application/json'}
-  }).then(function(r){ return r.json(); });
-}
-
-function fmtDate(iso) {
-  if (!iso) return '';
-  var d = new Date(iso);
-  var meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  return d.getDate() + ' ' + meses[d.getMonth()] + ' ' + d.getFullYear();
-}
-
-function catBadge(cat, cls) {
-  var c = CAT_COLORS[cat] || '#8a8784';
-  var label = CAT_LABELS[cat] || cat;
-  return '<span class="' + (cls||'ac-cat') + '" style="color:'+c+'"><span class="'+(cls==='fa-cat'?'fa-cat-dot':'ac-cat-dot')+'" style="background:'+c+'"></span>' + label + '</span>';
-}
-
-function imgOrPlaceholder(art, cls) {
-  var bg = CAT_BG[art.categoria] || '#f8f7f5';
-  var c = CAT_COLORS[art.categoria] || '#c8c5bf';
-  if (art.imagen_portada) {
-    return '<img src="'+art.imagen_portada+'" alt="'+(art.imagen_alt||art.titulo)+'" loading="lazy">';
-  }
-  return '<div class="'+(cls||'ac-img-placeholder')+'" style="background:'+bg+';height:100%;display:flex;align-items:center;justify-content:center;">' +
-    '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="36" height="36" stroke="'+c+'" stroke-width="1" opacity=".3"/><path d="M14 34l8-10 6 7 5-5 9 8" stroke="'+c+'" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".4"/></svg>' +
-  '</div>';
-}
-
-function renderFeatured(art) {
-  var wrap = document.getElementById('featured-wrap');
-  if (!art) { wrap.innerHTML = ''; return; }
-  var c = CAT_COLORS[art.categoria] || '#A67C52';
-  wrap.innerHTML = '<a href="/articulo.html?slug='+art.slug+'" class="featured-article">' +
-    '<div class="fa-img" style="background:'+CAT_BG[art.categoria]+'">' + imgOrPlaceholder(art, 'fa-img-placeholder') + '</div>' +
-    '<div class="fa-body">' +
-      '<div style="margin-bottom:8px;font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)">Artículo destacado</div>' +
-      catBadge(art.categoria,'fa-cat') +
-      '<div class="fa-title">'+art.titulo+'</div>' +
-      '<div class="fa-excerpt">'+(art.resumen||'')+'</div>' +
-      '<div class="fa-meta">' +
-        '<span>'+fmtDate(art.published_at||art.created_at)+'</span>' +
-        (art.minutos_lectura ? '<span class="fa-meta-sep"></span><span>'+art.minutos_lectura+' min lectura</span>' : '') +
-        '<span class="fa-meta-sep"></span><span>'+art.autor_nombre+'</span>' +
-      '</div>' +
-      '<div class="fa-cta" style="color:'+c+'">Leer artículo →</div>' +
-    '</div>' +
-  '</a>';
-}
-
-function renderCard(art) {
-  return '<a href="/articulo.html?slug='+art.slug+'" class="article-card">' +
-    '<div class="ac-img" style="background:'+CAT_BG[art.categoria]+'">' + imgOrPlaceholder(art) + '</div>' +
-    '<div class="ac-body">' +
-      catBadge(art.categoria,'ac-cat') +
-      '<div class="ac-title">'+art.titulo+'</div>' +
-      '<div class="ac-excerpt">'+(art.resumen||'')+'</div>' +
-      '<div class="ac-meta">' +
-        '<span>'+fmtDate(art.published_at||art.created_at)+'</span>' +
-        (art.minutos_lectura ? '<span class="ac-meta-sep"></span><span>'+art.minutos_lectura+' min</span>' : '') +
-      '</div>' +
-    '</div>' +
-  '</a>';
-}
-
-function renderSkeletons() {
-  var grid = document.getElementById('articles-grid');
-  var html = '';
-  for (var i=0;i<6;i++) {
-    html += '<div class="skel-card"><div class="skel-img skel"></div><div class="skel-body"><div class="skel-line skel" style="width:40%"></div><div class="skel-line skel" style="width:90%"></div><div class="skel-line skel" style="width:75%"></div></div></div>';
-  }
-  grid.innerHTML = html;
-}
-
-function applyFilters() {
-  var q = activeSearch.toLowerCase();
-  filtered = allArticles.filter(function(a) {
-    if (activeCat && a.categoria !== activeCat) return false;
-    if (q) {
-      var haystack = (a.titulo+' '+(a.resumen||'')+' '+(a.tags_busqueda||[]).join(' ')).toLowerCase();
-      if (haystack.indexOf(q) === -1) return false;
+  <style slot="head" is:global>
+    body {
+      background: var(--bg-soft);
     }
-    return true;
-  });
-  currentPage = 1;
-  renderGrid();
-  document.getElementById('blogCount').textContent = filtered.length + ' artículo' + (filtered.length !== 1 ? 's' : '');
-}
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.35;
+    }
 
-function renderGrid() {
-  var grid = document.getElementById('articles-grid');
-  var end = currentPage * PAGE_SIZE;
-  var page = filtered.slice(0, end);
-  var feat = filtered.find(function(a){ return a.destacado; }) || filtered[0];
-  var rest = page.filter(function(a){ return !feat || a.id !== feat.id; });
-  if (currentPage === 1) renderFeatured(filtered.length ? feat : null);
-  if (!filtered.length) {
-    grid.innerHTML = '<div class="blog-empty" style="grid-column:1/-1"><div class="blog-empty-icon">◇</div><div class="blog-empty-title">Sin resultados</div><div class="blog-empty-desc">No hay artículos que coincidan con tu búsqueda.</div></div>';
-  } else {
-    grid.innerHTML = rest.map(renderCard).join('');
-  }
-  var lmw = document.getElementById('load-more-wrap');
-  var lmc = document.getElementById('loadMoreCount');
-  var total = filtered.length - (feat ? 1 : 0);
-  var shown = Math.min(end - (feat ? 1 : 0), total);
-  if (shown < total) {
-    lmw.style.display = 'block';
-    lmc.textContent = 'Mostrando ' + shown + ' de ' + total + ' artículos';
-  } else {
-    lmw.style.display = 'none';
-  }
-}
+    /* ── HERO ── */
+    .blog-hero {
+      padding: 140px 60px 72px;
+      position: relative;
+      overflow: hidden;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+    }
+    .blog-hero::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 45%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        20deg,
+        transparent,
+        transparent 60px,
+        rgba(26, 25, 23, 0.02) 60px,
+        rgba(26, 25, 23, 0.02) 61px
+      );
+      pointer-events: none;
+    }
+    .blog-hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .blog-hero-eyebrow::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .blog-hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 5vw, 72px);
+      font-weight: 300;
+      line-height: 0.92;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+    .blog-hero h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .blog-hero-desc {
+      font-size: 16px;
+      color: var(--ink-3);
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 40px;
+    }
+    .blog-hero-stats {
+      display: flex;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+      max-width: 480px;
+    }
+    .hero-stat {
+      padding: 0 40px 0 0;
+      border-right: 1px solid var(--border);
+      margin-right: 40px;
+    }
+    .hero-stat:last-child {
+      border-right: none;
+      margin-right: 0;
+    }
+    .hero-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .hero-stat-lbl {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      margin-top: 4px;
+    }
 
-function renderSidebarCats() {
-  var counts = {};
-  allArticles.forEach(function(a){ counts[a.categoria] = (counts[a.categoria]||0)+1; });
-  var list = document.getElementById('sbCatList');
-  list.innerHTML = Object.keys(CAT_LABELS).map(function(k) {
-    var c = CAT_COLORS[k]||'#8a8784';
-    return '<div class="sb-cat-item" onclick="clickSbCat(\''+k+'\')">' +
-      '<span class="sb-cat-name"><span class="sb-cat-dot" style="background:'+c+'"></span>' + CAT_LABELS[k] + '</span>' +
-      '<span class="sb-cat-count">' + (counts[k]||0) + '</span>' +
-    '</div>';
-  }).join('');
-}
+    /* ── TOOLBAR ── */
+    .blog-toolbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 70px;
+      z-index: 100;
+      padding: 0 60px;
+    }
+    .blog-toolbar-inner {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      height: 56px;
+    }
+    .blog-search {
+      flex: 0 0 280px;
+      position: relative;
+    }
+    .blog-search input {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      padding: 8px 12px 8px 36px;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 12px;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .blog-search input:focus {
+      border-color: var(--gold);
+    }
+    .blog-search-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-4);
+    }
+    .cat-tabs {
+      display: flex;
+      gap: 0;
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+    .cat-tab {
+      background: none;
+      border: none;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      cursor: pointer;
+      padding: 0 16px;
+      height: 56px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .cat-tab:hover {
+      color: var(--ink-2);
+    }
+    .cat-tab.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+    .blog-count {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--ink-4);
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
 
-function renderSidebarTags() {
-  var tagCount = {};
-  allArticles.forEach(function(a){ (a.tags_busqueda||[]).forEach(function(t){ tagCount[t] = (tagCount[t]||0)+1; }); });
-  var topTags = Object.keys(tagCount).sort(function(a,b){return tagCount[b]-tagCount[a];}).slice(0,18);
-  document.getElementById('sbTagCloud').innerHTML = topTags.map(function(t) {
-    return '<span class="sb-tag" onclick="clickTag(\''+t+'\')">' + t + '</span>';
-  }).join('');
-}
+    /* ── LAYOUT ── */
+    .blog-body {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 60px 60px 100px;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 60px;
+      align-items: start;
+    }
+    .blog-sidebar {
+      position: sticky;
+      top: 128px;
+    }
 
-function clickSbCat(cat) {
-  activeCat = (activeCat === cat) ? '' : cat;
-  document.querySelectorAll('.cat-tab').forEach(function(btn){ btn.classList.toggle('active', btn.dataset.cat === activeCat); });
-  applyFilters();
-}
+    /* ── FEATURED CARD ── */
+    .featured-article {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: #fff;
+      border: 1px solid var(--border);
+      margin-bottom: 40px;
+      overflow: hidden;
+      transition: box-shadow 0.25s;
+    }
+    .featured-article:hover {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+    .fa-img {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      position: relative;
+    }
+    .fa-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .featured-article:hover .fa-img img {
+      transform: scale(1.04);
+    }
+    .fa-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .fa-body {
+      padding: 40px;
+    }
+    .fa-cat {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .fa-cat-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .fa-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(24px, 2.5vw, 36px);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .fa-excerpt {
+      font-size: 13px;
+      color: var(--ink-3);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .fa-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 11px;
+      color: var(--ink-4);
+    }
+    .fa-meta-sep {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--border-md);
+    }
+    .fa-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--gold);
+      margin-top: 20px;
+      transition: gap 0.2s;
+    }
+    .fa-cta:hover {
+      gap: 14px;
+    }
 
-function clickTag(t) {
-  document.getElementById('blogSearch').value = t;
-  activeSearch = t;
-  applyFilters();
-}
+    /* ── ARTICLES GRID ── */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .article-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+    }
+    .article-card:hover {
+      border-color: var(--border-md);
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+    }
+    .ac-img {
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+    }
+    .ac-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .article-card:hover .ac-img img {
+      transform: scale(1.04);
+    }
+    .ac-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ac-body {
+      padding: 22px 24px 20px;
+    }
+    .ac-cat {
+      font-family: 'DM Mono', monospace;
+      font-size: 8.5px;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .ac-cat-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .ac-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 1.2;
+      letter-spacing: -0.3px;
+      margin-bottom: 8px;
+    }
+    .ac-excerpt {
+      font-size: 12px;
+      color: var(--ink-3);
+      line-height: 1.65;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .ac-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 10px;
+      color: var(--ink-4);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .ac-meta-sep {
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: var(--border-md);
+    }
 
-function handleNL(e) {
-  e.preventDefault();
-  var btn = e.target.querySelector('.sb-nl-btn');
-  btn.textContent = '¡Suscrito! ✓';
-  btn.style.background = '#4a7a6a';
-  setTimeout(function(){ btn.textContent = 'Suscribirme →'; btn.style.background = ''; }, 3000);
-}
+    /* ── LOAD MORE ── */
+    .load-more-wrap {
+      text-align: center;
+      margin-top: 48px;
+    }
+    .btn-load-more {
+      background: none;
+      border: 1px solid var(--border-md);
+      color: var(--ink-2);
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 14px 36px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .btn-load-more:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .load-more-count {
+      font-size: 11px;
+      color: var(--ink-4);
+      margin-top: 12px;
+    }
 
-(function(){
-  var urlCat = new URLSearchParams(window.location.search).get('cat') || '';
-  if (urlCat) {
-    activeCat = urlCat;
-    document.querySelectorAll('.cat-tab').forEach(function(btn){
-      btn.classList.toggle('active', btn.dataset.cat === activeCat);
-    });
-  }
-  renderSkeletons();
-  sbFetch('articulos?select=id,slug,titulo,subtitulo,categoria,resumen,imagen_portada,imagen_alt,autor_nombre,tags_busqueda,minutos_lectura,destacado,publicado,created_at,published_at&publicado=eq.true&order=published_at.desc,created_at.desc')
-    .then(function(data) {
-      if (!Array.isArray(data)) { data = []; }
-      allArticles = data;
-      document.getElementById('statArticulos').textContent = data.length;
-      renderSidebarCats();
-      renderSidebarTags();
+    /* ── EMPTY STATE ── */
+    .blog-empty {
+      text-align: center;
+      padding: 80px 40px;
+      color: var(--ink-4);
+    }
+    .blog-empty-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+    .blog-empty-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+      margin-bottom: 8px;
+      color: var(--ink-3);
+    }
+    .blog-empty-desc {
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar-block {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+      margin-bottom: 24px;
+    }
+    .sb-title {
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sb-cat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .sb-cat-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .sb-cat-item:last-child {
+      border-bottom: none;
+    }
+    .sb-cat-item:hover {
+      color: var(--gold);
+    }
+    .sb-cat-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    .sb-cat-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+    .sb-cat-count {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--ink-4);
+    }
+    .sb-newsletter {
+      text-align: center;
+    }
+    .sb-nl-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
+    .sb-nl-desc {
+      font-size: 12px;
+      color: var(--ink-3);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .sb-nl-form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .sb-nl-input {
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      padding: 9px 12px;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .sb-nl-input:focus {
+      border-color: var(--gold);
+    }
+    .sb-nl-btn {
+      background: var(--ink);
+      color: #f8f7f5;
+      border: none;
+      padding: 10px;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .sb-nl-btn:hover {
+      background: var(--gold);
+    }
+    .sb-tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .sb-tag {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sb-tag:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ── SKELETON ── */
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0;
+      }
+      100% {
+        background-position: -200% 0;
+      }
+    }
+    .skel {
+      background: linear-gradient(
+        90deg,
+        var(--bg-warm) 25%,
+        var(--bg-soft) 50%,
+        var(--bg-warm) 75%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 2px;
+    }
+    .skel-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .skel-img {
+      aspect-ratio: 16/9;
+    }
+    .skel-body {
+      padding: 22px 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .skel-line {
+      height: 10px;
+      border-radius: 2px;
+    }
+
+    /* ── CATEGORY COLORS ── */
+    .cat-tendencias {
+      color: #a67c52;
+    }
+    .cat-tendencias .fa-cat-dot,
+    .cat-tendencias .ac-cat-dot,
+    .cat-tendencias .sb-cat-dot {
+      background: #a67c52;
+    }
+    .cat-proyectos {
+      color: #4a7a6a;
+    }
+    .cat-proyectos .fa-cat-dot,
+    .cat-proyectos .ac-cat-dot,
+    .cat-proyectos .sb-cat-dot {
+      background: #4a7a6a;
+    }
+    .cat-ferias {
+      color: #6a5a8a;
+    }
+    .cat-ferias .fa-cat-dot,
+    .cat-ferias .ac-cat-dot,
+    .cat-ferias .sb-cat-dot {
+      background: #6a5a8a;
+    }
+    .cat-guias {
+      color: #4a6080;
+    }
+    .cat-guias .fa-cat-dot,
+    .cat-guias .ac-cat-dot,
+    .cat-guias .sb-cat-dot {
+      background: #4a6080;
+    }
+    .cat-noticias {
+      color: #8a4a3a;
+    }
+    .cat-noticias .fa-cat-dot,
+    .cat-noticias .ac-cat-dot,
+    .cat-noticias .sb-cat-dot {
+      background: #8a4a3a;
+    }
+
+    @media (max-width: 1100px) {
+      .blog-body {
+        grid-template-columns: 1fr;
+      }
+      .blog-sidebar {
+        display: none;
+      }
+      .articles-grid {
+        grid-template-columns: 1fr;
+      }
+      .featured-article {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 768px) {
+      .blog-hero,
+      .blog-toolbar {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .blog-hero {
+        padding-top: 120px;
+      }
+      .blog-body {
+        padding: 40px 20px 80px;
+      }
+      .blog-toolbar-inner {
+        overflow-x: auto;
+      }
+      .cat-tabs {
+        border-left: none;
+        padding-left: 0;
+      }
+    }
+  </style>
+
+  <!-- HERO -->
+  <section class="blog-hero">
+    <div class="blog-hero-eyebrow">World Stone Hub · Editorial</div>
+    <h1>Blog del sector<br /><em>de la piedra natural</em></h1>
+    <p class="blog-hero-desc">
+      Tendencias de diseño, proyectos de arquitectura, ferias internacionales y guías técnicas para
+      profesionales del sector.
+    </p>
+    <div class="blog-hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="statArticulos">—</div>
+        <div class="hero-stat-lbl">Artículos</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">5</div>
+        <div class="hero-stat-lbl">Categorías</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">116</div>
+        <div class="hero-stat-lbl">Países cubiertos</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLBAR -->
+  <div class="blog-toolbar">
+    <div class="blog-toolbar-inner">
+      <div class="blog-search">
+        <svg class="blog-search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"
+          ><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"></circle><path
+            d="M10 10l2.5 2.5"
+            stroke="currentColor"
+            stroke-width="1.3"
+            stroke-linecap="round"></path></svg
+        >
+        <input type="text" id="blogSearch" placeholder="Buscar artículos..." autocomplete="off" />
+      </div>
+      <div class="cat-tabs">
+        <button class="cat-tab active" data-cat="">Todos</button>
+        <button class="cat-tab" data-cat="tendencias">Tendencias</button>
+        <button class="cat-tab" data-cat="proyectos">Proyectos</button>
+        <button class="cat-tab" data-cat="ferias">Ferias</button>
+        <button class="cat-tab" data-cat="guias">Guías</button>
+        <button class="cat-tab" data-cat="noticias">Noticias</button>
+      </div>
+      <div class="blog-count" id="blogCount"></div>
+    </div>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="blog-body">
+    <div class="blog-main">
+      <div id="featured-wrap"></div>
+      <div class="articles-grid" id="articles-grid"></div>
+      <div class="load-more-wrap" id="load-more-wrap" style="display:none">
+        <button class="btn-load-more" id="btnLoadMore">Cargar más artículos</button>
+        <div class="load-more-count" id="loadMoreCount"></div>
+      </div>
+    </div>
+
+    <aside class="blog-sidebar">
+      <div class="sidebar-block">
+        <div class="sb-title">Categorías</div>
+        <div class="sb-cat-list" id="sbCatList"></div>
+      </div>
+      <div class="sidebar-block sb-newsletter">
+        <div class="sb-title">Newsletter del sector</div>
+        <p class="sb-nl-title">
+          Novedades directas<br /><em style="font-style:italic;color:var(--gold)">a tu bandeja</em>
+        </p>
+        <p class="sb-nl-desc">
+          Resumen mensual de tendencias, ferias y proyectos impresionantes de piedra natural.
+        </p>
+        <form class="sb-nl-form" onsubmit="handleNL(event)">
+          <input
+            class="sb-nl-input"
+            type="email"
+            placeholder="tu@email.com"
+            required
+            id="nlEmail"
+          />
+          <button class="sb-nl-btn" type="submit">Suscribirme →</button>
+        </form>
+      </div>
+      <div class="sidebar-block">
+        <div class="sb-title">Etiquetas populares</div>
+        <div class="sb-tag-cloud" id="sbTagCloud"></div>
+      </div>
+    </aside>
+  </div>
+
+  <script slot="scripts" is:inline>
+    var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
+    var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+
+    var CAT_LABELS = {
+      tendencias: 'Tendencias',
+      proyectos: 'Proyectos',
+      ferias: 'Ferias',
+      guias: 'Guías',
+      noticias: 'Noticias',
+    };
+    var CAT_COLORS = {
+      tendencias: '#A67C52',
+      proyectos: '#4a7a6a',
+      ferias: '#6a5a8a',
+      guias: '#4a6080',
+      noticias: '#8a4a3a',
+    };
+    var CAT_BG = {
+      tendencias: '#fdf6ef',
+      proyectos: '#f0f8f4',
+      ferias: '#f4f2f9',
+      guias: '#f0f4f8',
+      noticias: '#fdf0ee',
+    };
+
+    var PAGE_SIZE = 9;
+    var allArticles = [];
+    var filtered = [];
+    var currentPage = 1;
+    var activeCat = '';
+    var activeSearch = '';
+
+    function sbFetch(endpoint) {
+      return fetch(SB_URL + '/rest/v1/' + endpoint, {
+        headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, Accept: 'application/json' },
+      }).then(function (r) {
+        return r.json();
+      });
+    }
+
+    function fmtDate(iso) {
+      if (!iso) return '';
+      var d = new Date(iso);
+      var meses = [
+        'Ene',
+        'Feb',
+        'Mar',
+        'Abr',
+        'May',
+        'Jun',
+        'Jul',
+        'Ago',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dic',
+      ];
+      return d.getDate() + ' ' + meses[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    function catBadge(cat, cls) {
+      var c = CAT_COLORS[cat] || '#8a8784';
+      var label = CAT_LABELS[cat] || cat;
+      return (
+        '<span class="' +
+        (cls || 'ac-cat') +
+        '" style="color:' +
+        c +
+        '"><span class="' +
+        (cls === 'fa-cat' ? 'fa-cat-dot' : 'ac-cat-dot') +
+        '" style="background:' +
+        c +
+        '"></span>' +
+        label +
+        '</span>'
+      );
+    }
+
+    function imgOrPlaceholder(art, cls) {
+      var bg = CAT_BG[art.categoria] || '#f8f7f5';
+      var c = CAT_COLORS[art.categoria] || '#c8c5bf';
+      if (art.imagen_portada) {
+        return (
+          '<img src="' +
+          art.imagen_portada +
+          '" alt="' +
+          (art.imagen_alt || art.titulo) +
+          '" loading="lazy">'
+        );
+      }
+      return (
+        '<div class="' +
+        (cls || 'ac-img-placeholder') +
+        '" style="background:' +
+        bg +
+        ';height:100%;display:flex;align-items:center;justify-content:center;">' +
+        '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="36" height="36" stroke="' +
+        c +
+        '" stroke-width="1" opacity=".3"/><path d="M14 34l8-10 6 7 5-5 9 8" stroke="' +
+        c +
+        '" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".4"/></svg>' +
+        '</div>'
+      );
+    }
+
+    function renderFeatured(art) {
+      var wrap = document.getElementById('featured-wrap');
+      if (!art) {
+        wrap.innerHTML = '';
+        return;
+      }
+      var c = CAT_COLORS[art.categoria] || '#A67C52';
+      wrap.innerHTML =
+        '<a href="/articulo.html?slug=' +
+        art.slug +
+        '" class="featured-article">' +
+        '<div class="fa-img" style="background:' +
+        CAT_BG[art.categoria] +
+        '">' +
+        imgOrPlaceholder(art, 'fa-img-placeholder') +
+        '</div>' +
+        '<div class="fa-body">' +
+        '<div style="margin-bottom:8px;font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)">Artículo destacado</div>' +
+        catBadge(art.categoria, 'fa-cat') +
+        '<div class="fa-title">' +
+        art.titulo +
+        '</div>' +
+        '<div class="fa-excerpt">' +
+        (art.resumen || '') +
+        '</div>' +
+        '<div class="fa-meta">' +
+        '<span>' +
+        fmtDate(art.published_at || art.created_at) +
+        '</span>' +
+        (art.minutos_lectura
+          ? '<span class="fa-meta-sep"></span><span>' + art.minutos_lectura + ' min lectura</span>'
+          : '') +
+        '<span class="fa-meta-sep"></span><span>' +
+        art.autor_nombre +
+        '</span>' +
+        '</div>' +
+        '<div class="fa-cta" style="color:' +
+        c +
+        '">Leer artículo →</div>' +
+        '</div>' +
+        '</a>';
+    }
+
+    function renderCard(art) {
+      return (
+        '<a href="/articulo.html?slug=' +
+        art.slug +
+        '" class="article-card">' +
+        '<div class="ac-img" style="background:' +
+        CAT_BG[art.categoria] +
+        '">' +
+        imgOrPlaceholder(art) +
+        '</div>' +
+        '<div class="ac-body">' +
+        catBadge(art.categoria, 'ac-cat') +
+        '<div class="ac-title">' +
+        art.titulo +
+        '</div>' +
+        '<div class="ac-excerpt">' +
+        (art.resumen || '') +
+        '</div>' +
+        '<div class="ac-meta">' +
+        '<span>' +
+        fmtDate(art.published_at || art.created_at) +
+        '</span>' +
+        (art.minutos_lectura
+          ? '<span class="ac-meta-sep"></span><span>' + art.minutos_lectura + ' min</span>'
+          : '') +
+        '</div>' +
+        '</div>' +
+        '</a>'
+      );
+    }
+
+    function renderSkeletons() {
+      var grid = document.getElementById('articles-grid');
+      var html = '';
+      for (var i = 0; i < 6; i++) {
+        html +=
+          '<div class="skel-card"><div class="skel-img skel"></div><div class="skel-body"><div class="skel-line skel" style="width:40%"></div><div class="skel-line skel" style="width:90%"></div><div class="skel-line skel" style="width:75%"></div></div></div>';
+      }
+      grid.innerHTML = html;
+    }
+
+    function applyFilters() {
+      var q = activeSearch.toLowerCase();
+      filtered = allArticles.filter(function (a) {
+        if (activeCat && a.categoria !== activeCat) return false;
+        if (q) {
+          var haystack = (
+            a.titulo +
+            ' ' +
+            (a.resumen || '') +
+            ' ' +
+            (a.tags_busqueda || []).join(' ')
+          ).toLowerCase();
+          if (haystack.indexOf(q) === -1) return false;
+        }
+        return true;
+      });
+      currentPage = 1;
+      renderGrid();
+      document.getElementById('blogCount').textContent =
+        filtered.length + ' artículo' + (filtered.length !== 1 ? 's' : '');
+    }
+
+    function renderGrid() {
+      var grid = document.getElementById('articles-grid');
+      var end = currentPage * PAGE_SIZE;
+      var page = filtered.slice(0, end);
+      var feat =
+        filtered.find(function (a) {
+          return a.destacado;
+        }) || filtered[0];
+      var rest = page.filter(function (a) {
+        return !feat || a.id !== feat.id;
+      });
+      if (currentPage === 1) renderFeatured(filtered.length ? feat : null);
+      if (!filtered.length) {
+        grid.innerHTML =
+          '<div class="blog-empty" style="grid-column:1/-1"><div class="blog-empty-icon">◇</div><div class="blog-empty-title">Sin resultados</div><div class="blog-empty-desc">No hay artículos que coincidan con tu búsqueda.</div></div>';
+      } else {
+        grid.innerHTML = rest.map(renderCard).join('');
+      }
+      var lmw = document.getElementById('load-more-wrap');
+      var lmc = document.getElementById('loadMoreCount');
+      var total = filtered.length - (feat ? 1 : 0);
+      var shown = Math.min(end - (feat ? 1 : 0), total);
+      if (shown < total) {
+        lmw.style.display = 'block';
+        lmc.textContent = 'Mostrando ' + shown + ' de ' + total + ' artículos';
+      } else {
+        lmw.style.display = 'none';
+      }
+    }
+
+    function renderSidebarCats() {
+      var counts = {};
+      allArticles.forEach(function (a) {
+        counts[a.categoria] = (counts[a.categoria] || 0) + 1;
+      });
+      var list = document.getElementById('sbCatList');
+      list.innerHTML = Object.keys(CAT_LABELS)
+        .map(function (k) {
+          var c = CAT_COLORS[k] || '#8a8784';
+          return (
+            '<div class="sb-cat-item" onclick="clickSbCat(\'' +
+            k +
+            '\')">' +
+            '<span class="sb-cat-name"><span class="sb-cat-dot" style="background:' +
+            c +
+            '"></span>' +
+            CAT_LABELS[k] +
+            '</span>' +
+            '<span class="sb-cat-count">' +
+            (counts[k] || 0) +
+            '</span>' +
+            '</div>'
+          );
+        })
+        .join('');
+    }
+
+    function renderSidebarTags() {
+      var tagCount = {};
+      allArticles.forEach(function (a) {
+        (a.tags_busqueda || []).forEach(function (t) {
+          tagCount[t] = (tagCount[t] || 0) + 1;
+        });
+      });
+      var topTags = Object.keys(tagCount)
+        .sort(function (a, b) {
+          return tagCount[b] - tagCount[a];
+        })
+        .slice(0, 18);
+      document.getElementById('sbTagCloud').innerHTML = topTags
+        .map(function (t) {
+          return '<span class="sb-tag" onclick="clickTag(\'' + t + '\')">' + t + '</span>';
+        })
+        .join('');
+    }
+
+    function clickSbCat(cat) {
+      activeCat = activeCat === cat ? '' : cat;
+      document.querySelectorAll('.cat-tab').forEach(function (btn) {
+        btn.classList.toggle('active', btn.dataset.cat === activeCat);
+      });
       applyFilters();
-    })
-    .catch(function() {
-      document.getElementById('articles-grid').innerHTML = '<div class="blog-empty" style="grid-column:1/-1"><div class="blog-empty-icon">◇</div><div class="blog-empty-title">Error al cargar</div><div class="blog-empty-desc">No se pudieron cargar los artículos. Inténtalo de nuevo.</div></div>';
-    });
-  document.getElementById('blogSearch').addEventListener('input', function() {
-    activeSearch = this.value.trim();
-    applyFilters();
-  });
-  document.querySelectorAll('.cat-tab').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      activeCat = this.dataset.cat;
-      document.querySelectorAll('.cat-tab').forEach(function(b){ b.classList.remove('active'); });
-      this.classList.add('active');
-      applyFilters();
-    });
-  });
-  document.getElementById('btnLoadMore').addEventListener('click', function() {
-    currentPage++;
-    renderGrid();
-  });
-})();
-</script>
+    }
 
+    function clickTag(t) {
+      document.getElementById('blogSearch').value = t;
+      activeSearch = t;
+      applyFilters();
+    }
+
+    function handleNL(e) {
+      e.preventDefault();
+      var btn = e.target.querySelector('.sb-nl-btn');
+      btn.textContent = '¡Suscrito! ✓';
+      btn.style.background = '#4a7a6a';
+      setTimeout(function () {
+        btn.textContent = 'Suscribirme →';
+        btn.style.background = '';
+      }, 3000);
+    }
+
+    (function () {
+      var urlCat = new URLSearchParams(window.location.search).get('cat') || '';
+      if (urlCat) {
+        activeCat = urlCat;
+        document.querySelectorAll('.cat-tab').forEach(function (btn) {
+          btn.classList.toggle('active', btn.dataset.cat === activeCat);
+        });
+      }
+      renderSkeletons();
+      sbFetch(
+        'articulos?select=id,slug,titulo,subtitulo,categoria,resumen,imagen_portada,imagen_alt,autor_nombre,tags_busqueda,minutos_lectura,destacado,publicado,created_at,published_at&publicado=eq.true&order=published_at.desc,created_at.desc'
+      )
+        .then(function (data) {
+          if (!Array.isArray(data)) {
+            data = [];
+          }
+          allArticles = data;
+          document.getElementById('statArticulos').textContent = data.length;
+          renderSidebarCats();
+          renderSidebarTags();
+          applyFilters();
+        })
+        .catch(function () {
+          document.getElementById('articles-grid').innerHTML =
+            '<div class="blog-empty" style="grid-column:1/-1"><div class="blog-empty-icon">◇</div><div class="blog-empty-title">Error al cargar</div><div class="blog-empty-desc">No se pudieron cargar los artículos. Inténtalo de nuevo.</div></div>';
+        });
+      document.getElementById('blogSearch').addEventListener('input', function () {
+        activeSearch = this.value.trim();
+        applyFilters();
+      });
+      document.querySelectorAll('.cat-tab').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          activeCat = this.dataset.cat;
+          document.querySelectorAll('.cat-tab').forEach(function (b) {
+            b.classList.remove('active');
+          });
+          this.classList.add('active');
+          applyFilters();
+        });
+      });
+      document.getElementById('btnLoadMore').addEventListener('click', function () {
+        currentPage++;
+        renderGrid();
+      });
+    })();
+  </script>
 </Page>
