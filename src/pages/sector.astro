@@ -9,422 +9,1277 @@ import Page from '../layouts/Page.astro';
   ogUrl="https://worldstonehub.com/sector.html"
   activePage="directorio"
 >
-
-<style slot="head">
-body{background:#f8f7f5;}
-
-/* ── PAGE HEADER 50/50 ── */
-.page-header{background:var(--bg-soft);border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;min-height:320px;margin-top:70px;}
-.ph-left{padding:52px 56px 44px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--border);}
-.ph-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
-.ph-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,52px);font-weight:300;line-height:1;letter-spacing:-1px;color:var(--ink);}
-.ph-title em{font-style:italic;color:var(--gold);}
-.ph-desc{font-size:13px;color:var(--ink-2);max-width:420px;line-height:1.75;margin-top:12px;}
-.ph-stats{display:flex;gap:0;margin-top:32px;border-top:1px solid var(--border);}
-.ph-stats>div{flex:1;padding:16px 20px 0;border-right:1px solid var(--border);}
-.ph-stats>div:last-child{border-right:none;}
-.ph-stat-n{font-family:'DM Mono',monospace;font-size:24px;font-weight:400;color:var(--ink);display:block;line-height:1;}
-.ph-stat-l{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-4);display:block;margin-top:5px;}
-
-/* ── AD SLOT ── */
-.ph-right{position:relative;overflow:hidden;background:var(--bg-mid);}
-.ad-container{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
-.ad-link{display:block;width:100%;height:100%;}
-.ad-link img{width:100%;height:100%;object-fit:cover;display:block;}
-.ad-label{position:absolute;bottom:8px;right:12px;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);z-index:2;}
-
-/* ── TOOLBAR ── */
-.sector-toolbar{background:#fff;border-bottom:1px solid var(--border);padding:14px 60px;position:sticky;top:70px;z-index:90;}
-.sector-toolbar-inner{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-.search-wrap{position:relative;flex:1;min-width:200px;}
-.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--ink-4);}
-.search-wrap input{width:100%;height:36px;padding:0 12px 0 34px;border:1px solid var(--border-md);font-size:13px;font-family:inherit;background:var(--bg-soft);color:var(--ink);outline:none;transition:border .2s,box-shadow .2s;}
-.search-wrap input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(166,124,82,.10);background:#fff;}
-.filter-sep{width:1px;height:20px;background:var(--border);flex-shrink:0;}
-.filter-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-4);white-space:nowrap;}
-.filter-chip{display:inline-flex;align-items:center;height:28px;padding:0 12px;border:1px solid var(--border-md);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-2);background:transparent;cursor:pointer;transition:all .2s;font-family:'Instrument Sans',sans-serif;font-weight:500;white-space:nowrap;}
-.filter-chip:hover{border-color:var(--gold);color:var(--gold);}
-.filter-chip.active{background:var(--ink);color:#f8f7f5;border-color:var(--ink);}
-.results-count{font-size:11px;color:var(--ink-4);letter-spacing:1px;margin-left:auto;white-space:nowrap;}
-
-/* ── MAIN ── */
-.sector-main{padding:0 60px 80px;background:#f8f7f5;}
-.sector-intro{padding:40px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
-.sector-intro-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#1a1917;}
-.sector-intro-sub{font-size:12px;color:#8a8784;letter-spacing:1px;}
-
-/* ── CARDS ── */
-.company-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
-.company-card{background:#fff;padding:36px 40px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);border-right:1px solid var(--border);transition:box-shadow .3s;cursor:pointer;text-decoration:none;display:block;}
-.company-card:hover{box-shadow:0 4px 32px rgba(0,0,0,0.06);z-index:1;}
-.company-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--card-accent,#A67C52);opacity:0;transition:opacity .3s;}
-.company-card:hover::before{opacity:1;}
-.card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
-.card-flag-name{display:flex;align-items:center;gap:12px;}
-.card-flag{font-size:22px;line-height:1;}
-.card-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:#1a1917;line-height:1.1;}
-.card-country{font-size:11px;color:#8a8784;letter-spacing:1px;margin-top:2px;}
-.card-tier{font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:4px 10px;white-space:nowrap;flex-shrink:0;}
-.card-type{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#A67C52;margin-bottom:10px;}
-.card-desc{font-size:13.5px;line-height:1.75;color:#4a4845;margin-bottom:20px;}
-.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
-.card-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--border);padding:4px 10px;color:#8a8784;}
-.card-meta{display:flex;gap:24px;padding-top:16px;border-top:1px solid var(--border);margin-bottom:16px;}
-.card-meta-item{display:flex;flex-direction:column;}
-.card-meta-val{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#1a1917;}
-.card-meta-key{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8a8784;margin-top:2px;}
-.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border);}
-.card-web{font-size:11px;letter-spacing:1px;color:#8a8784;}
-.card-cta{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#A67C52;display:flex;align-items:center;gap:8px;border-bottom:1px solid transparent;transition:border-color .2s;}
-.card-cta:hover{border-color:#A67C52;}
-
-/* ── LOADING / EMPTY ── */
-@keyframes spin{to{transform:rotate(360deg);}}
-.loading-card{grid-column:1/-1;padding:80px 0;text-align:center;}
-.loading-spinner{width:28px;height:28px;border:2px solid #e2e0dc;border-top-color:#A67C52;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
-.loading-text{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#8a8784;}
-
-.empty-capture{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:2px;border:1px solid var(--border);background:#fff;}
-.empty-left{padding:60px 48px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--border);}
-.empty-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
-.empty-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,42px);font-weight:300;line-height:1.05;letter-spacing:-.5px;margin-bottom:16px;}
-.empty-title em{font-style:italic;color:var(--gold);}
-.empty-desc{font-size:14px;color:var(--ink-2);line-height:1.75;max-width:380px;margin-bottom:32px;}
-.empty-benefits{list-style:none;margin-bottom:36px;display:flex;flex-direction:column;gap:10px;}
-.empty-benefits li{font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px;}
-.empty-benefits li::before{content:'';width:16px;height:1px;background:var(--gold);flex-shrink:0;}
-.empty-cta{display:inline-block;background:#A67C52;color:#fff;padding:14px 32px;font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:background .2s;}
-.empty-cta:hover{background:#1a1917;}
-.empty-right{padding:60px 48px;background:var(--bg-soft);display:flex;flex-direction:column;gap:24px;}
-.empty-right-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-4);margin-bottom:8px;}
-.empty-stat{display:flex;flex-direction:column;gap:4px;padding-bottom:20px;border-bottom:1px solid var(--border);}
-.empty-stat:last-child{border-bottom:none;padding-bottom:0;}
-.empty-stat-n{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--ink);line-height:1;}
-.empty-stat-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);}
-
-.no-results{grid-column:1/-1;text-align:center;padding:60px 40px;}
-.no-results-icon{font-size:32px;opacity:.2;margin-bottom:16px;}
-.no-results-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;margin-bottom:8px;}
-.no-results-sub{font-size:13px;color:var(--ink-4);}
-.no-results-clear{display:inline-block;margin-top:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);cursor:pointer;border-bottom:1px solid transparent;transition:border-color .2s;}
-.no-results-clear:hover{border-color:var(--gold);}
-
-/* ── SECTOR NAV ── */
-.sector-nav-section{background:#f0efed;padding:48px 60px;border-top:1px solid var(--border);}
-.sector-nav-title{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#8a8784;margin-bottom:24px;}
-.sector-nav-grid{display:flex;flex-wrap:wrap;gap:8px;}
-.sector-nav-btn{font-size:10px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--border);padding:10px 20px;color:#4a4845;text-decoration:none;background:#fff;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
-.sector-nav-btn:hover,.sector-nav-btn.active{background:#1a1917;color:#f8f7f5;border-color:#1a1917;}
-
-@media(max-width:900px){
-  .page-header{grid-template-columns:1fr;}
-  .ph-left{padding:40px 24px 32px;border-right:none;}
-  .ph-right{min-height:220px;border-top:1px solid var(--border);}
-  .ph-stats{flex-wrap:wrap;gap:20px;}
-  .sector-toolbar{padding:12px 20px;}
-  .sector-main{padding:0 20px 60px;}
-  .company-grid{grid-template-columns:1fr;}
-  .empty-capture{grid-template-columns:1fr;}
-  .empty-right{display:none;}
-  .empty-left{padding:40px 28px;}
-  .sector-nav-section{padding:40px 24px;}
-}
-</style>
-
-<!-- PAGE HEADER -->
-<header class="page-header">
-  <div class="ph-left">
-    <div>
-      <p class="ph-eyebrow" id="phEyebrow"></p>
-      <h1 class="ph-title" id="phTitle"></h1>
-      <p class="ph-desc" id="phDesc"></p>
-    </div>
-    <div class="ph-stats">
-      <div><span class="ph-stat-n" id="statTotal">—</span><span class="ph-stat-l" id="statTotalLabel">Empresas</span></div>
-      <div><span class="ph-stat-n" id="statElite">—</span><span class="ph-stat-l">Elite</span></div>
-      <div><span class="ph-stat-n" id="statPaises">—</span><span class="ph-stat-l">Países</span></div>
-    </div>
-  </div>
-  <div class="ph-right" id="heroAdWrapper" style="display:none">
-    <div class="ad-container" id="heroAdSlot"></div>
-    <span class="ad-label">Publicidad</span>
-  </div>
-</header>
-
-<!-- TOOLBAR -->
-<div class="sector-toolbar">
-  <div class="sector-toolbar-inner">
-    <div class="search-wrap">
-      <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      <input type="text" id="searchInput" placeholder="Buscar empresa, país…" autocomplete="off">
-    </div>
-    <div class="filter-sep"></div>
-    <span class="filter-label">País</span>
-    <div id="countryFilters" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
-    <div class="filter-sep"></div>
-    <span class="filter-label">Plan</span>
-    <button class="filter-chip" data-group="plan" data-val="elite">Élite</button>
-    <button class="filter-chip" data-group="plan" data-val="profesional">Profesional</button>
-    <span class="results-count" id="resultsCount"></span>
-  </div>
-</div>
-
-<!-- MAIN -->
-<main class="sector-main">
-  <div class="sector-intro">
-    <div>
-      <div class="sector-intro-title">Empresas verificadas en esta categoría</div>
-      <div class="sector-intro-sub" id="sectorSubtitle">Cargando datos…</div>
-    </div>
-    <a href="/proveedores.html" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);text-decoration:none;white-space:nowrap;border-bottom:1px solid var(--border);padding-bottom:2px;transition:color .2s;flex-shrink:0;" onmouseover="this.style.color='#A67C52'" onmouseout="this.style.color=''">Ver todos los proveedores →</a>
-  </div>
-  <div class="company-grid" id="companyGrid">
-    <div class="loading-card">
-      <div class="loading-spinner"></div>
-      <div class="loading-text">Cargando directorio</div>
-    </div>
-  </div>
-</main>
-
-<!-- SECTOR NAV -->
-<section class="sector-nav-section">
-  <div class="sector-nav-title">Explorar otros actores del sector</div>
-  <div class="sector-nav-grid" id="sectorNavGrid">
-    <a href="/sector.html?id=distribuidores" class="sector-nav-btn" data-sector="distribuidores">🚚 Distribuidores</a>
-    <a href="/sector.html?id=fabricantes" class="sector-nav-btn" data-sector="fabricantes">🏭 Fabricantes</a>
-    <a href="/sector.html?id=arquitectura" class="sector-nav-btn" data-sector="arquitectura">📐 Arquitectura</a>
-    <a href="/sector.html?id=constructoras" class="sector-nav-btn" data-sector="constructoras">🏗️ Constructoras</a>
-    <a href="/sector.html?id=maquinaria" class="sector-nav-btn" data-sector="maquinaria">⚙️ Maquinaria</a>
-    <a href="/sector.html?id=laboratorios" class="sector-nav-btn" data-sector="laboratorios">🔬 Laboratorios</a>
-    <a href="/sector.html?id=logistica" class="sector-nav-btn" data-sector="logistica">🌍 Logística</a>
-    <a href="/proveedores.html" class="sector-nav-btn">◈ Todos los proveedores</a>
-  </div>
-</section>
-
-<script slot="scripts" is:inline>
-(function(){
-  var SECTORS = {
-    arquitectura:{kw:'arquit',adCode:'SECTOR-ARQ',eyebrow:'Diseño, proyectos y especificación · Directorio global',titleMain:'Arquitectura',titleEm:'e Interiorismo',desc:'Estudios y despachos de arquitectura e interiorismo especializados en el uso de piedra natural en proyectos residenciales, comerciales e institucionales de alto nivel a escala internacional.',statLabel:'Estudios',metaTitle:'Arquitectura e Interiorismo con Piedra Natural — World Stone Hub',metaDesc:'Directorio de estudios de arquitectura e interiorismo especializados en piedra natural. Diseño, proyectos y especificación de materiales pétreos.',emptyBenefits:['Visibilidad ante más de 3.000 arquitectos y diseñadores','Perfil indexado en 138 países','Contacto directo con proveedores de piedra natural','Apareces en búsquedas de proyectos y especificación']},
-    distribuidores:{kw:'distribu',adCode:'SECTOR-DIS',eyebrow:'Distribución global · Directorio verificado',titleMain:'Distribuidores',titleEm:'de Piedra Natural',desc:'Empresas especializadas en la distribución de piedra natural y artificial que conectan productores con arquitectos, interioristas y constructoras en todo el mundo.',statLabel:'Distribuidores',metaTitle:'Distribuidores de Piedra Natural — World Stone Hub',metaDesc:'Directorio de distribuidores especializados en piedra natural. Encuentra los mejores profesionales del sector.',emptyBenefits:['Acceso a canteras y productores verificados','Compradores activos en tu región','Perfil completo con catálogo de materiales','Integración con el catálogo de 22.000+ materiales']},
-    fabricantes:{kw:'fabrica',adCode:'SECTOR-FAB',eyebrow:'Serrerías, talleres y transformadores · Directorio global',titleMain:'Fabricantes',titleEm:'y Talleres',desc:'Serrerías, talleres de corte y empresas de transformación que convierten el bloque en producto acabado: encimeras, revestimientos, pavimentos y elementos arquitectónicos a medida.',statLabel:'Talleres',metaTitle:'Fabricantes y Talleres de Piedra Natural — World Stone Hub',metaDesc:'Directorio de fabricantes, serrerías y talleres especializados en piedra natural.',emptyBenefits:['Conecta con distribuidores y arquitectos internacionales','Muestra tus acabados y capacidades de producción','Perfil en el mayor directorio de piedra natural','Acceso a compradores de 138 países']},
-    constructoras:{kw:'construc',adCode:'SECTOR-CON',eyebrow:'Obra civil, edificación y promoción · Directorio global',titleMain:'Constructoras',titleEm:'y Promotoras',desc:'Empresas constructoras y promotoras que integran piedra natural en sus proyectos residenciales, comerciales y de obra pública, desde fachadas y pavimentos hasta elementos decorativos singulares.',statLabel:'Constructoras',metaTitle:'Constructoras y Promotoras — World Stone Hub',metaDesc:'Directorio de constructoras y promotoras que integran piedra natural en sus proyectos.',emptyBenefits:['Acceso directo a proveedores de piedra natural de calidad','Comparativa de precios y materiales por proyecto','Red de contactos en el sector de la construcción','Visibilidad en el mercado internacional de la piedra']},
-    maquinaria:{kw:'maquinar',adCode:'SECTOR-MAQ',eyebrow:'Equipamiento y tecnología industrial · Directorio global',titleMain:'Maquinaria',titleEm:'para Piedra',desc:'Fabricantes y distribuidores de maquinaria, equipos CNC y tecnología para la extracción, corte, pulido y transformación de piedra natural.',statLabel:'Fabricantes',metaTitle:'Maquinaria para Piedra Natural — World Stone Hub',metaDesc:'Directorio de fabricantes y distribuidores de maquinaria y tecnología para la piedra natural.',emptyBenefits:['Acceso a talleres y canteras que necesitan equipamiento','Perfil con ficha técnica de productos y servicios','Leads cualificados del sector industrial','Presencia en ferias y eventos del sector']},
-    laboratorios:{kw:'laborat',adCode:'SECTOR-LAB',eyebrow:'Análisis, certificación y control de calidad · Directorio global',titleMain:'Laboratorios',titleEm:'y Certificación',desc:'Laboratorios de ensayo, organismos de certificación y empresas de control de calidad especializados en piedra natural según normativa EN e ISO.',statLabel:'Laboratorios',metaTitle:'Laboratorios y Certificación de Piedra Natural — World Stone Hub',metaDesc:'Directorio de laboratorios y organismos de certificación especializados en piedra natural.',emptyBenefits:['Visibilidad ante canteras y fabricantes que necesitan certificación','Perfil con acreditaciones y normativas que cubres','Contacto directo con el sector industrial','Apareces en búsquedas de control de calidad EN/ISO']},
-    logistica:{kw:'logist',adCode:'SECTOR-LOG',eyebrow:'Transporte, aduanas y almacenaje · Directorio global',titleMain:'Logística',titleEm:'y Transporte',desc:'Empresas especializadas en el transporte internacional, gestión aduanera y almacenaje de piedra natural y materiales pesados de construcción.',statLabel:'Operadores',metaTitle:'Logística y Transporte de Piedra Natural — World Stone Hub',metaDesc:'Directorio de empresas especializadas en transporte y logística de piedra natural.',emptyBenefits:['Conecta con canteras y fabricantes que necesitan transporte','Perfil con rutas, servicios y capacidades logísticas','Clientes en más de 60 países productores de piedra','Integración con el directorio de canteras activas']}
-  };
-
-  var params = new URLSearchParams(window.location.search);
-  var sectorId = (params.get('id')||'').toLowerCase();
-  var cfg = SECTORS[sectorId];
-
-  if(!cfg){
-    document.getElementById('phEyebrow').textContent = 'Directorio global';
-    document.getElementById('phTitle').innerHTML = 'Sector <em>no encontrado</em>';
-    document.getElementById('phDesc').textContent = 'El sector solicitado no existe. Explora el directorio completo o elige una categoría.';
-    document.getElementById('companyGrid').innerHTML = '<div class="no-results" style="padding:80px 40px;"><div class="no-results-icon">◇</div><div class="no-results-title">Sector no encontrado</div><div class="no-results-sub">Elige un sector en el menú inferior.</div></div>';
-    document.getElementById('sectorSubtitle').textContent = '';
-    markActiveNav(sectorId);
-    return;
-  }
-
-  /* SEO dinámico */
-  document.title = cfg.metaTitle;
-  var metaDesc = document.querySelector('meta[name="description"]');
-  if(metaDesc) metaDesc.setAttribute('content', cfg.metaDesc);
-  var canonUrl = 'https://worldstonehub.com/sector.html?id='+sectorId;
-  var canonical = document.querySelector('link[rel="canonical"]');
-  if(!canonical){ canonical = document.createElement('link'); canonical.rel='canonical'; document.head.appendChild(canonical); }
-  canonical.href = canonUrl;
-  var ogUrl = document.querySelector('meta[property="og:url"]');
-  if(ogUrl) ogUrl.setAttribute('content', canonUrl);
-  var ogTitle = document.querySelector('meta[property="og:title"]');
-  if(ogTitle) ogTitle.setAttribute('content', cfg.metaTitle);
-  var ogDesc = document.querySelector('meta[property="og:description"]');
-  if(ogDesc) ogDesc.setAttribute('content', cfg.metaDesc);
-
-  /* Hero */
-  document.getElementById('phEyebrow').textContent = cfg.eyebrow;
-  document.getElementById('phTitle').innerHTML = cfg.titleMain + '<br><em>' + cfg.titleEm + '</em>';
-  document.getElementById('phDesc').textContent = cfg.desc;
-  document.getElementById('statTotalLabel').textContent = cfg.statLabel;
-
-  markActiveNav(sectorId);
-  function markActiveNav(id){
-    document.querySelectorAll('.sector-nav-btn[data-sector]').forEach(function(btn){
-      btn.classList.toggle('active', btn.dataset.sector === id);
-    });
-  }
-
-  /* Supabase */
-  var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-  var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
-  var HDRS = {'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Accept':'application/json'};
-
-  function esc(s){return(s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function arr(v){return!v?[]:Array.isArray(v)?v:[v];}
-  function trunc(s,n){s=(s||'').toString();return s.length>n?s.slice(0,n)+'…':s;}
-  var FLAGS={'España':'🇪🇸','Italia':'🇮🇹','Portugal':'🇵🇹','Grecia':'🇬🇷','Turquía':'🇹🇷','Francia':'🇫🇷','Alemania':'🇩🇪','Austria':'🇦🇹','India':'🇮🇳','China':'🇨🇳','Brasil':'🇧🇷','Estados Unidos':'🇺🇸','México':'🇲🇽','Argentina':'🇦🇷','Australia':'🇦🇺','Marruecos':'🇲🇦','Reino Unido':'🇬🇧','Suiza':'🇨🇭','Bélgica':'🇧🇪','Países Bajos':'🇳🇱'};
-  function flag(p){return FLAGS[p]||'🌐';}
-  function domainOf(url){return(url||'').replace(/^https?:\/\/(www\.)?/,'').split('/')[0];}
-
-  var ALL_DATA = [];
-  var activeFilters = {plan:null, pais:null};
-  var searchQuery = '';
-
-  function matchesSector(p){
-    var kw = cfg.kw;
-    var sArr = arr(p.sector);
-    if(sArr.some(function(s){return s.toLowerCase().indexOf(kw)!==-1;}))return true;
-    return(p.tipo_empresa||'').toLowerCase().indexOf(kw)!==-1;
-  }
-
-  function matchesFilters(p){
-    if(searchQuery){
-      var q=searchQuery.toLowerCase();
-      var haystack=[p.nombre_empresa,p.pais,p.ciudad,p.tipo_empresa].concat(arr(p.materiales)).join(' ').toLowerCase();
-      if(haystack.indexOf(q)===-1)return false;
+  <style slot="head" is:global>
+    body {
+      background: #f8f7f5;
     }
-    if(activeFilters.plan&&p.plan!==activeFilters.plan)return false;
-    if(activeFilters.pais&&p.pais!==activeFilters.pais)return false;
-    return true;
-  }
 
-  function buildCard(p){
-    var plan=p.plan||'presencia';
-    var accent=plan==='elite'?'#A67C52':plan==='profesional'?'#4A4540':'#8A8580';
-    var tierLabel=plan==='elite'?'ÉLITE':plan==='profesional'?'PROFESIONAL':'PRESENCIA';
-    var mats=arr(p.materiales).slice(0,4);
-    var href=p.slug?'/proveedor.html?id='+esc(p.slug):'/proveedores.html';
-    var loc=[p.pais,p.ciudad].filter(Boolean).join(' · ');
-    var html='<a class="company-card" href="'+href+'" style="--card-accent:'+accent+';">';
-    html+='<div class="card-header"><div class="card-flag-name"><span class="card-flag">'+flag(p.pais)+'</span><div><div class="card-name">'+esc(p.nombre_empresa)+'</div>'+(loc?'<div class="card-country">'+esc(loc)+'</div>':'')+'</div></div>';
-    html+='<div class="card-tier" style="background:'+accent+';color:#fff;">'+tierLabel+'</div></div>';
-    if(p.tipo_empresa)html+='<div class="card-type">'+esc(p.tipo_empresa)+'</div>';
-    if(p.descripcion)html+='<div class="card-desc">'+esc(trunc(p.descripcion,160))+'</div>';
-    if(mats.length)html+='<div class="card-tags">'+mats.map(function(m){return'<span class="card-tag">'+esc(m)+'</span>';}).join('')+'</div>';
-    if(p.ano_fundacion||p.num_empleados){
-      html+='<div class="card-meta">';
-      if(p.ano_fundacion)html+='<div class="card-meta-item"><div class="card-meta-val">'+esc(String(p.ano_fundacion))+'</div><div class="card-meta-key">Fundada</div></div>';
-      if(p.num_empleados)html+='<div class="card-meta-item"><div class="card-meta-val">'+esc(String(p.num_empleados))+'</div><div class="card-meta-key">Empleados</div></div>';
-      html+='</div>';
+    /* ── PAGE HEADER 50/50 ── */
+    .page-header {
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 320px;
+      margin-top: 70px;
     }
-    html+='<div class="card-footer">'+(p.website?'<span class="card-web">'+esc(domainOf(p.website))+'</span>':'<span></span>')+'<span class="card-cta">Ver perfil →</span></div>';
-    html+='</a>';
-    return html;
-  }
-
-  function buildEmptyCapture(){
-    var benefits=cfg.emptyBenefits||[];
-    var html='<div class="empty-capture"><div class="empty-left"><div><div class="empty-eyebrow">Sé el primero en este sector</div><h2 class="empty-title">Consigue <em>visibilidad</em><br>internacional</h2><p class="empty-desc">Aún no hay empresas verificadas de este sector en el directorio. Registra tu empresa y posiciónate como referente antes que tu competencia.</p>';
-    if(benefits.length){html+='<ul class="empty-benefits">';benefits.forEach(function(b){html+='<li>'+esc(b)+'</li>';});html+='</ul>';}
-    html+='</div><a href="/registro.html" class="empty-cta">Publicar mi empresa →</a></div>';
-    html+='<div class="empty-right"><div class="empty-right-title">El directorio en cifras</div><div class="empty-stat"><div class="empty-stat-n">22.000+</div><div class="empty-stat-l">Materiales indexados</div></div><div class="empty-stat"><div class="empty-stat-n">138</div><div class="empty-stat-l">Países representados</div></div><div class="empty-stat"><div class="empty-stat-n">B2B</div><div class="empty-stat-l">Audiencia profesional</div></div></div></div>';
-    return html;
-  }
-
-  function render(){
-    var sectorData=ALL_DATA.filter(matchesSector);
-    var filtered=sectorData.filter(matchesFilters);
-    filtered.sort(function(a,b){
-      var ord={elite:0,profesional:1,presencia:2};
-      var pa=ord[a.plan]!==undefined?ord[a.plan]:99;
-      var pb=ord[b.plan]!==undefined?ord[b.plan]:99;
-      if(pa!==pb)return pa-pb;
-      return(a.nombre_empresa||'').localeCompare(b.nombre_empresa||'','es');
-    });
-    var paises={},eliteCount=0;
-    sectorData.forEach(function(p){if(p.pais)paises[p.pais]=1;if(p.plan==='elite')eliteCount++;});
-    var stT=document.getElementById('statTotal'),stE=document.getElementById('statElite'),stP=document.getElementById('statPaises');
-    if(stT)stT.textContent=sectorData.length||'0';
-    if(stE)stE.textContent=eliteCount||'0';
-    if(stP)stP.textContent=Object.keys(paises).length||'0';
-    var sub=document.getElementById('sectorSubtitle');
-    if(sub)sub.textContent=sectorData.length?sectorData.length+' perfil'+(sectorData.length>1?'es activos':' activo')+' · Actualizado 2026':'Sé el primero en registrar tu empresa en esta categoría';
-    var rc=document.getElementById('resultsCount');
-    var hasFilter=searchQuery||(activeFilters.plan!==null)||(activeFilters.pais!==null);
-    if(rc)rc.textContent=hasFilter?filtered.length+' de '+sectorData.length+' resultados':'';
-    var grid=document.getElementById('companyGrid');
-    if(!sectorData.length){grid.innerHTML=buildEmptyCapture();return;}
-    if(!filtered.length){
-      grid.innerHTML='<div class="no-results"><div class="no-results-icon">◇</div><div class="no-results-title">Sin resultados</div><div class="no-results-sub">Prueba con otro término o elimina los filtros activos.</div><span class="no-results-clear" id="clearAllBtn">Eliminar filtros</span></div>';
-      document.getElementById('clearAllBtn').addEventListener('click',clearAll);
-      return;
+    .ph-left {
+      padding: 52px 56px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--border);
     }
-    grid.innerHTML=filtered.map(buildCard).join('');
-  }
+    .ph-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .ph-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -1px;
+      color: var(--ink);
+    }
+    .ph-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .ph-desc {
+      font-size: 13px;
+      color: var(--ink-2);
+      max-width: 420px;
+      line-height: 1.75;
+      margin-top: 12px;
+    }
+    .ph-stats {
+      display: flex;
+      gap: 0;
+      margin-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .ph-stats > div {
+      flex: 1;
+      padding: 16px 20px 0;
+      border-right: 1px solid var(--border);
+    }
+    .ph-stats > div:last-child {
+      border-right: none;
+    }
+    .ph-stat-n {
+      font-family: 'DM Mono', monospace;
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--ink);
+      display: block;
+      line-height: 1;
+    }
+    .ph-stat-l {
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      display: block;
+      margin-top: 5px;
+    }
 
-  function buildCountryFilters(sectorData){
-    var countryCount={};
-    sectorData.forEach(function(p){if(p.pais)countryCount[p.pais]=(countryCount[p.pais]||0)+1;});
-    var top=Object.keys(countryCount).sort(function(a,b){return countryCount[b]-countryCount[a];}).slice(0,5);
-    var container=document.getElementById('countryFilters');
-    if(!container||!top.length)return;
-    top.forEach(function(pais){
-      var btn=document.createElement('button');
-      btn.className='filter-chip';btn.dataset.group='pais';btn.dataset.val=pais;
-      btn.textContent=flag(pais)+' '+pais;btn.style.fontSize='9px';
-      container.appendChild(btn);
-      btn.addEventListener('click',function(){handleChip(btn);});
-    });
-  }
+    /* ── AD SLOT ── */
+    .ph-right {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-mid);
+    }
+    .ad-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ad-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .ad-link img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .ad-label {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      z-index: 2;
+    }
 
-  function handleChip(btn){
-    var group=btn.dataset.group,val=btn.dataset.val,isActive=btn.classList.contains('active');
-    document.querySelectorAll('.filter-chip[data-group="'+group+'"]').forEach(function(b){b.classList.remove('active');});
-    if(!isActive){btn.classList.add('active');activeFilters[group]=val;}
-    else{activeFilters[group]=null;}
-    render();
-  }
+    /* ── TOOLBAR ── */
+    .sector-toolbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 60px;
+      position: sticky;
+      top: 70px;
+      z-index: 90;
+    }
+    .sector-toolbar-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--ink-4);
+    }
+    .search-wrap input {
+      width: 100%;
+      height: 36px;
+      padding: 0 12px 0 34px;
+      border: 1px solid var(--border-md);
+      font-size: 13px;
+      font-family: inherit;
+      background: var(--bg-soft);
+      color: var(--ink);
+      outline: none;
+      transition:
+        border 0.2s,
+        box-shadow 0.2s;
+    }
+    .search-wrap input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(166, 124, 82, 0.1);
+      background: #fff;
+    }
+    .filter-sep {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+    .filter-label {
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      white-space: nowrap;
+    }
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      height: 28px;
+      padding: 0 12px;
+      border: 1px solid var(--border-md);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink-2);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .filter-chip:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .filter-chip.active {
+      background: var(--ink);
+      color: #f8f7f5;
+      border-color: var(--ink);
+    }
+    .results-count {
+      font-size: 11px;
+      color: var(--ink-4);
+      letter-spacing: 1px;
+      margin-left: auto;
+      white-space: nowrap;
+    }
 
-  function clearAll(){
-    searchQuery='';activeFilters={plan:null,pais:null};
-    document.getElementById('searchInput').value='';
-    document.querySelectorAll('.filter-chip').forEach(function(b){b.classList.remove('active');});
-    render();
-  }
+    /* ── MAIN ── */
+    .sector-main {
+      padding: 0 60px 80px;
+      background: #f8f7f5;
+    }
+    .sector-intro {
+      padding: 40px 0 32px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .sector-intro-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      color: #1a1917;
+    }
+    .sector-intro-sub {
+      font-size: 12px;
+      color: #8a8784;
+      letter-spacing: 1px;
+    }
 
-  document.querySelectorAll('.filter-chip[data-group="plan"]').forEach(function(btn){
-    btn.addEventListener('click',function(){handleChip(btn);});
-  });
+    /* ── CARDS ── */
+    .company-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .company-card {
+      background: #fff;
+      padding: 36px 40px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+    .company-card:hover {
+      box-shadow: 0 4px 32px rgba(0, 0, 0, 0.06);
+      z-index: 1;
+    }
+    .company-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--card-accent, #a67c52);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .company-card:hover::before {
+      opacity: 1;
+    }
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .card-flag-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .card-flag {
+      font-size: 22px;
+      line-height: 1;
+    }
+    .card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: #1a1917;
+      line-height: 1.1;
+    }
+    .card-country {
+      font-size: 11px;
+      color: #8a8784;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+    .card-tier {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .card-type {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #a67c52;
+      margin-bottom: 10px;
+    }
+    .card-desc {
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: #4a4845;
+      margin-bottom: 20px;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .card-tag {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      color: #8a8784;
+    }
+    .card-meta {
+      display: flex;
+      gap: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .card-meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .card-meta-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 300;
+      color: #1a1917;
+    }
+    .card-meta-key {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #8a8784;
+      margin-top: 2px;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .card-web {
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: #8a8784;
+    }
+    .card-cta {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #a67c52;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .card-cta:hover {
+      border-color: #a67c52;
+    }
 
-  var searchTimer;
-  document.getElementById('searchInput').addEventListener('input',function(){
-    clearTimeout(searchTimer);
-    var self=this;
-    searchTimer=setTimeout(function(){searchQuery=self.value.trim();render();},220);
-  });
+    /* ── LOADING / EMPTY ── */
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .loading-card {
+      grid-column: 1/-1;
+      padding: 80px 0;
+      text-align: center;
+    }
+    .loading-spinner {
+      width: 28px;
+      height: 28px;
+      border: 2px solid #e2e0dc;
+      border-top-color: #a67c52;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    .loading-text {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #8a8784;
+    }
 
-  fetch(SB_URL+'/rest/v1/proveedores?select=nombre_empresa,slug,tipo_empresa,sector,descripcion,ano_fundacion,num_empleados,website,pais,ciudad,plan,plan_activo,estado,verificado,materiales&plan_activo=eq.true&estado=eq.activo&order=nombre_empresa.asc&limit=200',{headers:HDRS})
-    .then(function(r){return r.json();})
-    .then(function(data){
-      ALL_DATA=Array.isArray(data)?data:[];
-      var sectorData=ALL_DATA.filter(matchesSector);
-      buildCountryFilters(sectorData);
-      render();
-    })
-    .catch(function(){
-      document.getElementById('companyGrid').innerHTML='<div class="no-results"><p style="font-size:14px;color:#8a8784;">Error cargando el directorio. Por favor, recarga la página.</p></div>';
-      var sub=document.getElementById('sectorSubtitle');if(sub)sub.textContent='Error de carga';
-    });
+    .empty-capture {
+      grid-column: 1/-1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      border: 1px solid var(--border);
+      background: #fff;
+    }
+    .empty-left {
+      padding: 60px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--border);
+    }
+    .empty-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .empty-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+    .empty-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .empty-desc {
+      font-size: 14px;
+      color: var(--ink-2);
+      line-height: 1.75;
+      max-width: 380px;
+      margin-bottom: 32px;
+    }
+    .empty-benefits {
+      list-style: none;
+      margin-bottom: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .empty-benefits li {
+      font-size: 13px;
+      color: var(--ink-2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .empty-benefits li::before {
+      content: '';
+      width: 16px;
+      height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+    .empty-cta {
+      display: inline-block;
+      background: #a67c52;
+      color: #fff;
+      padding: 14px 32px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .empty-cta:hover {
+      background: #1a1917;
+    }
+    .empty-right {
+      padding: 60px 48px;
+      background: var(--bg-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .empty-right-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      margin-bottom: 8px;
+    }
+    .empty-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .empty-stat:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .empty-stat-n {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .empty-stat-l {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink-4);
+    }
 
-  /* Anuncio dinámico */
-  (function loadAd(){
-    var today=new Date().toISOString().slice(0,10);
-    var url=SB_URL+'/rest/v1/anuncios?espacio_codigo=eq.'+cfg.adCode+'&activo=eq.true&select=imagen_url,url_destino,texto_alt,fecha_inicio,fecha_fin&limit=5';
-    fetch(url,{headers:HDRS})
-      .then(function(r){return r.json();})
-      .then(function(data){
-        if(!Array.isArray(data)||!data.length)return;
-        var valid=data.filter(function(a){if(a.fecha_inicio&&a.fecha_inicio>today)return false;if(a.fecha_fin&&a.fecha_fin<today)return false;return true;});
-        if(!valid.length)return;
-        var ad=valid[0];
-        var slot=document.getElementById('heroAdSlot');if(!slot)return;
-        var href=ad.url_destino?(ad.url_destino.startsWith('http')?ad.url_destino:'https://'+ad.url_destino):'#';
-        slot.innerHTML='<a class="ad-link" href="'+href+'" target="_blank" rel="noopener sponsored"><img src="'+(ad.imagen_url||'')+'" alt="'+(ad.texto_alt||'Publicidad')+'" loading="lazy"></a>';
-        var wrapper=document.getElementById('heroAdWrapper');if(wrapper)wrapper.style.display='';
-      }).catch(function(){});
-  })();
-})();
-</script>
+    .no-results {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 60px 40px;
+    }
+    .no-results-icon {
+      font-size: 32px;
+      opacity: 0.2;
+      margin-bottom: 16px;
+    }
+    .no-results-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
+    .no-results-sub {
+      font-size: 13px;
+      color: var(--ink-4);
+    }
+    .no-results-clear {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      cursor: pointer;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .no-results-clear:hover {
+      border-color: var(--gold);
+    }
 
+    /* ── SECTOR NAV ── */
+    .sector-nav-section {
+      background: #f0efed;
+      padding: 48px 60px;
+      border-top: 1px solid var(--border);
+    }
+    .sector-nav-title {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #8a8784;
+      margin-bottom: 24px;
+    }
+    .sector-nav-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .sector-nav-btn {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      color: #4a4845;
+      text-decoration: none;
+      background: #fff;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sector-nav-btn:hover,
+    .sector-nav-btn.active {
+      background: #1a1917;
+      color: #f8f7f5;
+      border-color: #1a1917;
+    }
+
+    @media (max-width: 900px) {
+      .page-header {
+        grid-template-columns: 1fr;
+      }
+      .ph-left {
+        padding: 40px 24px 32px;
+        border-right: none;
+      }
+      .ph-right {
+        min-height: 220px;
+        border-top: 1px solid var(--border);
+      }
+      .ph-stats {
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .sector-toolbar {
+        padding: 12px 20px;
+      }
+      .sector-main {
+        padding: 0 20px 60px;
+      }
+      .company-grid {
+        grid-template-columns: 1fr;
+      }
+      .empty-capture {
+        grid-template-columns: 1fr;
+      }
+      .empty-right {
+        display: none;
+      }
+      .empty-left {
+        padding: 40px 28px;
+      }
+      .sector-nav-section {
+        padding: 40px 24px;
+      }
+    }
+  </style>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <div class="ph-left">
+      <div>
+        <p class="ph-eyebrow" id="phEyebrow"></p>
+        <h1 class="ph-title" id="phTitle"></h1>
+        <p class="ph-desc" id="phDesc"></p>
+      </div>
+      <div class="ph-stats">
+        <div>
+          <span class="ph-stat-n" id="statTotal">—</span><span class="ph-stat-l" id="statTotalLabel"
+            >Empresas</span
+          >
+        </div>
+        <div>
+          <span class="ph-stat-n" id="statElite">—</span><span class="ph-stat-l">Elite</span>
+        </div>
+        <div>
+          <span class="ph-stat-n" id="statPaises">—</span><span class="ph-stat-l">Países</span>
+        </div>
+      </div>
+    </div>
+    <div class="ph-right" id="heroAdWrapper" style="display:none">
+      <div class="ad-container" id="heroAdSlot"></div>
+      <span class="ad-label">Publicidad</span>
+    </div>
+  </header>
+
+  <!-- TOOLBAR -->
+  <div class="sector-toolbar">
+    <div class="sector-toolbar-inner">
+      <div class="search-wrap">
+        <svg
+          class="search-icon"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          ><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg
+        >
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Buscar empresa, país…"
+          autocomplete="off"
+        />
+      </div>
+      <div class="filter-sep"></div>
+      <span class="filter-label">País</span>
+      <div id="countryFilters" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+      <div class="filter-sep"></div>
+      <span class="filter-label">Plan</span>
+      <button class="filter-chip" data-group="plan" data-val="elite">Élite</button>
+      <button class="filter-chip" data-group="plan" data-val="profesional">Profesional</button>
+      <span class="results-count" id="resultsCount"></span>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main class="sector-main">
+    <div class="sector-intro">
+      <div>
+        <div class="sector-intro-title">Empresas verificadas en esta categoría</div>
+        <div class="sector-intro-sub" id="sectorSubtitle">Cargando datos…</div>
+      </div>
+      <a
+        href="/proveedores.html"
+        style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-4);text-decoration:none;white-space:nowrap;border-bottom:1px solid var(--border);padding-bottom:2px;transition:color .2s;flex-shrink:0;"
+        onmouseover="this.style.color='#A67C52'"
+        onmouseout="this.style.color=''">Ver todos los proveedores →</a
+      >
+    </div>
+    <div class="company-grid" id="companyGrid">
+      <div class="loading-card">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Cargando directorio</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SECTOR NAV -->
+  <section class="sector-nav-section">
+    <div class="sector-nav-title">Explorar otros actores del sector</div>
+    <div class="sector-nav-grid" id="sectorNavGrid">
+      <a href="/sector.html?id=distribuidores" class="sector-nav-btn" data-sector="distribuidores"
+        >🚚 Distribuidores</a
+      >
+      <a href="/sector.html?id=fabricantes" class="sector-nav-btn" data-sector="fabricantes"
+        >🏭 Fabricantes</a
+      >
+      <a href="/sector.html?id=arquitectura" class="sector-nav-btn" data-sector="arquitectura"
+        >📐 Arquitectura</a
+      >
+      <a href="/sector.html?id=constructoras" class="sector-nav-btn" data-sector="constructoras"
+        >🏗️ Constructoras</a
+      >
+      <a href="/sector.html?id=maquinaria" class="sector-nav-btn" data-sector="maquinaria"
+        >⚙️ Maquinaria</a
+      >
+      <a href="/sector.html?id=laboratorios" class="sector-nav-btn" data-sector="laboratorios"
+        >🔬 Laboratorios</a
+      >
+      <a href="/sector.html?id=logistica" class="sector-nav-btn" data-sector="logistica"
+        >🌍 Logística</a
+      >
+      <a href="/proveedores.html" class="sector-nav-btn">◈ Todos los proveedores</a>
+    </div>
+  </section>
+
+  <script slot="scripts" is:inline>
+    (function () {
+      var SECTORS = {
+        arquitectura: {
+          kw: 'arquit',
+          adCode: 'SECTOR-ARQ',
+          eyebrow: 'Diseño, proyectos y especificación · Directorio global',
+          titleMain: 'Arquitectura',
+          titleEm: 'e Interiorismo',
+          desc: 'Estudios y despachos de arquitectura e interiorismo especializados en el uso de piedra natural en proyectos residenciales, comerciales e institucionales de alto nivel a escala internacional.',
+          statLabel: 'Estudios',
+          metaTitle: 'Arquitectura e Interiorismo con Piedra Natural — World Stone Hub',
+          metaDesc:
+            'Directorio de estudios de arquitectura e interiorismo especializados en piedra natural. Diseño, proyectos y especificación de materiales pétreos.',
+          emptyBenefits: [
+            'Visibilidad ante más de 3.000 arquitectos y diseñadores',
+            'Perfil indexado en 138 países',
+            'Contacto directo con proveedores de piedra natural',
+            'Apareces en búsquedas de proyectos y especificación',
+          ],
+        },
+        distribuidores: {
+          kw: 'distribu',
+          adCode: 'SECTOR-DIS',
+          eyebrow: 'Distribución global · Directorio verificado',
+          titleMain: 'Distribuidores',
+          titleEm: 'de Piedra Natural',
+          desc: 'Empresas especializadas en la distribución de piedra natural y artificial que conectan productores con arquitectos, interioristas y constructoras en todo el mundo.',
+          statLabel: 'Distribuidores',
+          metaTitle: 'Distribuidores de Piedra Natural — World Stone Hub',
+          metaDesc:
+            'Directorio de distribuidores especializados en piedra natural. Encuentra los mejores profesionales del sector.',
+          emptyBenefits: [
+            'Acceso a canteras y productores verificados',
+            'Compradores activos en tu región',
+            'Perfil completo con catálogo de materiales',
+            'Integración con el catálogo de 22.000+ materiales',
+          ],
+        },
+        fabricantes: {
+          kw: 'fabrica',
+          adCode: 'SECTOR-FAB',
+          eyebrow: 'Serrerías, talleres y transformadores · Directorio global',
+          titleMain: 'Fabricantes',
+          titleEm: 'y Talleres',
+          desc: 'Serrerías, talleres de corte y empresas de transformación que convierten el bloque en producto acabado: encimeras, revestimientos, pavimentos y elementos arquitectónicos a medida.',
+          statLabel: 'Talleres',
+          metaTitle: 'Fabricantes y Talleres de Piedra Natural — World Stone Hub',
+          metaDesc:
+            'Directorio de fabricantes, serrerías y talleres especializados en piedra natural.',
+          emptyBenefits: [
+            'Conecta con distribuidores y arquitectos internacionales',
+            'Muestra tus acabados y capacidades de producción',
+            'Perfil en el mayor directorio de piedra natural',
+            'Acceso a compradores de 138 países',
+          ],
+        },
+        constructoras: {
+          kw: 'construc',
+          adCode: 'SECTOR-CON',
+          eyebrow: 'Obra civil, edificación y promoción · Directorio global',
+          titleMain: 'Constructoras',
+          titleEm: 'y Promotoras',
+          desc: 'Empresas constructoras y promotoras que integran piedra natural en sus proyectos residenciales, comerciales y de obra pública, desde fachadas y pavimentos hasta elementos decorativos singulares.',
+          statLabel: 'Constructoras',
+          metaTitle: 'Constructoras y Promotoras — World Stone Hub',
+          metaDesc:
+            'Directorio de constructoras y promotoras que integran piedra natural en sus proyectos.',
+          emptyBenefits: [
+            'Acceso directo a proveedores de piedra natural de calidad',
+            'Comparativa de precios y materiales por proyecto',
+            'Red de contactos en el sector de la construcción',
+            'Visibilidad en el mercado internacional de la piedra',
+          ],
+        },
+        maquinaria: {
+          kw: 'maquinar',
+          adCode: 'SECTOR-MAQ',
+          eyebrow: 'Equipamiento y tecnología industrial · Directorio global',
+          titleMain: 'Maquinaria',
+          titleEm: 'para Piedra',
+          desc: 'Fabricantes y distribuidores de maquinaria, equipos CNC y tecnología para la extracción, corte, pulido y transformación de piedra natural.',
+          statLabel: 'Fabricantes',
+          metaTitle: 'Maquinaria para Piedra Natural — World Stone Hub',
+          metaDesc:
+            'Directorio de fabricantes y distribuidores de maquinaria y tecnología para la piedra natural.',
+          emptyBenefits: [
+            'Acceso a talleres y canteras que necesitan equipamiento',
+            'Perfil con ficha técnica de productos y servicios',
+            'Leads cualificados del sector industrial',
+            'Presencia en ferias y eventos del sector',
+          ],
+        },
+        laboratorios: {
+          kw: 'laborat',
+          adCode: 'SECTOR-LAB',
+          eyebrow: 'Análisis, certificación y control de calidad · Directorio global',
+          titleMain: 'Laboratorios',
+          titleEm: 'y Certificación',
+          desc: 'Laboratorios de ensayo, organismos de certificación y empresas de control de calidad especializados en piedra natural según normativa EN e ISO.',
+          statLabel: 'Laboratorios',
+          metaTitle: 'Laboratorios y Certificación de Piedra Natural — World Stone Hub',
+          metaDesc:
+            'Directorio de laboratorios y organismos de certificación especializados en piedra natural.',
+          emptyBenefits: [
+            'Visibilidad ante canteras y fabricantes que necesitan certificación',
+            'Perfil con acreditaciones y normativas que cubres',
+            'Contacto directo con el sector industrial',
+            'Apareces en búsquedas de control de calidad EN/ISO',
+          ],
+        },
+        logistica: {
+          kw: 'logist',
+          adCode: 'SECTOR-LOG',
+          eyebrow: 'Transporte, aduanas y almacenaje · Directorio global',
+          titleMain: 'Logística',
+          titleEm: 'y Transporte',
+          desc: 'Empresas especializadas en el transporte internacional, gestión aduanera y almacenaje de piedra natural y materiales pesados de construcción.',
+          statLabel: 'Operadores',
+          metaTitle: 'Logística y Transporte de Piedra Natural — World Stone Hub',
+          metaDesc:
+            'Directorio de empresas especializadas en transporte y logística de piedra natural.',
+          emptyBenefits: [
+            'Conecta con canteras y fabricantes que necesitan transporte',
+            'Perfil con rutas, servicios y capacidades logísticas',
+            'Clientes en más de 60 países productores de piedra',
+            'Integración con el directorio de canteras activas',
+          ],
+        },
+      };
+
+      var params = new URLSearchParams(window.location.search);
+      var sectorId = (params.get('id') || '').toLowerCase();
+      var cfg = SECTORS[sectorId];
+
+      if (!cfg) {
+        document.getElementById('phEyebrow').textContent = 'Directorio global';
+        document.getElementById('phTitle').innerHTML = 'Sector <em>no encontrado</em>';
+        document.getElementById('phDesc').textContent =
+          'El sector solicitado no existe. Explora el directorio completo o elige una categoría.';
+        document.getElementById('companyGrid').innerHTML =
+          '<div class="no-results" style="padding:80px 40px;"><div class="no-results-icon">◇</div><div class="no-results-title">Sector no encontrado</div><div class="no-results-sub">Elige un sector en el menú inferior.</div></div>';
+        document.getElementById('sectorSubtitle').textContent = '';
+        markActiveNav(sectorId);
+        return;
+      }
+
+      /* SEO dinámico */
+      document.title = cfg.metaTitle;
+      var metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', cfg.metaDesc);
+      var canonUrl = 'https://worldstonehub.com/sector.html?id=' + sectorId;
+      var canonical = document.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.rel = 'canonical';
+        document.head.appendChild(canonical);
+      }
+      canonical.href = canonUrl;
+      var ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.setAttribute('content', canonUrl);
+      var ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', cfg.metaTitle);
+      var ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', cfg.metaDesc);
+
+      /* Hero */
+      document.getElementById('phEyebrow').textContent = cfg.eyebrow;
+      document.getElementById('phTitle').innerHTML =
+        cfg.titleMain + '<br><em>' + cfg.titleEm + '</em>';
+      document.getElementById('phDesc').textContent = cfg.desc;
+      document.getElementById('statTotalLabel').textContent = cfg.statLabel;
+
+      markActiveNav(sectorId);
+      function markActiveNav(id) {
+        document.querySelectorAll('.sector-nav-btn[data-sector]').forEach(function (btn) {
+          btn.classList.toggle('active', btn.dataset.sector === id);
+        });
+      }
+
+      /* Supabase */
+      var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
+      var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+      var HDRS = { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, Accept: 'application/json' };
+
+      function esc(s) {
+        return (s || '')
+          .toString()
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+      function arr(v) {
+        return !v ? [] : Array.isArray(v) ? v : [v];
+      }
+      function trunc(s, n) {
+        s = (s || '').toString();
+        return s.length > n ? s.slice(0, n) + '…' : s;
+      }
+      var FLAGS = {
+        España: '🇪🇸',
+        Italia: '🇮🇹',
+        Portugal: '🇵🇹',
+        Grecia: '🇬🇷',
+        Turquía: '🇹🇷',
+        Francia: '🇫🇷',
+        Alemania: '🇩🇪',
+        Austria: '🇦🇹',
+        India: '🇮🇳',
+        China: '🇨🇳',
+        Brasil: '🇧🇷',
+        'Estados Unidos': '🇺🇸',
+        México: '🇲🇽',
+        Argentina: '🇦🇷',
+        Australia: '🇦🇺',
+        Marruecos: '🇲🇦',
+        'Reino Unido': '🇬🇧',
+        Suiza: '🇨🇭',
+        Bélgica: '🇧🇪',
+        'Países Bajos': '🇳🇱',
+      };
+      function flag(p) {
+        return FLAGS[p] || '🌐';
+      }
+      function domainOf(url) {
+        return (url || '').replace(/^https?:\/\/(www\.)?/, '').split('/')[0];
+      }
+
+      var ALL_DATA = [];
+      var activeFilters = { plan: null, pais: null };
+      var searchQuery = '';
+
+      function matchesSector(p) {
+        var kw = cfg.kw;
+        var sArr = arr(p.sector);
+        if (
+          sArr.some(function (s) {
+            return s.toLowerCase().indexOf(kw) !== -1;
+          })
+        )
+          return true;
+        return (p.tipo_empresa || '').toLowerCase().indexOf(kw) !== -1;
+      }
+
+      function matchesFilters(p) {
+        if (searchQuery) {
+          var q = searchQuery.toLowerCase();
+          var haystack = [p.nombre_empresa, p.pais, p.ciudad, p.tipo_empresa]
+            .concat(arr(p.materiales))
+            .join(' ')
+            .toLowerCase();
+          if (haystack.indexOf(q) === -1) return false;
+        }
+        if (activeFilters.plan && p.plan !== activeFilters.plan) return false;
+        if (activeFilters.pais && p.pais !== activeFilters.pais) return false;
+        return true;
+      }
+
+      function buildCard(p) {
+        var plan = p.plan || 'presencia';
+        var accent = plan === 'elite' ? '#A67C52' : plan === 'profesional' ? '#4A4540' : '#8A8580';
+        var tierLabel =
+          plan === 'elite' ? 'ÉLITE' : plan === 'profesional' ? 'PROFESIONAL' : 'PRESENCIA';
+        var mats = arr(p.materiales).slice(0, 4);
+        var href = p.slug ? '/proveedor.html?id=' + esc(p.slug) : '/proveedores.html';
+        var loc = [p.pais, p.ciudad].filter(Boolean).join(' · ');
+        var html =
+          '<a class="company-card" href="' + href + '" style="--card-accent:' + accent + ';">';
+        html +=
+          '<div class="card-header"><div class="card-flag-name"><span class="card-flag">' +
+          flag(p.pais) +
+          '</span><div><div class="card-name">' +
+          esc(p.nombre_empresa) +
+          '</div>' +
+          (loc ? '<div class="card-country">' + esc(loc) + '</div>' : '') +
+          '</div></div>';
+        html +=
+          '<div class="card-tier" style="background:' +
+          accent +
+          ';color:#fff;">' +
+          tierLabel +
+          '</div></div>';
+        if (p.tipo_empresa) html += '<div class="card-type">' + esc(p.tipo_empresa) + '</div>';
+        if (p.descripcion)
+          html += '<div class="card-desc">' + esc(trunc(p.descripcion, 160)) + '</div>';
+        if (mats.length)
+          html +=
+            '<div class="card-tags">' +
+            mats
+              .map(function (m) {
+                return '<span class="card-tag">' + esc(m) + '</span>';
+              })
+              .join('') +
+            '</div>';
+        if (p.ano_fundacion || p.num_empleados) {
+          html += '<div class="card-meta">';
+          if (p.ano_fundacion)
+            html +=
+              '<div class="card-meta-item"><div class="card-meta-val">' +
+              esc(String(p.ano_fundacion)) +
+              '</div><div class="card-meta-key">Fundada</div></div>';
+          if (p.num_empleados)
+            html +=
+              '<div class="card-meta-item"><div class="card-meta-val">' +
+              esc(String(p.num_empleados)) +
+              '</div><div class="card-meta-key">Empleados</div></div>';
+          html += '</div>';
+        }
+        html +=
+          '<div class="card-footer">' +
+          (p.website
+            ? '<span class="card-web">' + esc(domainOf(p.website)) + '</span>'
+            : '<span></span>') +
+          '<span class="card-cta">Ver perfil →</span></div>';
+        html += '</a>';
+        return html;
+      }
+
+      function buildEmptyCapture() {
+        var benefits = cfg.emptyBenefits || [];
+        var html =
+          '<div class="empty-capture"><div class="empty-left"><div><div class="empty-eyebrow">Sé el primero en este sector</div><h2 class="empty-title">Consigue <em>visibilidad</em><br>internacional</h2><p class="empty-desc">Aún no hay empresas verificadas de este sector en el directorio. Registra tu empresa y posiciónate como referente antes que tu competencia.</p>';
+        if (benefits.length) {
+          html += '<ul class="empty-benefits">';
+          benefits.forEach(function (b) {
+            html += '<li>' + esc(b) + '</li>';
+          });
+          html += '</ul>';
+        }
+        html += '</div><a href="/registro.html" class="empty-cta">Publicar mi empresa →</a></div>';
+        html +=
+          '<div class="empty-right"><div class="empty-right-title">El directorio en cifras</div><div class="empty-stat"><div class="empty-stat-n">22.000+</div><div class="empty-stat-l">Materiales indexados</div></div><div class="empty-stat"><div class="empty-stat-n">138</div><div class="empty-stat-l">Países representados</div></div><div class="empty-stat"><div class="empty-stat-n">B2B</div><div class="empty-stat-l">Audiencia profesional</div></div></div></div>';
+        return html;
+      }
+
+      function render() {
+        var sectorData = ALL_DATA.filter(matchesSector);
+        var filtered = sectorData.filter(matchesFilters);
+        filtered.sort(function (a, b) {
+          var ord = { elite: 0, profesional: 1, presencia: 2 };
+          var pa = ord[a.plan] !== undefined ? ord[a.plan] : 99;
+          var pb = ord[b.plan] !== undefined ? ord[b.plan] : 99;
+          if (pa !== pb) return pa - pb;
+          return (a.nombre_empresa || '').localeCompare(b.nombre_empresa || '', 'es');
+        });
+        var paises = {},
+          eliteCount = 0;
+        sectorData.forEach(function (p) {
+          if (p.pais) paises[p.pais] = 1;
+          if (p.plan === 'elite') eliteCount++;
+        });
+        var stT = document.getElementById('statTotal'),
+          stE = document.getElementById('statElite'),
+          stP = document.getElementById('statPaises');
+        if (stT) stT.textContent = sectorData.length || '0';
+        if (stE) stE.textContent = eliteCount || '0';
+        if (stP) stP.textContent = Object.keys(paises).length || '0';
+        var sub = document.getElementById('sectorSubtitle');
+        if (sub)
+          sub.textContent = sectorData.length
+            ? sectorData.length +
+              ' perfil' +
+              (sectorData.length > 1 ? 'es activos' : ' activo') +
+              ' · Actualizado 2026'
+            : 'Sé el primero en registrar tu empresa en esta categoría';
+        var rc = document.getElementById('resultsCount');
+        var hasFilter = searchQuery || activeFilters.plan !== null || activeFilters.pais !== null;
+        if (rc)
+          rc.textContent = hasFilter
+            ? filtered.length + ' de ' + sectorData.length + ' resultados'
+            : '';
+        var grid = document.getElementById('companyGrid');
+        if (!sectorData.length) {
+          grid.innerHTML = buildEmptyCapture();
+          return;
+        }
+        if (!filtered.length) {
+          grid.innerHTML =
+            '<div class="no-results"><div class="no-results-icon">◇</div><div class="no-results-title">Sin resultados</div><div class="no-results-sub">Prueba con otro término o elimina los filtros activos.</div><span class="no-results-clear" id="clearAllBtn">Eliminar filtros</span></div>';
+          document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+          return;
+        }
+        grid.innerHTML = filtered.map(buildCard).join('');
+      }
+
+      function buildCountryFilters(sectorData) {
+        var countryCount = {};
+        sectorData.forEach(function (p) {
+          if (p.pais) countryCount[p.pais] = (countryCount[p.pais] || 0) + 1;
+        });
+        var top = Object.keys(countryCount)
+          .sort(function (a, b) {
+            return countryCount[b] - countryCount[a];
+          })
+          .slice(0, 5);
+        var container = document.getElementById('countryFilters');
+        if (!container || !top.length) return;
+        top.forEach(function (pais) {
+          var btn = document.createElement('button');
+          btn.className = 'filter-chip';
+          btn.dataset.group = 'pais';
+          btn.dataset.val = pais;
+          btn.textContent = flag(pais) + ' ' + pais;
+          btn.style.fontSize = '9px';
+          container.appendChild(btn);
+          btn.addEventListener('click', function () {
+            handleChip(btn);
+          });
+        });
+      }
+
+      function handleChip(btn) {
+        var group = btn.dataset.group,
+          val = btn.dataset.val,
+          isActive = btn.classList.contains('active');
+        document.querySelectorAll('.filter-chip[data-group="' + group + '"]').forEach(function (b) {
+          b.classList.remove('active');
+        });
+        if (!isActive) {
+          btn.classList.add('active');
+          activeFilters[group] = val;
+        } else {
+          activeFilters[group] = null;
+        }
+        render();
+      }
+
+      function clearAll() {
+        searchQuery = '';
+        activeFilters = { plan: null, pais: null };
+        document.getElementById('searchInput').value = '';
+        document.querySelectorAll('.filter-chip').forEach(function (b) {
+          b.classList.remove('active');
+        });
+        render();
+      }
+
+      document.querySelectorAll('.filter-chip[data-group="plan"]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          handleChip(btn);
+        });
+      });
+
+      var searchTimer;
+      document.getElementById('searchInput').addEventListener('input', function () {
+        clearTimeout(searchTimer);
+        var self = this;
+        searchTimer = setTimeout(function () {
+          searchQuery = self.value.trim();
+          render();
+        }, 220);
+      });
+
+      fetch(
+        SB_URL +
+          '/rest/v1/proveedores?select=nombre_empresa,slug,tipo_empresa,sector,descripcion,ano_fundacion,num_empleados,website,pais,ciudad,plan,plan_activo,estado,verificado,materiales&plan_activo=eq.true&estado=eq.activo&order=nombre_empresa.asc&limit=200',
+        { headers: HDRS }
+      )
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          ALL_DATA = Array.isArray(data) ? data : [];
+          var sectorData = ALL_DATA.filter(matchesSector);
+          buildCountryFilters(sectorData);
+          render();
+        })
+        .catch(function () {
+          document.getElementById('companyGrid').innerHTML =
+            '<div class="no-results"><p style="font-size:14px;color:#8a8784;">Error cargando el directorio. Por favor, recarga la página.</p></div>';
+          var sub = document.getElementById('sectorSubtitle');
+          if (sub) sub.textContent = 'Error de carga';
+        });
+
+      /* Anuncio dinámico */
+      (function loadAd() {
+        var today = new Date().toISOString().slice(0, 10);
+        var url =
+          SB_URL +
+          '/rest/v1/anuncios?espacio_codigo=eq.' +
+          cfg.adCode +
+          '&activo=eq.true&select=imagen_url,url_destino,texto_alt,fecha_inicio,fecha_fin&limit=5';
+        fetch(url, { headers: HDRS })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (data) {
+            if (!Array.isArray(data) || !data.length) return;
+            var valid = data.filter(function (a) {
+              if (a.fecha_inicio && a.fecha_inicio > today) return false;
+              if (a.fecha_fin && a.fecha_fin < today) return false;
+              return true;
+            });
+            if (!valid.length) return;
+            var ad = valid[0];
+            var slot = document.getElementById('heroAdSlot');
+            if (!slot) return;
+            var href = ad.url_destino
+              ? ad.url_destino.startsWith('http')
+                ? ad.url_destino
+                : 'https://' + ad.url_destino
+              : '#';
+            slot.innerHTML =
+              '<a class="ad-link" href="' +
+              href +
+              '" target="_blank" rel="noopener sponsored"><img src="' +
+              (ad.imagen_url || '') +
+              '" alt="' +
+              (ad.texto_alt || 'Publicidad') +
+              '" loading="lazy"></a>';
+            var wrapper = document.getElementById('heroAdWrapper');
+            if (wrapper) wrapper.style.display = '';
+          })
+          .catch(function () {});
+      })();
+    })();
+  </script>
 </Page>
