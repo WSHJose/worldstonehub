@@ -61,11 +61,11 @@ const {
 
   <Footer />
 
-  <!-- Supabase JS (CDN) — disponible para todos los scripts de página -->
-  <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- i18n y auth -->
   <script is:inline src="/i18n.js"></script>
-  <script is:inline src="/auth-nav.js"></script>
+  <script>
+    import '../scripts/auth-nav.ts';
+  </script>
 
   <!-- Scripts adicionales de la página hija -->
   <slot name="scripts" />
