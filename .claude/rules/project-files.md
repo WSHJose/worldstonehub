@@ -1,73 +1,115 @@
 ---
 name: Project Files Map
-description: Estructura y propósito de archivos HTML, JS, SQL en el repositorio
+description: Mapa de archivos del proyecto — páginas Astro, contextos, servicios HTTP, layouts
 type: reference
 ---
 
 # Project Files Map
 
-## Public Pages
+## Source Structure
+
+```
+src/
+├── pages/          ← rutas públicas (.astro)
+├── layouts/        ← layouts base reutilizables
+├── components/     ← componentes Astro compartidos
+├── contexts/       ← lógica por dominio (API + tipos)
+├── services/       ← servicios compartidos (HTTP config)
+├── scripts/        ← scripts TS del lado cliente
+└── styles/         ← CSS global
+```
+
+## Pages (`src/pages/`)
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Home — hero, stats (22K+ materiales, 138 países), búsqueda inteligente |
-| `materiales.html` | Catálogo — filtros, búsqueda, badges ★, orden precio/calidad |
-| `mapa.html` | Mapa interactivo (MapLibre/MapTiler) — materiales ★★+ por defecto |
-| `proveedores.html` | Directorio de proveedores B2B |
-| `proveedor.html` | Ficha individual proveedor |
-| `material.html` | Ficha individual material |
-| `canteras.html` | Directorio de canteras |
-| `cantera.html` | Ficha individual cantera |
-| `registro.html` | Registro proveedor (con Stripe checkout) |
-| `blog.html` | Blog — estructura existe, sin contenido real |
-| `nosotros.html` | About page |
-| `contacto.html` | Contact form |
-| `legal.html` | Términos legales |
-| `gracias.html` | Post-pago Stripe confirmation |
-| `sector-*.html` (7) | Sector pages (arquitectura, constructoras, etc.) — idénticas, pendiente unificar |
+| `index.astro` | Home — hero, stats, búsqueda inteligente |
+| `materiales.astro` | Catálogo — filtros, búsqueda, badges ★, orden |
+| `material.astro` | Ficha individual material |
+| `mapa.astro` | Mapa interactivo (MapLibre/MapTiler) |
+| `proveedores.astro` | Directorio de proveedores B2B |
+| `proveedor.astro` | Ficha individual proveedor |
+| `proveedor-levantina.astro` | Ficha especial Levantina |
+| `canteras.astro` | Directorio de canteras |
+| `cantera.astro` | Ficha individual cantera |
+| `sector.astro` | Página de sector (unificada, reemplaza `sector-*.html`) |
+| `registro.astro` | Registro proveedor (con Stripe checkout) |
+| `blog.astro` | Blog — estructura existe, sin contenido real |
+| `nosotros.astro` | About page |
+| `contacto.astro` | Contact form |
+| `legal.astro` | Términos legales |
+| `gracias.astro` | Post-pago Stripe confirmation |
+| `fundadores.astro` | Página oferta fundadores |
+| `fundadores-oferta.astro` | Detalle oferta fundadores |
+| `fundadores-templates.astro` | Templates fundadores |
+| `esquema-negocio.astro` | Esquema de negocio (interno) |
+| `login.astro` | Login Supabase Auth |
+| `panel.astro` | Proveedor dashboard privado |
+| `admin.astro` | Panel admin — gestión completa |
+| `admin-anuncios.astro` | Subpanel gestión anuncios |
+| `proponer-material.astro` | Formulario público proponer materiales |
+| `proponer-cantera.astro` | Formulario público proponer canteras |
+| `i18n-example.astro` | i18n demo (noindex, experimental) |
+| `404.astro` | Error page |
 
-## Admin & Private Pages
-
-| File | Purpose |
-|------|---------|
-| `admin.html` | Panel admin — gestión proveedores, anuncios, contribuciones, RLS |
-| `admin-anuncios.html` | Subpanel gestión anuncios específicamente |
-| `panel.html` | Proveedor dashboard privado |
-| `login.html` | Login Supabase Auth |
-
-## Special Pages
-
-| File | Purpose |
-|------|---------|
-| `proponer-material.html` | Formulario público proponer materiales |
-| `proponer-cantera.html` | Formulario público proponer canteras |
-| `lapidis-*.html` (4) | Experimentos alternativos (no público) |
-| `404.html` | Error page |
-| `i18n-example.html` | i18n demo (noindex, experimental) |
-
-## Shared JavaScript
+## Layouts (`src/layouts/`)
 
 | File | Purpose |
 |------|---------|
-| `_prov_loader.js` | Carga lista proveedores, placeholders si tabla vacía |
-| `auth-nav.js` | Estado autenticación en navbar, mostrar/ocultar elementos |
-| `i18n.js` | Sistema traducciones (experimental) |
+| `Base.astro` | Layout HTML base — head, meta, estilos globales |
+| `Page.astro` | Layout de página con navbar y footer |
 
-## SQL Migrations
+## Components (`src/components/`)
 
-Ejecutadas en Supabase (ver `.claude/rules/db-schema.md` para detalles):
+| File | Purpose |
+|------|---------|
+| `Navbar.astro` | Barra de navegación principal |
+| `Footer.astro` | Pie de página |
 
-- `content_score_migration.sql` — trigger + función + update inicial
-- `contribuciones_parte1.sql` — tablas contribuciones + puntos
-- `contribuciones_parte2.sql` — función visibility_score + vista materializada + RLS
-- `fichas_50_piedras.sql` — 50 materiales de calidad
-- `mapa_coordenadas.sql` — coords para materiales sin lat/lng
-- `materiales_spain_import.sql` — importación España
-- `blog_setup.sql` — estructura blog
+## Contexts (`src/contexts/`)
+
+Cada contexto sigue la estructura:
+```
+src/contexts/{context}/services/http/
+  {context}Http.ts        ← funciones de acceso a API
+  {context}Http.types.ts  ← interfaces TypeScript
+```
+
+| Context | Dominio |
+|---------|---------|
+| `auth` | Autenticación Supabase |
+| `blog` | Artículos del blog |
+| `canteras` | Directorio de canteras |
+| `home` | Datos para la home (stats, etc.) |
+| `materials` | Catálogo de materiales |
+| `proveedores` | Directorio de proveedores |
+
+## Shared Services (`src/services/`)
+
+| File | Purpose |
+|------|---------|
+| `services/http/config.ts` | `supabase` client, `restFetch<T>()`, `restFetchCount()` |
+
+## Scripts (`src/scripts/`)
+
+| File | Purpose |
+|------|---------|
+| `auth-nav.ts` | Estado autenticación en navbar, mostrar/ocultar elementos |
+
+## SQL Migrations (`sqls/`)
+
+- `content_score_migration.sql` — trigger + función + update inicial ✅
+- `contribuciones_parte1.sql` — tablas contribuciones + puntos ✅
+- `contribuciones_parte2.sql` — visibility_score + vista materializada + RLS ✅
+- `fichas_50_piedras.sql` — 50 materiales de calidad ✅
+- `mapa_coordenadas.sql` — coords para materiales sin lat/lng ✅
+- `materiales_spain_import.sql` — importación España ✅
+- `blog_setup.sql` — estructura blog ✅
 
 ## Naming Conventions
 
-- **HTML:** lowercase, kebab-case (`proveedor.html`, `admin-anuncios.html`)
-- **JS:** lowercase, kebab-case (`_prov_loader.js`, `auth-nav.js`)
-- **SQL:** snake_case files, descriptive names
-- **Prefixes:** `_` = loader/utility, `admin-*` = admin pages, `lapidis-*` = experiments
+- **Pages:** kebab-case (`materiales.astro`, `admin-anuncios.astro`)
+- **Layouts/Components:** PascalCase (`Base.astro`, `Navbar.astro`)
+- **Context services:** camelCase con sufijo `Http` (`materialsHttp.ts`, `materialsHttp.types.ts`)
+- **Scripts TS:** kebab-case (`auth-nav.ts`)
+- **SQL:** snake_case descriptivo

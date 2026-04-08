@@ -8,44 +8,53 @@ type: feedback
 
 ## Frontend Architecture
 
-1. **No JavaScript framework** — vanilla JS only (sin React/Vue/etc). Mantener así.
+1. **Astro 6 SSG** — framework de páginas. Todas las páginas en `src/pages/*.astro`. Output estático con `astro build`.
 
-2. **Supabase REST API directo** — fetch() nativo con headers, NO Supabase JS SDK.
+2. **TypeScript** — todo el código nuevo en `.ts` / `.astro` con tipado. Interfaces en `*Http.types.ts`.
 
-3. **PL/pgSQL con `SET search_path = public`** — Supabase ejecuta funciones con search_path vacío. Siempre añadir esta cláusula en DDL.
+3. **Context-based architecture** — cada dominio tiene su propio directorio:
+   ```
+   src/contexts/{context}/services/http/{context}Http.ts        ← funciones API
+   src/contexts/{context}/services/http/{context}Http.types.ts  ← interfaces TS
+   ```
+   Contextos actuales: `auth`, `blog`, `canteras`, `home`, `materials`, `proveedores`
 
-4. **`origen_region` parsing** — función `arr()` en JS parsea 3 formatos automáticamente:
+4. **Shared HTTP layer** — `src/services/http/config.ts` exporta:
+   - `supabase` — cliente `@supabase/supabase-js` (para queries complejas)
+   - `restFetch<T>(path, extraHeaders?)` — fetch directo a REST API con tipado genérico
+   - `restFetchCount(path)` — fetch con `Prefer: count=exact` para totales
+
+5. **Dual API pattern** — dentro de `*Http.ts` se usan ambos según complejidad:
+   - `supabase.from(...).select(...)` — para queries con filtros encadenados o `.single()`
+   - `restFetch<T>(...)` — para queries con fields específicos, order, limit/offset
+
+6. **`origen_region` parsing** — función `arr()` en TS parsea 3 formatos:
    - PostgreSQL array: `{Toscana}`
    - JSON string: `["Italy (Lazio)"]`
    - null: sin región
 
-5. **Paginación** — máximo ~1000 filas/request. Para datasets grandes: múltiples páginas con `offset`.
+7. **Paginación** — máximo ~1000 filas/request. Para datasets grandes: múltiples páginas con `offset`.
 
 ## Database & Scoring
 
-6. **`content_score` no editable** — calculado automáticamente por trigger. No hay UI de edición, solo lectura en admin para auditoría.
+8. **`content_score` no editable** — calculado automáticamente por trigger. Solo lectura en admin.
 
-7. **Coordenadas de materiales** — 50 materiales ★★/★★★ con coords precisas (región/cantera). Resto: coords aproximadas por país (centroide + jitter).
+9. **Coordenadas de materiales** — 50 materiales ★★/★★★ con coords precisas. Resto: coords aproximadas por país (centroide + jitter).
 
-8. **REFRESH vistas materializadas** — tras cambios en dependencias, ejecutar manualmente.
+10. **REFRESH vistas materializadas** — tras cambios en dependencias, ejecutar manualmente.
+
+11. **PL/pgSQL con `SET search_path = public`** — Supabase ejecuta funciones con search_path vacío. Siempre añadir esta cláusula en DDL.
 
 ## Deployment & Build
 
-9. **No build system** — cambios en HTML/JS/CSS son directos en `main` → GitHub Pages automático.
+12. **Build command:** `astro build` → genera `dist/` → GitHub Pages sirve desde `dist/`
 
-10. **Git workflow** — rama `main` es deployable. Push a `origin` dispara deploy.
+13. **`build.format: 'file'`** en `astro.config.mjs` — genera `materiales.html` en vez de `materiales/index.html` (compatibilidad con URLs existentes).
 
-## Data API Calls
+14. **Git workflow** — rama `main` es deployable. Push a `origin main` dispara deploy automático.
 
-11. **Headers estándar:**
-    ```js
-    {
-      'apikey': SUPABASE_PUBLISHABLE_KEY,
-      'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
-      'Content-Type': 'application/json'
-    }
-    ```
+## Stripe
 
-12. **Stripe dinámico** — sin payment links estáticos. Todo vía Edge Functions:
+15. **Stripe dinámico** — sin payment links estáticos. Todo vía Edge Functions:
     - `create-checkout`: genera sesión por actor+plan+billing
     - `stripe-webhook`: activa proveedor en DB tras `checkout.session.completed`

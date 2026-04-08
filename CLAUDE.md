@@ -1,7 +1,7 @@
 # CLAUDE.md — World Stone Hub
 
 > Archivo de contexto permanente. Se carga automáticamente al inicio de cada sesión.
-> Última actualización: 2026-04-03
+> Última actualización: 2026-04-08
 
 ---
 
@@ -19,14 +19,14 @@ Conecta proveedores, canteras, distribuidores y compradores a nivel mundial.
 
 ## 🛠️ Stack Técnico
 
-| Capa      | Tecnología                              |
-| --------- | --------------------------------------- |
-| Frontend  | HTML + CSS + JS vanilla (sin framework) |
-| Database  | Supabase (PostgreSQL)                   |
-| Auth      | Supabase Auth                           |
-| Payments  | Stripe (**LIVE MODE** desde 2026-04-01) |
-| Analytics | Google Analytics 4                      |
-| Deploy    | GitHub Pages                            |
+| Capa      | Tecnología                                      |
+| --------- | ----------------------------------------------- |
+| Frontend  | **Astro 6** (SSG) + TypeScript                  |
+| Database  | Supabase (PostgreSQL) + `@supabase/supabase-js` |
+| Auth      | Supabase Auth                                   |
+| Payments  | Stripe (**LIVE MODE** desde 2026-04-01)         |
+| Analytics | Google Analytics 4                              |
+| Build     | `astro build` → `dist/` → GitHub Pages          |
 
 ---
 
@@ -98,18 +98,18 @@ REST API máximo ~1000 filas/request. Coordenadas: 50 materiales con precisión 
 
 - [ ] og:image para redes sociales
 - [ ] Blog: contenido o eliminar
-- [ ] Unificar `sector-*.html` → `sector.html?id=`
-- [ ] `index.html` 690KB — lazy-load
+- [ ] `visibility_score` conectada a UI en `.astro` pages
 
 ---
 
 ## 💡 Key Technical Notes
 
-1. **No framework JS** — vanilla only
-2. **Supabase REST directo** — fetch() nativo, no SDK JS
-3. **`SET search_path = public`** en funciones PL/pgSQL
-4. **Paginación:** máximo 1000 filas/request
-5. **No build system** — cambios HTML/JS/CSS directos en `main`
-6. **Git:** rama `main` es deployable
+1. **Astro SSG** — `src/pages/*.astro`, output estático, `astro build` → `dist/`
+2. **Context-based architecture** — `src/contexts/{context}/services/http/{context}Http.ts` + `{context}Http.types.ts`
+3. **API calls y tipos** — siempre en archivos `*Http.ts` / `*Http.types.ts` dentro del contexto correspondiente
+4. **Shared HTTP** — `src/services/http/config.ts` exporta `supabase` (SDK client), `restFetch<T>()`, `restFetchCount()`
+5. **`SET search_path = public`** en funciones PL/pgSQL
+6. **Paginación:** máximo 1000 filas/request
+7. **Git:** rama `main` es deployable. Push a `origin` dispara deploy.
 
 → Decisiones completas en [@path/.claude/rules/technical-decisions.md]
