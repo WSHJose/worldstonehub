@@ -2472,7 +2472,17 @@ import Page from '../layouts/Page.astro';
   <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
   <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"
   ></script>
-  <script is:inline slot="scripts">
+  <script>
+    import { getForSearch as getMaterialesForSearch } from '@contexts/materials/services/http/materialsHttp';
+    import { getForSearch as getCanterasForSearch } from '@contexts/canteras/services/http/canterasHttp';
+    import {
+      getActiveCount,
+      getForSearch as getProveedoresForSearch,
+    } from '@contexts/proveedores/services/http/proveedoresHttp';
+    import {
+      getAnunciosByEspacio,
+      getFundadoresCount,
+    } from '@contexts/home/services/http/homeHttp';
     (function () {
       var svgEl = document.getElementById('mini-map-svg');
       if (!svgEl) return;
@@ -2557,8 +2567,6 @@ import Page from '../layouts/Page.astro';
 
     /* ── UNIFIED SEARCH ENGINE ── */
     (function () {
-      var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-      var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
       var INDEX = [];
       var activeType = 'all';
       var currentQuery = '';
@@ -2599,13 +2607,6 @@ import Page from '../layouts/Page.astro';
       function trunc(s, n) {
         s = String(s || '');
         return s.length > n ? s.slice(0, n) + '…' : s;
-      }
-      function sbFetch(path) {
-        return fetch(SB_URL + path, {
-          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
-        }).then(function (r) {
-          return r.json();
-        });
       }
       var FLAG_CODES = {
         España: 'es',
@@ -2746,17 +2747,7 @@ import Page from '../layouts/Page.astro';
           moreWrap.style.display = 'none';
         }
       }
-      Promise.all([
-        sbFetch(
-          '/rest/v1/materiales?select=nombre_comercial,nombre_cientifico,categoria,subcategoria,color_principal,origen_pais,origen_region,tags_busqueda,nombres_alternativos,usos_recomendados,imagen_url,slug&order=nombre_comercial.asc&limit=500'
-        ),
-        sbFetch(
-          '/rest/v1/canteras?select=nombre,tipo_piedra,pais,localizacion,continente,materiales,color_principal,slug,activo&order=nombre.asc&limit=500'
-        ),
-        sbFetch(
-          '/rest/v1/proveedores?select=nombre_empresa,tipo_empresa,plan,pais,ciudad,descripcion,slug,logo_url,activo,estado&order=nombre_empresa.asc&limit=100'
-        ),
-      ])
+      Promise.all([getMaterialesForSearch(), getCanterasForSearch(), getProveedoresForSearch()])
         .then(function (results) {
           var mats = Array.isArray(results[0]) ? results[0] : [];
           var cants = Array.isArray(results[1])
@@ -2914,28 +2905,15 @@ import Page from '../layouts/Page.astro';
 
     /* ── PROVIDERS COUNT ── */
     (function () {
-      var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-      var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
-      fetch(SB_URL + '/rest/v1/proveedores?select=id&activo=eq.true&estado=eq.activo', {
-        headers: {
-          apikey: SB_KEY,
-          Authorization: 'Bearer ' + SB_KEY,
-          Prefer: 'count=exact',
-          Range: '0-0',
-        },
-      })
-        .then(function (r) {
-          var cr = r.headers.get('content-range');
-          if (cr) {
-            var total = cr.split('/')[1];
-            if (total && total !== '*') {
-              var proEl = document.getElementById('proCount');
-              var heroEl = document.getElementById('heroStatCompanies');
-              if (proEl) proEl.textContent = total + ' operadores activos';
-              if (heroEl) {
-                heroEl.textContent = total;
-                heroEl.removeAttribute('style');
-              }
+      getActiveCount()
+        .then(function (total) {
+          if (total !== null) {
+            var proEl = document.getElementById('proCount');
+            var heroEl = document.getElementById('heroStatCompanies');
+            if (proEl) proEl.textContent = String(total) + ' operadores activos';
+            if (heroEl) {
+              heroEl.textContent = String(total);
+              heroEl.removeAttribute('style');
             }
           }
         })
@@ -2951,22 +2929,7 @@ import Page from '../layouts/Page.astro';
       var fill = document.getElementById('fcSeatsFill');
       var label = document.getElementById('fcSeatsText');
       if (!fill && !label) return;
-      fetch(
-        'https://whcptmdapnavcxcszwwk.supabase.co/rest/v1/solicitudes_fundadores?select=id&estado=neq.rechazado',
-        {
-          headers: {
-            apikey: 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO',
-            Authorization: 'Bearer sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO',
-            Prefer: 'count=exact',
-            Range: '0-0',
-          },
-        }
-      )
-        .then(function (r) {
-          var range = r.headers.get('content-range') || '';
-          var match = range.match(/\/(\d+)$/);
-          return match ? parseInt(match[1], 10) : null;
-        })
+      getFundadoresCount()
         .then(function (count) {
           if (count === null) count = 3;
           var taken = Math.min(count, TOTAL_SEATS);
@@ -3004,21 +2967,10 @@ import Page from '../layouts/Page.astro';
 
     /* ── AD LOADER ── */
     (function loadAd() {
-      var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-      var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
       var today = new Date().toISOString().slice(0, 10);
-      fetch(
-        SB_URL +
-          '/rest/v1/anuncios?espacio_codigo=eq.HOME-TOP&activo=eq.true&select=imagen_url,url_destino,texto_alt,fecha_inicio,fecha_fin&limit=5',
-        {
-          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
-        }
-      )
-        .then(function (r) {
-          return r.json();
-        })
+      getAnunciosByEspacio('HOME-TOP')
         .then(function (data) {
-          if (!Array.isArray(data) || !data.length) return;
+          if (!data.length) return;
           var valid = data.filter(function (a) {
             if (a.fecha_inicio && a.fecha_inicio > today) return false;
             if (a.fecha_fin && a.fecha_fin < today) return false;

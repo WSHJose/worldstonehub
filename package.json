@@ -11,6 +11,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.102.1",
     "astro": "^6.0.0"
   },
   "lint-staged": {

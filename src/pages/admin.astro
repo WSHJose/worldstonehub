@@ -2120,10 +2120,8 @@ import Page from '../layouts/Page.astro';
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <script slot="scripts" is:inline>
-    const SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-    const SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
-    const db = supabase.createClient(SB_URL, SB_KEY);
+  <script>
+    import { supabase as db } from '@services/http/config';
 
     let _contribEstado = 'pendiente';
 

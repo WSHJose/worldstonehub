@@ -161,10 +161,8 @@ import Page from '../layouts/Page.astro';
     </div>
   </div>
 
-  <script slot="scripts" is:inline>
-    const SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-    const SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
-    const db = supabase.createClient(SB_URL, SB_KEY);
+  <script>
+    import { supabase as db } from '@services/http/config';
 
     db.auth.getSession().then((r) => {
       const session = r.data?.session;

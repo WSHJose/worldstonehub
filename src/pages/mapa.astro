@@ -782,16 +782,15 @@ import Page from '../layouts/Page.astro';
     </div>
   </div>
 
-  <script slot="scripts" is:inline>
+  <script>
+    import { getForMap, getMapById } from '@contexts/materials/services/http/materialsHttp';
+    import { supabase } from '@services/http/config';
     // ─────────────────────────────────────────────
     //  CONFIG — Reemplaza con tu token público de Mapbox
     //  (empieza con pk.eyJ1...)
     // ─────────────────────────────────────────────
     const MAPBOX_TOKEN =
       'pk.eyJ1Ijoid3Noam9zZSIsImEiOiJjbW42aDR2bGMwNWNjMnJwZG53anVzaHVoIn0.4yf3OytJyTI2RYz8yokVlw';
-
-    const SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-    const SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
 
     // ─────────────────────────────────────────────
     //  CATEGORY CONFIG
@@ -921,39 +920,21 @@ import Page from '../layouts/Page.astro';
     }
 
     async function loadData() {
-      const fields =
-        'id,nombre_comercial,categoria,color_principal,origen_pais,origen_region,lat,lng,content_score';
-      const hdrs = { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` };
-      const PAGE = 1000; // Supabase default max rows per request
-
-      function fetchPage(offset) {
-        const url = `${SB_URL}/rest/v1/materiales?select=${fields}&lat=not.is.null&order=id.asc&limit=${PAGE}&offset=${offset}`;
-        return fetch(url, { headers: hdrs })
-          .then((r) => (r.ok ? r.json() : []))
-          .catch(() => []);
-      }
-
-      // Fetch quality materials directly (content_score >= 50) — small set, always complete
-      async function fetchQuality() {
-        const url = `${SB_URL}/rest/v1/materiales?select=${fields}&lat=not.is.null&content_score=gte.50&order=content_score.desc&limit=500`;
-        return fetch(url, { headers: hdrs })
-          .then((r) => (r.ok ? r.json() : []))
-          .catch(() => []);
-      }
+      const PAGE = 1000;
 
       try {
         // Load quality materials immediately (needed for default view)
-        const qualityRaw = await fetchQuality();
+        const qualityRaw = await getForMap(50);
         const qualityData = qualityRaw
           .filter((d) => d.lat != null && d.lng != null)
           .map(applyJitter);
 
-        // Load all geolocated materials in background (25 pages × 1000 = 25k max)
+        // Load all geolocated materials in background
         const pageNums = Array.from({ length: 25 }, (_, i) => i * PAGE);
-        const results = await Promise.all(pageNums.map((offset) => fetchPage(offset)));
+        const results = await Promise.all(pageNums.map((offset) => getForMap(0).catch(() => [])));
         const raw = results.flat();
 
-        // Merge: quality materials first, then add any from full load not already present
+        // Merge: quality materials first, then add any not already present
         const qualityIds = new Set(qualityData.map((d) => d.id));
         const restData = raw
           .filter((d) => d.lat != null && d.lng != null && !qualityIds.has(d.id))
@@ -973,14 +954,8 @@ import Page from '../layouts/Page.astro';
 
     // Fetch full detail for a single material on click
     async function fetchDetail(id) {
-      const fields =
-        'id,nombre_comercial,categoria,color_principal,origen_pais,origen_region,imagen_url_principal,lat,lng';
       try {
-        const r = await fetch(`${SB_URL}/rest/v1/materiales?select=${fields}&id=eq.${id}&limit=1`, {
-          headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` },
-        });
-        const rows = await r.json();
-        return rows[0] || null;
+        return await getMapById(id);
       } catch (e) {
         return null;
       }
@@ -1468,14 +1443,11 @@ import Page from '../layouts/Page.astro';
     // ─────────────────────────────────────────────
     (async () => {
       try {
-        const sb = window.supabase?.createClient
-          ? window.supabase.createClient(SB_URL, SB_KEY)
-          : null;
-        if (!sb) return;
         const {
           data: { session },
-        } = await sb.auth.getSession();
+        } = await supabase.auth.getSession();
         const li = document.getElementById('nav-auth-item');
+        if (!li) return;
         if (session) {
           li.innerHTML = `<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Panel</a>`;
         } else {

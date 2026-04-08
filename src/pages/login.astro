@@ -188,7 +188,8 @@ import Page from '../layouts/Page.astro';
     </div>
   </div>
 
-  <script slot="scripts" is:inline>
+  <script>
+    import { supabase } from '@services/http/config';
     window.handleLogin = function () {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
@@ -200,9 +201,7 @@ import Page from '../layouts/Page.astro';
         return;
       }
 
-      const SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-      const SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
-      const db = supabase.createClient(SB_URL, SB_KEY);
+      const db = supabase;
 
       db.auth.signInWithPassword({ email, password }).then((r) => {
         if (r.error) {

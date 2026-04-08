@@ -776,9 +776,8 @@ import Page from '../layouts/Page.astro';
     </aside>
   </div>
 
-  <script slot="scripts" is:inline>
-    var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-    var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+  <script>
+    import { getAll } from '@contexts/blog/services/http/blogHttp';
 
     var CAT_LABELS = {
       tendencias: 'Tendencias',
@@ -808,14 +807,6 @@ import Page from '../layouts/Page.astro';
     var currentPage = 1;
     var activeCat = '';
     var activeSearch = '';
-
-    function sbFetch(endpoint) {
-      return fetch(SB_URL + '/rest/v1/' + endpoint, {
-        headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, Accept: 'application/json' },
-      }).then(function (r) {
-        return r.json();
-      });
-    }
 
     function fmtDate(iso) {
       if (!iso) return '';
@@ -1098,30 +1089,30 @@ import Page from '../layouts/Page.astro';
         });
       }
       renderSkeletons();
-      sbFetch(
-        'articulos?select=id,slug,titulo,subtitulo,categoria,resumen,imagen_portada,imagen_alt,autor_nombre,tags_busqueda,minutos_lectura,destacado,publicado,created_at,published_at&publicado=eq.true&order=published_at.desc,created_at.desc'
-      )
+      getAll()
         .then(function (data) {
-          if (!Array.isArray(data)) {
-            data = [];
-          }
           allArticles = data;
-          document.getElementById('statArticulos').textContent = data.length;
+          (document.getElementById('statArticulos') as HTMLElement).textContent = String(
+            data.length
+          );
           renderSidebarCats();
           renderSidebarTags();
           applyFilters();
         })
         .catch(function () {
-          document.getElementById('articles-grid').innerHTML =
+          (document.getElementById('articles-grid') as HTMLElement).innerHTML =
             '<div class="blog-empty" style="grid-column:1/-1"><div class="blog-empty-icon">◇</div><div class="blog-empty-title">Error al cargar</div><div class="blog-empty-desc">No se pudieron cargar los artículos. Inténtalo de nuevo.</div></div>';
         });
-      document.getElementById('blogSearch').addEventListener('input', function () {
-        activeSearch = this.value.trim();
-        applyFilters();
-      });
-      document.querySelectorAll('.cat-tab').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          activeCat = this.dataset.cat;
+      (document.getElementById('blogSearch') as HTMLInputElement).addEventListener(
+        'input',
+        function (this: HTMLInputElement) {
+          activeSearch = this.value.trim();
+          applyFilters();
+        }
+      );
+      document.querySelectorAll<HTMLElement>('.cat-tab').forEach(function (btn) {
+        btn.addEventListener('click', function (this: HTMLElement) {
+          activeCat = (this as HTMLElement).dataset.cat ?? '';
           document.querySelectorAll('.cat-tab').forEach(function (b) {
             b.classList.remove('active');
           });
@@ -1129,10 +1120,13 @@ import Page from '../layouts/Page.astro';
           applyFilters();
         });
       });
-      document.getElementById('btnLoadMore').addEventListener('click', function () {
-        currentPage++;
-        renderGrid();
-      });
+      (document.getElementById('btnLoadMore') as HTMLElement).addEventListener(
+        'click',
+        function () {
+          currentPage++;
+          renderGrid();
+        }
+      );
     })();
   </script>
 </Page>

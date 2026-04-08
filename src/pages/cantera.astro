@@ -541,11 +541,14 @@ import Page from '../layouts/Page.astro';
     </div>
   </div>
 
-  <script slot="scripts" is:inline>
+  <script>
+    import {
+      getBySlug,
+      getMaterialesVinculados,
+    } from '@contexts/canteras/services/http/canterasHttp';
+    import { supabase } from '@services/http/config';
     (function () {
-      var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-      var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
-      var db = supabase.createClient(SB_URL, SB_KEY);
+      var db = supabase;
 
       var CONT_COLORS = {
         Europa: '#4a7fa5',
@@ -665,17 +668,14 @@ import Page from '../layouts/Page.astro';
         return;
       }
 
-      db.from('canteras')
-        .select('*')
-        .eq('slug', slug)
-        .limit(1)
-        .then(function (res) {
-          if (res.error || !res.data || !res.data.length) {
+      getBySlug(slug)
+        .then(function (cantera) {
+          if (!cantera) {
             show404();
             return;
           }
-          render(res.data[0]);
-          loadAdyacentes(res.data[0]);
+          render(cantera);
+          loadAdyacentes(cantera);
         })
         .catch(function () {
           show404();
@@ -838,23 +838,9 @@ import Page from '../layouts/Page.astro';
       }
 
       function cargarMateriasVinculadas(canteraId) {
-        fetch(
-          SB_URL +
-            '/rest/v1/material_cantera?select=material_id,materiales(id,slug,nombre_comercial,categoria,color_principal)&cantera_id=eq.' +
-            encodeURIComponent(canteraId),
-          {
-            headers: {
-              apikey: SB_KEY,
-              Authorization: 'Bearer ' + SB_KEY,
-              Accept: 'application/json',
-            },
-          }
-        )
-          .then(function (r) {
-            return r.json();
-          })
+        getMaterialesVinculados(canteraId)
           .then(function (rows) {
-            if (!Array.isArray(rows) || !rows.length) return;
+            if (!rows.length) return;
             var list = el('mat-linked-list');
             if (!list) return;
             list.innerHTML = rows

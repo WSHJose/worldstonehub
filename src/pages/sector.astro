@@ -764,7 +764,9 @@ import Page from '../layouts/Page.astro';
     </div>
   </section>
 
-  <script slot="scripts" is:inline>
+  <script>
+    import { getForSearch as getProveedoresForSearch } from '@contexts/proveedores/services/http/proveedoresHttp';
+    import { getAnunciosByEspacio } from '@contexts/home/services/http/homeHttp';
     (function () {
       var SECTORS = {
         arquitectura: {
@@ -944,10 +946,7 @@ import Page from '../layouts/Page.astro';
         });
       }
 
-      /* Supabase */
-      var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-      var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
-      var HDRS = { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, Accept: 'application/json' };
+      /* Supabase — credentials moved to service */
 
       function esc(s) {
         return (s || '')
@@ -1218,22 +1217,15 @@ import Page from '../layouts/Page.astro';
         }, 220);
       });
 
-      fetch(
-        SB_URL +
-          '/rest/v1/proveedores?select=nombre_empresa,slug,tipo_empresa,sector,descripcion,ano_fundacion,num_empleados,website,pais,ciudad,plan,plan_activo,estado,verificado,materiales&plan_activo=eq.true&estado=eq.activo&order=nombre_empresa.asc&limit=200',
-        { headers: HDRS }
-      )
-        .then(function (r) {
-          return r.json();
-        })
+      getProveedoresForSearch()
         .then(function (data) {
-          ALL_DATA = Array.isArray(data) ? data : [];
+          ALL_DATA = data;
           var sectorData = ALL_DATA.filter(matchesSector);
           buildCountryFilters(sectorData);
           render();
         })
         .catch(function () {
-          document.getElementById('companyGrid').innerHTML =
+          (document.getElementById('companyGrid') as HTMLElement).innerHTML =
             '<div class="no-results"><p style="font-size:14px;color:#8a8784;">Error cargando el directorio. Por favor, recarga la página.</p></div>';
           var sub = document.getElementById('sectorSubtitle');
           if (sub) sub.textContent = 'Error de carga';
@@ -1242,17 +1234,9 @@ import Page from '../layouts/Page.astro';
       /* Anuncio dinámico */
       (function loadAd() {
         var today = new Date().toISOString().slice(0, 10);
-        var url =
-          SB_URL +
-          '/rest/v1/anuncios?espacio_codigo=eq.' +
-          cfg.adCode +
-          '&activo=eq.true&select=imagen_url,url_destino,texto_alt,fecha_inicio,fecha_fin&limit=5';
-        fetch(url, { headers: HDRS })
-          .then(function (r) {
-            return r.json();
-          })
+        getAnunciosByEspacio(cfg.adCode)
           .then(function (data) {
-            if (!Array.isArray(data) || !data.length) return;
+            if (!data.length) return;
             var valid = data.filter(function (a) {
               if (a.fecha_inicio && a.fecha_inicio > today) return false;
               if (a.fecha_fin && a.fecha_fin < today) return false;

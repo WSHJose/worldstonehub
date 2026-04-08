@@ -915,9 +915,8 @@ import Page from '../layouts/Page.astro';
     </div>
   </section>
 
-  <script slot="scripts" is:inline>
-    var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-    var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+  <script>
+    import { getAll as getMaterialesAll } from '@contexts/materials/services/http/materialsHttp';
     var DB = [];
     var activeFilters = { cat: null, color: null };
     var searchQuery = '';
@@ -1693,63 +1692,43 @@ import Page from '../layouts/Page.astro';
       }
     }
     (function loadMateriales() {
-      var SELECT =
-        'slug,nombre_comercial,nombres_alternativos,categoria,origen_pais,origen_region,color_principal,color_acento,acabados_disponibles,usos_recomendados,propiedades_tecnicas,tags_busqueda,imagen_url_principal,activo,content_score,precio_orientativo';
-      var BASE =
-        SB_URL +
-        '/rest/v1/materiales?select=' +
-        SELECT +
-        '&activo=eq.true&order=content_score.desc.nullslast,nombre_comercial.asc';
-      var PAGE = 1000,
-        allData = [];
-      function fetchPage(offset) {
-        return fetch(BASE, {
-          headers: {
-            apikey: SB_KEY,
-            Authorization: 'Bearer ' + SB_KEY,
-            Accept: 'application/json',
-            Range: offset + '-' + (offset + PAGE - 1),
-          },
-        }).then(function (r) {
-          return r.json();
-        });
-      }
-      function loadAll(offset) {
-        fetchPage(offset)
+      var PAGE = 1000;
+      var allData: any[] = [];
+      function loadAll(offset: number) {
+        getMaterialesAll({ offset, limit: PAGE })
           .then(function (data) {
-            if (!Array.isArray(data)) {
-              document.getElementById('gridContainer').innerHTML =
-                '<div class="empty-state"><p>Error al cargar</p><small>' +
-                JSON.stringify(data).slice(0, 120) +
-                '</small></div>';
-              return;
-            }
             allData = allData.concat(data);
             if (data.length === PAGE) {
               loadAll(offset + PAGE);
             } else {
               DB = allData;
-              var paises = {},
-                colores = {};
-              DB.forEach(function (m) {
-                arr(m.origen_pais).forEach(function (p) {
+              var paises: Record<string, number> = {},
+                colores: Record<string, number> = {};
+              DB.forEach(function (m: any) {
+                arr(m.origen_pais).forEach(function (p: string) {
                   if (p) paises[p] = 1;
                 });
                 if (m.color_principal) colores[m.color_principal] = 1;
               });
-              document.getElementById('statMateriales').textContent = DB.length;
-              document.getElementById('statPaises').textContent = Object.keys(paises).length;
-              document.getElementById('statColores').textContent = Object.keys(colores).length;
+              (document.getElementById('statMateriales') as HTMLElement).textContent = String(
+                DB.length
+              );
+              (document.getElementById('statPaises') as HTMLElement).textContent = String(
+                Object.keys(paises).length
+              );
+              (document.getElementById('statColores') as HTMLElement).textContent = String(
+                Object.keys(colores).length
+              );
               showFeaturedStone();
               applyFilters();
             }
           })
-          .catch(function (err) {
+          .catch(function (err: Error) {
             if (allData.length) {
               DB = allData;
               applyFilters();
             } else
-              document.getElementById('gridContainer').innerHTML =
+              (document.getElementById('gridContainer') as HTMLElement).innerHTML =
                 '<div class="empty-state"><p>No se pudo conectar</p><small>' +
                 err.message +
                 '</small></div>';

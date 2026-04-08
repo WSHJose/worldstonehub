@@ -414,11 +414,9 @@ import Page from '../layouts/Page.astro';
     </div>
   </div>
 
-  <script slot="scripts" is:inline>
+  <script>
+    import { supabase as db } from '@services/http/config';
     (function () {
-      var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-      var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
-      var db = supabase.createClient(SB_URL, SB_KEY);
       var session = null;
       var canterasSeleccionadas = [];
       var todasCanteras = [];

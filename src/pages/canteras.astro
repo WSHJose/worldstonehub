@@ -10,7 +10,7 @@ import Page from '../layouts/Page.astro';
   ogUrl="https://worldstonehub.com/canteras"
   activePage="canteras"
 >
-  <style slot="head">
+  <style slot="head" is:global>
     :root {
       --bg-warm: #f2ede8;
       --border-md: #d4d0cb;
@@ -552,7 +552,8 @@ import Page from '../layouts/Page.astro';
         </p>
         <h1>
           <span data-i18n="hero.canteras.title">Canteras</span><br /><em
-            data-i18n="hero.canteras.titleItalic">del Mundo</em>
+            data-i18n="hero.canteras.titleItalic">del Mundo</em
+          >
         </h1>
         <p data-i18n="hero.canteras.desc">
           Directorio global de canteras de piedra natural. Explora producci&oacute;n, materiales,
@@ -738,9 +739,9 @@ import Page from '../layouts/Page.astro';
     </div>
   </section>
 
-  <script slot="scripts" is:inline>
-    var SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
-    var SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+  <script>
+    import { getAll as getCanterasAll } from '@contexts/canteras/services/http/canterasHttp';
+    import { getAnunciosByEspacio } from '@contexts/home/services/http/homeHttp';
 
     var DB = [];
     var activeFilters = { continente: null, tipo: null, estado: null };
@@ -1158,25 +1159,8 @@ import Page from '../layouts/Page.astro';
 
     /* SUPABASE LOAD */
     (function loadCanteras() {
-      var url = SB_URL + '/rest/v1/canteras?select=*&order=nombre.asc&limit=500';
-      fetch(url, {
-        headers: {
-          apikey: SB_KEY,
-          Authorization: 'Bearer ' + SB_KEY,
-          Accept: 'application/json',
-        },
-      })
-        .then(function (r) {
-          return r.json();
-        })
+      getCanterasAll()
         .then(function (data) {
-          if (!Array.isArray(data)) {
-            document.getElementById('gridContainer').innerHTML =
-              '<div class="empty-state"><p>Error al cargar canteras</p><small>' +
-              JSON.stringify(data).slice(0, 120) +
-              '</small></div>';
-            return;
-          }
           DB = data.filter(function (c) {
             return c.nombre;
           });
@@ -1184,16 +1168,18 @@ import Page from '../layouts/Page.astro';
             renderPlaceholders();
             return;
           }
-          document.getElementById('statCanteras').textContent = DB.length;
-          var paises = {};
+          (document.getElementById('statCanteras') as HTMLElement).textContent = String(DB.length);
+          var paises: Record<string, number> = {};
           DB.forEach(function (c) {
             if (c.pais) paises[c.pais] = 1;
           });
-          document.getElementById('statPaises').textContent = Object.keys(paises).length;
+          (document.getElementById('statPaises') as HTMLElement).textContent = String(
+            Object.keys(paises).length
+          );
           applyFilters();
         })
-        .catch(function (err) {
-          document.getElementById('gridContainer').innerHTML =
+        .catch(function (err: Error) {
+          (document.getElementById('gridContainer') as HTMLElement).innerHTML =
             '<div class="empty-state"><p>No se pudo conectar a la base de datos</p><small>' +
             err.message +
             '</small></div>';
@@ -1203,15 +1189,9 @@ import Page from '../layouts/Page.astro';
     /* Anuncio CANTERAS-TOP */
     (function loadAd() {
       var today = new Date().toISOString().slice(0, 10);
-      var url =
-        SB_URL +
-        '/rest/v1/anuncios?espacio_codigo=eq.CANTERAS-TOP&activo=eq.true&select=imagen_url,url_destino,texto_alt,fecha_inicio,fecha_fin&limit=5';
-      fetch(url, { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } })
-        .then(function (r) {
-          return r.json();
-        })
+      getAnunciosByEspacio('CANTERAS-TOP')
         .then(function (data) {
-          if (!Array.isArray(data) || !data.length) return;
+          if (!data.length) return;
           var valid = data.filter(function (a) {
             if (a.fecha_inicio && a.fecha_inicio > today) return false;
             if (a.fecha_fin && a.fecha_fin < today) return false;
