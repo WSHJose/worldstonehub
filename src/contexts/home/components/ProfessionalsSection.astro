@@ -1,5 +1,109 @@
 ---
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { resolve, dirname } from 'path';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const iconsDir = resolve(__dirname, '../../../assets/icons');
+const readIcon = (name: string) => readFileSync(resolve(iconsDir, `${name}.svg`), 'utf-8');
+
+interface ProCard {
+  icon: string;
+  title: string;
+  desc: string;
+  link: string;
+  linkText: string;
+}
+
+const suppliers: ProCard[] = [
+  {
+    icon: readIcon('canteras'),
+    title: 'Canteras',
+    desc: 'Extractores y productores de piedra natural en origen, con fichas técnicas, capacidad y certificaciones.',
+    link: '/canteras.html',
+    linkText: 'Ver canteras →',
+  },
+  {
+    icon: readIcon('fabricantes'),
+    title: 'Fabricantes y talleres',
+    desc: 'Serrerías, talleres y fábricas que transforman el bloque en producto acabado para obra e interiorismo.',
+    link: '/sector.html?id=fabricantes',
+    linkText: 'Ver fabricantes →',
+  },
+  {
+    icon: readIcon('distribuidores'),
+    title: 'Distribuidores',
+    desc: 'Red de distribución internacional que conecta productores con arquitectos, interioristas y constructores.',
+    link: '/sector.html?id=distribuidores',
+    linkText: 'Ver distribuidores →',
+  },
+  {
+    icon: readIcon('agentes'),
+    title: 'Agentes y representantes',
+    desc: 'Agentes comerciales e intermediarios que facilitan el acceso a mercados y productores en todo el mundo.',
+    link: '/proveedores.html',
+    linkText: 'Ver agentes →',
+  },
+  {
+    icon: readIcon('logistica'),
+    title: 'Logística y transporte',
+    desc: 'Operadores logísticos, transportistas y agentes de aduanas especializados en el movimiento de piedra natural.',
+    link: '/sector.html?id=logistica',
+    linkText: 'Ver logística →',
+  },
+  {
+    icon: readIcon('laboratorios'),
+    title: 'Laboratorios y certificación',
+    desc: 'Laboratorios de ensayo, organismos de certificación y entidades normativas del sector de la piedra.',
+    link: '/sector.html?id=laboratorios',
+    linkText: 'Ver laboratorios →',
+  },
+  {
+    icon: readIcon('maquinaria'),
+    title: 'Maquinaria industrial',
+    desc: 'Fabricantes y distribuidores de maquinaria especializada en extracción, corte y transformación de piedra.',
+    link: '/sector.html?id=maquinaria',
+    linkText: 'Ver maquinaria →',
+  },
+  {
+    icon: readIcon('embalaje'),
+    title: 'Embalaje y palets',
+    desc: 'Proveedores de soluciones de embalaje, palets y protección especializados para el transporte de piedra natural.',
+    link: '/proveedores.html',
+    linkText: 'Ver proveedores →',
+  },
+];
+
+const buyers: ProCard[] = [
+  {
+    icon: readIcon('arquitectos'),
+    title: 'Arquitectos e Interioristas',
+    desc: 'Estudios que prescriben y especifican piedra natural en proyectos residenciales, hoteleros y comerciales.',
+    link: '/sector.html?id=arquitectura',
+    linkText: 'Ver directorio →',
+  },
+  {
+    icon: readIcon('constructoras'),
+    title: 'Constructoras',
+    desc: 'Empresas constructoras que trabajan con piedra natural y necesitan proveedores cualificados para sus proyectos.',
+    link: '/sector.html?id=constructoras',
+    linkText: 'Ver directorio →',
+  },
+  {
+    icon: readIcon('compradores'),
+    title: 'Compradores corporativos',
+    desc: 'Cadenas hoteleras, promotoras y grandes grupos que incorporan piedra natural en sus proyectos e instalaciones.',
+    link: '/proveedores.html',
+    linkText: 'Ver directorio →',
+  },
+  {
+    icon: readIcon('instaladores'),
+    title: 'Instaladores',
+    desc: 'Especialistas en colocación y acabados de piedra natural en obra, con acceso a catálogos y contacto directo con fabricantes.',
+    link: '/proveedores.html',
+    linkText: 'Ver directorio →',
+  },
+];
 ---
 
 <section class="professionals">
@@ -16,315 +120,18 @@
 
   <div class="pro-group-label">Proveedores &amp; Servicios</div>
   <div class="pro-grid">
-    <a class="pro-card" href="/canteras.html">
-      <div class="pro-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-          ><path
-            d="M4 34 L13 15 L20 24 L27 12 L36 34 Z"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linejoin="round"></path><line
-            x1="9"
-            y1="27"
-            x2="31"
-            y2="27"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-dasharray="2 2"></line><line
-            x1="16"
-            y1="34"
-            x2="16"
-            y2="27"
-            stroke="#A67C52"
-            stroke-width="1.4"></line><line
-            x1="22"
-            y1="34"
-            x2="22"
-            y2="27"
-            stroke="#A67C52"
-            stroke-width="1.4"></line></svg
-        >
-      </div>
-      <div class="pro-title">Canteras</div>
-      <div class="pro-desc">
-        Extractores y productores de piedra natural en origen, con fichas técnicas, capacidad y
-        certificaciones.
-      </div>
-      <span class="pro-link">Ver canteras →</span>
-    </a>
-    <a class="pro-card" href="/sector.html?id=fabricantes">
-      <div class="pro-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-          ><rect x="4" y="14" width="19" height="12" stroke="#A67C52" stroke-width="1.4" rx="1"
-          ></rect><line x1="8" y1="14" x2="8" y2="26" stroke="#A67C52" stroke-width="1.4"
-          ></line><line x1="12" y1="14" x2="12" y2="26" stroke="#A67C52" stroke-width="1.4"
-          ></line><line x1="16" y1="14" x2="16" y2="26" stroke="#A67C52" stroke-width="1.4"
-          ></line><line x1="20" y1="14" x2="20" y2="26" stroke="#A67C52" stroke-width="1.4"
-          ></line><circle cx="30" cy="20" r="7" stroke="#A67C52" stroke-width="1.4"></circle><circle
-            cx="30"
-            cy="20"
-            r="2.5"
-            stroke="#A67C52"
-            stroke-width="1.4"></circle><line
-            x1="30"
-            y1="13"
-            x2="30"
-            y2="11"
-            stroke="#A67C52"
-            stroke-width="1.4"></line><line
-            x1="30"
-            y1="27"
-            x2="30"
-            y2="29"
-            stroke="#A67C52"
-            stroke-width="1.4"></line><line
-            x1="23"
-            y1="20"
-            x2="21"
-            y2="20"
-            stroke="#A67C52"
-            stroke-width="1.4"></line><line
-            x1="37"
-            y1="20"
-            x2="35"
-            y2="20"
-            stroke="#A67C52"
-            stroke-width="1.4"></line></svg
-        >
-      </div>
-      <div class="pro-title">Fabricantes y talleres</div>
-      <div class="pro-desc">
-        Serrerías, talleres y fábricas que transforman el bloque en producto acabado para obra e
-        interiorismo.
-      </div>
-      <span class="pro-link">Ver fabricantes →</span>
-    </a>
-    <a class="pro-card" href="/sector.html?id=distribuidores">
-      <div class="pro-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-          ><circle cx="20" cy="8" r="3" stroke="#A67C52" stroke-width="1.4"></circle><circle
-            cx="8"
-            cy="30"
-            r="3"
-            stroke="#A67C52"
-            stroke-width="1.4"></circle><circle
-            cx="32"
-            cy="30"
-            r="3"
-            stroke="#A67C52"
-            stroke-width="1.4"></circle><line
-            x1="20"
-            y1="11"
-            x2="9.5"
-            y2="27.4"
-            stroke="#A67C52"
-            stroke-width="1.4"></line><line
-            x1="20"
-            y1="11"
-            x2="30.5"
-            y2="27.4"
-            stroke="#A67C52"
-            stroke-width="1.4"></line><line
-            x1="11"
-            y1="30"
-            x2="29"
-            y2="30"
-            stroke="#A67C52"
-            stroke-width="1.4"></line><circle
-            cx="20"
-            cy="20"
-            r="2"
-            stroke="#A67C52"
-            stroke-width="1.4"></circle></svg
-        >
-      </div>
-      <div class="pro-title">Distribuidores</div>
-      <div class="pro-desc">
-        Red de distribución internacional que conecta productores con arquitectos, interioristas y
-        constructores.
-      </div>
-      <span class="pro-link">Ver distribuidores →</span>
-    </a>
-    <a class="pro-card" href="/proveedores.html">
-      <div class="pro-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-          ><rect x="8" y="8" width="10" height="10" stroke="#A67C52" stroke-width="1.4" rx="1"
-          ></rect><rect
-            x="22"
-            y="8"
-            width="10"
-            height="10"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            rx="1"></rect><rect
-            x="8"
-            y="22"
-            width="10"
-            height="10"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            rx="1"></rect><rect
-            x="22"
-            y="22"
-            width="10"
-            height="10"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            rx="1"></rect></svg
-        >
-      </div>
-      <div class="pro-title">Agentes y representantes</div>
-      <div class="pro-desc">
-        Agentes comerciales e intermediarios que facilitan el acceso a mercados y productores en
-        todo el mundo.
-      </div>
-      <span class="pro-link">Ver agentes →</span>
-    </a>
-    <a class="pro-card" href="/sector.html?id=logistica">
-      <div class="pro-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-          ><circle cx="20" cy="20" r="13" stroke="#A67C52" stroke-width="1.4"></circle><path
-            d="M20 7 Q14 20 20 33"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linecap="round"></path><path
-            d="M20 7 Q26 20 20 33"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linecap="round"></path><line
-            x1="7"
-            y1="20"
-            x2="33"
-            y2="20"
-            stroke="#A67C52"
-            stroke-width="1.4"></line><path
-            d="M7.5 14 Q20 10.5 32.5 14"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linecap="round"></path><path
-            d="M7.5 26 Q20 29.5 32.5 26"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linecap="round"></path></svg
-        >
-      </div>
-      <div class="pro-title">Logística y transporte</div>
-      <div class="pro-desc">
-        Operadores logísticos, transportistas y agentes de aduanas especializados en el movimiento
-        de piedra natural.
-      </div>
-      <span class="pro-link">Ver logística →</span>
-    </a>
-    <a class="pro-card" href="/sector.html?id=laboratorios">
-      <div class="pro-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-          ><path
-            d="M15 7 L15 19 L8 33 L32 33 L25 19 L25 7"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linejoin="round"></path><line
-            x1="13"
-            y1="7"
-            x2="27"
-            y2="7"
-            stroke="#A67C52"
-            stroke-width="1.4"></line><line
-            x1="11"
-            y1="25"
-            x2="29"
-            y2="25"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-dasharray="2 1.5"></line><circle
-            cx="16.5"
-            cy="29"
-            r="1.5"
-            stroke="#A67C52"
-            stroke-width="1.4"></circle><circle
-            cx="22"
-            cy="29"
-            r="1"
-            stroke="#A67C52"
-            stroke-width="1.4"></circle><circle
-            cx="26.5"
-            cy="29"
-            r="1.5"
-            stroke="#A67C52"
-            stroke-width="1.4"></circle></svg
-        >
-      </div>
-      <div class="pro-title">Laboratorios y certificación</div>
-      <div class="pro-desc">
-        Laboratorios de ensayo, organismos de certificación y entidades normativas del sector de la
-        piedra.
-      </div>
-      <span class="pro-link">Ver laboratorios →</span>
-    </a>
-    <a class="pro-card" href="/sector.html?id=maquinaria">
-      <div class="pro-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-          ><circle cx="20" cy="20" r="6.5" stroke="#A67C52" stroke-width="1.4"></circle><circle
-            cx="20"
-            cy="20"
-            r="2.5"
-            stroke="#A67C52"
-            stroke-width="1.4"></circle><path
-            d="M19 7.5 L21 7.5 L20.5 12 L19.5 12 Z"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linejoin="round"></path><path
-            d="M19 32.5 L21 32.5 L20.5 28 L19.5 28 Z"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linejoin="round"></path><path
-            d="M7.5 19 L7.5 21 L12 20.5 L12 19.5 Z"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linejoin="round"></path><path
-            d="M32.5 19 L32.5 21 L28 20.5 L28 19.5 Z"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linejoin="round"></path></svg
-        >
-      </div>
-      <div class="pro-title">Maquinaria industrial</div>
-      <div class="pro-desc">
-        Fabricantes y distribuidores de maquinaria especializada en extracción, corte y
-        transformación de piedra.
-      </div>
-      <span class="pro-link">Ver maquinaria →</span>
-    </a>
-    <a class="pro-card" href="/proveedores.html">
-      <div class="pro-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-          ><rect x="7" y="14" width="26" height="18" stroke="#A67C52" stroke-width="1.4" rx="1"
-          ></rect><path
-            d="M11 14 L11 11 Q11 8 14 8 L26 8 Q29 8 29 11 L29 14"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linejoin="round"></path><line
-            x1="7"
-            y1="22"
-            x2="33"
-            y2="22"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-dasharray="2 2"></line><rect
-            x="17"
-            y="20"
-            width="6"
-            height="4"
-            stroke="#A67C52"
-            stroke-width="1.4"></rect></svg
-        >
-      </div>
-      <div class="pro-title">Embalaje y palets</div>
-      <div class="pro-desc">
-        Proveedores de soluciones de embalaje, palets y protección especializados para el transporte
-        de piedra natural.
-      </div>
-      <span class="pro-link">Ver proveedores →</span>
-    </a>
+    {
+      suppliers.map((card) => (
+        <a class="pro-card" href={card.link}>
+          <div class="pro-icon">
+            <Fragment set:html={card.icon} />
+          </div>
+          <div class="pro-title">{card.title}</div>
+          <div class="pro-desc">{card.desc}</div>
+          <span class="pro-link">{card.linkText}</span>
+        </a>
+      ))
+    }
   </div>
 
   <div class="pro-group-label pro-group-label--buyers" style="margin-top:32px;">
@@ -332,133 +139,18 @@
     <span class="pro-group-badge">Acceso gratuito</span>
   </div>
   <div class="pro-grid pro-grid--buyers">
-    <a class="pro-card pro-card--buyer" href="/sector.html?id=arquitectura">
-      <div class="pro-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-          ><path d="M20 6 L20 34" stroke="#A67C52" stroke-width="1.4" stroke-linecap="round"
-          ></path><path d="M20 6 L8 31" stroke="#A67C52" stroke-width="1.4" stroke-linecap="round"
-          ></path><path d="M20 6 L32 31" stroke="#A67C52" stroke-width="1.4" stroke-linecap="round"
-          ></path><circle cx="20" cy="6" r="2.5" stroke="#A67C52" stroke-width="1.4"></circle><line
-            x1="9.5"
-            y1="27"
-            x2="30.5"
-            y2="27"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-dasharray="2.5 2"></line><path
-            d="M13 32 Q20 23 27 32"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linecap="round"></path></svg
-        >
-      </div>
-      <div class="pro-title">Arquitectos e Interioristas</div>
-      <div class="pro-desc">
-        Estudios que prescriben y especifican piedra natural en proyectos residenciales, hoteleros y
-        comerciales.
-      </div>
-      <span class="pro-link">Ver directorio →</span>
-    </a>
-    <a class="pro-card pro-card--buyer" href="/sector.html?id=constructoras">
-      <div class="pro-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-          ><rect x="6" y="32" width="28" height="3" stroke="#A67C52" stroke-width="1.4" rx="0.5"
-          ></rect><rect
-            x="6"
-            y="6"
-            width="28"
-            height="3.5"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            rx="0.5"></rect><rect
-            x="10"
-            y="9.5"
-            width="5"
-            height="22.5"
-            stroke="#A67C52"
-            stroke-width="1.4"></rect><rect
-            x="25"
-            y="9.5"
-            width="5"
-            height="22.5"
-            stroke="#A67C52"
-            stroke-width="1.4"></rect><path
-            d="M15 21 L25 21"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-dasharray="2 2"></path></svg
-        >
-      </div>
-      <div class="pro-title">Constructoras</div>
-      <div class="pro-desc">
-        Empresas constructoras que trabajan con piedra natural y necesitan proveedores cualificados
-        para sus proyectos.
-      </div>
-      <span class="pro-link">Ver directorio →</span>
-    </a>
-    <a class="pro-card pro-card--buyer" href="/proveedores.html">
-      <div class="pro-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-          ><rect x="6" y="10" width="28" height="20" stroke="#A67C52" stroke-width="1.4" rx="1.5"
-          ></rect><line x1="6" y1="17" x2="34" y2="17" stroke="#A67C52" stroke-width="1.4"
-          ></line><line x1="14" y1="10" x2="14" y2="17" stroke="#A67C52" stroke-width="1.4"
-          ></line><circle cx="11" cy="23" r="2" stroke="#A67C52" stroke-width="1.4"></circle><line
-            x1="16"
-            y1="23"
-            x2="28"
-            y2="23"
-            stroke="#A67C52"
-            stroke-width="1.4"></line><line
-            x1="16"
-            y1="27"
-            x2="24"
-            y2="27"
-            stroke="#A67C52"
-            stroke-width="1.4"></line></svg
-        >
-      </div>
-      <div class="pro-title">Compradores corporativos</div>
-      <div class="pro-desc">
-        Cadenas hoteleras, promotoras y grandes grupos que incorporan piedra natural en sus
-        proyectos e instalaciones.
-      </div>
-      <span class="pro-link">Ver directorio →</span>
-    </a>
-    <a class="pro-card pro-card--buyer" href="/proveedores.html">
-      <div class="pro-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-          ><path
-            d="M8 32 L8 16 L20 8 L32 16 L32 32 Z"
-            stroke="#A67C52"
-            stroke-width="1.4"
-            stroke-linejoin="round"></path><rect
-            x="15"
-            y="22"
-            width="10"
-            height="10"
-            stroke="#A67C52"
-            stroke-width="1.4"></rect><line
-            x1="13"
-            y1="18"
-            x2="20"
-            y2="13"
-            stroke="#A67C52"
-            stroke-width="1.4"></line><line
-            x1="27"
-            y1="18"
-            x2="20"
-            y2="13"
-            stroke="#A67C52"
-            stroke-width="1.4"></line></svg
-        >
-      </div>
-      <div class="pro-title">Instaladores</div>
-      <div class="pro-desc">
-        Especialistas en colocación y acabados de piedra natural en obra, con acceso a catálogos y
-        contacto directo con fabricantes.
-      </div>
-      <span class="pro-link">Ver directorio →</span>
-    </a>
+    {
+      buyers.map((card) => (
+        <a class="pro-card pro-card--buyer" href={card.link}>
+          <div class="pro-icon">
+            <Fragment set:html={card.icon} />
+          </div>
+          <div class="pro-title">{card.title}</div>
+          <div class="pro-desc">{card.desc}</div>
+          <span class="pro-link">{card.linkText}</span>
+        </a>
+      ))
+    }
   </div>
 
   <div class="pro-count" id="proCount">— operadores activos</div>
@@ -521,7 +213,7 @@
     margin-bottom: 12px;
     display: block;
   }
-  .pro-icon svg {
+  .pro-icon :global(svg) {
     width: 36px;
     height: 36px;
     display: block;
@@ -562,7 +254,7 @@
   }
   .pro-group-label {
     font-family: 'DM Mono', monospace;
-    font-size: 8.5px;
+    font-size: 16px;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #8a8784;
