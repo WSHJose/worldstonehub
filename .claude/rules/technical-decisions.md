@@ -56,8 +56,14 @@ type: feedback
 
 14. **Git workflow** — rama `main` es deployable. Push a `origin main` dispara deploy automático.
 
+## Icons
+
+15. **unplugin-icons** — librería instalada para iconos. Import syntax: `import IconName from '~icons/{set}/{icon-name}'`. Configurado en `astro.config.mjs` con `compiler: 'astro'`.
+16. **Lucide primero** — usar `~icons/lucide/{icon}` como primera opción. Solo usar otro set (`mdi`, `tabler`, etc.) si el icono no existe en Lucide.
+17. **No migrar flags de países** — los flags (lipis.dev CDN) se mantienen como están; unplugin-icons no tiene flags de países.
+
 ## Stripe
 
-15. **Stripe dinámico** — sin payment links estáticos. Todo vía Edge Functions:
+18. **Stripe dinámico** — sin payment links estáticos. Todo vía Edge Functions:
     - `create-checkout`: genera sesión por actor+plan+billing
     - `stripe-webhook`: activa proveedor en DB tras `checkout.session.completed`

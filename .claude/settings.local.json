@@ -8,7 +8,8 @@
       "Bash(npx astro:*)",
       "Bash(npm install:*)",
       "Bash(npm run:*)",
-      "Bash(grep -v \"^$\")"
+      "Bash(grep -v \"^$\")",
+      "Bash(npm i:*)"
     ]
   }
 }

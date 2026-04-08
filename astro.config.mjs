@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import Icons from 'unplugin-icons/vite';
 
 export default defineConfig({
   output: 'static',
@@ -7,5 +8,8 @@ export default defineConfig({
   trailingSlash: 'never',
   build: {
     format: 'file', // genera materiales.html en vez de materiales/index.html
+  },
+  vite: {
+    plugins: [Icons({ compiler: 'astro' })],
   },
 });
