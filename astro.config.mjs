@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import Icons from 'unplugin-icons/vite';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   output: 'static',
@@ -10,6 +11,6 @@ export default defineConfig({
     format: 'file', // genera materiales.html en vez de materiales/index.html
   },
   vite: {
-    plugins: [Icons({ compiler: 'astro' })],
+    plugins: [tailwindcss(), Icons({ compiler: 'astro' })],
   },
 });

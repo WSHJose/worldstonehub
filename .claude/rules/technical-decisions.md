@@ -13,11 +13,13 @@ type: feedback
 2. **TypeScript** — todo el código nuevo en `.ts` / `.astro` con tipado. Interfaces en `*Http.types.ts`.
 
 3. **Context-based architecture** — cada dominio tiene su propio directorio:
+
    ```
    src/contexts/{context}/services/http/{context}Http.ts        ← funciones API
    src/contexts/{context}/services/http/{context}Http.types.ts  ← interfaces TS
    src/contexts/{context}/components/                           ← componentes Astro del contexto (opcional)
    ```
+
    Contextos actuales: `auth`, `blog`, `canteras`, `home`, `materials`, `proveedores`
    - `src/components/` → **solo componentes compartidos** (Navbar, Footer, etc.)
    - `src/contexts/{context}/components/` → componentes exclusivos de ese dominio
@@ -56,14 +58,20 @@ type: feedback
 
 14. **Git workflow** — rama `main` es deployable. Push a `origin main` dispara deploy automático.
 
+## CSS / Tailwind
+
+15. **Tailwind CSS 4** — instalado via `@tailwindcss/vite` (plugin Vite). No usar `@astrojs/tailwind` (solo compatible con Tailwind 3).
+16. **Tokens `@theme`** — declarados en `src/styles/global.css` justo después del `@import "tailwindcss"`. Generan clases utilitarias con los colores, tipografías y espaciados del Brand Book: `bg-ochre`, `text-text-primary`, `font-display`, `bg-surface-dark`, `spacing-*`, etc. **Siempre usar estos tokens en componentes nuevos**, no hardcodear valores hex ni usar clases Tailwind genéricas (`bg-amber-600`) para colores de marca.
+17. **`:root` legacy** — las variables CSS `--gold`, `--ink`, `--font-mono`, etc. siguen activas para CSS inline existente. En código nuevo preferir clases Tailwind generadas por `@theme`.
+
 ## Icons
 
-15. **unplugin-icons** — librería instalada para iconos. Import syntax: `import IconName from '~icons/{set}/{icon-name}'`. Configurado en `astro.config.mjs` con `compiler: 'astro'`.
-16. **Lucide primero** — usar `~icons/lucide/{icon}` como primera opción. Solo usar otro set (`mdi`, `tabler`, etc.) si el icono no existe en Lucide.
-17. **No migrar flags de países** — los flags (lipis.dev CDN) se mantienen como están; unplugin-icons no tiene flags de países.
+18. **unplugin-icons** — librería instalada para iconos. Import syntax: `import IconName from '~icons/{set}/{icon-name}'`. Configurado en `astro.config.mjs` con `compiler: 'astro'`.
+19. **Lucide primero** — usar `~icons/lucide/{icon}` como primera opción. Solo usar otro set (`mdi`, `tabler`, etc.) si el icono no existe en Lucide.
+20. **No migrar flags de países** — los flags (lipis.dev CDN) se mantienen como están; unplugin-icons no tiene flags de países.
 
 ## Stripe
 
-18. **Stripe dinámico** — sin payment links estáticos. Todo vía Edge Functions:
+21. **Stripe dinámico** — sin payment links estáticos. Todo vía Edge Functions:
     - `create-checkout`: genera sesión por actor+plan+billing
     - `stripe-webhook`: activa proveedor en DB tras `checkout.session.completed`

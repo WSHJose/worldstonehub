@@ -3,51 +3,100 @@
    Brand Book v2.0 · Abril 2026
    ══════════════════════════════════════════════════════ */
 
-/* ── TOKENS ── */
-:root {
+@import 'tailwindcss';
+
+/* ── TAILWIND THEME TOKENS (Brand Book v2.0) ── */
+/* Expone los tokens WSH como utilidades Tailwind:
+   bg-surface-0, text-ink, border-border, etc. */
+@theme {
   /* Superficies */
-  --bg:        #ffffff;
-  --bg-soft:   #f8f7f5;
-  --bg-warm:   #f2ede8;
-  --bg-mid:    #f0efed;
+  --color-surface-0: #ffffff;
+  --color-surface-1: #f8f7f5;
+  --color-surface-2: #f0efed;
+  --color-surface-3: #ede8df;
+  --color-surface-dark: #1a1917;
+  --color-surface-deeper: #0e0d0c;
+
+  /* Texto */
+  --color-text-primary: #1a1917;
+  --color-text-secondary: #4a4845;
+  --color-text-muted: #8a8784;
+  --color-text-faint: #b8b5b0;
+  --color-text-on-dark: #f0ede8;
+  --color-text-on-dark-2: #c9b99a;
 
   /* Bordes */
-  --border:    #e2e0dc;
+  --color-border: #e2e0dc;
+  --color-border-strong: #c8c5bf;
+
+  /* Accent — Stone Ochre */
+  --color-ochre: #a67c52;
+  --color-ochre-dark: #8f6a40;
+  --color-ochre-tint: #f5efea;
+
+  /* Sand — solo en dark surfaces */
+  --color-sand: #c9b99a;
+
+  /* Elite — SOLO ★★★ y badge Elite */
+  --color-elite: #c9a84c;
+
+  /* Tipografía */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Instrument Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+
+  /* Espaciado — múltiplos de 4px */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-24: 96px;
+}
+
+/* ── TOKENS ── */
+/* Declarado DESPUÉS de @import para ganar la cascada sobre
+   variables de Tailwind 4 con mismo nombre (--shadow-sm, --font-mono) */
+:root {
+  /* Superficies (aliases legacy) */
+  --bg: #ffffff;
+  --bg-soft: #f8f7f5;
+  --bg-warm: #f2ede8;
+  --bg-mid: #f0efed;
+
+  /* Bordes */
+  --border: #e2e0dc;
   --border-md: #d4d0cb;
-  --border2:   #c8c5bf;
+  --border2: #c8c5bf;
 
   /* Tinta */
-  --ink:       #1A1917;
-  --ink-2:     #3d3b38;
-  --ink-3:     #6b6760;
-  --ink-4:     #9c9893;
+  --ink: #1a1917;
+  --ink-2: #3d3b38;
+  --ink-3: #6b6760;
+  --ink-4: #9c9893;
 
   /* Brand */
-  --gold:      #A67C52;
-  --gold-lt:   #c4a882;
-  --gold-bg:   rgba(166,124,82,0.08);
-  --elite:     #C9A84C;
+  --gold: #a67c52;
+  --gold-lt: #c4a882;
+  --gold-bg: rgba(166, 124, 82, 0.08);
+  --elite: #c9a84c;
 
   /* Estado */
-  --green:     #27ae60;
+  --green: #27ae60;
 
   /* UI */
-  --radius:    4px;
-  --shadow-sm: 0 1px 4px rgba(0,0,0,0.05);
-  --shadow:    0 2px 16px rgba(0,0,0,0.07);
-  --shadow-md: 0 8px 32px rgba(0,0,0,0.12);
+  --radius: 4px;
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.05); /* override Tailwind --shadow-sm */
+  --shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.12);
 
   /* Tipografía */
   --font-disp: 'Cormorant Garamond', 'Cormorant', Georgia, 'Times New Roman', serif;
-  --font-ui:   'Instrument Sans', sans-serif;
-  --font-mono: 'DM Mono', monospace;
-}
-
-/* ── RESET ── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  --font-ui: 'Instrument Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace; /* override Tailwind --font-mono */
 }
 
 html {
@@ -74,7 +123,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255,255,255,0.96);
+  background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
@@ -105,7 +154,7 @@ nav {
   text-transform: uppercase;
   color: #4a4845;
   text-decoration: none;
-  transition: color .3s;
+  transition: color 0.3s;
   position: relative;
 }
 
@@ -141,7 +190,7 @@ nav {
   width: 1px;
   height: 14px;
   background: var(--border2);
-  opacity: .5;
+  opacity: 0.5;
   margin: 0 16px 0 4px;
   vertical-align: middle;
 }
@@ -152,16 +201,20 @@ nav {
   letter-spacing: 2.5px;
   text-transform: uppercase;
   text-decoration: none;
-  transition: all .25s;
+  transition: all 0.25s;
   vertical-align: middle;
 }
 
-.state-acceso { color: #8a8784; }
-.state-acceso:hover { color: var(--ink); }
+.state-acceso {
+  color: #8a8784;
+}
+.state-acceso:hover {
+  color: var(--ink);
+}
 
 .state-panel {
   color: var(--gold);
-  border: 1px solid rgba(166,124,82,.35);
+  border: 1px solid rgba(166, 124, 82, 0.35);
   padding: 6px 14px;
   display: inline-flex;
   align-items: center;
@@ -183,7 +236,9 @@ nav {
 }
 
 /* Dropdown */
-.nav-dropdown { position: relative; }
+.nav-dropdown {
+  position: relative;
+}
 
 .dropdown-menu {
   display: none;
@@ -193,7 +248,7 @@ nav {
   background: #fff;
   border: 1px solid var(--border);
   min-width: 210px;
-  box-shadow: 0 8px 32px rgba(0,0,0,.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   z-index: 9999;
   padding: 0;
   list-style: none;
@@ -213,7 +268,9 @@ nav {
   display: block;
 }
 
-.dropdown-menu li { list-style: none; }
+.dropdown-menu li {
+  list-style: none;
+}
 
 .dropdown-menu li a {
   display: flex !important;
@@ -225,12 +282,16 @@ nav {
   text-transform: uppercase;
   color: #4a4845 !important;
   text-decoration: none;
-  transition: background .15s, color .15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
   border-bottom: 1px solid var(--bg-mid);
   white-space: nowrap;
 }
 
-.dropdown-menu li:last-child a { border-bottom: none; }
+.dropdown-menu li:last-child a {
+  border-bottom: none;
+}
 
 .dropdown-menu li a:hover {
   background: var(--bg-soft) !important;
@@ -256,25 +317,27 @@ nav {
   cursor: pointer;
   padding: 4px 6px;
   font-family: var(--font-ui);
-  transition: color .2s;
+  transition: color 0.2s;
 }
 
 .lang-btn.active,
-.lang-btn:hover { color: var(--gold); }
+.lang-btn:hover {
+  color: var(--gold);
+}
 
 .lang-sep {
   display: inline-block;
   width: 1px;
   height: 10px;
   background: var(--border2);
-  opacity: .5;
+  opacity: 0.5;
   margin: 0 2px;
 }
 
 /* ── FOOTER ── */
 footer {
   background: #111110;
-  color: rgba(255,255,255,.5);
+  color: rgba(255, 255, 255, 0.5);
   padding: 60px 60px 32px;
 }
 
@@ -283,14 +346,14 @@ footer {
   grid-template-columns: 1.6fr 1fr 1fr 1fr;
   gap: 48px;
   padding-bottom: 48px;
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .footer-tagline {
   font-size: 12px;
   font-weight: 300;
   line-height: 1.7;
-  color: rgba(255,255,255,.35);
+  color: rgba(255, 255, 255, 0.35);
   margin-top: 12px;
   max-width: 240px;
 }
@@ -299,21 +362,27 @@ footer {
   font-size: 9px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(255,255,255,.25);
+  color: rgba(255, 255, 255, 0.25);
   margin-bottom: 16px;
 }
 
-.footer-col ul { list-style: none; }
-.footer-col ul li { margin-bottom: 10px; }
+.footer-col ul {
+  list-style: none;
+}
+.footer-col ul li {
+  margin-bottom: 10px;
+}
 
 .footer-col ul li a {
   font-size: 13px;
-  color: rgba(255,255,255,.45);
+  color: rgba(255, 255, 255, 0.45);
   text-decoration: none;
-  transition: color .2s;
+  transition: color 0.2s;
 }
 
-.footer-col ul li a:hover { color: var(--gold); }
+.footer-col ul li a:hover {
+  color: var(--gold);
+}
 
 .footer-bottom {
   display: flex;
@@ -324,7 +393,7 @@ footer {
 
 .footer-copy {
   font-size: 11px;
-  color: rgba(255,255,255,.2);
+  color: rgba(255, 255, 255, 0.2);
 }
 
 .footer-copy a {
@@ -340,23 +409,40 @@ footer {
 }
 
 .footer-langs a {
-  color: rgba(255,255,255,.25);
+  color: rgba(255, 255, 255, 0.25);
   text-decoration: none;
-  transition: color .2s;
+  transition: color 0.2s;
 }
 
-.footer-langs a.active { color: var(--gold); }
-.footer-langs a:hover { color: rgba(255,255,255,.6); }
+.footer-langs a.active {
+  color: var(--gold);
+}
+.footer-langs a:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
 
 /* ── RESPONSIVE NAV ── */
 @media (max-width: 900px) {
-  nav { padding: 14px 24px; }
-  .nav-links { gap: 20px; }
-  footer { padding: 48px 24px 28px; }
-  .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+  nav {
+    padding: 14px 24px;
+  }
+  .nav-links {
+    gap: 20px;
+  }
+  footer {
+    padding: 48px 24px 28px;
+  }
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
 }
 
 @media (max-width: 600px) {
-  .nav-links { display: none; }
-  .footer-top { grid-template-columns: 1fr; }
+  .nav-links {
+    display: none;
+  }
+  .footer-top {
+    grid-template-columns: 1fr;
+  }
 }

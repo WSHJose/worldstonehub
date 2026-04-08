@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.102.1",
-    "astro": "^6.0.0"
+    "@tailwindcss/vite": "^4.2.2",
+    "astro": "^6.0.0",
+    "tailwindcss": "^4.2.2"
   },
   "lint-staged": {
     "*.{js,ts,astro,css,json}": "prettier --write"
