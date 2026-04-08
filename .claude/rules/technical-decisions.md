@@ -16,8 +16,11 @@ type: feedback
    ```
    src/contexts/{context}/services/http/{context}Http.ts        ← funciones API
    src/contexts/{context}/services/http/{context}Http.types.ts  ← interfaces TS
+   src/contexts/{context}/components/                           ← componentes Astro del contexto (opcional)
    ```
    Contextos actuales: `auth`, `blog`, `canteras`, `home`, `materials`, `proveedores`
+   - `src/components/` → **solo componentes compartidos** (Navbar, Footer, etc.)
+   - `src/contexts/{context}/components/` → componentes exclusivos de ese dominio
 
 4. **Shared HTTP layer** — `src/services/http/config.ts` exporta:
    - `supabase` — cliente `@supabase/supabase-js` (para queries complejas)

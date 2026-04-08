@@ -1,0 +1,536 @@
+---
+
+---
+
+<div class="page-hdr">
+  <div class="page-hdr-left">
+    <div class="hero-content">
+      <div class="hero-eyebrow" data-i18n="index.hero.eyebrow">
+        El portal global de la piedra natural · Directorio B2B
+      </div>
+      <h1 class="hero-title">
+        <span data-i18n="index.hero.titlePre">El mundo de la</span><br /><em
+          data-i18n="index.hero.titleEm">piedra</em
+        ><span data-i18n="index.hero.titleSuf"> al alcance</span>
+      </h1>
+      <span class="hero-title-accent" data-i18n="index.hero.accent">del sector</span>
+      <p class="hero-sub" data-i18n="index.hero.sub">
+        La plataforma de referencia para profesionales de la piedra natural y artificial. Canteras,
+        proveedores, distribuidores, fabricantes y arquitectos en un único ecosistema.
+      </p>
+      <div class="hero-actions">
+        <a href="/canteras.html" class="btn-primary" data-i18n="cta.explorarDirectorio"
+          >Explorar directorio</a
+        >
+        <a href="/registro.html" class="btn-secondary" data-i18n="cta.publicarEmpresa"
+          >Publicar mi empresa</a
+        >
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">180<span>+</span></div>
+          <div class="stat-label" data-i18n="index.hero.stat1">Canteras registradas</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">22.000<span>+</span></div>
+          <div class="stat-label" data-i18n="index.hero.stat2">Tipos de piedra</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">138</div>
+          <div class="stat-label" data-i18n="index.hero.stat3">Países cubiertos</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="heroStatCompanies">—</div>
+          <div class="stat-label" data-i18n="index.hero.stat4">Empresas en directorio</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-hdr-right">
+    <div class="ad-container" id="heroAdSlot">
+      <div class="founders-card" id="heroAdFallback">
+        <div class="fc-eyebrow">
+          <span class="fc-dot"></span>
+          <span>Programa de Fundadores · 20 plazas globales</span>
+        </div>
+        <div class="fc-title">
+          Precio bloqueado<br /><em>de por vida</em>
+        </div>
+        <p class="fc-sub">
+          Acceso Élite completo al primer directorio B2B global de la piedra natural. Tu precio
+          nunca sube.
+        </p>
+        <ul class="fc-features">
+          <li><span class="fc-check">✦</span> Posición top en tu categoría — siempre</li>
+          <li>
+            <span class="fc-check">✦</span> Precio bloqueado mientras mantengas la suscripción
+          </li>
+          <li>
+            <span class="fc-check">✦</span> Ficha Élite: catálogo, leads, analítica y matchmaking
+          </li>
+          <li><span class="fc-check">✦</span> Gestor de cuenta dedicado desde el día 1</li>
+          <li><span class="fc-check">✦</span> Acceso anticipado a nuevas funcionalidades</li>
+        </ul>
+        <div class="fc-seats">
+          <div class="fc-seats-bar">
+            <div class="fc-seats-fill" id="fcSeatsFill"></div>
+          </div>
+          <div class="fc-seats-labels">
+            <span id="fcSeatsText">Verificando plazas…</span>
+            <span class="fc-seats-limit">Límite: 20</span>
+          </div>
+        </div>
+        <a href="/fundadores.html" class="fc-cta">Solicitar mi plaza de Fundador →</a>
+        <p class="fc-note">Sin pago ahora · Oferta formal por email · Cierra en 20 plazas</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ── HERO OVERRIDES (reset Page layout defaults) ── */
+  :global(.hero) {
+    height: auto !important;
+    min-height: 0 !important;
+    position: static !important;
+    display: block !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    background: none !important;
+  }
+  :global(.hero-bg),
+  :global(.hero-stone-pattern),
+  :global(.hero-scroll) {
+    display: none !important;
+  }
+  :global(.hero-content) {
+    position: static !important;
+    padding: 0 !important;
+    max-width: none !important;
+    animation: none !important;
+  }
+
+  /* ── PAGE HEADER 50/50 ── */
+  .page-hdr {
+    display: flex;
+    align-items: stretch;
+    min-height: 380px;
+    margin-top: 64px;
+    overflow: hidden;
+  }
+  .page-hdr-left {
+    flex: 0 0 50%;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 44px 60px 40px;
+    box-sizing: border-box;
+    background: #f8f7f5;
+  }
+  .page-hdr-right {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    min-height: 380px;
+    background: #f0efed;
+    border-left: 1px solid #e2e0dc;
+  }
+  .ad-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ad-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .ad-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  @media (max-width: 900px) {
+    .page-hdr {
+      flex-direction: column;
+      margin-top: 56px;
+      min-height: auto;
+    }
+    .page-hdr-left {
+      flex: none;
+      max-width: 100%;
+      padding: 36px 24px 28px;
+    }
+    .page-hdr-right {
+      flex: none;
+      width: 100%;
+      min-height: 220px;
+    }
+  }
+
+  /* ── HERO EYEBROW / TITLE / STATS ── */
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #a67c52;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: #a67c52;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4.5vw, 66px);
+    font-weight: 300;
+    line-height: 0.9 !important;
+    letter-spacing: -2px;
+    margin-bottom: 6px;
+    color: #1a1917;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: #a67c52;
+  }
+  .hero-title-accent {
+    font-family: 'Cormorant Garamond', serif !important;
+    font-size: clamp(36px, 4.5vw, 66px);
+    font-style: italic;
+    letter-spacing: -1px;
+    color: #a67c52;
+    line-height: 1;
+    display: block;
+    margin-bottom: 20px;
+  }
+  .hero-sub {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: #4a4845;
+    max-width: 480px;
+    margin-bottom: 20px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 32px;
+    background: #a67c52;
+    color: #ffffff;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    transition:
+      background 0.25s,
+      transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .btn-primary:hover {
+    background: #8f6a40;
+  }
+  .btn-primary:hover::after {
+    transform: translateX(0);
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 32px;
+    background: transparent;
+    color: #1a1917;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid #c8c5bf;
+    transition:
+      border-color 0.25s,
+      color 0.25s;
+  }
+  .btn-secondary:hover {
+    border-color: #a67c52;
+    color: #a67c52;
+  }
+  .btn-secondary::after {
+    content: '→';
+    margin-left: 8px;
+    transition: transform 0.3s;
+  }
+  .btn-secondary:hover::after {
+    transform: translateX(6px);
+  }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(30, 25, 20, 0.09);
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .stat-num {
+    font-family: 'DM Mono', monospace !important;
+    font-size: 28px;
+    letter-spacing: 1px;
+    color: #1a1917;
+    line-height: 1;
+    font-weight: 300;
+  }
+  .stat-num span {
+    color: #a67c52;
+    font-size: 17px;
+    vertical-align: super;
+  }
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #8a8784;
+    line-height: 1.3;
+  }
+
+  /* ── FOUNDERS CARD ── */
+  .founders-card {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 14px;
+    padding: 36px 40px 28px;
+    background: #1a1917;
+    overflow: hidden;
+  }
+  .founders-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 10%, rgba(166, 124, 82, 0.08) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .founders-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(166, 124, 82, 0.3), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .founders-card > * {
+    position: relative;
+    z-index: 1;
+  }
+  .fc-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(166, 124, 82, 0.1);
+    border: 1px solid rgba(166, 124, 82, 0.3);
+    padding: 5px 12px;
+    width: fit-content;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #a67c52;
+  }
+  .fc-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #a67c52;
+    flex-shrink: 0;
+    animation: fcPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes fcPulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.3;
+      transform: scale(0.6);
+    }
+  }
+  .fc-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 2.6vw, 34px);
+    font-weight: 300;
+    line-height: 1.05;
+    color: #f0ede8;
+  }
+  .fc-title em {
+    font-style: italic;
+    color: #c9a84c;
+  }
+  .fc-sub {
+    font-size: 11.5px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(240, 237, 232, 0.6);
+    margin: 0;
+  }
+  .fc-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-top: 1px solid rgba(166, 124, 82, 0.15);
+    padding-top: 14px;
+  }
+  .fc-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(240, 237, 232, 0.75);
+    line-height: 1.45;
+  }
+  .fc-check {
+    color: #c9a84c;
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .fc-seats {
+    margin-top: 2px;
+  }
+  .fc-seats-bar {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+  .fc-seats-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #a67c52, #c9a84c);
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+  }
+  .fc-seats-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+  }
+  .fc-seats-labels span {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(240, 237, 232, 0.45);
+  }
+  .fc-seats-limit {
+    color: rgba(240, 237, 232, 0.3);
+  }
+  .fc-cta {
+    display: block;
+    text-align: center;
+    background: #a67c52;
+    color: #f8f7f5;
+    padding: 14px 24px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition:
+      background 0.25s,
+      transform 0.2s;
+    position: relative;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .fc-cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.45s ease;
+  }
+  .fc-cta:hover {
+    background: #8f6a40;
+    transform: translateY(-1px);
+  }
+  .fc-cta:hover::after {
+    transform: translateX(100%);
+  }
+  .fc-note {
+    text-align: center;
+    font-size: 9.5px;
+    color: rgba(240, 237, 232, 0.38);
+    font-weight: 300;
+    margin: 0;
+    letter-spacing: 0.2px;
+  }
+  @media (max-width: 768px) {
+    .founders-card {
+      padding: 24px 20px;
+      gap: 10px;
+    }
+    .fc-title {
+      font-size: 22px;
+    }
+    .fc-features {
+      gap: 6px;
+    }
+  }
+  @media (max-width: 600px) {
+    .hero-stats {
+      gap: 20px;
+    }
+    .hero-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

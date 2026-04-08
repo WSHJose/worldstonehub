@@ -12,8 +12,11 @@ type: reference
 src/
 ├── pages/          ← rutas públicas (.astro)
 ├── layouts/        ← layouts base reutilizables
-├── components/     ← componentes Astro compartidos
-├── contexts/       ← lógica por dominio (API + tipos)
+├── components/     ← componentes Astro COMPARTIDOS entre páginas (Navbar, Footer…)
+├── contexts/       ← lógica por dominio (API + tipos + componentes propios)
+│   └── {context}/
+│       ├── services/http/   ← {context}Http.ts + types
+│       └── components/      ← componentes Astro exclusivos del dominio
 ├── services/       ← servicios compartidos (HTTP config)
 ├── scripts/        ← scripts TS del lado cliente
 └── styles/         ← CSS global

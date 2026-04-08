@@ -1,0 +1,333 @@
+---
+
+---
+
+<div class="search-preview">
+  <div class="sp-inner">
+    <div class="sp-header">
+      <div class="section-eyebrow" style="justify-content:center" data-i18n="index.search.eyebrow">
+        Búsqueda inteligente
+      </div>
+      <h2 class="section-title" style="font-size:clamp(30px,3.5vw,46px);text-align:center">
+        <span data-i18n="index.search.titlePre">Encuentra la piedra,</span><br /><em
+          data-i18n="index.search.titleEm">cantera o proveedor</em
+        ><span data-i18n="index.search.titleSuf"> perfecto</span>
+      </h2>
+      <p class="sp-subtitle" id="spSubtitle" data-i18n="index.search.subtitle">
+        22.000+ materiales · 180 canteras · todo en tiempo real
+      </p>
+    </div>
+    <div class="sp-bar-wrap">
+      <span class="sp-icon">&#9906;</span>
+      <input
+        type="text"
+        id="globalSearch"
+        class="sp-input"
+        placeholder="Busca: mármol blanco Italia, Carrara, granito negro, Levantina, encimera cocina…"
+        data-i18n-attr="placeholder:search.placeholder"
+        autocomplete="new-password"
+        spellcheck="false"
+        name="search"
+      />
+      <span class="sp-kbd" data-i18n="index.search.esc">ESC para cerrar</span>
+    </div>
+    <div class="sp-trending" id="spTrending">
+      <div class="sp-trending-label">Búsquedas populares</div>
+      <div class="sp-trending-tags">
+        <button class="sp-trending-tag" data-q="Mármol Carrara">Mármol Carrara</button>
+        <button class="sp-trending-tag" data-q="Granito negro">Granito negro</button>
+        <button class="sp-trending-tag" data-q="Travertino">Travertino</button>
+        <button class="sp-trending-tag" data-q="Cuarcita blanca">Cuarcita blanca</button>
+        <button class="sp-trending-tag" data-q="Crema Marfil">Crema Marfil</button>
+        <button class="sp-trending-tag" data-q="Levantina">Levantina</button>
+        <button class="sp-trending-tag" data-q="Pizarra">Pizarra</button>
+        <button class="sp-trending-tag" data-q="Basalto">Basalto</button>
+      </div>
+    </div>
+    <div class="sp-results-wrap" id="spResultsWrap" style="display:none">
+      <div class="sp-results-header">
+        <span class="sp-results-count" id="spCount">0 resultados</span>
+        <span class="sp-results-hint" data-i18n="index.search.resultsHint"
+          >Haz clic para ir a la ficha completa</span
+        >
+      </div>
+      <div class="sp-results-grid" id="spResultsGrid"></div>
+      <div class="sp-results-more" id="spMore" style="display:none">
+        <button class="sp-more-btn" id="spMoreBtn" data-i18n="index.search.verMas"
+          >Ver más resultados</button
+        >
+      </div>
+    </div>
+    <div class="sp-empty" id="spEmpty" style="display:none">
+      <div class="sp-empty-icon">&#9670;</div>
+      <div class="sp-empty-title" data-i18n="index.search.sinResultados">Sin resultados</div>
+      <div class="sp-empty-sub" data-i18n="index.search.emptySub">
+        Prueba con: blanco, Italia, granito, Carrara, Levantina...
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .search-preview {
+    background: #f8f7f5;
+    border-top: 1px solid #e8e6e2;
+    padding: 64px 60px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+  .search-preview::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 80% 60% at 50% 30%,
+      rgba(160, 120, 60, 0.05) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+  .sp-inner {
+    max-width: 740px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .sp-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .sp-subtitle {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8a8784;
+    margin-top: 12px;
+  }
+  .sp-bar-wrap {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  .sp-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #a67c52;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .sp-input {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e2e0dc;
+    border-radius: 0;
+    color: #1a1917;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 16px;
+    padding: 18px 120px 18px 52px;
+    outline: none;
+    transition:
+      border-color 0.3s,
+      box-shadow 0.3s;
+    letter-spacing: 0.3px;
+  }
+  .sp-input:focus {
+    border-color: #a67c52;
+    box-shadow: 0 0 0 3px rgba(166, 124, 82, 0.1);
+  }
+  .sp-input::placeholder {
+    color: #8a8784;
+    font-size: 14px;
+  }
+  .sp-kbd {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8a8784;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .sp-input:focus ~ .sp-kbd {
+    opacity: 1;
+  }
+  .sp-trending {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(30, 25, 20, 0.07);
+  }
+  .sp-trending-label {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #8a8784;
+    margin-bottom: 10px;
+  }
+  .sp-trending-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sp-trending-tag {
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 6px 14px;
+    border: 1px solid rgba(30, 25, 20, 0.1);
+    color: #a67c52;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+    font-family: 'Instrument Sans', sans-serif;
+  }
+  .sp-trending-tag:hover {
+    border-color: #a67c52;
+    background: rgba(160, 120, 60, 0.04);
+  }
+  .sp-results-wrap {
+    margin-top: 4px;
+  }
+  .sp-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(30, 25, 20, 0.07);
+  }
+  .sp-results-count {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #a67c52;
+  }
+  .sp-results-hint {
+    font-size: 10px;
+    color: #8a8784;
+    letter-spacing: 1px;
+  }
+  .sp-results-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sp-card {
+    display: flex;
+    align-items: stretch;
+    background: #ffffff;
+    border: 1px solid #e2e0dc;
+    cursor: pointer;
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      transform 0.15s;
+    text-decoration: none;
+    color: inherit;
+    animation: spFadeIn 0.2s ease both;
+  }
+  .sp-card:hover {
+    background: #f8f7f5;
+    border-color: rgba(166, 124, 82, 0.35);
+    transform: translateX(4px);
+  }
+  @keyframes spFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .sp-card-thumb {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+  }
+  .sp-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.9);
+    transition: filter 0.2s;
+  }
+  .sp-card:hover .sp-card-thumb img {
+    filter: brightness(1);
+  }
+  .sp-card-body {
+    padding: 14px 16px;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .sp-card-main {
+    flex: 1;
+    min-width: 0;
+  }
+  .sp-card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: #1a1917;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sp-more-btn {
+    background: transparent;
+    border: 1px solid rgba(196, 168, 130, 0.2);
+    color: #a67c52;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 10px 28px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sp-more-btn:hover {
+    border-color: #a67c52;
+  }
+  .sp-results-more {
+    text-align: center;
+    margin-top: 12px;
+  }
+  .sp-empty {
+    text-align: center;
+    padding: 32px 0;
+  }
+  .sp-empty-icon {
+    font-size: 24px;
+    color: #8a8784;
+    margin-bottom: 8px;
+    opacity: 0.4;
+  }
+  .sp-empty-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: #a67c52;
+    margin-bottom: 6px;
+  }
+  .sp-empty-sub {
+    font-size: 12px;
+    color: #8a8784;
+  }
+  @media (max-width: 1024px) {
+    .search-preview {
+      padding: 64px 30px 44px;
+    }
+  }
+</style>

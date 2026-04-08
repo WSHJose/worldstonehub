@@ -1,0 +1,145 @@
+---
+
+---
+
+<div class="marquee-section" aria-label="Materiales destacados" role="marquee">
+  <div class="marquee-track">
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=carrara"
+      style="color:inherit;text-decoration:none;">Mármol de Carrara</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=granito+azul+bahia"
+      style="color:inherit;text-decoration:none;">Granito Azul Bahía</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=cuarcita+taj+mahal"
+      style="color:inherit;text-decoration:none;">Cuarcita Taj Mahal</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=travertino"
+      style="color:inherit;text-decoration:none;">Travertino Romano</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=porfido"
+      style="color:inherit;text-decoration:none;">Pórfido Argentino</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=basalto"
+      style="color:inherit;text-decoration:none;">Basalto Negro</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=crema+marfil"
+      style="color:inherit;text-decoration:none;">Caliza Crema Marfil</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=onix"
+      style="color:inherit;text-decoration:none;">Onix Verde</a
+    >
+    <a
+      class="marquee-item"
+      href="/canteras.html?q=belgica"
+      style="color:inherit;text-decoration:none;">Piedra Azul Belga</a
+    >
+    <!-- duplicate for seamless loop -->
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=carrara"
+      style="color:inherit;text-decoration:none;">Mármol de Carrara</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=granito+azul+bahia"
+      style="color:inherit;text-decoration:none;">Granito Azul Bahía</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=cuarcita+taj+mahal"
+      style="color:inherit;text-decoration:none;">Cuarcita Taj Mahal</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=travertino"
+      style="color:inherit;text-decoration:none;">Travertino Romano</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=porfido"
+      style="color:inherit;text-decoration:none;">Pórfido Argentino</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=basalto"
+      style="color:inherit;text-decoration:none;">Basalto Negro</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=crema+marfil"
+      style="color:inherit;text-decoration:none;">Caliza Crema Marfil</a
+    >
+    <a
+      class="marquee-item"
+      href="/materiales.html?q=onix"
+      style="color:inherit;text-decoration:none;">Onix Verde</a
+    >
+    <a
+      class="marquee-item"
+      href="/canteras.html?q=belgica"
+      style="color:inherit;text-decoration:none;">Piedra Azul Belga</a
+    >
+  </div>
+</div>
+
+<style>
+  .marquee-section {
+    background: #a67c52;
+    padding: 0;
+    overflow: hidden;
+    height: 36px;
+    display: flex;
+    align-items: center;
+  }
+  .marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    animation: marquee 30s linear infinite;
+    white-space: nowrap;
+    height: 36px;
+  }
+  .marquee-item {
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    padding: 0 32px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    height: 36px;
+    line-height: 1;
+  }
+  .marquee-item::after {
+    content: '·';
+    margin-left: 32px;
+    opacity: 0.45;
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

@@ -1,0 +1,363 @@
+---
+
+---
+
+<section class="quarries">
+  <div class="quarry-layout">
+    <div class="quarry-map-visual">
+      <a
+        href="/mapa.html"
+        style="text-decoration:none;display:block;height:100%;cursor:pointer"
+        title="Ver mapa completo"
+      >
+        <div class="world-map-container">
+          <div class="map-hover-label" data-i18n="index.quarries.verMapa">Ver mapa completo →</div>
+          <svg id="mini-map-svg" style="width:100%;height:100%;display:block;"></svg>
+          <div class="map-stat-badge">
+            <span class="map-stat-num">180+</span>
+            <span class="map-stat-lbl" data-i18n="mapa.canteras">canteras</span>
+          </div>
+          <div class="map-country-row">
+            <span class="map-ctry">🇮🇹 Italia</span>
+            <span class="map-ctry">🇪🇸 España</span>
+            <span class="map-ctry">🇧🇷 Brasil</span>
+            <span class="map-ctry">🇮🇳 India</span>
+            <span class="map-ctry">🇹🇷 Turquía</span>
+            <span class="map-ctry">🇨🇳 China</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="quarry-content">
+      <div class="section-eyebrow" data-i18n="index.quarries.eyebrow">Canteras del mundo</div>
+      <h2 class="section-title">
+        <span data-i18n="index.quarries.titlePre">La base de datos</span><br /><em
+          data-i18n="index.quarries.titleEm">más completa</em
+        ><br /><span data-i18n="index.quarries.titleSuf">del planeta</span>
+      </h2>
+      <div class="gold-divider"></div>
+      <p
+        style="font-size:15px;color:#8a8784;line-height:1.8;margin-bottom:0"
+        data-i18n="index.quarries.desc"
+      >
+        Cada cantera documentada con ficha técnica completa: tipos de piedra extraída, capacidad de
+        producción, contacto directo y certificaciones disponibles.
+      </p>
+      <div class="quarry-features">
+        <div class="quarry-feat">
+          <div class="quarry-feat-title" data-i18n="index.quarries.feat1Title">
+            Fichas técnicas detalladas
+          </div>
+          <div class="quarry-feat-desc" data-i18n="index.quarries.feat1Desc">
+            Absorción, densidad, resistencia al desgaste y acabados disponibles para cada tipo de
+            piedra.
+          </div>
+        </div>
+        <div class="quarry-feat">
+          <div class="quarry-feat-title" data-i18n="index.quarries.feat2Title">
+            Galería de muestras fotográficas
+          </div>
+          <div class="quarry-feat-desc" data-i18n="index.quarries.feat2Desc">
+            Imágenes de alta resolución de losas, bloques y aplicaciones reales en proyectos.
+          </div>
+        </div>
+        <div class="quarry-feat">
+          <div class="quarry-feat-title" data-i18n="index.quarries.feat3Title">
+            Contacto directo verificado
+          </div>
+          <div class="quarry-feat-desc" data-i18n="index.quarries.feat3Desc">
+            Datos de contacto comprobados, con posibilidad de solicitar muestras desde la ficha.
+          </div>
+        </div>
+        <div class="quarry-feat">
+          <div class="quarry-feat-title" data-i18n="index.quarries.feat4Title">
+            Filtros avanzados de búsqueda
+          </div>
+          <div class="quarry-feat-desc" data-i18n="index.quarries.feat4Desc">
+            Por país, tipo de roca, color, uso recomendado, certificaciones y disponibilidad.
+          </div>
+        </div>
+        <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
+          <a
+            href="/canteras.html"
+            class="btn-quarry-primary"
+            data-i18n="index.quarries.btnDirectorio">Ver directorio de canteras →</a
+          >
+          <a href="/mapa.html" class="btn-quarry-secondary" data-i18n="index.quarries.btnMapa"
+            >Ver mapa interactivo →</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- D3 mini map -->
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"
+></script>
+<script is:inline>
+  (function () {
+    var svgEl = document.getElementById('mini-map-svg');
+    if (!svgEl) return;
+    var W = svgEl.parentElement.clientWidth || 600;
+    var H = svgEl.parentElement.clientHeight || 420;
+    var svg = d3.select('#mini-map-svg').attr('width', W).attr('height', H);
+    svg.append('rect').attr('width', W).attr('height', H).attr('fill', '#2a2d35');
+    var projection = d3
+      .geoNaturalEarth1()
+      .scale(W / 3.2)
+      .translate([W / 2, H / 2 + 30]);
+    var path = d3.geoPath().projection(projection);
+    var graticule = d3.geoGraticule().step([30, 30]);
+    svg
+      .append('path')
+      .datum(graticule())
+      .attr('d', path)
+      .attr('fill', 'none')
+      .attr('stroke', 'rgba(255,255,255,0.05)')
+      .attr('stroke-width', 0.4);
+    var g = svg.append('g');
+    var DOTS = [
+      { lat: 44.0, lng: 10.1, tier: 1 },
+      { lat: 37.6, lng: -3.5, tier: 1 },
+      { lat: 39.9, lng: 32.9, tier: 1 },
+      { lat: 20.5, lng: 78.9, tier: 1 },
+      { lat: -14.2, lng: -51.9, tier: 1 },
+      { lat: 35.8, lng: 104.1, tier: 1 },
+      { lat: 26.8, lng: 30.8, tier: 2 },
+      { lat: 37.1, lng: -119.5, tier: 2 },
+      { lat: -25.3, lng: 133.7, tier: 2 },
+      { lat: 37.9, lng: 23.7, tier: 2 },
+      { lat: 60.4, lng: 8.4, tier: 2 },
+      { lat: 39.3, lng: -8.2, tier: 2 },
+      { lat: 32.4, lng: 53.6, tier: 2 },
+      { lat: -29.0, lng: 26.1, tier: 3 },
+      { lat: 31.5, lng: 35.4, tier: 3 },
+      { lat: 46.8, lng: 8.2, tier: 3 },
+      { lat: -20.0, lng: 30.0, tier: 3 },
+      { lat: 4.9, lng: -52.3, tier: 3 },
+    ];
+    fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (world) {
+        var countries = topojson.feature(world, world.objects.countries);
+        g.selectAll('.mini-country')
+          .data(countries.features)
+          .join('path')
+          .attr('class', 'mini-country')
+          .attr('d', path)
+          .attr('fill', '#363c48')
+          .attr('stroke', 'rgba(255,255,255,0.10)')
+          .attr('stroke-width', 0.4)
+          .attr('vector-effect', 'non-scaling-stroke');
+        DOTS.forEach(function (d) {
+          var coords = projection([d.lng, d.lat]);
+          if (!coords) return;
+          var r = d.tier === 1 ? 3.5 : d.tier === 2 ? 2.2 : 1.5;
+          var col = d.tier === 1 ? '#A67C52' : d.tier === 2 ? '#C4A05A' : '#9a9690';
+          var glow = d.tier === 1 ? 'drop-shadow(0 0 3px rgba(160,120,60,0.6))' : 'none';
+          g.append('circle')
+            .attr('cx', coords[0])
+            .attr('cy', coords[1])
+            .attr('r', r)
+            .attr('fill', col)
+            .style('filter', glow);
+        });
+      })
+      .catch(function () {
+        g.append('text')
+          .attr('x', W / 2)
+          .attr('y', H / 2)
+          .attr('text-anchor', 'middle')
+          .attr('fill', 'rgba(255,255,255,0.15)')
+          .attr('font-size', 11)
+          .attr('letter-spacing', 4)
+          .text('WORLD STONE MAP');
+      });
+  })();
+</script>
+
+<style>
+  .quarries {
+    background: #f0efed;
+    position: relative;
+    overflow: hidden;
+    padding: 80px 60px;
+  }
+  .quarries::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(201, 168, 76, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .quarry-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: stretch;
+  }
+  @media (max-width: 1024px) {
+    .quarry-layout {
+      grid-template-columns: 1fr;
+    }
+    .quarries {
+      padding: 80px 30px;
+    }
+  }
+  .quarry-map-visual {
+    position: relative;
+    min-height: 420px;
+    height: 100%;
+  }
+  .world-map-container {
+    width: 100%;
+    height: 100%;
+    min-height: 420px;
+    background: #2a2d35;
+    border: 2px solid rgba(160, 120, 60, 0.55);
+    box-shadow:
+      0 0 0 1px rgba(160, 120, 60, 0.15),
+      0 0 0 6px rgba(160, 120, 60, 0.06),
+      0 0 0 7px rgba(160, 120, 60, 0.2),
+      0 12px 48px rgba(0, 0, 0, 0.35);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .world-map-container:hover {
+    border-color: rgba(160, 120, 60, 0.85);
+    transition:
+      border-color 0.3s,
+      box-shadow 0.3s;
+  }
+  .world-map-container #mini-map-svg {
+    flex: 1;
+    min-height: 0;
+  }
+  .map-hover-label {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(26, 25, 23, 0.1);
+    padding: 6px 14px;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #a67c52;
+    backdrop-filter: blur(8px);
+    pointer-events: none;
+  }
+  .map-stat-badge {
+    position: absolute;
+    bottom: 52px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .map-stat-num {
+    font-family: 'DM Mono', monospace !important;
+    font-size: 28px;
+    color: #a67c52;
+    line-height: 1;
+  }
+  .map-stat-lbl {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .map-country-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 10px 16px;
+    background: rgba(26, 29, 35, 0.85);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    flex-shrink: 0;
+  }
+  .map-ctry {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    padding: 3px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .quarry-features {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 32px;
+  }
+  .quarry-feat {
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.02);
+    border-left: 2px solid transparent;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .quarry-feat:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-left-color: #a67c52;
+    transform: translateX(8px);
+  }
+  .quarry-feat-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: #1a1917;
+    margin-bottom: 4px;
+  }
+  .quarry-feat-desc {
+    font-size: 13px;
+    color: #8a8784;
+    line-height: 1.5;
+  }
+  .btn-quarry-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: #a67c52;
+    color: #1a1917;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: 'Instrument Sans', sans-serif;
+    transition: opacity 0.25s;
+  }
+  .btn-quarry-primary:hover {
+    opacity: 0.85;
+  }
+  .btn-quarry-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border: 1px solid rgba(196, 168, 130, 0.25);
+    color: #a67c52;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: 'Instrument Sans', sans-serif;
+    transition: all 0.25s;
+  }
+  .btn-quarry-secondary:hover {
+    border-color: #a67c52;
+  }
+</style>
