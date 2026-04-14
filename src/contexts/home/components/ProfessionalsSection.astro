@@ -1,14 +1,19 @@
 ---
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { resolve, dirname } from 'path';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const iconsDir = resolve(__dirname, '../../../assets/icons');
-const readIcon = (name: string) => readFileSync(resolve(iconsDir, `${name}.svg`), 'utf-8');
+import IconCanteras from '~icons/wsh/canteras';
+import IconFabricantes from '~icons/wsh/fabricantes';
+import IconDistribuidores from '~icons/wsh/distribuidores';
+import IconAgentes from '~icons/wsh/agentes';
+import IconLogistica from '~icons/wsh/logistica';
+import IconLaboratorios from '~icons/wsh/laboratorios';
+import IconMaquinaria from '~icons/wsh/maquinaria';
+import IconEmbalaje from '~icons/wsh/embalaje';
+import IconArquitectos from '~icons/wsh/arquitectos';
+import IconConstructoras from '~icons/wsh/constructoras';
+import IconCompradores from '~icons/wsh/compradores';
+import IconInstaladores from '~icons/wsh/instaladores';
 
 interface ProCard {
-  icon: string;
+  icon: typeof IconCanteras;
   title: string;
   desc: string;
   link: string;
@@ -17,56 +22,56 @@ interface ProCard {
 
 const suppliers: ProCard[] = [
   {
-    icon: readIcon('canteras'),
+    icon: IconCanteras,
     title: 'Canteras',
     desc: 'Extractores y productores de piedra natural en origen, con fichas técnicas, capacidad y certificaciones.',
     link: '/canteras.html',
     linkText: 'Ver canteras →',
   },
   {
-    icon: readIcon('fabricantes'),
+    icon: IconFabricantes,
     title: 'Fabricantes y talleres',
     desc: 'Serrerías, talleres y fábricas que transforman el bloque en producto acabado para obra e interiorismo.',
     link: '/sector.html?id=fabricantes',
     linkText: 'Ver fabricantes →',
   },
   {
-    icon: readIcon('distribuidores'),
+    icon: IconDistribuidores,
     title: 'Distribuidores',
     desc: 'Red de distribución internacional que conecta productores con arquitectos, interioristas y constructores.',
     link: '/sector.html?id=distribuidores',
     linkText: 'Ver distribuidores →',
   },
   {
-    icon: readIcon('agentes'),
+    icon: IconAgentes,
     title: 'Agentes y representantes',
     desc: 'Agentes comerciales e intermediarios que facilitan el acceso a mercados y productores en todo el mundo.',
     link: '/proveedores.html',
     linkText: 'Ver agentes →',
   },
   {
-    icon: readIcon('logistica'),
+    icon: IconLogistica,
     title: 'Logística y transporte',
     desc: 'Operadores logísticos, transportistas y agentes de aduanas especializados en el movimiento de piedra natural.',
     link: '/sector.html?id=logistica',
     linkText: 'Ver logística →',
   },
   {
-    icon: readIcon('laboratorios'),
+    icon: IconLaboratorios,
     title: 'Laboratorios y certificación',
     desc: 'Laboratorios de ensayo, organismos de certificación y entidades normativas del sector de la piedra.',
     link: '/sector.html?id=laboratorios',
     linkText: 'Ver laboratorios →',
   },
   {
-    icon: readIcon('maquinaria'),
+    icon: IconMaquinaria,
     title: 'Maquinaria industrial',
     desc: 'Fabricantes y distribuidores de maquinaria especializada en extracción, corte y transformación de piedra.',
     link: '/sector.html?id=maquinaria',
     linkText: 'Ver maquinaria →',
   },
   {
-    icon: readIcon('embalaje'),
+    icon: IconEmbalaje,
     title: 'Embalaje y palets',
     desc: 'Proveedores de soluciones de embalaje, palets y protección especializados para el transporte de piedra natural.',
     link: '/proveedores.html',
@@ -76,28 +81,28 @@ const suppliers: ProCard[] = [
 
 const buyers: ProCard[] = [
   {
-    icon: readIcon('arquitectos'),
+    icon: IconArquitectos,
     title: 'Arquitectos e Interioristas',
     desc: 'Estudios que prescriben y especifican piedra natural en proyectos residenciales, hoteleros y comerciales.',
     link: '/sector.html?id=arquitectura',
     linkText: 'Ver directorio →',
   },
   {
-    icon: readIcon('constructoras'),
+    icon: IconConstructoras,
     title: 'Constructoras',
     desc: 'Empresas constructoras que trabajan con piedra natural y necesitan proveedores cualificados para sus proyectos.',
     link: '/sector.html?id=constructoras',
     linkText: 'Ver directorio →',
   },
   {
-    icon: readIcon('compradores'),
+    icon: IconCompradores,
     title: 'Compradores corporativos',
     desc: 'Cadenas hoteleras, promotoras y grandes grupos que incorporan piedra natural en sus proyectos e instalaciones.',
     link: '/proveedores.html',
     linkText: 'Ver directorio →',
   },
   {
-    icon: readIcon('instaladores'),
+    icon: IconInstaladores,
     title: 'Instaladores',
     desc: 'Especialistas en colocación y acabados de piedra natural en obra, con acceso a catálogos y contacto directo con fabricantes.',
     link: '/proveedores.html',
@@ -128,7 +133,7 @@ const buyers: ProCard[] = [
       suppliers.map((card) => (
         <a class="pro-card" href={card.link}>
           <div class="pro-icon">
-            <Fragment set:html={card.icon} />
+            <card.icon />
           </div>
           <div class="font-display text-[20px] text-text-primary mt-[10px] mb-2 leading-[1.2]">
             {card.title}
@@ -155,7 +160,7 @@ const buyers: ProCard[] = [
       buyers.map((card) => (
         <a class="pro-card pro-card--buyer" href={card.link}>
           <div class="pro-icon">
-            <Fragment set:html={card.icon} />
+            <card.icon />
           </div>
           <div class="font-display text-[20px] text-text-primary mt-[10px] mb-2 leading-[1.2]">
             {card.title}

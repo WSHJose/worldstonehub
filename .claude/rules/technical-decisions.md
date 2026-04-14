@@ -69,9 +69,10 @@ type: feedback
 18. **unplugin-icons** — librería instalada para iconos. Import syntax: `import IconName from '~icons/{set}/{icon-name}'`. Configurado en `astro.config.mjs` con `compiler: 'astro'`.
 19. **Lucide primero** — usar `~icons/lucide/{icon}` como primera opción. Solo usar otro set (`mdi`, `tabler`, etc.) si el icono no existe en Lucide.
 20. **No migrar flags de países** — los flags (lipis.dev CDN) se mantienen como están; unplugin-icons no tiene flags de países.
+21. **Colección custom `wsh`** — iconos propios del proyecto en `src/assets/icons/*.svg`, cargados via `FileSystemIconLoader`. Import: `import Icon from '~icons/wsh/{name}'`. Para añadir uno nuevo, solo crear el SVG en esa carpeta.
 
 ## Stripe
 
-21. **Stripe dinámico** — sin payment links estáticos. Todo vía Edge Functions:
+22. **Stripe dinámico** — sin payment links estáticos. Todo vía Edge Functions:
     - `create-checkout`: genera sesión por actor+plan+billing
     - `stripe-webhook`: activa proveedor en DB tras `checkout.session.completed`
