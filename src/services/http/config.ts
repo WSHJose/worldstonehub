@@ -23,6 +23,28 @@ export async function restFetch<T>(
   return res.json() as Promise<T>;
 }
 
+export async function restFetchPaged<T>(
+  path: string,
+  limit: number,
+  offset: number
+): Promise<{ data: T[]; total: number }> {
+  const rangeEnd = offset + limit - 1;
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      Accept: 'application/json',
+      Prefer: 'count=exact',
+      Range: `${offset}-${rangeEnd}`,
+    },
+  });
+  const range = res.headers.get('content-range') ?? '';
+  const match = range.match(/\/(\d+)$/);
+  const total = match ? parseInt(match[1], 10) : 0;
+  const data = (await res.json()) as T[];
+  return { data, total };
+}
+
 export async function restFetchCount(path: string): Promise<number | null> {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
     headers: {

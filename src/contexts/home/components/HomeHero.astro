@@ -1,5 +1,5 @@
 ---
-
+import Button from '../../../components/Button/Button.astro';
 ---
 
 <div class="page-hdr">
@@ -19,12 +19,16 @@
         proveedores, distribuidores, fabricantes y arquitectos en un único ecosistema.
       </p>
       <div class="hero-actions">
-        <a href="/canteras.html" class="btn-primary" data-i18n="cta.explorarDirectorio"
-          >Explorar directorio</a
-        >
-        <a href="/registro.html" class="btn-secondary" data-i18n="cta.publicarEmpresa"
-          >Publicar mi empresa</a
-        >
+        <a href="/canteras.html">
+          <Button variant="primary" class="uppercase" data-i18n="cta.explorarDirectorio"
+            >Explorar directorio</Button
+          >
+        </a>
+        <a href="/registro.html">
+          <Button variant="secondary" class="uppercase" data-i18n="cta.publicarEmpresa"
+            >Publicar mi empresa</Button
+          >
+        </a>
       </div>
       <div class="hero-stats">
         <div class="stat">
@@ -80,7 +84,11 @@
             <span class="fc-seats-limit">Límite: 20</span>
           </div>
         </div>
-        <a href="/fundadores.html" class="fc-cta">Solicitar mi plaza de Fundador →</a>
+        <a href="/fundadores.html" style="display:block;margin-top:4px;text-decoration:none;">
+          <Button variant="primary" class="uppercase" style="width:100%;justify-content:center;"
+            >Solicitar mi plaza de Fundador →</Button
+          >
+        </a>
         <p class="fc-note">Sin pago ahora · Oferta formal por email · Cierra en 20 plazas</p>
       </div>
     </div>
@@ -226,68 +234,6 @@
     display: flex;
     gap: 20px;
     align-items: center;
-  }
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    padding: 14px 32px;
-    background: #a67c52;
-    color: #ffffff;
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: none;
-    transition:
-      background 0.25s,
-      transform 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(-100%);
-    transition: transform 0.3s;
-  }
-  .btn-primary:hover {
-    background: #8f6a40;
-  }
-  .btn-primary:hover::after {
-    transform: translateX(0);
-  }
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    padding: 14px 32px;
-    background: transparent;
-    color: #1a1917;
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1px solid #c8c5bf;
-    transition:
-      border-color 0.25s,
-      color 0.25s;
-  }
-  .btn-secondary:hover {
-    border-color: #a67c52;
-    color: #a67c52;
-  }
-  .btn-secondary::after {
-    content: '→';
-    margin-left: 8px;
-    transition: transform 0.3s;
-  }
-  .btn-secondary:hover::after {
-    transform: translateX(6px);
   }
   .hero-stats {
     display: flex;
@@ -464,45 +410,6 @@
   }
   .fc-seats-limit {
     color: rgba(240, 237, 232, 0.3);
-  }
-  .fc-cta {
-    display: block;
-    text-align: center;
-    background: #a67c52;
-    color: #f8f7f5;
-    padding: 14px 24px;
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition:
-      background 0.25s,
-      transform 0.2s;
-    position: relative;
-    overflow: hidden;
-    margin-top: 4px;
-  }
-  .fc-cta::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.1) 50%,
-      transparent 100%
-    );
-    transform: translateX(-100%);
-    transition: transform 0.45s ease;
-  }
-  .fc-cta:hover {
-    background: #8f6a40;
-    transform: translateY(-1px);
-  }
-  .fc-cta:hover::after {
-    transform: translateX(100%);
   }
   .fc-note {
     text-align: center;

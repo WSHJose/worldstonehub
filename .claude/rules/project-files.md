@@ -24,79 +24,80 @@ src/
 
 ## Pages (`src/pages/`)
 
-| File | Purpose |
-|------|---------|
-| `index.astro` | Home — hero, stats, búsqueda inteligente |
-| `materiales.astro` | Catálogo — filtros, búsqueda, badges ★, orden |
-| `material.astro` | Ficha individual material |
-| `mapa.astro` | Mapa interactivo (MapLibre/MapTiler) |
-| `proveedores.astro` | Directorio de proveedores B2B |
-| `proveedor.astro` | Ficha individual proveedor |
-| `proveedor-levantina.astro` | Ficha especial Levantina |
-| `canteras.astro` | Directorio de canteras |
-| `cantera.astro` | Ficha individual cantera |
-| `sector.astro` | Página de sector (unificada, reemplaza `sector-*.html`) |
-| `registro.astro` | Registro proveedor (con Stripe checkout) |
-| `blog.astro` | Blog — estructura existe, sin contenido real |
-| `nosotros.astro` | About page |
-| `contacto.astro` | Contact form |
-| `legal.astro` | Términos legales |
-| `gracias.astro` | Post-pago Stripe confirmation |
-| `fundadores.astro` | Página oferta fundadores |
-| `fundadores-oferta.astro` | Detalle oferta fundadores |
-| `fundadores-templates.astro` | Templates fundadores |
-| `esquema-negocio.astro` | Esquema de negocio (interno) |
-| `login.astro` | Login Supabase Auth |
-| `panel.astro` | Proveedor dashboard privado |
-| `admin.astro` | Panel admin — gestión completa |
-| `admin-anuncios.astro` | Subpanel gestión anuncios |
-| `proponer-material.astro` | Formulario público proponer materiales |
-| `proponer-cantera.astro` | Formulario público proponer canteras |
-| `i18n-example.astro` | i18n demo (noindex, experimental) |
-| `404.astro` | Error page |
+| File                         | Purpose                                                 |
+| ---------------------------- | ------------------------------------------------------- |
+| `index.astro`                | Home — hero, stats, búsqueda inteligente                |
+| `materiales.astro`           | Catálogo — filtros, búsqueda, badges ★, orden           |
+| `material.astro`             | Ficha individual material                               |
+| `mapa.astro`                 | Mapa interactivo (Mapbox/MapTiler)                      |
+| `proveedores.astro`          | Directorio de proveedores B2B                           |
+| `proveedor.astro`            | Ficha individual proveedor                              |
+| `proveedor-levantina.astro`  | Ficha especial Levantina                                |
+| `canteras.astro`             | Directorio de canteras                                  |
+| `cantera.astro`              | Ficha individual cantera                                |
+| `sector.astro`               | Página de sector (unificada, reemplaza `sector-*.html`) |
+| `registro.astro`             | Registro proveedor (con Stripe checkout)                |
+| `blog.astro`                 | Blog — estructura existe, sin contenido real            |
+| `nosotros.astro`             | About page                                              |
+| `contacto.astro`             | Contact form                                            |
+| `legal.astro`                | Términos legales                                        |
+| `gracias.astro`              | Post-pago Stripe confirmation                           |
+| `fundadores.astro`           | Página oferta fundadores                                |
+| `fundadores-oferta.astro`    | Detalle oferta fundadores                               |
+| `fundadores-templates.astro` | Templates fundadores                                    |
+| `esquema-negocio.astro`      | Esquema de negocio (interno)                            |
+| `login.astro`                | Login Supabase Auth                                     |
+| `panel.astro`                | Proveedor dashboard privado                             |
+| `admin.astro`                | Panel admin — gestión completa                          |
+| `admin-anuncios.astro`       | Subpanel gestión anuncios                               |
+| `proponer-material.astro`    | Formulario público proponer materiales                  |
+| `proponer-cantera.astro`     | Formulario público proponer canteras                    |
+| `i18n-example.astro`         | i18n demo (noindex, experimental)                       |
+| `404.astro`                  | Error page                                              |
 
 ## Layouts (`src/layouts/`)
 
-| File | Purpose |
-|------|---------|
+| File         | Purpose                                         |
+| ------------ | ----------------------------------------------- |
 | `Base.astro` | Layout HTML base — head, meta, estilos globales |
-| `Page.astro` | Layout de página con navbar y footer |
+| `Page.astro` | Layout de página con navbar y footer            |
 
 ## Components (`src/components/`)
 
-| File | Purpose |
-|------|---------|
+| File           | Purpose                       |
+| -------------- | ----------------------------- |
 | `Navbar.astro` | Barra de navegación principal |
-| `Footer.astro` | Pie de página |
+| `Footer.astro` | Pie de página                 |
 
 ## Contexts (`src/contexts/`)
 
 Cada contexto sigue la estructura:
+
 ```
 src/contexts/{context}/services/http/
   {context}Http.ts        ← funciones de acceso a API
   {context}Http.types.ts  ← interfaces TypeScript
 ```
 
-| Context | Dominio |
-|---------|---------|
-| `auth` | Autenticación Supabase |
-| `blog` | Artículos del blog |
-| `canteras` | Directorio de canteras |
-| `home` | Datos para la home (stats, etc.) |
-| `materials` | Catálogo de materiales |
-| `proveedores` | Directorio de proveedores |
+| Context       | Dominio                          |
+| ------------- | -------------------------------- |
+| `auth`        | Autenticación Supabase           |
+| `blog`        | Artículos del blog               |
+| `canteras`    | Directorio de canteras           |
+| `home`        | Datos para la home (stats, etc.) |
+| `materials`   | Catálogo de materiales           |
+| `proveedores` | Directorio de proveedores        |
 
 ## Shared Services (`src/services/`)
 
-| File | Purpose |
-|------|---------|
+| File                      | Purpose                                                 |
+| ------------------------- | ------------------------------------------------------- |
 | `services/http/config.ts` | `supabase` client, `restFetch<T>()`, `restFetchCount()` |
 
 ## Scripts (`src/scripts/`)
 
-| File | Purpose |
-|------|---------|
+| File          | Purpose                                                   |
+| ------------- | --------------------------------------------------------- |
 | `auth-nav.ts` | Estado autenticación en navbar, mostrar/ocultar elementos |
 
 ## SQL Migrations (`sqls/`)

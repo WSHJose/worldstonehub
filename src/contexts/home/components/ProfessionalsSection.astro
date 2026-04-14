@@ -106,37 +106,49 @@ const buyers: ProCard[] = [
 ];
 ---
 
-<section class="professionals">
-  <div style="margin-bottom:0">
+<section class="bg-surface-1 px-15 py-18 max-lg:px-[30px]">
+  <div>
     <div class="section-eyebrow">Ecosistema completo</div>
     <h2 class="section-title"><span>Todos los actores</span><br /><em>del sector</em></h2>
     <p
-      style="font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;font-weight:300;color:#8a8784;line-height:1.7;margin-top:20px;padding-top:20px;border-top:1px solid #e2e0dc;max-width:580px;letter-spacing:0.1px;"
+      class="font-display text-[17px] italic font-light text-text-muted leading-[1.7] mt-5 pt-5 border-t border-border max-w-[580px] tracking-[0.1px]"
     >
       De la cantera al proyecto final — todos los eslabones de la cadena de valor de la piedra
       natural, en un único directorio global.
     </p>
   </div>
 
-  <div class="pro-group-label">Proveedores &amp; Servicios</div>
-  <div class="pro-grid">
+  <div
+    class="font-mono text-[16px] tracking-[3px] uppercase text-text-muted mb-[18px] mt-2 flex items-center gap-3"
+  >
+    Proveedores &amp; Servicios
+  </div>
+  <div class="pro-grid mt-12">
     {
       suppliers.map((card) => (
         <a class="pro-card" href={card.link}>
           <div class="pro-icon">
             <Fragment set:html={card.icon} />
           </div>
-          <div class="pro-title">{card.title}</div>
-          <div class="pro-desc">{card.desc}</div>
+          <div class="font-display text-[20px] text-text-primary mt-[10px] mb-2 leading-[1.2]">
+            {card.title}
+          </div>
+          <div class="text-[12px] text-text-muted leading-[1.5]">{card.desc}</div>
           <span class="pro-link">{card.linkText}</span>
         </a>
       ))
     }
   </div>
 
-  <div class="pro-group-label pro-group-label--buyers" style="margin-top:32px;">
+  <div
+    class="font-mono text-[16px] tracking-[3px] uppercase text-text-muted mb-[18px] mt-8 flex items-center gap-3"
+  >
     Compradores &amp; Prescriptores
-    <span class="pro-group-badge">Acceso gratuito</span>
+    <span
+      class="bg-ochre/8 border border-ochre/28 text-[#9c8571] font-mono text-[7px] tracking-[2px] uppercase px-[10px] py-[3px]"
+    >
+      Acceso gratuito
+    </span>
   </div>
   <div class="pro-grid pro-grid--buyers">
     {
@@ -145,28 +157,27 @@ const buyers: ProCard[] = [
           <div class="pro-icon">
             <Fragment set:html={card.icon} />
           </div>
-          <div class="pro-title">{card.title}</div>
-          <div class="pro-desc">{card.desc}</div>
+          <div class="font-display text-[20px] text-text-primary mt-[10px] mb-2 leading-[1.2]">
+            {card.title}
+          </div>
+          <div class="text-[12px] text-text-muted leading-[1.5]">{card.desc}</div>
           <span class="pro-link">{card.linkText}</span>
         </a>
       ))
     }
   </div>
 
-  <div class="pro-count" id="proCount">— operadores activos</div>
+  <div id="proCount" class="font-mono text-[10px] tracking-[4px] uppercase text-text-muted mt-10">
+    — operadores activos
+  </div>
 </section>
 
 <style>
-  .professionals {
-    padding: 72px 60px;
-    background: #f8f7f5;
-  }
   .pro-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1px;
     background: rgba(30, 25, 20, 0.06);
-    margin-top: 48px;
   }
   @media (max-width: 900px) {
     .pro-grid {
@@ -183,7 +194,7 @@ const buyers: ProCard[] = [
     border: 1px solid #e2e0dc;
     padding: 32px 24px 28px;
     text-align: center;
-    transition: background 0.3s;
+    transition: background 0.25s ease-out;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -199,7 +210,7 @@ const buyers: ProCard[] = [
     height: 2px;
     background: #a67c52;
     transform: scaleX(0);
-    transition: transform 0.3s;
+    transition: transform 0.25s ease-out;
   }
   .pro-card:hover {
     background: #f2ede8;
@@ -219,18 +230,6 @@ const buyers: ProCard[] = [
     display: block;
     margin: 0 auto;
   }
-  .pro-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    color: #1a1917;
-    margin: 10px 0 8px;
-    line-height: 1.2;
-  }
-  .pro-desc {
-    font-size: 12px;
-    color: #8a8784;
-    line-height: 1.5;
-  }
   .pro-link {
     display: inline-block;
     margin-top: 16px;
@@ -240,39 +239,10 @@ const buyers: ProCard[] = [
     color: #a67c52 !important;
     text-decoration: none !important;
     font-family: 'Instrument Sans', sans-serif;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s ease-out;
   }
   .pro-link:hover {
     opacity: 0.7;
-  }
-  .pro-count {
-    font-size: 10px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: #8a8784;
-    margin-top: 40px;
-  }
-  .pro-group-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 16px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #8a8784;
-    margin-bottom: 18px;
-    margin-top: 8px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .pro-group-badge {
-    background: rgba(166, 124, 82, 0.08);
-    border: 1px solid rgba(166, 124, 82, 0.28);
-    color: #9c8571;
-    font-family: 'DM Mono', monospace;
-    font-size: 7px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 3px 10px;
   }
   .pro-card--buyer {
     border: 1px solid #e8e6e2 !important;
@@ -295,11 +265,6 @@ const buyers: ProCard[] = [
   @media (max-width: 900px) {
     .pro-grid--buyers {
       grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  @media (max-width: 1024px) {
-    .professionals {
-      padding: 72px 30px;
     }
   }
 </style>

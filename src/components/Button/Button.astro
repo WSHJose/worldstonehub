@@ -1,0 +1,128 @@
+---
+interface Props {
+  variant: 'primary' | 'secondary' | 'tertiary';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+  class?: string;
+  [key: string]: any;
+}
+
+const { variant, size = 'md', class: className, ...rest } = Astro.props;
+---
+
+<button class:list={[`btn-${variant}`, `btn-${size}`, className]} {...rest}>
+  <slot />
+</button>
+
+<style>
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 32px;
+    background: var(--gold);
+    color: var(--bg);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition:
+      background 0.25s,
+      transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .btn-primary:hover {
+    background: var(--color-ochre-dark);
+  }
+  .btn-primary:hover::after {
+    transform: translateX(0);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-decoration: none;
+    border: 1px solid var(--border2);
+    cursor: pointer;
+    transition:
+      border-color 0.25s,
+      color 0.25s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .btn-secondary::after {
+    margin-left: 8px;
+    transition: transform 0.3s;
+  }
+  .btn-secondary:hover::after {
+    transform: translateX(6px);
+  }
+
+  .btn-tertiary {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--gold);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition:
+      border-color 0.25s,
+      color 0.25s;
+  }
+  .btn-tertiary:hover {
+    border-color: var(--gold);
+    color: var(--color-ochre-dark);
+  }
+  .btn-tertiary::after {
+    margin-left: 8px;
+    transition: transform 0.3s;
+  }
+  .btn-tertiary:hover::after {
+    transform: translateX(6px);
+  }
+
+  .btn-xs {
+    padding: 5px 14px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+  .btn-sm {
+    padding: 6px 12px;
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+  .btn-md {
+    padding: 14px 32px;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+  }
+  .btn-lg {
+    padding: 18px 48px;
+    font-size: 11px;
+    letter-spacing: 3px;
+  }
+</style>

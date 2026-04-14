@@ -1,5 +1,5 @@
 ---
-
+import Button from '../../../components/Button/Button.astro';
 ---
 
 <section class="membership">
@@ -27,7 +27,14 @@
           <li>Datos de contacto visibles</li>
           <li>Estadísticas básicas de visitas</li>
         </ul>
-        <a href="/registro.html?plan=presencia" class="pn-btn--outline pn-btn">Ver mi precio →</a>
+        <a
+          href="/registro.html?plan=presencia"
+          style="display:block;margin-top:auto;text-decoration:none;"
+        >
+          <Button variant="secondary" style="width:100%;justify-content:center;"
+            >Ver mi precio</Button
+          >
+        </a>
       </div>
 
       <div class="pn-card pn-card--featured">
@@ -47,7 +54,14 @@
           <li>Estadísticas avanzadas + captación de leads</li>
           <li>Badge de empresa verificada</li>
         </ul>
-        <a href="/registro.html?plan=profesional" class="pn-btn pn-btn--fill">Empezar ahora →</a>
+        <a
+          href="/registro.html?plan=profesional"
+          style="display:block;margin-top:auto;text-decoration:none;"
+        >
+          <Button variant="primary" style="width:100%;justify-content:center;"
+            >Empezar ahora →</Button
+          >
+        </a>
       </div>
 
       <div class="pn-card pn-card--elite">
@@ -66,7 +80,14 @@
           <li>Gestor de cuenta dedicado</li>
           <li>Informes mensuales de mercado</li>
         </ul>
-        <a href="/registro.html?plan=elite" class="pn-btn--outline pn-btn">Ver mi precio →</a>
+        <a
+          href="/registro.html?plan=elite"
+          style="display:block;margin-top:auto;text-decoration:none;"
+        >
+          <Button variant="secondary" style="width:100%;justify-content:center;"
+            >Ver mi precio</Button
+          >
+        </a>
       </div>
     </div>
 
@@ -243,37 +264,6 @@
     left: 0;
     color: #a67c52;
     font-weight: 300;
-  }
-  .pn-btn {
-    display: block;
-    text-align: center;
-    padding: 12px 20px;
-    text-decoration: none;
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    transition: all 0.25s;
-    margin-top: auto;
-  }
-  .pn-btn--outline {
-    border: 1px solid #c8c5bf;
-    color: #4a4845;
-    background: transparent;
-  }
-  .pn-btn--outline:hover {
-    border-color: #a67c52;
-    color: #a67c52;
-  }
-  .pn-btn--fill {
-    background: #a67c52;
-    color: #f8f7f5;
-    border: 1px solid #a67c52;
-  }
-  .pn-btn--fill:hover {
-    background: #8f6a40;
-    border-color: #8f6a40;
   }
   .pn-note {
     margin-top: 28px;

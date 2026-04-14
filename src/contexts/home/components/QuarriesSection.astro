@@ -1,5 +1,5 @@
 ---
-
+import Button from '../../../components/Button/Button.astro';
 ---
 
 <section class="quarries">
@@ -78,14 +78,16 @@
           </div>
         </div>
         <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
-          <a
-            href="/canteras.html"
-            class="btn-quarry-primary"
-            data-i18n="index.quarries.btnDirectorio">Ver directorio de canteras →</a
+          <a href="/canteras.html">
+            <Button variant="primary" data-i18n="index.quarries.btnDirectorio"
+              >Ver directorio de canteras →</Button
+            ></a
           >
-          <a href="/mapa.html" class="btn-quarry-secondary" data-i18n="index.quarries.btnMapa"
-            >Ver mapa interactivo →</a
-          >
+          <a href="/mapa.html">
+            <Button variant="secondary" data-i18n="index.quarries.btnMapa"
+              >Ver mapa interactivo</Button
+            >
+          </a>
         </div>
       </div>
     </div>
@@ -341,23 +343,5 @@
   }
   .btn-quarry-primary:hover {
     opacity: 0.85;
-  }
-  .btn-quarry-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 28px;
-    border: 1px solid rgba(196, 168, 130, 0.25);
-    color: #a67c52;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-family: 'Instrument Sans', sans-serif;
-    transition: all 0.25s;
-  }
-  .btn-quarry-secondary:hover {
-    border-color: #a67c52;
   }
 </style>
