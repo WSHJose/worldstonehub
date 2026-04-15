@@ -34,6 +34,12 @@ export default defineConfig({
       tailwindcss(),
       Icons({
         compiler: 'astro',
+        defaultStyle: '',
+        defaultClass: '',
+        iconCustomizer(_collection, _icon, props) {
+          props.width = undefined;
+          props.height = undefined;
+        },
         customCollections: {
           wsh: FileSystemIconLoader('./src/assets/icons'),
         },

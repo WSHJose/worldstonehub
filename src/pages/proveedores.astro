@@ -986,7 +986,8 @@ import Page from '../layouts/Page.astro';
         <p class="ph-eyebrow" data-i18n="hero.proveedores.eyebrow">WSH · Directorio comercial</p>
         <h1>
           <span data-i18n="hero.proveedores.title">Proveedores</span><br /><em
-            data-i18n="hero.proveedores.titleItalic">y Distribuidores</em>
+            data-i18n="hero.proveedores.titleItalic">y Distribuidores</em
+          >
         </h1>
         <p data-i18n-html="proveedores.descHTML">
           Empresas del sector de la piedra natural con perfil verificado. Los perfiles <strong
@@ -999,20 +1000,24 @@ import Page from '../layouts/Page.astro';
         <div class="stat-block">
           <span class="stat-n" id="statTotal">—</span><span
             class="stat-l"
-            data-i18n="stats.empresas">Empresas</span>
+            data-i18n="stats.empresas">Empresas</span
+          >
         </div>
         <div class="stat-block">
           <span class="stat-n" id="statElite">—</span><span class="stat-l" data-i18n="stats.elite"
-            >Elite</span>
+            >Elite</span
+          >
         </div>
         <div class="stat-block">
           <span class="stat-n" id="statPaises">—</span><span class="stat-l" data-i18n="stats.paises"
-            >Países</span>
+            >Países</span
+          >
         </div>
         <div class="stat-block">
           <span class="stat-n" id="statVerif">—</span><span
             class="stat-l"
-            data-i18n="proveedores.statVerificados">Verificados</span>
+            data-i18n="proveedores.statVerificados">Verificados</span
+          >
         </div>
       </div>
     </div>
@@ -1119,7 +1124,7 @@ import Page from '../layouts/Page.astro';
 
   <script>
     import { getActive as getProveedoresActive } from '@contexts/proveedores/services/http/proveedoresHttp';
-    import { getAnunciosByEspacio } from '@contexts/home/services/http/homeHttp';
+    import { getAdByCode } from '@contexts/home/services/http/homeHttp';
     var DB = [],
       allRanked = [],
       activeFilters = { plan: null, sector: null },
@@ -1654,7 +1659,7 @@ import Page from '../layouts/Page.astro';
 
     (function loadAd() {
       var today = new Date().toISOString().slice(0, 10);
-      getAnunciosByEspacio('PROVEEDORES-TOP')
+      getAdByCode('PROVEEDORES-TOP')
         .then(function (data) {
           if (!data.length) return;
           var valid = data.filter(function (a) {

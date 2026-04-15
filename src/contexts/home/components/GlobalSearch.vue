@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useGlobalSearch, type SearchItem } from '@contexts/shared/composables/useGlobalSearch';
+import { getFlagUrl } from '@contexts/shared/utils/flags';
 
 const { query, results, loading, total, hasMore, setQuery, loadMore } = useGlobalSearch();
 
@@ -16,42 +17,6 @@ const trendingTags = [
   'Pizarra',
   'Basalto',
 ];
-
-const FLAG_CODES: Record<string, string> = {
-  España: 'es',
-  Italia: 'it',
-  Portugal: 'pt',
-  Grecia: 'gr',
-  Turquía: 'tr',
-  Francia: 'fr',
-  Alemania: 'de',
-  India: 'in',
-  China: 'cn',
-  Brasil: 'br',
-  'Estados Unidos': 'us',
-  México: 'mx',
-  Canadá: 'ca',
-  Argentina: 'ar',
-  Chile: 'cl',
-  Australia: 'au',
-  Sudáfrica: 'za',
-  Marruecos: 'ma',
-  Egipto: 'eg',
-  Irán: 'ir',
-  Pakistán: 'pk',
-  Vietnam: 'vn',
-  Indonesia: 'id',
-  Japón: 'jp',
-};
-
-function getFlag(pais: string): string {
-  if (!pais) return '';
-  const code =
-    FLAG_CODES[pais] ??
-    FLAG_CODES[Object.keys(FLAG_CODES).find((k) => k.toLowerCase() === pais.toLowerCase()) ?? ''];
-  if (!code) return '';
-  return `https://flagicons.lipis.dev/flags/1x1/${code}.svg`;
-}
 
 function thumbBg(item: SearchItem): string {
   if (item.t === 'cantera') return '#c4aa86';
@@ -197,8 +162,8 @@ const showTrending = computed(() => !query.value.trim());
             </div>
           </div>
           <img
-            v-if="getFlag(item.pais)"
-            :src="getFlag(item.pais)"
+            v-if="getFlagUrl(item.pais)"
+            :src="getFlagUrl(item.pais) ?? undefined"
             width="18"
             height="18"
             :alt="item.pais"

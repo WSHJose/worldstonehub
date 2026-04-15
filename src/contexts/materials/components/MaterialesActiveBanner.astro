@@ -1,0 +1,77 @@
+---
+
+---
+
+<div class="active-banner" id="activeBanner" role="status" aria-live="polite"></div>
+
+<style is:global>
+  .active-banner {
+    background: var(--gold-bg);
+    border-bottom: 1px solid rgba(166, 124, 82, 0.2);
+    padding: 0 48px;
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      max-height 0.3s,
+      padding 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .active-banner.visible {
+    max-height: 60px;
+    padding: 10px 48px;
+  }
+  .active-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--gold);
+    color: #fff;
+    padding: 4px 10px 4px 12px;
+    border-radius: 30px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 600;
+  }
+  .active-tag-x {
+    cursor: pointer;
+    opacity: 0.75;
+    font-size: 12px;
+    line-height: 1;
+    margin-left: 2px;
+    transition: opacity 0.15s;
+  }
+  .active-tag-x:hover {
+    opacity: 1;
+  }
+  .active-banner-clear {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: none;
+    border: 1px solid rgba(166, 124, 82, 0.3);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-family: inherit;
+    padding: 4px 12px;
+    margin-left: auto;
+    transition: all 0.2s;
+  }
+  .active-banner-clear:hover {
+    background: var(--gold);
+    color: #fff;
+  }
+
+  @media (max-width: 960px) {
+    .active-banner,
+    .active-banner.visible {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+</style>

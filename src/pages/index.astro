@@ -105,10 +105,7 @@ import MembershipSection from '../contexts/home/components/MembershipSection.ast
 
   <script>
     import { getActiveCount } from '@contexts/proveedores/services/http/proveedoresHttp';
-    import {
-      getAnunciosByEspacio,
-      getFundadoresCount,
-    } from '@contexts/home/services/http/homeHttp';
+    import { getAdByCode, getFundadoresCount } from '@contexts/home/services/http/homeHttp';
 
     /* ── PROVIDERS COUNT ── */
     (function () {
@@ -177,7 +174,7 @@ import MembershipSection from '../contexts/home/components/MembershipSection.ast
     /* ── AD LOADER ── */
     (function loadAd() {
       var today = new Date().toISOString().slice(0, 10);
-      getAnunciosByEspacio('HOME-TOP')
+      getAdByCode('HOME-TOP')
         .then(function (data: any[]) {
           if (!data.length) return;
           var valid = data.filter(function (a: any) {

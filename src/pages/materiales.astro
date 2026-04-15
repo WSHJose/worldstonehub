@@ -1,5 +1,9 @@
 ---
 import Page from '../layouts/Page.astro';
+import MaterialesHeader from '../contexts/materials/components/MaterialesHeader.astro';
+import MaterialesToolbar from '../contexts/materials/components/MaterialesToolbar.astro';
+import MaterialesActiveBanner from '../contexts/materials/components/MaterialesActiveBanner.astro';
+import MaterialesGrid from '../contexts/materials/components/MaterialesGrid.astro';
 ---
 
 <Page
@@ -10,919 +14,39 @@ import Page from '../layouts/Page.astro';
   ogUrl="https://worldstonehub.com/materiales.html"
   activePage="materiales"
 >
-  <style slot="head" is:global>
-    /* ── PAGE HEADER 50/50 ── */
-    .page-header {
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 280px;
-      margin-top: 70px;
-    }
-    .ph-left {
-      padding: 52px 56px 44px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      border-right: 1px solid var(--border);
-    }
-    .ph-eyebrow {
-      font-size: 9px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 16px;
-      font-family: 'DM Mono', monospace;
-    }
-    .ph-left h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 48px;
-      font-weight: 300;
-      line-height: 1;
-      letter-spacing: -1px;
-      color: var(--ink);
-    }
-    .ph-left h1 em {
-      font-style: italic;
-      color: var(--gold);
-    }
-    .ph-desc {
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--ink-3);
-      max-width: 420px;
-      line-height: 1.75;
-      flex: 1;
-      padding-top: 12px;
-    }
-    .ph-stats {
-      display: flex;
-      gap: 0;
-      margin-top: 32px;
-      border-top: 1px solid var(--border);
-    }
-    .stat-block {
-      flex: 1;
-      padding: 16px 20px 0;
-      border-right: 1px solid var(--border);
-    }
-    .stat-block:last-child {
-      border-right: none;
-    }
-    .stat-n {
-      font-family: 'DM Mono', monospace;
-      font-size: 24px;
-      font-weight: 400;
-      color: var(--ink);
-      display: block;
-      line-height: 1;
-    }
-    .stat-l {
-      font-size: 8px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--ink-4);
-      display: block;
-      margin-top: 5px;
-    }
-
-    /* ── TOOLBAR ── */
-    .toolbar {
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      padding: 18px 48px;
-      position: sticky;
-      top: 70px;
-      z-index: 90;
-    }
-    .toolbar-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .search-row {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-    .search-wrap {
-      flex: 1;
-      position: relative;
-      max-width: 480px;
-    }
-    .search-wrap svg {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      opacity: 0.35;
-      pointer-events: none;
-    }
-    #searchInput {
-      width: 100%;
-      height: 40px;
-      padding: 0 14px 0 42px;
-      border: 1px solid var(--border-md);
-      border-radius: var(--radius);
-      font-size: 13px;
-      font-family: inherit;
-      background: var(--bg-soft);
-      color: var(--ink);
-      outline: none;
-      transition:
-        border 0.2s,
-        box-shadow 0.2s;
-    }
-    #searchInput:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(166, 124, 82, 0.1);
-      background: #fff;
-    }
-    #searchInput::placeholder {
-      color: var(--ink-4);
-    }
-    .results-count {
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--ink-4);
-      white-space: nowrap;
-    }
-    .filter-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      align-items: center;
-      padding-bottom: 4px;
-    }
-    .filter-row + .filter-row {
-      padding-top: 4px;
-      border-top: 1px solid var(--border);
-    }
-    .filter-label {
-      font-size: 8px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--ink-4);
-      margin-right: 2px;
-      white-space: nowrap;
-    }
-    .filter-chip {
-      display: inline-flex;
-      align-items: center;
-      height: 28px;
-      padding: 0 12px;
-      border: 1px solid var(--border-md);
-      border-radius: 30px;
-      font-size: 10px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      background: transparent;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: 'Instrument Sans', sans-serif;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-    .filter-chip:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
-    .filter-chip.active {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: #fff;
-    }
-    .filter-sep {
-      width: 1px;
-      height: 16px;
-      background: var(--border);
-      margin: 0 4px;
-    }
-    .clear-btn {
-      font-size: 9px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--ink-4);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px 8px;
-      font-family: inherit;
-      transition: color 0.2s;
-    }
-    .clear-btn:hover {
-      color: var(--gold);
-    }
-    .sort-select {
-      height: 40px;
-      padding: 0 30px 0 12px;
-      border: 1px solid var(--border-md);
-      border-radius: var(--radius);
-      font-size: 11px;
-      font-family: 'Instrument Sans', sans-serif;
-      background: var(--bg-soft);
-      color: var(--ink-2);
-      outline: none;
-      cursor: pointer;
-      -webkit-appearance: none;
-      appearance: none;
-      letter-spacing: 0.3px;
-      transition: border 0.2s;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239c9893'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      flex-shrink: 0;
-    }
-    .sort-select:focus {
-      border-color: var(--gold);
-    }
-    .color-dot {
-      display: inline-block;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      margin-right: 3px;
-      vertical-align: middle;
-    }
-
-    /* ── ACTIVE BANNER ── */
-    .active-banner {
-      background: var(--gold-bg);
-      border-bottom: 1px solid rgba(166, 124, 82, 0.2);
-      padding: 0 48px;
-      max-height: 0;
-      overflow: hidden;
-      transition:
-        max-height 0.3s,
-        padding 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .active-banner.visible {
-      max-height: 60px;
-      padding: 10px 48px;
-    }
-    .active-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: var(--gold);
-      color: #fff;
-      padding: 4px 10px 4px 12px;
-      border-radius: 30px;
-      font-size: 9px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      font-family: 'Instrument Sans', sans-serif;
-      font-weight: 600;
-    }
-    .active-tag-x {
-      cursor: pointer;
-      opacity: 0.75;
-      font-size: 12px;
-      line-height: 1;
-      margin-left: 2px;
-      transition: opacity 0.15s;
-    }
-    .active-tag-x:hover {
-      opacity: 1;
-    }
-    .active-banner-clear {
-      font-size: 9px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--gold);
-      background: none;
-      border: 1px solid rgba(166, 124, 82, 0.3);
-      border-radius: var(--radius);
-      cursor: pointer;
-      font-family: inherit;
-      padding: 4px 12px;
-      margin-left: auto;
-      transition: all 0.2s;
-    }
-    .active-banner-clear:hover {
-      background: var(--gold);
-      color: #fff;
-    }
-    @media (max-width: 960px) {
-      .active-banner,
-      .active-banner.visible {
-        padding-left: 24px;
-        padding-right: 24px;
-      }
-    }
-
-    /* ── GRID ── */
-    .grid-section {
-      padding: 36px 48px 80px;
-    }
-    .grid-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-    }
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
-    /* ── CARD ── */
-    .material-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-      transition:
-        box-shadow 0.25s,
-        transform 0.2s,
-        border-color 0.2s;
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-    }
-    .material-card:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-3px);
-      border-color: var(--border-md);
-    }
-    .card-swatch {
-      height: 200px;
-      position: relative;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    .card-swatch::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
-      mix-blend-mode: multiply;
-      pointer-events: none;
-    }
-    .card-cat-pill {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 8px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      padding: 3px 9px;
-      border-radius: 30px;
-      background: rgba(255, 255, 255, 0.88);
-      color: var(--ink-2);
-      font-family: 'Instrument Sans', sans-serif;
-      font-weight: 600;
-      backdrop-filter: blur(4px);
-    }
-    .card-disp-dot {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(255, 255, 255, 0.7);
-    }
-    .card-disp-dot.dot-alta {
-      background: var(--gold);
-    }
-    .card-disp-dot.dot-media {
-      background: #c9b99a;
-    }
-    .card-disp-dot.dot-baja {
-      background: #8a8784;
-    }
-    .card-disp-dot.dot-pedido {
-      background: var(--border2);
-    }
-    .card-disp-dot.dot-default {
-      background: var(--border2);
-    }
-    .card-accent-stripe {
-      height: 3px;
-      width: 100%;
-      display: block;
-      flex-shrink: 0;
-      opacity: 0.7;
-    }
-    .card-body {
-      padding: 18px 20px 14px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .card-nombre {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-weight: 400;
-      line-height: 1.15;
-      color: var(--ink);
-    }
-    .card-subcat {
-      font-size: 11px;
-      color: var(--ink-4);
-      font-style: italic;
-      line-height: 1.3;
-    }
-    .card-origen {
-      font-size: 11px;
-      color: var(--ink-3);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      flex-wrap: wrap;
-      margin-top: 2px;
-    }
-    .card-flag {
-      font-size: 15px;
-      line-height: 1;
-    }
-    .card-origen-sep {
-      color: var(--border-md);
-    }
-    .card-acabados {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 4px;
-    }
-    .acabado-pill {
-      font-size: 8px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      padding: 2px 7px;
-      background: var(--bg-soft);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      font-family: 'Instrument Sans', sans-serif;
-    }
-    .acabado-more {
-      font-size: 8px;
-      letter-spacing: 1px;
-      color: var(--ink-4);
-      padding: 2px 4px;
-      font-style: italic;
-    }
-    .card-specs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 6px;
-      padding-top: 6px;
-      border-top: 1px solid var(--border);
-      opacity: 0.55;
-      transition: opacity 0.2s;
-    }
-    .material-card:hover .card-specs {
-      opacity: 1;
-    }
-    .spec-item {
-      font-size: 9px;
-      letter-spacing: 0.5px;
-      color: var(--ink-4);
-      font-family: 'DM Mono', monospace;
-    }
-    .spec-k {
-      color: var(--gold);
-      font-weight: 500;
-      margin-right: 2px;
-    }
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 20px;
-      border-top: 1px solid var(--border);
-      background: var(--bg-soft);
-      margin-top: auto;
-    }
-    .card-precio {
-      font-size: 10px;
-      color: var(--ink-4);
-      font-family: 'DM Mono', monospace;
-      letter-spacing: 0.5px;
-    }
-    .card-ver-btn {
-      font-size: 8px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--gold);
-      padding: 6px 12px;
-      border: 1px solid rgba(166, 124, 82, 0.3);
-      border-radius: var(--radius);
-      text-decoration: none;
-      transition:
-        background 0.2s,
-        color 0.2s,
-        border-color 0.2s;
-      font-family: 'Instrument Sans', sans-serif;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .card-ver-btn:hover {
-      background: var(--gold);
-      color: #fff;
-      border-color: var(--gold);
-    }
-    .card-quality-badge {
-      font-size: 9px;
-      letter-spacing: 1px;
-      padding: 4px 8px;
-      border-radius: 2px;
-      font-family: 'DM Mono', monospace;
-      font-weight: 400;
-      flex-shrink: 0;
-      line-height: 1;
-    }
-    .card-quality-full {
-      background: linear-gradient(135deg, #c9a84c22, #a67c5222);
-      color: #a67c52;
-      border: 1px solid rgba(166, 124, 82, 0.35);
-    }
-    .card-quality-mid {
-      background: var(--bg-mid);
-      color: var(--ink-3, #8a8784);
-      border: 1px solid var(--border);
-    }
-
-    /* ── FEATURED STONE ── */
-    .ph-right {
-      position: relative;
-      overflow: hidden;
-      background: #1a1917;
-    }
-    .featured-stone {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-    }
-    .featured-stone > img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.7s ease;
-    }
-    .ph-right:hover .featured-stone > img {
-      transform: scale(1.04);
-    }
-    .featured-stone-origin img {
-      width: 18px !important;
-      height: 18px !important;
-      border-radius: 3px;
-      flex-shrink: 0;
-    }
-    .featured-stone-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.72) 0%,
-        rgba(0, 0, 0, 0.18) 55%,
-        transparent 100%
-      );
-    }
-    .featured-stone-badge {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      font-size: 8px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      padding: 4px 12px;
-      border-radius: 30px;
-      background: rgba(255, 255, 255, 0.92);
-      color: var(--ink-2);
-      font-family: 'Instrument Sans', sans-serif;
-      font-weight: 600;
-      backdrop-filter: blur(4px);
-    }
-    .featured-stone-eyebrow {
-      position: absolute;
-      top: 20px;
-      left: 22px;
-      font-size: 8px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.45);
-      font-family: 'DM Mono', monospace;
-    }
-    .featured-stone-body {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 22px 26px 26px;
-    }
-    .featured-stone-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28px;
-      font-weight: 300;
-      color: #fff;
-      line-height: 1.1;
-      margin-bottom: 7px;
-    }
-    .featured-stone-origin {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.65);
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      margin-bottom: 16px;
-    }
-    .featured-stone-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 9px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: #fff;
-      text-decoration: none;
-      border: 1px solid rgba(255, 255, 255, 0.45);
-      padding: 9px 18px;
-      transition: all 0.2s;
-      font-family: 'Instrument Sans', sans-serif;
-      font-weight: 600;
-    }
-    .featured-stone-cta:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: #fff;
-    }
-    .featured-stone-loading {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #1a1917;
-    }
-
-    /* ── EMPTY / LOADING ── */
-    .empty-state {
-      padding: 80px 0;
-      text-align: center;
-    }
-    .empty-state svg {
-      opacity: 0.15;
-      margin-bottom: 20px;
-    }
-    .empty-state p {
-      font-size: 18px;
-      color: var(--ink-4);
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-    }
-    .empty-state small {
-      font-size: 10px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--ink-4);
-      display: block;
-      margin-top: 10px;
-    }
-    .loading-state {
-      padding: 80px 0;
-      text-align: center;
-    }
-    .spinner {
-      width: 28px;
-      height: 28px;
-      border: 2px solid var(--border);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 16px;
-    }
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-    .loading-state p {
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--ink-4);
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 960px) {
-      .page-header {
-        grid-template-columns: 1fr;
-      }
-      .ph-right {
-        min-height: 200px;
-        border-top: 1px solid var(--border);
-      }
-      .ph-left {
-        border-right: none;
-      }
-      .page-header,
-      .toolbar,
-      .grid-section {
-        padding-left: 24px;
-        padding-right: 24px;
-      }
-    }
-    @media (max-width: 640px) {
-      .ph-left h1 {
-        font-size: 36px;
-      }
-      .cards-grid {
-        grid-template-columns: 1fr;
-      }
-      .ph-stats {
-        flex-wrap: wrap;
-      }
-      .stat-block {
-        flex: 0 0 50%;
-      }
-    }
-  </style>
-
-  <!-- PAGE HEADER: título izquierda / piedra destacada derecha -->
-  <header class="page-header">
-    <div class="ph-left">
-      <div>
-        <p class="ph-eyebrow" data-i18n="hero.materiales.eyebrow">Directorio técnico</p>
-        <h1>
-          <span data-i18n="hero.materiales.title">Materiales de</span><br /><em
-            data-i18n="hero.materiales.titleItalic">Piedra Natural</em
-          >
-        </h1>
-        <p class="ph-desc" data-i18n="hero.materiales.desc">
-          Fichas técnicas completas de materiales de piedra natural y superficies. Propiedades,
-          acabados, formatos, origen y proyectos de referencia.
-        </p>
-      </div>
-      <div class="ph-stats">
-        <div class="stat-block">
-          <span class="stat-n" id="statMateriales">—</span>
-          <span class="stat-l" data-i18n="stats.materiales">Materiales</span>
-        </div>
-        <div class="stat-block">
-          <span class="stat-n">16</span>
-          <span class="stat-l" data-i18n="stats.categorias">Categorías</span>
-        </div>
-        <div class="stat-block">
-          <span class="stat-n" id="statPaises">—</span>
-          <span class="stat-l" data-i18n="stats.paises">Países</span>
-        </div>
-        <div class="stat-block">
-          <span class="stat-n" id="statColores">—</span>
-          <span class="stat-l" data-i18n="stats.colores">Colores</span>
-        </div>
-      </div>
-    </div>
-    <div class="ph-right" id="featuredPanel">
-      <div class="featured-stone-loading" id="featuredLoading">
-        <div class="spinner"></div>
-      </div>
-      <div id="featuredSlot" style="position:absolute;inset:0;"></div>
-    </div>
-  </header>
-
-  <!-- TOOLBAR -->
-  <div class="toolbar">
-    <div class="toolbar-inner">
-      <div class="search-row">
-        <div class="search-wrap">
-          <svg
-            width="13"
-            height="13"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg
-          >
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Buscar material, color, país, acabado…"
-            data-i18n-attr="placeholder:search.placeholderMateriales"
-            autocomplete="new-password"
-            name="mat-search"
-          />
-        </div>
-        <select id="sortSelect" class="sort-select" title="Ordenar por">
-          <option value="calidad" selected>★ Calidad de ficha</option>
-          <option value="az">A → Z</option>
-          <option value="za">Z → A</option>
-          <option value="precio_asc">Precio ↑</option>
-          <option value="precio_desc">Precio ↓</option>
-          <option value="pais">Por país</option>
-          <option value="cat">Por categoría</option>
-        </select>
-        <span class="results-count" id="resultsCount"></span>
-      </div>
-      <div class="filter-row">
-        <span class="filter-label" data-i18n="filter.categoria">Categoría</span>
-        <button class="filter-chip" data-group="cat" data-val="mármol">Mármol</button>
-        <button class="filter-chip" data-group="cat" data-val="granito">Granito</button>
-        <button class="filter-chip" data-group="cat" data-val="caliza">Caliza</button>
-        <button class="filter-chip" data-group="cat" data-val="arenisca">Arenisca</button>
-        <button class="filter-chip" data-group="cat" data-val="cuarcita">Cuarcita</button>
-        <button class="filter-chip" data-group="cat" data-val="pizarra">Pizarra</button>
-        <button class="filter-chip" data-group="cat" data-val="travertino">Travertino</button>
-        <button class="filter-chip" data-group="cat" data-val="ónix">Ónix</button>
-        <button class="filter-chip" data-group="cat" data-val="basalto">Basalto</button>
-        <button class="filter-chip" data-group="cat" data-val="alabastro">Alabastro</button>
-        <button class="filter-chip" data-group="cat" data-val="andesita">Andesita</button>
-        <button class="filter-chip" data-group="cat" data-val="calcarenita">Calcarenita</button>
-        <button class="filter-chip" data-group="cat" data-val="filita">Filita</button>
-        <button class="filter-chip" data-group="cat" data-val="pórfido">Pórfido</button>
-        <button class="filter-chip" data-group="cat" data-val="toba">Toba</button>
-        <button class="filter-chip" data-group="cat" data-val="piedra azul">Piedra Azul</button>
-      </div>
-      <div class="filter-row">
-        <span class="filter-label" data-i18n="filter.color">Color</span>
-        <button class="filter-chip" data-group="color" data-val="Blanco"
-          ><span class="color-dot" style="background:#f2ede8;border:1px solid #ccc;"
-          ></span>Blanco</button
-        >
-        <button class="filter-chip" data-group="color" data-val="Beige"
-          ><span class="color-dot" style="background:#d9c4a8;"></span>Beige</button
-        >
-        <button class="filter-chip" data-group="color" data-val="Gris"
-          ><span class="color-dot" style="background:#9a9590;"></span>Gris</button
-        >
-        <button class="filter-chip" data-group="color" data-val="Negro"
-          ><span class="color-dot" style="background:#2c2a27;"></span>Negro</button
-        >
-        <button class="filter-chip" data-group="color" data-val="Verde"
-          ><span class="color-dot" style="background:#5a9060;"></span>Verde</button
-        >
-        <button class="filter-chip" data-group="color" data-val="Rojo"
-          ><span class="color-dot" style="background:#b05050;"></span>Rojo</button
-        >
-        <button class="filter-chip" data-group="color" data-val="Azul"
-          ><span class="color-dot" style="background:#4878b0;"></span>Azul</button
-        >
-        <button class="filter-chip" data-group="color" data-val="Dorado"
-          ><span class="color-dot" style="background:#c89830;"></span>Dorado</button
-        >
-        <button class="filter-chip" data-group="color" data-val="Marrón"
-          ><span class="color-dot" style="background:#8a6040;"></span>Marrón</button
-        >
-        <div class="filter-sep"></div>
-        <button class="clear-btn" id="clearFilters" data-i18n="filter.limpiar"
-          >Limpiar filtros</button
-        >
-      </div>
-    </div>
-  </div>
-
-  <!-- ACTIVE FILTERS BANNER -->
-  <div class="active-banner" id="activeBanner" role="status" aria-live="polite"></div>
-
-  <!-- GRID -->
-  <section class="grid-section">
-    <div class="grid-inner">
-      <div id="gridContainer">
-        <div class="loading-state">
-          <div class="spinner"></div>
-          <p data-i18n="materiales.loading">Cargando materiales</p>
-        </div>
-      </div>
-      <div id="loadMoreWrap" style="display:none;text-align:center;padding:40px 0 16px;">
-        <button
-          id="loadMoreBtn"
-          style="background:none;border:1px solid #c8c5bf;padding:13px 40px;font-family:'Instrument Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;cursor:pointer;color:#4a4845;transition:all .2s;"
-          onmouseover="this.style.borderColor='#A67C52';this.style.color='#A67C52'"
-          onmouseout="this.style.borderColor='#c8c5bf';this.style.color='#4a4845'"
-        >
-          Cargar más materiales
-        </button>
-        <div
-          id="loadMoreInfo"
-          style="margin-top:10px;font-size:11px;color:#8a8784;letter-spacing:.05em;"
-        >
-        </div>
-      </div>
-    </div>
-  </section>
+  <MaterialesHeader />
+  <MaterialesToolbar />
+  <MaterialesActiveBanner />
+  <MaterialesGrid />
 
   <script>
     import { getAll as getMaterialesAll } from '@contexts/materials/services/http/materialsHttp';
-    var DB = [];
-    var activeFilters = { cat: null, color: null };
-    var searchQuery = '';
-    var activeSort = 'calidad';
+    import type { Material } from '@contexts/materials/services/http/materialsHttp.types';
+    import { getFlagImg } from '@contexts/shared/utils/flags';
 
-    var ACABADOS_ES = {
+    type FilterGroup = 'cat' | 'color';
+    type SortKey = 'calidad' | 'az' | 'za' | 'precio_asc' | 'precio_desc' | 'pais' | 'cat';
+    interface ActiveFilters {
+      cat: string | null;
+      color: string | null;
+    }
+    interface PropiedadesTecnicas {
+      densidad_kg_m3?: number | string;
+      absorcion_agua_pct?: number | string;
+      resistencia_flexion_mpa?: number | string;
+    }
+
+    /* ── STATE ── */
+    let DB: Material[] = [];
+    let activeFilters: ActiveFilters = { cat: null, color: null };
+    let searchQuery = '';
+    let activeSort: SortKey = 'calidad';
+    const PAGE_SIZE = 48;
+    let currentPage = 1;
+    let filteredList: Material[] = [];
+
+    /* ── CONSTANTS: ACABADOS ── */
+    const ACABADOS_ES: Record<string, string> = {
       Polished: 'Pulido',
       Honed: 'Apomazado',
       Brushed: 'Cepillado',
@@ -954,16 +78,17 @@ import Page from '../layouts/Page.astro';
       'Shot Blasted': 'Granallado',
       Leather: 'Cuero',
     };
-    var _ACABADOS_LOWER = {};
+    const _ACABADOS_LOWER: Record<string, string> = {};
     (function () {
-      for (var k in ACABADOS_ES) _ACABADOS_LOWER[k.toLowerCase()] = ACABADOS_ES[k];
+      for (const k in ACABADOS_ES) _ACABADOS_LOWER[k.toLowerCase()] = ACABADOS_ES[k];
     })();
-    function tradAcabado(a) {
+    function tradAcabado(a: string): string {
       if (!a) return a;
       return ACABADOS_ES[a] || _ACABADOS_LOWER[a.toLowerCase()] || a;
     }
 
-    var COLOR_MAP = {
+    /* ── CONSTANTS: COLORS ── */
+    const COLOR_MAP: Record<string, [string, string]> = {
       blanco: ['#f7f5f2', '#ece9e4'],
       negro: ['#2c2a27', '#1a1917'],
       antracita: ['#4a4845', '#2c2a27'],
@@ -1029,16 +154,16 @@ import Page from '../layouts/Page.astro';
       lilac: ['#b090c8', '#9068a8'],
       multicolor: ['#d4c4b0', '#b8a890'],
     };
-    function getSwatchGradient(c) {
+    function getSwatchGradient(c: string | undefined): [string, string] {
       if (!c) return ['#c8c4be', '#a8a49e'];
-      var cl = c.toLowerCase();
-      var keys = Object.keys(COLOR_MAP);
-      for (var i = 0; i < keys.length; i++) {
+      const cl = c.toLowerCase();
+      const keys = Object.keys(COLOR_MAP);
+      for (let i = 0; i < keys.length; i++) {
         if (cl.indexOf(keys[i]) !== -1) return COLOR_MAP[keys[i]];
       }
       return ['#c8c4be', '#a8a49e'];
     }
-    function getColorGroup(cp) {
+    function getColorGroup(cp: string | undefined): string {
       if (!cp) return '';
       var c = cp.toLowerCase();
       if (
@@ -1130,187 +255,76 @@ import Page from '../layouts/Page.astro';
         return 'Dorado';
       return '';
     }
-    var FLAG_CODES = {
-      España: 'es',
-      Italia: 'it',
-      Portugal: 'pt',
-      Grecia: 'gr',
-      Turquía: 'tr',
-      Francia: 'fr',
-      Alemania: 'de',
-      Austria: 'at',
-      Bélgica: 'be',
-      'Países Bajos': 'nl',
-      Suecia: 'se',
-      Noruega: 'no',
-      Finlandia: 'fi',
-      Polonia: 'pl',
-      'República Checa': 'cz',
-      Eslovenia: 'si',
-      Croacia: 'hr',
-      Serbia: 'rs',
-      Bulgaria: 'bg',
-      Rumanía: 'ro',
-      Ucrania: 'ua',
-      Rusia: 'ru',
-      India: 'in',
-      China: 'cn',
-      Brasil: 'br',
-      'Estados Unidos': 'us',
-      México: 'mx',
-      Canadá: 'ca',
-      Argentina: 'ar',
-      Chile: 'cl',
-      Perú: 'pe',
-      Colombia: 'co',
-      Australia: 'au',
-      Sudáfrica: 'za',
-      Marruecos: 'ma',
-      Egipto: 'eg',
-      Irán: 'ir',
-      Pakistán: 'pk',
-      Vietnam: 'vn',
-      Indonesia: 'id',
-      Tailandia: 'th',
-      Japón: 'jp',
-      'Corea del Sur': 'kr',
-      Israel: 'il',
-      'Arabia Saudita': 'sa',
-      Etiopía: 'et',
-      Tanzania: 'tz',
-      Zimbabwe: 'zw',
-      Madagascar: 'mg',
-      Bolivia: 'bo',
-      Ecuador: 'ec',
-      Venezuela: 've',
-      Uruguay: 'uy',
-      Paraguay: 'py',
-      Honduras: 'hn',
-      Guatemala: 'gt',
-      Cuba: 'cu',
-      Nigeria: 'ng',
-      Ghana: 'gh',
-      Angola: 'ao',
-      Mozambique: 'mz',
-      Namibia: 'na',
-      Kenia: 'ke',
-      Túnez: 'tn',
-      Argelia: 'dz',
-      Azerbaiyán: 'az',
-      Georgia: 'ge',
-      Armenia: 'am',
-      Hungría: 'hu',
-      Eslovaquia: 'sk',
-      Letonia: 'lv',
-      Lituania: 'lt',
-      Estonia: 'ee',
-      Suiza: 'ch',
-      'Reino Unido': 'gb',
-      Irlanda: 'ie',
-      'Nueva Zelanda': 'nz',
-      Filipinas: 'ph',
-      Malasia: 'my',
-      'Sri Lanka': 'lk',
-      Nepal: 'np',
-      Afganistán: 'af',
-      Libia: 'ly',
-      Sudán: 'sd',
-      Moldavia: 'md',
-      Bielorrusia: 'by',
-      Kosovo: 'xk',
-      Montenegro: 'me',
-      Albania: 'al',
-    };
-    function getFlag(p) {
-      if (!p) return '';
-      if (Array.isArray(p)) p = p[0] || '';
-      p = String(p);
-      var code = FLAG_CODES[p];
-      if (!code) {
-        var pl = p.toLowerCase();
-        for (var k in FLAG_CODES) {
-          if (k.toLowerCase() === pl) {
-            code = FLAG_CODES[k];
-            break;
-          }
-        }
-      }
-      if (!code) return '';
-      return (
-        '<img src="https://flagicons.lipis.dev/flags/1x1/' +
-        code +
-        '.svg" width="18" height="18" alt="' +
-        p.replace(/"/g, '&quot;') +
-        '" style="border-radius:3px;flex-shrink:0;display:inline-block;vertical-align:middle" loading="lazy" onerror="this.style.display=\'none\'">'
-      );
+
+    /* ── FLAGS ── */
+    function getFlag(p: string | string[] | null | undefined): string {
+      return getFlagImg(p);
     }
 
-    function esc(s) {
-      return (s || '')
-        .toString()
+    /* ── HELPERS ── */
+    function esc(s: unknown): string {
+      return (s == null ? '' : String(s))
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;');
     }
-    function trunc(s, n) {
-      s = (s || '').toString();
-      return s.length > n ? s.slice(0, n) + '…' : s;
+    function trunc(s: unknown, n: number): string {
+      const str = s == null ? '' : String(s);
+      return str.length > n ? str.slice(0, n) + '…' : str;
     }
-    function arr(v) {
+    function arr(v: unknown): string[] {
       if (!v) return [];
-      if (Array.isArray(v)) return v;
+      if (Array.isArray(v)) return v.map(String);
       if (typeof v === 'string') {
-        var s = v.trim();
+        const s = v.trim();
         if (s.charAt(0) === '[') {
           try {
-            var p = JSON.parse(s);
-            if (Array.isArray(p)) return p;
+            const p = JSON.parse(s);
+            if (Array.isArray(p)) return p.map(String);
           } catch (e) {}
         }
         if (s.charAt(0) === '{' && s.charAt(s.length - 1) === '}') {
-          var inner = s.slice(1, -1);
+          const inner = s.slice(1, -1);
           try {
-            var p2 = JSON.parse('[' + inner + ']');
-            return p2.map(String);
+            const p2 = JSON.parse('[' + inner + ']');
+            if (Array.isArray(p2)) return p2.map(String);
           } catch (e) {}
           return [inner];
         }
         return [v];
       }
-      return [v];
+      return [String(v)];
     }
-    function getRegionDisplay(v) {
-      var items = arr(v);
+    function getRegionDisplay(v: unknown): string {
+      const items = arr(v);
       if (!items.length) return '';
-      var r = String(items[0]).trim();
-      var m = r.match(/\(([^)]+)\)/);
+      const r = items[0].trim();
+      const m = r.match(/\(([^)]+)\)/);
       if (m) return m[1].trim();
       return r;
     }
-    /* ══════════════════════════════════════
-   BUILD CARD
-══════════════════════════════════════ */
-    function buildCard(m) {
-      var colors = getSwatchGradient(m.color_principal);
-      var gradient = 'linear-gradient(135deg,' + colors[0] + ' 0%,' + colors[1] + ' 100%)';
-      var paises = arr(m.origen_pais);
-      var regionStr = trunc(getRegionDisplay(m.origen_region), 30);
-      var flag = getFlag(paises[0]);
-      var paisStr = paises.slice(0, 2).join(' · ');
-      var acabados = arr(m.acabados_disponibles);
-      var MAX_ACAB = 4;
-      var acabHtml = '';
-      for (var i = 0; i < Math.min(acabados.length, MAX_ACAB); i++) {
+
+    /* ── BUILD CARD ── */
+    function buildCard(m: Material): string {
+      const colors = getSwatchGradient(m.color_principal);
+      const gradient = 'linear-gradient(135deg,' + colors[0] + ' 0%,' + colors[1] + ' 100%)';
+      const paises = arr(m.origen_pais);
+      const regionStr = trunc(getRegionDisplay(m.origen_region), 30);
+      const flag = getFlag(paises[0]);
+      const paisStr = paises.slice(0, 2).join(' · ');
+      const acabados = arr(m.acabados_disponibles);
+      const MAX_ACAB = 4;
+      let acabHtml = '';
+      for (let i = 0; i < Math.min(acabados.length, MAX_ACAB); i++) {
         acabHtml += '<span class="acabado-pill">' + esc(tradAcabado(acabados[i])) + '</span>';
       }
       if (acabados.length > MAX_ACAB) {
         acabHtml += '<span class="acabado-more">+' + (acabados.length - MAX_ACAB) + ' más</span>';
       }
 
-      // Technical specs desde propiedades_tecnicas (JSONB)
-      var pt = m.propiedades_tecnicas || {};
-      var specsHtml = '';
+      const pt = (m.propiedades_tecnicas || {}) as PropiedadesTecnicas;
+      let specsHtml = '';
       if (pt.densidad_kg_m3 || pt.absorcion_agua_pct || pt.resistencia_flexion_mpa) {
         specsHtml = '<div class="card-specs">';
         if (pt.densidad_kg_m3)
@@ -1331,16 +345,14 @@ import Page from '../layouts/Page.astro';
         specsHtml += '</div>';
       }
 
-      // "Ver ficha" sólo si existe slug — vinculado a material.html?id=<slug>
-      var verBtn = m.slug
+      const verBtn = m.slug
         ? '<a class="card-ver-btn" href="material.html?id=' +
           esc(m.slug) +
           '" onclick="event.stopPropagation()">Ver ficha →</a>'
         : '';
 
-      // Badge de calidad de contenido
-      var score = m.content_score || 0;
-      var qualityBadge = '';
+      const score = m.content_score || 0;
+      let qualityBadge = '';
       if (score >= 80) {
         qualityBadge =
           '<span class="card-quality-badge card-quality-full" title="Ficha completa · ' +
@@ -1353,9 +365,8 @@ import Page from '../layouts/Page.astro';
           '/100">★★</span>';
       }
 
-      // Franja de color acento
-      var accentColors = getSwatchGradient(m.color_acento || m.color_principal);
-      var accentStripe =
+      const accentColors = getSwatchGradient(m.color_acento || m.color_principal);
+      const accentStripe =
         '<span class="card-accent-stripe" style="background:linear-gradient(90deg,' +
         accentColors[0] +
         ',' +
@@ -1406,14 +417,14 @@ import Page from '../layouts/Page.astro';
         '</div>'
       );
     }
-    var PAGE_SIZE = 48,
-      currentPage = 1,
-      filteredList = [];
-    function renderGrid(list, reset) {
-      var container = document.getElementById('gridContainer');
-      var moreWrap = document.getElementById('loadMoreWrap');
-      var moreInfo = document.getElementById('loadMoreInfo');
-      if (reset) {
+
+    /* ── GRID RENDER ── */
+    function renderGrid(list: Material[] | null, reset: boolean): void {
+      const container = document.getElementById('gridContainer') as HTMLElement | null;
+      const moreWrap = document.getElementById('loadMoreWrap') as HTMLElement | null;
+      const moreInfo = document.getElementById('loadMoreInfo') as HTMLElement | null;
+      if (!container || !moreWrap || !moreInfo) return;
+      if (reset && list) {
         currentPage = 1;
         filteredList = list;
       }
@@ -1423,76 +434,70 @@ import Page from '../layouts/Page.astro';
         moreWrap.style.display = 'none';
         return;
       }
-      var visible = filteredList.slice(0, currentPage * PAGE_SIZE);
-      var html = '<div class="cards-grid">';
-      for (var i = 0; i < visible.length; i++) html += buildCard(filteredList[i]);
+      const visible = filteredList.slice(0, currentPage * PAGE_SIZE);
+      let html = '<div class="cards-grid">';
+      for (let i = 0; i < visible.length; i++) html += buildCard(filteredList[i]);
       html += '</div>';
       container.innerHTML = html;
-      var remaining = filteredList.length - visible.length;
+      const remaining = filteredList.length - visible.length;
       if (remaining > 0) {
         moreWrap.style.display = 'block';
         moreInfo.textContent =
           'Mostrando ' + visible.length + ' de ' + filteredList.length + ' materiales';
       } else moreWrap.style.display = 'none';
     }
-    document.getElementById('loadMoreBtn').addEventListener('click', function () {
-      currentPage++;
-      renderGrid(null, false);
-      var grid = document.querySelector('.cards-grid');
-      if (grid) {
-        var lastCard = grid.children[(currentPage - 1) * PAGE_SIZE];
-        if (lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-    function applyFilters() {
-      var q = searchQuery.trim().toLowerCase(),
-        fc = activeFilters.cat,
-        fcolor = activeFilters.color;
-      var CAT_NORM = {
-        bluestone: 'piedra azul',
-        'blue stone': 'piedra azul',
-        esquisto: 'pizarra',
-        phyllite: 'pizarra',
-        filita: 'pizarra',
-        gneis: 'granito',
-        gneiss: 'granito',
-        felsite: 'basalto',
-        rhyolite: 'basalto',
-        soapstone: 'pizarra',
-        cantera: 'caliza',
-        limestone: 'caliza',
-        jade: 'ónix',
-        serpentinite: 'ónix',
-        mármol: 'mármol',
-        marble: 'mármol',
-        granite: 'granito',
-        sandstone: 'arenisca',
-        quartzite: 'cuarcita',
-        slate: 'pizarra',
-        travertine: 'travertino',
-        onyx: 'ónix',
-        basalt: 'basalto',
-        alabaster: 'alabastro',
-        andesite: 'andesita',
-        porphyry: 'pórfido',
-        tuff: 'toba',
-        'toba volcánica': 'toba',
-      };
-      var result = DB.filter(function (m) {
+
+    /* ── FILTERS / SEARCH / SORT ── */
+    const CAT_NORM: Record<string, string> = {
+      bluestone: 'piedra azul',
+      'blue stone': 'piedra azul',
+      esquisto: 'pizarra',
+      phyllite: 'pizarra',
+      filita: 'pizarra',
+      gneis: 'granito',
+      gneiss: 'granito',
+      felsite: 'basalto',
+      rhyolite: 'basalto',
+      soapstone: 'pizarra',
+      cantera: 'caliza',
+      limestone: 'caliza',
+      jade: 'ónix',
+      serpentinite: 'ónix',
+      mármol: 'mármol',
+      marble: 'mármol',
+      granite: 'granito',
+      sandstone: 'arenisca',
+      quartzite: 'cuarcita',
+      slate: 'pizarra',
+      travertine: 'travertino',
+      onyx: 'ónix',
+      basalt: 'basalto',
+      alabaster: 'alabastro',
+      andesite: 'andesita',
+      porphyry: 'pórfido',
+      tuff: 'toba',
+      'toba volcánica': 'toba',
+    };
+
+    function applyFilters(): void {
+      const q = searchQuery.trim().toLowerCase();
+      const fc = activeFilters.cat;
+      const fcolor = activeFilters.color;
+      const result = DB.filter(function (m: Material) {
         if (fc) {
-          var catRaw = (m.categoria || '').toLowerCase();
-          var catNorm = CAT_NORM[catRaw] || catRaw;
+          const catRaw = (m.categoria || '').toLowerCase();
+          const catNorm = CAT_NORM[catRaw] || catRaw;
           if (catNorm !== fc) return false;
         }
         if (fcolor && getColorGroup(m.color_principal) !== fcolor) return false;
         if (q) {
-          var names = arr(m.nombres_alternativos).join(' '),
-            usos = arr(m.usos_recomendados).join(' ');
-          var acab = arr(m.acabados_disponibles).join(' '),
-            pais = arr(m.origen_pais).join(' ');
-          var reg = getRegionDisplay(m.origen_region),
-            tags = arr(m.tags_busqueda).join(' ');
-          var hay = [
+          const names = arr(m.nombres_alternativos).join(' ');
+          const usos = arr(m.usos_recomendados).join(' ');
+          const acab = arr(m.acabados_disponibles).join(' ');
+          const pais = arr(m.origen_pais).join(' ');
+          const reg = getRegionDisplay(m.origen_region);
+          const tags = arr(m.tags_busqueda).join(' ');
+          const hay = [
             m.nombre_comercial,
             names,
             m.categoria,
@@ -1510,10 +515,10 @@ import Page from '../layouts/Page.astro';
         }
         return true;
       });
-      result.sort(function (a, b) {
+      result.sort(function (a: Material, b: Material): number {
         if (activeSort === 'calidad') {
-          var sa = a.content_score || 0,
-            sb = b.content_score || 0;
+          const sa = a.content_score || 0;
+          const sb = b.content_score || 0;
           return (
             sb - sa || (a.nombre_comercial || '').localeCompare(b.nombre_comercial || '', 'es')
           );
@@ -1521,10 +526,10 @@ import Page from '../layouts/Page.astro';
         if (activeSort === 'za')
           return (b.nombre_comercial || '').localeCompare(a.nombre_comercial || '', 'es');
         if (activeSort === 'pais') {
-          var pa = arr(a.origen_pais)[0] || '',
-            pb = arr(b.origen_pais)[0] || '';
+          const pa1 = arr(a.origen_pais)[0] || '';
+          const pb1 = arr(b.origen_pais)[0] || '';
           return (
-            pa.localeCompare(pb, 'es') ||
+            pa1.localeCompare(pb1, 'es') ||
             (a.nombre_comercial || '').localeCompare(b.nombre_comercial || '', 'es')
           );
         }
@@ -1534,60 +539,36 @@ import Page from '../layouts/Page.astro';
             (a.nombre_comercial || '').localeCompare(b.nombre_comercial || '', 'es')
           );
         if (activeSort === 'precio_asc' || activeSort === 'precio_desc') {
-          function extractP(s) {
+          const extractP = (s: string | undefined): number => {
             if (!s) return activeSort === 'precio_asc' ? Infinity : -1;
-            var mx = (s + '').match(/[\d]+([.,]\d+)?/);
+            const mx = String(s).match(/[\d]+([.,]\d+)?/);
             return mx
               ? parseFloat(mx[0].replace(',', '.'))
               : activeSort === 'precio_asc'
                 ? Infinity
                 : -1;
-          }
-          var pa = extractP(a.precio_orientativo),
-            pb = extractP(b.precio_orientativo);
-          return activeSort === 'precio_asc' ? pa - pb : pb - pa;
+          };
+          const pa2 = extractP(a.precio_orientativo);
+          const pb2 = extractP(b.precio_orientativo);
+          return activeSort === 'precio_asc' ? pa2 - pb2 : pb2 - pa2;
         }
         return (a.nombre_comercial || '').localeCompare(b.nombre_comercial || '', 'es');
       });
       renderGrid(result, true);
-      document.getElementById('resultsCount').textContent =
-        result.length === DB.length
-          ? DB.length + ' materiales'
-          : result.length + ' de ' + DB.length;
+      const counter = document.getElementById('resultsCount');
+      if (counter) {
+        counter.textContent =
+          result.length === DB.length
+            ? DB.length + ' materiales'
+            : result.length + ' de ' + DB.length;
+      }
       updateActiveBanner();
     }
-    document.getElementById('searchInput').addEventListener('input', function () {
-      searchQuery = this.value;
-      applyFilters();
-    });
-    document.querySelectorAll('.filter-chip').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var group = this.dataset.group,
-          val = this.dataset.val;
-        if (activeFilters[group] === val) {
-          activeFilters[group] = null;
-          this.classList.remove('active');
-        } else {
-          document.querySelectorAll('[data-group="' + group + '"]').forEach(function (b) {
-            b.classList.remove('active');
-          });
-          activeFilters[group] = val;
-          this.classList.add('active');
-        }
-        applyFilters();
-      });
-    });
-    document.getElementById('clearFilters').addEventListener('click', function () {
-      clearAllFilters();
-    });
-    document.getElementById('sortSelect').addEventListener('change', function () {
-      activeSort = this.value;
-      applyFilters();
-    });
-    function updateActiveBanner() {
-      var banner = document.getElementById('activeBanner');
+
+    function updateActiveBanner(): void {
+      const banner = document.getElementById('activeBanner');
       if (!banner) return;
-      var tags = [];
+      const tags: string[] = [];
       if (activeFilters.cat)
         tags.push(
           '<span class="active-tag">' +
@@ -1616,49 +597,64 @@ import Page from '../layouts/Page.astro';
         banner.innerHTML = '';
       }
     }
-    function clearFilter(group) {
+
+    function clearFilter(group: FilterGroup): void {
       activeFilters[group] = null;
       document.querySelectorAll('[data-group="' + group + '"]').forEach(function (b) {
         b.classList.remove('active');
       });
       applyFilters();
     }
-    function clearSearch() {
+    function clearSearch(): void {
       searchQuery = '';
-      document.getElementById('searchInput').value = '';
+      const input = document.getElementById('searchInput') as HTMLInputElement | null;
+      if (input) input.value = '';
       applyFilters();
     }
-    function clearAllFilters() {
+    function clearAllFilters(): void {
       activeFilters = { cat: null, color: null };
       searchQuery = '';
-      document.getElementById('searchInput').value = '';
+      const input = document.getElementById('searchInput') as HTMLInputElement | null;
+      if (input) input.value = '';
       document.querySelectorAll('.filter-chip').forEach(function (b) {
         b.classList.remove('active');
       });
       applyFilters();
     }
-    function showFeaturedStone() {
-      var loading = document.getElementById('featuredLoading'),
-        slot = document.getElementById('featuredSlot');
+
+    // Expose for inline onclick handlers built via innerHTML
+    interface MaterialesWindow extends Window {
+      clearFilter: (group: FilterGroup) => void;
+      clearSearch: () => void;
+      clearAllFilters: () => void;
+    }
+    (window as unknown as MaterialesWindow).clearFilter = clearFilter;
+    (window as unknown as MaterialesWindow).clearSearch = clearSearch;
+    (window as unknown as MaterialesWindow).clearAllFilters = clearAllFilters;
+
+    /* ── FEATURED STONE ── */
+    function showFeaturedStone(): void {
+      const loading = document.getElementById('featuredLoading');
+      const slot = document.getElementById('featuredSlot');
       if (!slot) return;
-      var pool = DB.filter(function (m) {
-        return m.imagen_url_principal && (m.content_score || 0) >= 80;
+      let pool: Material[] = DB.filter(function (m: Material) {
+        return !!m.imagen_url_principal && (m.content_score || 0) >= 80;
       });
       if (!pool.length)
-        pool = DB.filter(function (m) {
-          return m.imagen_url_principal && (m.content_score || 0) >= 50;
+        pool = DB.filter(function (m: Material) {
+          return !!m.imagen_url_principal && (m.content_score || 0) >= 50;
         });
       if (!pool.length)
-        pool = DB.filter(function (m) {
-          return m.imagen_url_principal;
+        pool = DB.filter(function (m: Material) {
+          return !!m.imagen_url_principal;
         }).slice(0, 200);
       if (!pool.length) {
         if (loading) loading.style.display = 'none';
         return;
       }
-      var m = pool[Math.floor(Math.random() * pool.length)];
-      var flag = getFlag(arr(m.origen_pais)[0]),
-        pais = arr(m.origen_pais)[0] || '';
+      const m: Material = pool[Math.floor(Math.random() * pool.length)];
+      const flag = getFlag(arr(m.origen_pais)[0]);
+      const pais = arr(m.origen_pais)[0] || '';
       if (loading) loading.style.display = 'none';
       slot.innerHTML =
         '<div class="featured-stone"><img src="' +
@@ -1684,41 +680,93 @@ import Page from '../layouts/Page.astro';
           : '') +
         '</div></div>';
       if (m.slug) {
-        document.getElementById('featuredPanel').style.cursor = 'pointer';
-        document.getElementById('featuredPanel').onclick = function (e) {
-          if (!e.target.closest('.featured-stone-cta'))
+        const panel = document.getElementById('featuredPanel');
+        if (!panel) return;
+        panel.style.cursor = 'pointer';
+        panel.onclick = function (e: MouseEvent): void {
+          const target = e.target as HTMLElement | null;
+          if (!target || !target.closest('.featured-stone-cta'))
             location.href = 'material.html?id=' + encodeURIComponent(m.slug);
         };
       }
     }
-    (function loadMateriales() {
-      var PAGE = 1000;
-      var allData: any[] = [];
-      function loadAll(offset: number) {
+
+    /* ── EVENT LISTENERS ── */
+    (function (): void {
+      const searchInput = document.getElementById('searchInput') as HTMLInputElement | null;
+      if (searchInput) {
+        searchInput.addEventListener('input', function (this: HTMLInputElement) {
+          searchQuery = this.value;
+          applyFilters();
+        });
+      }
+      document.querySelectorAll<HTMLElement>('.filter-chip').forEach(function (btn) {
+        btn.addEventListener('click', function (this: HTMLElement) {
+          const group = this.dataset.group as FilterGroup | undefined;
+          const val = this.dataset.val;
+          if (!group || !val) return;
+          if (activeFilters[group] === val) {
+            activeFilters[group] = null;
+            this.classList.remove('active');
+          } else {
+            document.querySelectorAll('[data-group="' + group + '"]').forEach(function (b) {
+              b.classList.remove('active');
+            });
+            activeFilters[group] = val;
+            this.classList.add('active');
+          }
+          applyFilters();
+        });
+      });
+      const clearBtn = document.getElementById('clearFilters');
+      if (clearBtn) clearBtn.addEventListener('click', clearAllFilters);
+      const sortSelect = document.getElementById('sortSelect') as HTMLSelectElement | null;
+      if (sortSelect) {
+        sortSelect.addEventListener('change', function (this: HTMLSelectElement) {
+          activeSort = this.value as SortKey;
+          applyFilters();
+        });
+      }
+      const loadMoreBtn = document.getElementById('loadMoreBtn');
+      if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function () {
+          currentPage++;
+          renderGrid(null, false);
+          const grid = document.querySelector('.cards-grid');
+          if (grid) {
+            const lastCard = grid.children[(currentPage - 1) * PAGE_SIZE];
+            if (lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+    })();
+
+    /* ── DATA LOADER ── */
+    (function loadMateriales(): void {
+      const PAGE = 1000;
+      let allData: Material[] = [];
+      function loadAll(offset: number): void {
         getMaterialesAll({ offset, limit: PAGE })
-          .then(function (data) {
+          .then(function (data: Material[]) {
             allData = allData.concat(data);
             if (data.length === PAGE) {
               loadAll(offset + PAGE);
             } else {
               DB = allData;
-              var paises: Record<string, number> = {},
-                colores: Record<string, number> = {};
-              DB.forEach(function (m: any) {
+              const paises: Record<string, number> = {};
+              const colores: Record<string, number> = {};
+              DB.forEach(function (m: Material) {
                 arr(m.origen_pais).forEach(function (p: string) {
                   if (p) paises[p] = 1;
                 });
                 if (m.color_principal) colores[m.color_principal] = 1;
               });
-              (document.getElementById('statMateriales') as HTMLElement).textContent = String(
-                DB.length
-              );
-              (document.getElementById('statPaises') as HTMLElement).textContent = String(
-                Object.keys(paises).length
-              );
-              (document.getElementById('statColores') as HTMLElement).textContent = String(
-                Object.keys(colores).length
-              );
+              const elMat = document.getElementById('statMateriales');
+              if (elMat) elMat.textContent = String(DB.length);
+              const elPais = document.getElementById('statPaises');
+              if (elPais) elPais.textContent = String(Object.keys(paises).length);
+              const elCol = document.getElementById('statColores');
+              if (elCol) elCol.textContent = String(Object.keys(colores).length);
               showFeaturedStone();
               applyFilters();
             }
@@ -1727,11 +775,14 @@ import Page from '../layouts/Page.astro';
             if (allData.length) {
               DB = allData;
               applyFilters();
-            } else
-              (document.getElementById('gridContainer') as HTMLElement).innerHTML =
-                '<div class="empty-state"><p>No se pudo conectar</p><small>' +
-                err.message +
-                '</small></div>';
+            } else {
+              const grid = document.getElementById('gridContainer');
+              if (grid)
+                grid.innerHTML =
+                  '<div class="empty-state"><p>No se pudo conectar</p><small>' +
+                  err.message +
+                  '</small></div>';
+            }
           });
       }
       loadAll(0);

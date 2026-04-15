@@ -11,6 +11,7 @@ type: feedback
 1. **Astro 6 SSG** — framework de páginas. Todas las páginas en `src/pages/*.astro`. Output estático con `astro build`.
 
 2. **TypeScript** — todo el código nuevo en `.ts` / `.astro` con tipado. Interfaces en `*Http.types.ts`.
+   - **Tipado fuerte obligatorio**: NUNCA usar `// @ts-nocheck`, `// @ts-ignore` ni `any` implícito. Declarar explícitamente tipos en variables, parámetros y retornos. Diccionarios → `Record<string, T>`; estado mutable → interfaces/tipos nombrados. Los errores TS se arreglan, no se silencian.
 
 3. **Context-based architecture** — cada dominio tiene su propio directorio:
 

@@ -1,0 +1,264 @@
+---
+
+---
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <div class="search-row">
+      <div class="search-wrap">
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg
+        >
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Buscar material, color, país, acabado…"
+          data-i18n-attr="placeholder:search.placeholderMateriales"
+          autocomplete="new-password"
+          name="mat-search"
+        />
+      </div>
+      <select id="sortSelect" class="sort-select" title="Ordenar por">
+        <option value="calidad" selected>★ Calidad de ficha</option>
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+        <option value="precio_asc">Precio ↑</option>
+        <option value="precio_desc">Precio ↓</option>
+        <option value="pais">Por país</option>
+        <option value="cat">Por categoría</option>
+      </select>
+      <span class="results-count" id="resultsCount"></span>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label" data-i18n="filter.categoria">Categoría</span>
+      <button class="filter-chip" data-group="cat" data-val="mármol">Mármol</button>
+      <button class="filter-chip" data-group="cat" data-val="granito">Granito</button>
+      <button class="filter-chip" data-group="cat" data-val="caliza">Caliza</button>
+      <button class="filter-chip" data-group="cat" data-val="arenisca">Arenisca</button>
+      <button class="filter-chip" data-group="cat" data-val="cuarcita">Cuarcita</button>
+      <button class="filter-chip" data-group="cat" data-val="pizarra">Pizarra</button>
+      <button class="filter-chip" data-group="cat" data-val="travertino">Travertino</button>
+      <button class="filter-chip" data-group="cat" data-val="ónix">Ónix</button>
+      <button class="filter-chip" data-group="cat" data-val="basalto">Basalto</button>
+      <button class="filter-chip" data-group="cat" data-val="alabastro">Alabastro</button>
+      <button class="filter-chip" data-group="cat" data-val="andesita">Andesita</button>
+      <button class="filter-chip" data-group="cat" data-val="calcarenita">Calcarenita</button>
+      <button class="filter-chip" data-group="cat" data-val="filita">Filita</button>
+      <button class="filter-chip" data-group="cat" data-val="pórfido">Pórfido</button>
+      <button class="filter-chip" data-group="cat" data-val="toba">Toba</button>
+      <button class="filter-chip" data-group="cat" data-val="piedra azul">Piedra Azul</button>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label" data-i18n="filter.color">Color</span>
+      <button class="filter-chip" data-group="color" data-val="Blanco"
+        ><span class="color-dot" style="background:#f2ede8;border:1px solid #ccc;"
+        ></span>Blanco</button
+      >
+      <button class="filter-chip" data-group="color" data-val="Beige"
+        ><span class="color-dot" style="background:#d9c4a8;"></span>Beige</button
+      >
+      <button class="filter-chip" data-group="color" data-val="Gris"
+        ><span class="color-dot" style="background:#9a9590;"></span>Gris</button
+      >
+      <button class="filter-chip" data-group="color" data-val="Negro"
+        ><span class="color-dot" style="background:#2c2a27;"></span>Negro</button
+      >
+      <button class="filter-chip" data-group="color" data-val="Verde"
+        ><span class="color-dot" style="background:#5a9060;"></span>Verde</button
+      >
+      <button class="filter-chip" data-group="color" data-val="Rojo"
+        ><span class="color-dot" style="background:#b05050;"></span>Rojo</button
+      >
+      <button class="filter-chip" data-group="color" data-val="Azul"
+        ><span class="color-dot" style="background:#4878b0;"></span>Azul</button
+      >
+      <button class="filter-chip" data-group="color" data-val="Dorado"
+        ><span class="color-dot" style="background:#c89830;"></span>Dorado</button
+      >
+      <button class="filter-chip" data-group="color" data-val="Marrón"
+        ><span class="color-dot" style="background:#8a6040;"></span>Marrón</button
+      >
+      <div class="filter-sep"></div>
+      <button class="clear-btn" id="clearFilters" data-i18n="filter.limpiar">Limpiar filtros</button
+      >
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .toolbar {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 48px;
+    position: sticky;
+    top: 70px;
+    z-index: 90;
+  }
+  .toolbar-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .search-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .search-wrap {
+    flex: 1;
+    position: relative;
+    max-width: 480px;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  #searchInput {
+    width: 100%;
+    height: 40px;
+    padding: 0 14px 0 42px;
+    border: 1px solid var(--border-md);
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-family: inherit;
+    background: var(--bg-soft);
+    color: var(--ink);
+    outline: none;
+    transition:
+      border 0.2s,
+      box-shadow 0.2s;
+  }
+  #searchInput:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(166, 124, 82, 0.1);
+    background: #fff;
+  }
+  #searchInput::placeholder {
+    color: var(--ink-4);
+  }
+  .results-count {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    white-space: nowrap;
+  }
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    padding-bottom: 4px;
+  }
+  .filter-row + .filter-row {
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+  .filter-label {
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    margin-right: 2px;
+    white-space: nowrap;
+  }
+  .filter-chip {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 12px;
+    border: 1px solid var(--border-md);
+    border-radius: 30px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .filter-chip:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .filter-chip.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #fff;
+  }
+  .filter-sep {
+    width: 1px;
+    height: 16px;
+    background: var(--border);
+    margin: 0 4px;
+  }
+  .clear-btn {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-family: inherit;
+    transition: color 0.2s;
+  }
+  .clear-btn:hover {
+    color: var(--gold);
+  }
+  .sort-select {
+    height: 40px;
+    padding: 0 30px 0 12px;
+    border: 1px solid var(--border-md);
+    border-radius: var(--radius);
+    font-size: 11px;
+    font-family: 'Instrument Sans', sans-serif;
+    background: var(--bg-soft);
+    color: var(--ink-2);
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    letter-spacing: 0.3px;
+    transition: border 0.2s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239c9893'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    flex-shrink: 0;
+  }
+  .sort-select:focus {
+    border-color: var(--gold);
+  }
+  .color-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: 3px;
+    vertical-align: middle;
+  }
+
+  @media (max-width: 960px) {
+    .toolbar {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+</style>
