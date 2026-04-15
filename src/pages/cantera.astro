@@ -1,93 +1,35 @@
 ---
-import Page from '../layouts/Page.astro';
+import Page from "../layouts/Page.astro";
 ---
 
 <Page
-  title="Cargando cantera… | World Stone Hub"
+  title="Cantera | World Stone Hub"
   description="Ficha técnica de cantera de piedra natural en World Stone Hub. Localización, tipo de piedra, estado operativo, producción y empresa propietaria."
   activePage="canteras"
 >
   <style slot="head">
-    body {
-      background: var(--bg);
-    }
-
-    /* ESTADOS */
-    .state-screen {
-      margin-top: 64px;
-      min-height: calc(100vh - 64px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .loading-spinner {
-      width: 32px;
-      height: 32px;
-      border: 2px solid var(--border);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-    .not-found {
-      text-align: center;
-    }
-    .not-found-icon {
-      font-size: 3rem;
-      opacity: 0.2;
-    }
-    .not-found-title {
-      font-family: var(--font-disp);
-      font-size: 2rem;
-      font-weight: 300;
-    }
-    .not-found-desc {
-      font-size: 0.85rem;
-      color: var(--ink-4);
-      margin-bottom: 28px;
-    }
-    .not-found-btn {
-      display: inline-block;
-      background: var(--gold);
-      color: white;
-      padding: 12px 28px;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border-radius: var(--radius);
-    }
-
     /* BREADCRUMB */
     .breadcrumb {
-      margin-top: 64px;
+      margin-top: 70px;
       padding: 14px 48px;
-      background: var(--bg-soft);
       border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.7rem;
-      letter-spacing: 0.06em;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--ink-4);
+      display: flex;
+      gap: 8px;
+      align-items: center;
     }
     .breadcrumb a {
-      color: var(--ink-4);
+      color: var(--ink-2);
       transition: color 0.2s;
     }
     .breadcrumb a:hover {
       color: var(--gold);
     }
-    .breadcrumb .sep {
-      opacity: 0.4;
-    }
-    .breadcrumb .current {
-      color: var(--ink);
+    .breadcrumb-sep {
+      color: var(--border2);
     }
 
     /* HERO */
@@ -111,7 +53,7 @@ import Page from '../layouts/Page.astro';
       font-size: 0.62rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--ink-4);
+      color: var(--ink-2);
       margin-bottom: 4px;
     }
     .hero-badge-dot {
@@ -144,17 +86,20 @@ import Page from '../layouts/Page.astro';
       background: currentColor;
     }
     .hero-nombre {
-      font-family: var(--font-disp);
+      font-family: "Cormorant Garamond", serif;
       font-size: clamp(2rem, 4vw, 3.2rem);
       font-weight: 300;
       line-height: 1.05;
     }
     .hero-loc {
       font-size: 0.85rem;
-      color: var(--ink-4);
+      color: var(--ink-2);
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+    .hero-flag {
+      font-size: 1.1rem;
     }
     .hero-tipo {
       display: inline-flex;
@@ -184,7 +129,7 @@ import Page from '../layouts/Page.astro';
       padding: 48px;
     }
     .hero-stone-name {
-      font-family: var(--font-disp);
+      font-family: "Cormorant Garamond", serif;
       font-size: clamp(3rem, 6vw, 6rem);
       font-weight: 300;
       text-align: center;
@@ -227,7 +172,7 @@ import Page from '../layouts/Page.astro';
       border-bottom: 1px solid var(--border);
     }
 
-    /* FICHA TECNICA */
+    /* FICHA TÉCNICA */
     .ficha-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -239,7 +184,7 @@ import Page from '../layouts/Page.astro';
       padding: 16px 20px;
     }
     .ficha-item.full {
-      grid-column: 1/-1;
+      grid-column: 1 / -1;
     }
     .ficha-label {
       font-size: 0.6rem;
@@ -248,14 +193,14 @@ import Page from '../layouts/Page.astro';
       color: var(--ink-4);
     }
     .ficha-val {
-      font-family: var(--font-mono);
+      font-family: "DM Mono", monospace;
       font-size: 0.82rem;
       color: var(--ink);
       margin-top: 4px;
       line-height: 1.5;
     }
 
-    /* PROYECTOS */
+    /* PROYECTOS / HISTORIA */
     .proyectos-text {
       font-size: 0.85rem;
       color: var(--ink-2);
@@ -264,8 +209,6 @@ import Page from '../layouts/Page.astro';
       padding: 20px 24px;
       border-left: 3px solid var(--gold);
     }
-
-    /* HISTORIA */
     .historia-text {
       font-size: 0.88rem;
       color: var(--ink-2);
@@ -279,14 +222,14 @@ import Page from '../layouts/Page.astro';
       padding: 24px;
     }
     .sidebar-card-title {
-      font-family: var(--font-disp);
+      font-family: "Cormorant Garamond", serif;
       font-size: 1.1rem;
       font-weight: 400;
       margin-bottom: 8px;
     }
     .sidebar-card-desc {
       font-size: 0.78rem;
-      color: var(--ink-4);
+      color: var(--ink-2);
       line-height: 1.6;
       margin-bottom: 16px;
     }
@@ -304,6 +247,7 @@ import Page from '../layouts/Page.astro';
       border: none;
       cursor: pointer;
       transition: background 0.2s;
+      text-decoration: none;
     }
     .sidebar-btn:hover {
       background: var(--gold);
@@ -335,10 +279,10 @@ import Page from '../layouts/Page.astro';
       padding-bottom: 0;
     }
     .sidebar-meta-label {
-      color: var(--ink-4);
+      color: var(--ink-2);
     }
     .sidebar-meta-val {
-      font-family: var(--font-mono);
+      font-family: "DM Mono", monospace;
       font-size: 0.72rem;
       color: var(--ink);
       text-align: right;
@@ -364,7 +308,7 @@ import Page from '../layouts/Page.astro';
       gap: 4px;
     }
     .nav-prevnext-item:hover {
-      background: var(--gold-lt);
+      background: var(--bg-soft);
     }
     .nav-prevnext-item.next {
       text-align: right;
@@ -376,7 +320,7 @@ import Page from '../layouts/Page.astro';
       color: var(--ink-4);
     }
     .nav-prevnext-name {
-      font-family: var(--font-disp);
+      font-family: "Cormorant Garamond", serif;
       font-size: 1rem;
       color: var(--ink);
     }
@@ -404,11 +348,69 @@ import Page from '../layouts/Page.astro';
     }
     .mat-linked-sub {
       font-size: 0.68rem;
-      color: var(--ink-4);
+      color: var(--ink-2);
       margin-top: 2px;
     }
 
-    /* RESPONSIVE */
+    /* 404 */
+    .not-found {
+      margin-top: 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      gap: 16px;
+      text-align: center;
+    }
+    .not-found-icon {
+      font-size: 3rem;
+      opacity: 0.2;
+    }
+    .not-found-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2rem;
+      font-weight: 300;
+    }
+    .not-found-desc {
+      font-size: 0.85rem;
+      color: var(--ink-2);
+    }
+    .not-found-btn {
+      margin-top: 8px;
+      padding: 12px 32px;
+      background: var(--ink);
+      color: white;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    /* LOADING */
+    .loading {
+      margin-top: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+    }
+    .loading-spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     @media (max-width: 900px) {
       .hero {
         grid-template-columns: 1fr;
@@ -434,29 +436,30 @@ import Page from '../layouts/Page.astro';
     }
   </style>
 
-  <!-- CARGANDO -->
-  <div id="stateLoading" class="state-screen">
+  <!-- Estado inicial: cargando -->
+  <div class="loading" id="stateLoading">
     <div class="loading-spinner"></div>
   </div>
 
   <!-- 404 -->
-  <div id="state404" class="state-screen" style="display:none;">
+  <div id="state404" style="display:none">
     <div class="not-found">
-      <div class="not-found-icon">&#9671;</div>
+      <div class="not-found-icon">◇</div>
       <div class="not-found-title">Cantera no encontrada</div>
       <div class="not-found-desc">No existe ninguna cantera con ese identificador.</div>
-      <a href="/canteras" class="not-found-btn">Ver todas las canteras</a>
+      <a href="/canteras.html" class="not-found-btn">Ver todas las canteras</a>
     </div>
   </div>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <div id="stateContent" style="display:none;">
+  <!-- Contenido principal -->
+  <div id="stateContent" style="display:none">
+
     <div class="breadcrumb">
-      <a href="/" data-i18n="nav.inicio">Inicio</a>
-      <span class="sep">/</span>
-      <a href="/canteras" data-i18n="nav.canteras">Canteras</a>
-      <span class="sep">/</span>
-      <span class="current" id="bc-nombre">&mdash;</span>
+      <a href="/index.html" data-i18n="nav.inicio">Inicio</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/canteras.html" data-i18n="nav.canteras">Canteras</a>
+      <span class="breadcrumb-sep">›</span>
+      <span id="bc-nombre">—</span>
     </div>
 
     <div class="hero" id="hero">
@@ -465,13 +468,13 @@ import Page from '../layouts/Page.astro';
           <div class="hero-badge">
             <span class="hero-badge-dot" id="hero-cont-dot"></span>
             <span id="hero-continente"></span>
-            &nbsp;&middot;&nbsp;
+            &nbsp;·&nbsp;
             <span id="hero-estado-badge"></span>
           </div>
         </div>
         <h1 class="hero-nombre" id="hero-nombre"></h1>
         <div class="hero-loc">
-          <span id="hero-flag"></span>
+          <span class="hero-flag" id="hero-flag"></span>
           <span id="hero-loc"></span>
         </div>
         <span class="hero-tipo" id="hero-tipo"></span>
@@ -485,393 +488,224 @@ import Page from '../layouts/Page.astro';
 
     <div class="page-body">
       <div class="main-col">
-        <!-- Ficha tecnica -->
+
         <section>
-          <div class="section-title">Ficha t&eacute;cnica</div>
+          <div class="section-title">Ficha técnica</div>
           <div class="ficha-grid" id="fichaGrid"></div>
         </section>
 
-        <!-- Proyectos y monumentos -->
-        <section id="sec-proyectos" style="display:none;">
-          <div class="section-title">Proyectos &amp; monumentos de referencia</div>
+        <section id="sec-proyectos" style="display:none">
+          <div class="section-title">Proyectos & monumentos de referencia</div>
           <div class="proyectos-text" id="proyectos-text"></div>
         </section>
 
-        <!-- Datos historicos -->
-        <section id="sec-historia" style="display:none;">
-          <div class="section-title">Historia &amp; curiosidades</div>
+        <section id="sec-historia" style="display:none">
+          <div class="section-title">Historia & curiosidades</div>
           <div class="historia-text" id="historia-text"></div>
         </section>
 
-        <!-- Nav prev/next -->
         <div class="nav-prevnext" id="navPrevNext"></div>
+
       </div>
       <div class="sidebar">
-        <!-- Info rapida -->
+
         <div class="sidebar-card">
-          <div class="sidebar-card-title">Informaci&oacute;n</div>
+          <div class="sidebar-card-title">Información</div>
           <div class="sidebar-meta" id="sidebarMeta"></div>
         </div>
 
-        <!-- Materiales vinculados -->
-        <div class="sidebar-card" id="sec-mat-vinculados" style="display:none;">
-          <div class="sidebar-card-title">Materiales extra&iacute;dos</div>
+        <div class="sidebar-card" id="sec-mat-vinculados" style="display:none">
+          <div class="sidebar-card-title">Materiales extraídos</div>
           <div class="mat-linked-list" id="mat-linked-list"></div>
-          <a
-            href="/materiales"
-            id="mat-ver-todos"
-            style="display:block;margin-top:10px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)"
-            >Ver cat&aacute;logo &rarr;</a
-          >
+          <a href="/materiales.html" id="mat-ver-todos" style="display:block;margin-top:10px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)">Ver catálogo →</a>
         </div>
 
-        <!-- CTA directorio -->
         <div class="sidebar-card">
-          <div class="sidebar-card-title">&iquest;Trabajas con esta piedra?</div>
-          <div class="sidebar-card-desc">
-            Encuentra distribuidores y proveedores de los materiales de esta cantera en nuestro
-            directorio.
-          </div>
-          <a class="sidebar-btn" id="btn-proveedores" href="/proveedores">Ver proveedores &rarr;</a>
+          <div class="sidebar-card-title">¿Trabajas con esta piedra?</div>
+          <div class="sidebar-card-desc">Encuentra distribuidores y proveedores de los materiales de esta cantera en nuestro directorio.</div>
+          <a class="sidebar-btn" id="btn-proveedores" href="/proveedores.html">Ver proveedores →</a>
         </div>
 
-        <!-- Volver -->
-        <a class="sidebar-btn outline" href="/canteras">&larr; Todas las canteras</a>
+        <a class="sidebar-btn outline" href="/canteras.html">← Todas las canteras</a>
+
       </div>
     </div>
+
   </div>
 
-  <script>
-    import {
-      getBySlug,
-      getMaterialesVinculados,
-    } from '@contexts/canteras/services/http/canterasHttp';
-    import { supabase } from '@services/http/config';
-    (function () {
-      var db = supabase;
+  <script is:inline slot="scripts">
+  (function(){
+  var SB_URL='https://whcptmdapnavcxcszwwk.supabase.co';
+  var SB_KEY='sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+  var db=supabase.createClient(SB_URL,SB_KEY);
 
-      var CONT_COLORS = {
-        Europa: '#4a7fa5',
-        Asia: '#c87941',
-        África: '#6b8f5e',
-        América: '#8b5a9e',
-        'Europa / Asia': '#5a7a9e',
-        Oceanía: '#4a9e8b',
-      };
-      var TIPO_COLORS = {
-        Mármol: '#d4c5b0',
-        Granito: '#7a8a7a',
-        Caliza: '#d4c0a0',
-        Travertino: '#c8b070',
-        Cuarcita: '#9eaab8',
-        Arenisca: '#c49060',
-        Pizarra: '#6b7280',
-        Basalto: '#4a4540',
-        Gneis: '#8a7a6a',
-      };
-      var PAIS_FLAGS = {
-        España: 'es',
-        Italia: 'it',
-        Portugal: 'pt',
-        Grecia: 'gr',
-        Turquía: 'tr',
-        Francia: 'fr',
-        Alemania: 'de',
-        Austria: 'at',
-        Bélgica: 'be',
-        Suecia: 'se',
-        Noruega: 'no',
-        Finlandia: 'fi',
-        Polonia: 'pl',
-        'República Checa': 'cz',
-        Eslovenia: 'si',
-        Croacia: 'hr',
-        Serbia: 'rs',
-        Bulgaria: 'bg',
-        Rumanía: 'ro',
-        Ucrania: 'ua',
-        Rusia: 'ru',
-        India: 'in',
-        China: 'cn',
-        Brasil: 'br',
-        'Estados Unidos': 'us',
-        México: 'mx',
-        Canadá: 'ca',
-        Argentina: 'ar',
-        Chile: 'cl',
-        Perú: 'pe',
-        Colombia: 'co',
-        Australia: 'au',
-        Sudáfrica: 'za',
-        Marruecos: 'ma',
-        Egipto: 'eg',
-        Irán: 'ir',
-        Pakistán: 'pk',
-        Vietnam: 'vn',
-        Indonesia: 'id',
-        Tailandia: 'th',
-        Japón: 'jp',
-        'Corea del Sur': 'kr',
-        Israel: 'il',
-        'Arabia Saudita': 'sa',
-        Emiratos: 'ae',
-        Etiopía: 'et',
-        Tanzania: 'tz',
-        Zimbabwe: 'zw',
-        Madagascar: 'mg',
-        Angola: 'ao',
-        Mozambique: 'mz',
-        Namibia: 'na',
-        Kenia: 'ke',
-        Nigeria: 'ng',
-        Ghana: 'gh',
-        Bolivia: 'bo',
-        Ecuador: 'ec',
-        Venezuela: 've',
-        Uruguay: 'uy',
-        Paraguay: 'py',
-        Túnez: 'tn',
-        Argelia: 'dz',
-        Azerbaiyán: 'az',
-        Georgia: 'ge',
-        Armenia: 'am',
-        Hungría: 'hu',
-        Eslovaquia: 'sk',
-        Letonia: 'lv',
-        Lituania: 'lt',
-        Estonia: 'ee',
-        Suiza: 'ch',
-        'Reino Unido': 'gb',
-        Irlanda: 'ie',
-        'Nueva Zelanda': 'nz',
-        Filipinas: 'ph',
-        'Sri Lanka': 'lk',
-        Nepal: 'np',
-        Afganistán: 'af',
-        Moldavia: 'md',
-        Kosovo: 'xk',
-      };
+  var CONT_COLORS={
+    'Europa':'#4a7fa5','Asia':'#c87941','África':'#6b8f5e',
+    'América':'#8b5a9e','Europa / Asia':'#5a7a9e','Oceanía':'#4a9e8b'
+  };
+  var TIPO_COLORS={
+    'Mármol':'#d4c5b0','Granito':'#7a8a7a','Caliza':'#d4c0a0',
+    'Travertino':'#c8b070','Cuarcita':'#9eaab8','Arenisca':'#c49060',
+    'Pizarra':'#6b7280','Basalto':'#4a4540','Gneis':'#8a7a6a'
+  };
+  var PAIS_FLAGS={
+    'España':'es','Italia':'it','Portugal':'pt','Grecia':'gr','Turquía':'tr',
+    'Francia':'fr','Alemania':'de','Austria':'at','Bélgica':'be','Suecia':'se',
+    'Noruega':'no','Finlandia':'fi','Polonia':'pl','República Checa':'cz',
+    'Eslovenia':'si','Croacia':'hr','Serbia':'rs','Bulgaria':'bg','Rumanía':'ro',
+    'Ucrania':'ua','Rusia':'ru','India':'in','China':'cn','Brasil':'br',
+    'Estados Unidos':'us','México':'mx','Canadá':'ca','Argentina':'ar','Chile':'cl',
+    'Perú':'pe','Colombia':'co','Australia':'au','Sudáfrica':'za','Marruecos':'ma',
+    'Egipto':'eg','Irán':'ir','Pakistán':'pk','Vietnam':'vn','Indonesia':'id',
+    'Tailandia':'th','Japón':'jp','Corea del Sur':'kr','Israel':'il',
+    'Arabia Saudita':'sa','Emiratos':'ae','Etiopía':'et','Tanzania':'tz',
+    'Zimbabwe':'zw','Madagascar':'mg','Angola':'ao','Mozambique':'mz',
+    'Namibia':'na','Kenia':'ke','Nigeria':'ng','Ghana':'gh','Bolivia':'bo',
+    'Ecuador':'ec','Venezuela':'ve','Uruguay':'uy','Paraguay':'py','Túnez':'tn',
+    'Argelia':'dz','Azerbaiyán':'az','Georgia':'ge','Armenia':'am','Hungría':'hu',
+    'Eslovaquia':'sk','Letonia':'lv','Lituania':'lt','Estonia':'ee','Suiza':'ch',
+    'Reino Unido':'gb','Irlanda':'ie','Nueva Zelanda':'nz','Filipinas':'ph',
+    'Sri Lanka':'lk','Nepal':'np','Afganistán':'af','Moldavia':'md','Kosovo':'xk'
+  };
 
-      function esc(s) {
-        return String(s || '')
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;');
-      }
-      function el(id) {
-        return document.getElementById(id);
-      }
+  function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
-      var slug = new URLSearchParams(window.location.search).get('id') || '';
-      if (!slug) {
-        show404();
-        return;
-      }
+  var slug=new URLSearchParams(window.location.search).get('id')||'';
+  if(!slug){show404();return;}
 
-      getBySlug(slug)
-        .then(function (cantera) {
-          if (!cantera) {
-            show404();
-            return;
-          }
-          render(cantera);
-          loadAdyacentes(cantera);
-        })
-        .catch(function () {
-          show404();
-        });
+  db.from('canteras').select('*').eq('slug',slug).limit(1)
+    .then(function(res){
+      if(res.error||!res.data||!res.data.length){show404();return;}
+      render(res.data[0]);
+      loadAdyacentes(res.data[0]);
+    }).catch(function(){show404();});
 
-      function render(c) {
-        document.title = c.nombre + ' | World Stone Hub';
-        el('bc-nombre').textContent = c.nombre;
+  function render(c){
+    document.title=c.nombre+' | World Stone Hub';
+    document.getElementById('bc-nombre').textContent=c.nombre;
 
-        // Hero
-        var contColor = CONT_COLORS[c.continente] || '#8a8784';
-        var tipoColor = TIPO_COLORS[c.tipo_piedra] || '#a8a098';
-        el('hero-cont-dot').style.background = contColor;
-        el('hero-continente').textContent = c.continente || '';
-        el('hero-nombre').textContent = c.nombre;
-        el('hero-loc').textContent = (c.localizacion ? c.localizacion + ' \u00B7 ' : '') + c.pais;
-
-        // Flag
-        (function () {
-          var code = PAIS_FLAGS[c.pais];
-          var flagEl = el('hero-flag');
-          if (flagEl) {
-            if (code) {
-              flagEl.innerHTML =
-                '<img src="https://flagicons.lipis.dev/flags/1x1/' +
-                code +
-                '.svg" ' +
-                'width="32" height="32" alt="' +
-                (c.pais || '') +
-                '" ' +
-                'style="border-radius:4px;display:block" loading="lazy">';
-            } else {
-              flagEl.textContent = '\uD83C\uDF0D';
-            }
-          }
-        })();
-
-        el('hero-tipo').textContent = c.tipo_piedra || '';
-        el('hero-tipo').style.color = tipoColor;
-        el('hero-stone-bg').textContent = c.nombre;
-        el('hero-right').style.background =
-          'linear-gradient(135deg,' + tipoColor + '22,' + tipoColor + '44)';
-
-        // Estado badge
-        var activa = (c.estado_operativo || 'Activa').toLowerCase() === 'activa';
-        el('hero-estado-badge').innerHTML =
-          '<span class="hero-estado ' +
-          (activa ? 'activa' : 'inactiva') +
-          '"><span class="hero-estado-dot"></span>' +
-          esc(c.estado_operativo || 'Activa') +
-          '</span>';
-
-        // Ficha tecnica
-        var ficha = [
-          { label: 'Pa\u00eds', val: c.pais },
-          { label: 'Localizaci\u00f3n', val: c.localizacion },
-          { label: 'Tipo de piedra', val: c.tipo_piedra },
-          { label: 'Color principal', val: c.color_principal },
-          { label: 'Inicio de explotaci\u00f3n', val: c.anio_inicio },
-          { label: 'Producci\u00f3n anual', val: c.produccion_anual },
-          { label: 'Estado operativo', val: c.estado_operativo },
-          { label: 'Empresa propietaria', val: c.empresa_propietaria, full: true },
-          { label: 'Materiales extra\u00eddos', val: c.materiales, full: true },
-          { label: 'Certificaciones', val: c.certificaciones, full: true },
-        ];
-        var fichaHtml = '';
-        ficha.forEach(function (f) {
-          if (!f.val) return;
-          fichaHtml +=
-            '<div class="ficha-item' +
-            (f.full ? ' full' : '') +
-            '"><div class="ficha-label">' +
-            esc(f.label) +
-            '</div><div class="ficha-val">' +
-            esc(f.val) +
-            '</div></div>';
-        });
-        el('fichaGrid').innerHTML = fichaHtml;
-
-        // Proyectos
-        if (c.proyectos_clave) {
-          el('proyectos-text').textContent = c.proyectos_clave;
-          el('sec-proyectos').style.display = 'block';
+    var contColor=CONT_COLORS[c.continente]||'#8a8784';
+    var tipoColor=TIPO_COLORS[c.tipo_piedra]||'#a8a098';
+    document.getElementById('hero-cont-dot').style.background=contColor;
+    document.getElementById('hero-continente').textContent=c.continente||'';
+    document.getElementById('hero-nombre').textContent=c.nombre;
+    document.getElementById('hero-loc').textContent=(c.localizacion?c.localizacion+' · ':'')+c.pais;
+    (function(){
+      var code=PAIS_FLAGS[c.pais];
+      var el=document.getElementById('hero-flag');
+      if(el){
+        if(code){
+          el.innerHTML='<img src="https://flagicons.lipis.dev/flags/1x1/'+code+'.svg" width="32" height="32" alt="'+(c.pais||'')+'" style="border-radius:4px;display:block" loading="lazy">';
+        } else {
+          el.textContent='🌍';
         }
-
-        // Historia
-        if (c.datos_historicos) {
-          el('historia-text').textContent = c.datos_historicos;
-          el('sec-historia').style.display = 'block';
-        }
-
-        // Sidebar meta
-        var meta = [
-          { label: 'Continente', val: c.continente },
-          { label: 'Pa\u00eds', val: c.pais },
-          { label: 'Tipo', val: c.tipo_piedra },
-          { label: 'Producci\u00f3n', val: c.produccion_anual },
-          { label: 'Desde', val: c.anio_inicio },
-          { label: 'Estado', val: c.estado_operativo || 'Activa' },
-        ];
-        var metaHtml = '';
-        meta.forEach(function (m) {
-          if (!m.val) return;
-          metaHtml +=
-            '<div class="sidebar-meta-item"><span class="sidebar-meta-label">' +
-            esc(m.label) +
-            '</span><span class="sidebar-meta-val">' +
-            esc(m.val) +
-            '</span></div>';
-        });
-        el('sidebarMeta').innerHTML = metaHtml;
-
-        // Link proveedores con filtro por material
-        if (c.materiales) {
-          var mat = c.materiales.split(',')[0].trim();
-          el('btn-proveedores').href = '/proveedores?q=' + encodeURIComponent(mat);
-        }
-
-        // Materiales vinculados
-        cargarMateriasVinculadas(c.id);
-
-        // Mostrar contenido
-        el('stateLoading').style.display = 'none';
-        el('stateContent').style.display = 'block';
-      }
-
-      function loadAdyacentes(c) {
-        var idNum = parseInt(c.id, 10);
-        var prevId = String(Math.max(1, idNum - 1)).padStart(3, '0');
-        var nextId = String(idNum + 1).padStart(3, '0');
-        db.from('canteras')
-          .select('id,slug,nombre')
-          .in('id', [prevId, nextId])
-          .then(function (res) {
-            if (!res.data || !res.data.length) return;
-            var prev = res.data.find(function (x) {
-              return parseInt(x.id) < idNum;
-            });
-            var next = res.data.find(function (x) {
-              return parseInt(x.id) > idNum;
-            });
-            var html = '';
-            if (prev)
-              html +=
-                '<div class="nav-prevnext-item" onclick="location.href=\'/cantera?id=' +
-                prev.slug +
-                '\'"><div class="nav-prevnext-dir">\u2190 Anterior</div><div class="nav-prevnext-name">' +
-                esc(prev.nombre) +
-                '</div></div>';
-            else html += '<div></div>';
-            if (next)
-              html +=
-                '<div class="nav-prevnext-item next" onclick="location.href=\'/cantera?id=' +
-                next.slug +
-                '\'"><div class="nav-prevnext-dir">Siguiente \u2192</div><div class="nav-prevnext-name">' +
-                esc(next.nombre) +
-                '</div></div>';
-            el('navPrevNext').innerHTML = html;
-          });
-      }
-
-      function cargarMateriasVinculadas(canteraId) {
-        getMaterialesVinculados(canteraId)
-          .then(function (rows) {
-            if (!rows.length) return;
-            var list = el('mat-linked-list');
-            if (!list) return;
-            list.innerHTML = rows
-              .map(function (row) {
-                var m = row.materiales;
-                if (!m) return '';
-                return (
-                  '<div class="mat-linked-item" onclick="location.href=\'/material?id=' +
-                  m.slug +
-                  '\'">' +
-                  '<div class="mat-linked-name">' +
-                  (m.nombre_comercial || '') +
-                  '</div>' +
-                  '<div class="mat-linked-sub">' +
-                  (m.categoria || '') +
-                  (m.color_principal ? ' \u00B7 ' + m.color_principal : '') +
-                  '</div>' +
-                  '</div>'
-                );
-              })
-              .join('');
-            el('sec-mat-vinculados').style.display = 'block';
-          })
-          .catch(function () {});
-      }
-
-      function show404() {
-        el('stateLoading').style.display = 'none';
-        el('state404').style.display = 'flex';
-        document.title = 'Cantera no encontrada | World Stone Hub';
       }
     })();
+    document.getElementById('hero-tipo').textContent=c.tipo_piedra||'';
+    document.getElementById('hero-tipo').style.color=tipoColor;
+    document.getElementById('hero-stone-bg').textContent=c.nombre;
+    document.getElementById('hero-right').style.background='linear-gradient(135deg,'+tipoColor+'22,'+tipoColor+'44)';
+
+    var activa=(c.estado_operativo||'Activa').toLowerCase()==='activa';
+    document.getElementById('hero-estado-badge').innerHTML=
+      '<span class="hero-estado '+(activa?'activa':'inactiva')+'"><span class="hero-estado-dot"></span>'+esc(c.estado_operativo||'Activa')+'</span>';
+
+    var ficha=[
+      {label:'País',val:c.pais},
+      {label:'Localización',val:c.localizacion},
+      {label:'Tipo de piedra',val:c.tipo_piedra},
+      {label:'Color principal',val:c.color_principal},
+      {label:'Inicio de explotación',val:c.anio_inicio},
+      {label:'Producción anual',val:c.produccion_anual},
+      {label:'Estado operativo',val:c.estado_operativo},
+      {label:'Empresa propietaria',val:c.empresa_propietaria,full:true},
+      {label:'Materiales extraídos',val:c.materiales,full:true},
+      {label:'Certificaciones',val:c.certificaciones,full:true},
+    ];
+    var fichaHtml='';
+    ficha.forEach(function(f){
+      if(!f.val)return;
+      fichaHtml+='<div class="ficha-item'+(f.full?' full':'')+'"><div class="ficha-label">'+esc(f.label)+'</div><div class="ficha-val">'+esc(f.val)+'</div></div>';
+    });
+    document.getElementById('fichaGrid').innerHTML=fichaHtml;
+
+    if(c.proyectos_clave){
+      document.getElementById('proyectos-text').textContent=c.proyectos_clave;
+      document.getElementById('sec-proyectos').style.display='block';
+    }
+
+    if(c.datos_historicos){
+      document.getElementById('historia-text').textContent=c.datos_historicos;
+      document.getElementById('sec-historia').style.display='block';
+    }
+
+    var meta=[
+      {label:'Continente',val:c.continente},
+      {label:'País',val:c.pais},
+      {label:'Tipo',val:c.tipo_piedra},
+      {label:'Producción',val:c.produccion_anual},
+      {label:'Desde',val:c.anio_inicio},
+      {label:'Estado',val:c.estado_operativo||'Activa'},
+    ];
+    var metaHtml='';
+    meta.forEach(function(m){
+      if(!m.val)return;
+      metaHtml+='<div class="sidebar-meta-item"><span class="sidebar-meta-label">'+esc(m.label)+'</span><span class="sidebar-meta-val">'+esc(m.val)+'</span></div>';
+    });
+    document.getElementById('sidebarMeta').innerHTML=metaHtml;
+
+    if(c.materiales){
+      var mat=c.materiales.split(',')[0].trim();
+      document.getElementById('btn-proveedores').href='/proveedores.html?q='+encodeURIComponent(mat);
+    }
+
+    cargarMateriasVinculadas(c.id);
+    document.getElementById('stateLoading').style.display='none';
+    document.getElementById('stateContent').style.display='block';
+  }
+
+  function loadAdyacentes(c){
+    var idNum=parseInt(c.id,10);
+    var prevId=String(Math.max(1,idNum-1)).padStart(3,'0');
+    var nextId=String(idNum+1).padStart(3,'0');
+    db.from('canteras').select('id,slug,nombre').in('id',[prevId,nextId])
+      .then(function(res){
+        if(!res.data||!res.data.length)return;
+        var prev=res.data.find(function(x){return parseInt(x.id)<idNum;});
+        var next=res.data.find(function(x){return parseInt(x.id)>idNum;});
+        var html='';
+        if(prev) html+='<div class="nav-prevnext-item" onclick="location.href=\'/cantera.html?id='+prev.slug+'\'"><div class="nav-prevnext-dir">← Anterior</div><div class="nav-prevnext-name">'+esc(prev.nombre)+'</div></div>';
+        else html+='<div></div>';
+        if(next) html+='<div class="nav-prevnext-item next" onclick="location.href=\'/cantera.html?id='+next.slug+'\'"><div class="nav-prevnext-dir">Siguiente →</div><div class="nav-prevnext-name">'+esc(next.nombre)+'</div></div>';
+        document.getElementById('navPrevNext').innerHTML=html;
+      });
+  }
+
+  function show404(){
+    document.getElementById('stateLoading').style.display='none';
+    document.getElementById('state404').style.display='block';
+  }
+  }());
+
+  function cargarMateriasVinculadas(canteraId) {
+    var SB_URL='https://whcptmdapnavcxcszwwk.supabase.co';
+    var SB_KEY='sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+    fetch(SB_URL+'/rest/v1/material_cantera?select=material_id,materiales(id,slug,nombre_comercial,categoria,color_principal)&cantera_id=eq.'+encodeURIComponent(canteraId),{
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Accept':'application/json'}
+    }).then(function(r){return r.json();}).then(function(rows){
+      if(!Array.isArray(rows)||!rows.length)return;
+      var list=document.getElementById('mat-linked-list');
+      if(!list)return;
+      list.innerHTML=rows.map(function(row){
+        var m=row.materiales;
+        if(!m)return'';
+        return'<div class="mat-linked-item" onclick="location.href=\'/material.html?id='+m.slug+'\'">'
+          +'<div class="mat-linked-name">'+(m.nombre_comercial||'')+'</div>'
+          +'<div class="mat-linked-sub">'+(m.categoria||'')+(m.color_principal?' · '+m.color_principal:'')+'</div>'
+          +'</div>';
+      }).join('');
+      document.getElementById('sec-mat-vinculados').style.display='block';
+    }).catch(function(){});
+  }
   </script>
 </Page>

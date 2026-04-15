@@ -1,15 +1,18 @@
 ---
-import Page from '../layouts/Page.astro';
+import Page from "../layouts/Page.astro";
 ---
 
 <Page
   title="Proponer Material — World Stone Hub"
-  description="Añade un material al catálogo de World Stone Hub. Tu propuesta será revisada y publicada en 24-48h."
+  description="Añade un material al catálogo de World Stone Hub. Tu propuesta será revisada y publicada en un plazo de 24-48h."
   noIndex={true}
 >
   <style slot="head">
+    main {
+      background: var(--bg-soft);
+    }
     .page {
-      margin-top: 64px;
+      margin-top: 70px;
       max-width: 760px;
       margin-left: auto;
       margin-right: auto;
@@ -26,7 +29,7 @@ import Page from '../layouts/Page.astro';
       margin-bottom: 12px;
     }
     .page-title {
-      font-family: var(--font-disp);
+      font-family: "Cormorant Garamond", serif;
       font-size: 2.4rem;
       font-weight: 300;
       line-height: 1.1;
@@ -34,19 +37,20 @@ import Page from '../layouts/Page.astro';
     }
     .page-desc {
       font-size: 0.85rem;
-      color: var(--ink-muted);
+      color: var(--ink-2);
       line-height: 1.7;
     }
     .notice {
-      background: var(--gold-lt);
-      border: 1px solid #e8d5c0;
+      background: var(--bg-soft);
+      border: 1px solid var(--border2);
       border-left: 3px solid var(--gold);
       padding: 14px 18px;
       font-size: 0.8rem;
-      color: var(--ink-mid);
+      color: var(--ink-2);
       margin-bottom: 32px;
       border-radius: 2px;
     }
+    /* Auth gate */
     .auth-gate {
       background: var(--bg);
       border: 1px solid var(--border);
@@ -60,13 +64,13 @@ import Page from '../layouts/Page.astro';
       opacity: 0.3;
     }
     .auth-gate-title {
-      font-family: var(--font-disp);
+      font-family: "Cormorant Garamond", serif;
       font-size: 1.4rem;
       margin-bottom: 8px;
     }
     .auth-gate-desc {
       font-size: 0.82rem;
-      color: var(--ink-muted);
+      color: var(--ink-2);
       margin-bottom: 24px;
     }
     .btn {
@@ -80,8 +84,9 @@ import Page from '../layouts/Page.astro';
       border-radius: 2px;
       cursor: pointer;
       border: none;
-      font-family: var(--font-head);
+      font-family: "Instrument Sans", sans-serif;
       transition: background 0.2s;
+      text-decoration: none;
     }
     .btn:hover {
       background: var(--gold);
@@ -89,7 +94,7 @@ import Page from '../layouts/Page.astro';
     .btn.outline {
       background: transparent;
       color: var(--ink);
-      border: 1px solid var(--border-mid);
+      border: 1px solid var(--border2);
     }
     .btn.outline:hover {
       border-color: var(--gold);
@@ -101,6 +106,7 @@ import Page from '../layouts/Page.astro';
     .btn.gold:hover {
       background: #8a6340;
     }
+    /* Form */
     .form-card {
       background: var(--bg);
       border: 1px solid var(--border);
@@ -119,7 +125,7 @@ import Page from '../layouts/Page.astro';
       font-size: 0.62rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--ink-faint);
+      color: var(--ink-4);
       padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
     }
@@ -134,13 +140,13 @@ import Page from '../layouts/Page.astro';
       gap: 6px;
     }
     .form-group.full {
-      grid-column: 1/-1;
+      grid-column: 1 / -1;
     }
     label {
       font-size: 0.7rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--ink-muted);
+      color: var(--ink-2);
     }
     input,
     select,
@@ -148,7 +154,7 @@ import Page from '../layouts/Page.astro';
       padding: 10px 14px;
       border: 1px solid var(--border);
       background: var(--bg-soft);
-      font-family: var(--font-head);
+      font-family: "Instrument Sans", sans-serif;
       font-size: 0.82rem;
       color: var(--ink);
       border-radius: 2px;
@@ -166,6 +172,7 @@ import Page from '../layouts/Page.astro';
       resize: vertical;
       min-height: 80px;
     }
+    /* Autocomplete canteras */
     .autocomplete-wrap {
       position: relative;
     }
@@ -245,12 +252,13 @@ import Page from '../layouts/Page.astro';
     }
     .autocomplete-item:hover,
     .autocomplete-item.active {
-      background: var(--gold-lt);
+      background: var(--bg-soft);
     }
     .autocomplete-item-sub {
       font-size: 0.7rem;
-      color: var(--ink-muted);
+      color: var(--ink-2);
     }
+    /* Submit */
     .form-actions {
       display: flex;
       gap: 12px;
@@ -265,8 +273,8 @@ import Page from '../layouts/Page.astro';
       display: none;
     }
     .form-status.success {
-      background: var(--gold-lt);
-      color: var(--green);
+      background: var(--bg-soft);
+      color: var(--gold);
       border: 1px solid rgba(166, 124, 82, 0.25);
       display: block;
     }
@@ -296,50 +304,46 @@ import Page from '../layouts/Page.astro';
     <div class="page-header">
       <div class="page-eyebrow">Directorio · Contribuir</div>
       <h1 class="page-title">Proponer un material</h1>
-      <p class="page-desc">
-        A&ntilde;ade un material al cat&aacute;logo de World Stone Hub. Tu propuesta ser&aacute;
-        revisada y publicada en un plazo de 24-48h.
-      </p>
+      <p class="page-desc">Añade un material al catálogo de World Stone Hub. Tu propuesta será revisada y publicada en un plazo de 24-48h.</p>
     </div>
 
+    <!-- Auth gate -->
     <div id="authGate" style="display:none">
       <div class="auth-gate">
-        <div class="auth-gate-icon">&#9671;</div>
+        <div class="auth-gate-icon">◇</div>
         <div class="auth-gate-title">Acceso requerido</div>
-        <div class="auth-gate-desc">
-          Debes tener una cuenta activa en World Stone Hub para proponer materiales.
-        </div>
-        <a href="/panel" class="btn">Acceder a mi panel</a>
+        <div class="auth-gate-desc">Debes tener una cuenta activa en World Stone Hub para proponer materiales.</div>
+        <a href="/panel.html" class="btn">Acceder a mi panel</a>
       </div>
     </div>
 
+    <!-- Formulario -->
     <div id="formWrap" style="display:none">
       <div class="notice">
-        &#9200; Tu propuesta quedar&aacute; en estado <strong>pendiente</strong> hasta que sea revisada
-        y aprobada manualmente. Recibir&aacute;s confirmaci&oacute;n en tu email.
+        ⏱ Tu propuesta quedará en estado <strong>pendiente</strong> hasta que sea revisada y aprobada manualmente. Recibirás confirmación en tu email.
       </div>
 
       <div class="form-card">
         <div class="form-section">
-          <div class="form-section-title">Identificaci&oacute;n del material</div>
+          <div class="form-section-title">Identificación del material</div>
           <div class="form-row">
             <div class="form-group full">
               <label>Nombre comercial *</label>
               <input id="f-nombre" type="text" placeholder="Ej: Bianco Carrara C" required />
             </div>
             <div class="form-group">
-              <label>Categor&iacute;a *</label>
+              <label>Categoría *</label>
               <select id="f-categoria">
                 <option value="">— Selecciona —</option>
-                <option>M&aacute;rmol</option><option>Granito</option><option>Cuarcita</option>
+                <option>Mármol</option><option>Granito</option><option>Cuarcita</option>
                 <option>Travertino</option><option>Caliza</option><option>Pizarra</option>
-                <option>&Oacute;nix</option><option>Arenisca</option><option>Basalto</option>
+                <option>Ónix</option><option>Arenisca</option><option>Basalto</option>
                 <option>Cuarzo engineered</option><option>Piedra sinterizada</option>
-                <option>Porcel&aacute;nico</option><option>Otro</option>
+                <option>Porcelánico</option><option>Otro</option>
               </select>
             </div>
             <div class="form-group">
-              <label>Pa&iacute;s de origen</label>
+              <label>País de origen</label>
               <input id="f-pais" type="text" placeholder="Ej: Italia" />
             </div>
             <div class="form-group">
@@ -350,7 +354,7 @@ import Page from '../layouts/Page.astro';
               <label>Rango de precio</label>
               <select id="f-precio">
                 <option value="">— Selecciona —</option>
-                <option value="económico">Econ&oacute;mico</option>
+                <option value="económico">Económico</option>
                 <option value="medio">Medio</option>
                 <option value="alto">Alto</option>
                 <option value="premium">Premium</option>
@@ -363,41 +367,23 @@ import Page from '../layouts/Page.astro';
             </div>
             <div class="form-group full">
               <label>Usos recomendados</label>
-              <input
-                id="f-usos"
-                type="text"
-                placeholder="Ej: Encimeras, revestimiento, suelos exteriores"
-              />
+              <input id="f-usos" type="text" placeholder="Ej: Encimeras, revestimiento, suelos exteriores" />
             </div>
             <div class="form-group full">
-              <label>Descripci&oacute;n libre</label>
-              <textarea
-                id="f-desc"
-                placeholder="Cualquier información adicional relevante sobre este material…"
-              ></textarea>
+              <label>Descripción libre</label>
+              <textarea id="f-desc" placeholder="Cualquier información adicional relevante sobre este material…"></textarea>
             </div>
           </div>
         </div>
 
         <div class="form-section">
           <div class="form-section-title">Canteras de origen (opcional)</div>
-          <p style="font-size:.78rem;color:var(--ink-muted);margin-bottom:4px">
-            Vincula este material con las canteras de las que se extrae.
-          </p>
+          <p style="font-size:.78rem;color:var(--ink-2);margin-bottom:4px">Vincula este material con las canteras de las que se extrae.</p>
           <div class="form-group">
-            <label>Buscar y a&ntilde;adir canteras</label>
+            <label>Buscar y añadir canteras</label>
             <div class="autocomplete-wrap" id="canterasWrap">
-              <div
-                class="autocomplete-input-wrap"
-                id="canterasChips"
-                onclick="document.getElementById('canterasInput').focus()"
-              >
-                <input
-                  id="canterasInput"
-                  type="text"
-                  placeholder="Escribe para buscar canteras…"
-                  autocomplete="off"
-                />
+              <div class="autocomplete-input-wrap" id="canterasChips" onclick="document.getElementById('canterasInput').focus()">
+                <input id="canterasInput" type="text" placeholder="Escribe para buscar canteras…" autocomplete="off" />
               </div>
               <div class="autocomplete-dropdown" id="canterasDropdown"></div>
             </div>
@@ -406,7 +392,7 @@ import Page from '../layouts/Page.astro';
 
         <div class="form-actions">
           <button class="btn gold" id="submitBtn" onclick="submitForm()">Enviar propuesta</button>
-          <a href="/materiales" class="btn outline">Cancelar</a>
+          <a href="/materiales.html" class="btn outline">Cancelar</a>
           <div class="spinner" id="spinner" style="display:none"></div>
         </div>
         <div class="form-status" id="formStatus"></div>
@@ -414,180 +400,119 @@ import Page from '../layouts/Page.astro';
     </div>
   </div>
 
-  <script>
-    import { supabase as db } from '@services/http/config';
-    (function () {
-      var session = null;
-      var canterasSeleccionadas = [];
-      var todasCanteras = [];
+  <script is:inline slot="scripts">
+  (function(){
+  var SB_URL='https://whcptmdapnavcxcszwwk.supabase.co';
+  var SB_KEY='sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+  var db=supabase.createClient(SB_URL,SB_KEY);
+  var session=null;
+  var canterasSeleccionadas=[];
+  var todasCanteras=[];
 
-      db.auth.getSession().then(function (r) {
-        session = r.data && r.data.session;
-        if (session) {
-          document.getElementById('formWrap').style.display = 'block';
-          cargarCanteras();
-        } else {
-          document.getElementById('authGate').style.display = 'block';
+  db.auth.getSession().then(function(r){
+    session=r.data&&r.data.session;
+    if(session){
+      document.getElementById('formWrap').style.display='block';
+      cargarCanteras();
+    } else {
+      document.getElementById('authGate').style.display='block';
+    }
+  });
+
+  function cargarCanteras(){
+    db.from('canteras').select('id,slug,nombre,pais,tipo_piedra').order('nombre')
+      .then(function(r){ todasCanteras=r.data||[]; });
+  }
+
+  var inp=document.getElementById('canterasInput');
+  var dd=document.getElementById('canterasDropdown');
+
+  inp.addEventListener('input',function(){
+    var q=inp.value.toLowerCase().trim();
+    if(!q){dd.classList.remove('open');return;}
+    var matches=todasCanteras.filter(function(c){
+      return c.nombre.toLowerCase().includes(q)||
+             (c.pais||'').toLowerCase().includes(q)||
+             (c.tipo_piedra||'').toLowerCase().includes(q);
+    }).slice(0,8);
+    if(!matches.length){dd.classList.remove('open');return;}
+    dd.innerHTML=matches.map(function(c){
+      var sel=canterasSeleccionadas.some(function(s){return s.id===c.id;});
+      return '<div class="autocomplete-item'+(sel?' active':'')+'" data-id="'+c.id+'" data-slug="'+c.slug+'" data-nombre="'+c.nombre.replace(/"/g,'&quot;')+'">'
+        +'<span>'+c.nombre+'</span>'
+        +'<span class="autocomplete-item-sub">'+c.pais+' · '+c.tipo_piedra+'</span>'
+        +'</div>';
+    }).join('');
+    dd.classList.add('open');
+    dd.querySelectorAll('.autocomplete-item').forEach(function(el){
+      el.addEventListener('click',function(){
+        var id=el.getAttribute('data-id');
+        var slug=el.getAttribute('data-slug');
+        var nombre=el.getAttribute('data-nombre');
+        if(!canterasSeleccionadas.some(function(s){return s.id===id;})){
+          canterasSeleccionadas.push({id:id,slug:slug,nombre:nombre});
+          renderChips();
         }
+        inp.value='';
+        dd.classList.remove('open');
       });
+    });
+  });
 
-      function cargarCanteras() {
-        db.from('canteras')
-          .select('id,slug,nombre,pais,tipo_piedra')
-          .order('nombre')
-          .then(function (r) {
-            todasCanteras = r.data || [];
-          });
-      }
+  document.addEventListener('click',function(e){
+    if(!document.getElementById('canterasWrap').contains(e.target)) dd.classList.remove('open');
+  });
 
-      var inp = document.getElementById('canterasInput');
-      var dd = document.getElementById('canterasDropdown');
-
-      inp.addEventListener('input', function () {
-        var q = inp.value.toLowerCase().trim();
-        if (!q) {
-          dd.classList.remove('open');
-          return;
-        }
-        var matches = todasCanteras
-          .filter(function (c) {
-            return (
-              c.nombre.toLowerCase().includes(q) ||
-              (c.pais || '').toLowerCase().includes(q) ||
-              (c.tipo_piedra || '').toLowerCase().includes(q)
-            );
-          })
-          .slice(0, 8);
-        if (!matches.length) {
-          dd.classList.remove('open');
-          return;
-        }
-        dd.innerHTML = matches
-          .map(function (c) {
-            var sel = canterasSeleccionadas.some(function (s) {
-              return s.id === c.id;
-            });
-            return (
-              '<div class="autocomplete-item' +
-              (sel ? ' active' : '') +
-              '" data-id="' +
-              c.id +
-              '" data-slug="' +
-              c.slug +
-              '" data-nombre="' +
-              c.nombre.replace(/"/g, '&quot;') +
-              '">' +
-              '<span>' +
-              c.nombre +
-              '</span>' +
-              '<span class="autocomplete-item-sub">' +
-              c.pais +
-              ' \u00b7 ' +
-              c.tipo_piedra +
-              '</span>' +
-              '</div>'
-            );
-          })
-          .join('');
-        dd.classList.add('open');
-        dd.querySelectorAll('.autocomplete-item').forEach(function (el) {
-          el.addEventListener('click', function () {
-            var id = el.getAttribute('data-id');
-            var slug = el.getAttribute('data-slug');
-            var nombre = el.getAttribute('data-nombre');
-            if (
-              !canterasSeleccionadas.some(function (s) {
-                return s.id === id;
-              })
-            ) {
-              canterasSeleccionadas.push({ id: id, slug: slug, nombre: nombre });
-              renderChips();
-            }
-            inp.value = '';
-            dd.classList.remove('open');
-          });
-        });
+  function renderChips(){
+    var chips=document.getElementById('canterasChips');
+    chips.querySelectorAll('.chip').forEach(function(c){c.remove();});
+    canterasSeleccionadas.forEach(function(c){
+      var chip=document.createElement('span');
+      chip.className='chip';
+      chip.innerHTML=c.nombre+'<span class="chip-remove" data-id="'+c.id+'">×</span>';
+      chip.querySelector('.chip-remove').addEventListener('click',function(e){
+        e.stopPropagation();
+        canterasSeleccionadas=canterasSeleccionadas.filter(function(s){return s.id!==c.id;});
+        renderChips();
       });
+      chips.insertBefore(chip,inp);
+    });
+  }
 
-      document.addEventListener('click', function (e) {
-        if (!document.getElementById('canterasWrap').contains(e.target))
-          dd.classList.remove('open');
-      });
+  window.submitForm=function(){
+    var nombre=document.getElementById('f-nombre').value.trim();
+    var categoria=document.getElementById('f-categoria').value;
+    if(!nombre||!categoria){showStatus('Por favor completa nombre y categoría.','error');return;}
+    if(!session){showStatus('Sesión caducada. Por favor recarga la página.','error');return;}
+    document.getElementById('submitBtn').disabled=true;
+    document.getElementById('spinner').style.display='inline-block';
+    var payload={
+      user_id:session.user.id,
+      nombre_comercial:nombre,
+      categoria:categoria,
+      origen_pais:document.getElementById('f-pais').value.trim()||null,
+      color_principal:document.getElementById('f-color').value.trim()||null,
+      acabados:document.getElementById('f-acabados').value.trim()||null,
+      usos:document.getElementById('f-usos').value.trim()||null,
+      precio_rango:document.getElementById('f-precio').value||null,
+      descripcion_libre:document.getElementById('f-desc').value.trim()||null,
+      canteras_vinculadas:canterasSeleccionadas.map(function(c){return c.slug;}),
+      estado:'pendiente'
+    };
+    db.from('propuestas_materiales').insert(payload).then(function(r){
+      document.getElementById('spinner').style.display='none';
+      document.getElementById('submitBtn').disabled=false;
+      if(r.error){showStatus('Error: '+r.error.message,'error');return;}
+      showStatus('✓ Propuesta enviada correctamente. La revisaremos en 24-48h.','success');
+      document.querySelector('.form-card').style.opacity='.5';
+      document.querySelector('.form-card').style.pointerEvents='none';
+    });
+  };
 
-      function renderChips() {
-        var chips = document.getElementById('canterasChips');
-        chips.querySelectorAll('.chip').forEach(function (c) {
-          c.remove();
-        });
-        canterasSeleccionadas.forEach(function (c) {
-          var chip = document.createElement('span');
-          chip.className = 'chip';
-          chip.innerHTML = c.nombre + '<span class="chip-remove" data-id="' + c.id + '">×</span>';
-          chip.querySelector('.chip-remove').addEventListener('click', function (e) {
-            e.stopPropagation();
-            canterasSeleccionadas = canterasSeleccionadas.filter(function (s) {
-              return s.id !== c.id;
-            });
-            renderChips();
-          });
-          chips.insertBefore(chip, inp);
-        });
-      }
-
-      window.submitForm = function () {
-        var nombre = document.getElementById('f-nombre').value.trim();
-        var categoria = document.getElementById('f-categoria').value;
-        if (!nombre || !categoria) {
-          showStatus('Por favor completa nombre y categor\u00eda.', 'error');
-          return;
-        }
-        if (!session) {
-          showStatus('Sesi\u00f3n caducada. Por favor recarga la p\u00e1gina.', 'error');
-          return;
-        }
-
-        document.getElementById('submitBtn').disabled = true;
-        document.getElementById('spinner').style.display = 'inline-block';
-
-        var payload = {
-          user_id: session.user.id,
-          nombre_comercial: nombre,
-          categoria: categoria,
-          origen_pais: document.getElementById('f-pais').value.trim() || null,
-          color_principal: document.getElementById('f-color').value.trim() || null,
-          acabados: document.getElementById('f-acabados').value.trim() || null,
-          usos: document.getElementById('f-usos').value.trim() || null,
-          precio_rango: document.getElementById('f-precio').value || null,
-          descripcion_libre: document.getElementById('f-desc').value.trim() || null,
-          canteras_vinculadas: canterasSeleccionadas.map(function (c) {
-            return c.slug;
-          }),
-          estado: 'pendiente',
-        };
-
-        db.from('propuestas_materiales')
-          .insert(payload)
-          .then(function (r) {
-            document.getElementById('spinner').style.display = 'none';
-            document.getElementById('submitBtn').disabled = false;
-            if (r.error) {
-              showStatus('Error: ' + r.error.message, 'error');
-              return;
-            }
-            showStatus(
-              '\u2713 Propuesta enviada correctamente. La revisaremos en 24-48h.',
-              'success'
-            );
-            document.querySelector('.form-card').style.opacity = '.5';
-            document.querySelector('.form-card').style.pointerEvents = 'none';
-          });
-      };
-
-      function showStatus(msg, type) {
-        var el = document.getElementById('formStatus');
-        el.textContent = msg;
-        el.className = 'form-status ' + type;
-      }
-    })();
+  function showStatus(msg,type){
+    var el=document.getElementById('formStatus');
+    el.textContent=msg;el.className='form-status '+type;
+  }
+  }());
   </script>
 </Page>

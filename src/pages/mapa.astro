@@ -1,641 +1,625 @@
 ---
-import Page from '../layouts/Page.astro';
+import Base from "../layouts/Base.astro";
+import Navbar from "../components/Navbar.astro";
 ---
 
-<Page title="Mapa Interactivo — World Stone Hub">
-  <style slot="head" is:global>
-    :root {
-      --bg: #ffffff;
-      --bg-soft: #f8f7f5;
-      --bg-mid: #f0efed;
-      --border: #e2e0dc;
-      --border-mid: #c8c5bf;
-      --ink: #1a1917;
-      --ink-mid: #4a4845;
-      --ink-muted: #8a8784;
-      --ink-faint: #b8b5b0;
-      --gold: #a67c52;
-      --gold-lt: #f5efea;
-      --font-disp: 'Cormorant Garamond', serif;
-      --font-head: 'Instrument Sans', sans-serif;
-      --font-mono: 'DM Mono', monospace;
-      --nav-h: 70px;
-      --sb-w: 280px;
-      /* Dark map palette */
-      --dm-bg: #0e0b08;
-      --dm-surface: rgba(18, 14, 10, 0.97);
-      --dm-border: rgba(201, 168, 76, 0.1);
-      --dm-text: #d4cfc8;
-      --dm-muted: #8a8070;
-      --dm-gold: #c9a84c;
-    }
-    /* ── LAYOUT ── */
-    #app {
-      position: fixed;
-      top: var(--nav-h);
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-    }
+<Base
+  title="Piedras del Mundo · World Stone Hub"
+  description="Explora las piedras naturales del mundo en un mapa interactivo. Mármoles, granitos, cuarcitas y más, con datos de origen precisos."
+  ogTitle="Piedras del Mundo — World Stone Hub"
+  ogDescription="Mapa interactivo de piedras naturales: materiales, orígenes y fichas técnicas."
+  bodyClass="mapa-body"
+>
+  <Fragment slot="head">
+    <!-- Mapbox GL JS -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
+    <style is:global>
+      html.mapa-body-html,
+      body.mapa-body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      body.mapa-body {
+        background: #0e0b08;
+      }
+    </style>
+    <style>
+      :root {
+        --nav-h: 70px;
+        --sb-w: 280px;
+        --dm-bg: #0e0b08;
+        --dm-surface: rgba(18, 14, 10, 0.97);
+        --dm-border: rgba(201, 168, 76, 0.1);
+        --dm-text: #d4cfc8;
+        --dm-muted: #8a8070;
+        --dm-gold: #c9a84c;
+      }
 
-    /* ── SIDEBAR ── */
-    #sidebar {
-      width: var(--sb-w);
-      flex-shrink: 0;
-      height: 100%;
-      background: var(--dm-surface);
-      border-right: 1px solid var(--dm-border);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      z-index: 800;
-    }
-    .sb-header {
-      padding: 18px 20px 14px;
-      border-bottom: 1px solid var(--dm-border);
-      flex-shrink: 0;
-    }
-    .sb-eyebrow {
-      font-size: 7px;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      color: var(--dm-gold);
-      margin-bottom: 6px;
-      font-family: var(--font-mono);
-    }
-    .sb-title {
-      font-family: var(--font-disp);
-      font-size: 22px;
-      font-weight: 300;
-      color: #e8e3dc;
-      line-height: 1.1;
-      letter-spacing: 0.5px;
-    }
-    .sb-title em {
-      color: var(--dm-gold);
-      font-style: italic;
-    }
-    .sb-stats {
-      display: flex;
-      gap: 16px;
-      margin-top: 10px;
-    }
-    .sb-stat {
-      display: flex;
-      flex-direction: column;
-    }
-    .sb-stat-n {
-      font-family: var(--font-mono);
-      font-size: 18px;
-      color: #e8e3dc;
-      line-height: 1;
-    }
-    .sb-stat-l {
-      font-size: 8px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--dm-muted);
-      margin-top: 2px;
-    }
+      /* ── LAYOUT ── */
+      #app {
+        position: fixed;
+        top: var(--nav-h);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+      }
 
-    /* Search */
-    .sb-search {
-      padding: 10px 16px 8px;
-      border-bottom: 1px solid var(--dm-border);
-      flex-shrink: 0;
-      position: relative;
-    }
-    .sb-search-lbl {
-      font-size: 7px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--dm-muted);
-      margin-bottom: 5px;
-      font-family: var(--font-mono);
-    }
-    .sb-search-row {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-    .sb-ico {
-      position: absolute;
-      left: 9px;
-      color: var(--dm-muted);
-      pointer-events: none;
-      font-size: 13px;
-    }
-    #searchInput {
-      width: 100%;
-      padding: 7px 28px 7px 28px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(201, 168, 76, 0.15);
-      color: #d4cfc8;
-      font-family: var(--font-head);
-      font-size: 12px;
-      outline: none;
-      transition: border-color 0.2s;
-      border-radius: 2px;
-    }
-    #searchInput:focus {
-      border-color: rgba(201, 168, 76, 0.4);
-    }
-    #searchInput::placeholder {
-      color: var(--dm-muted);
-      opacity: 0.7;
-    }
-    #searchClear {
-      position: absolute;
-      right: 8px;
-      font-size: 10px;
-      color: var(--dm-muted);
-      cursor: pointer;
-      display: none;
-      background: none;
-      border: none;
-      transition: color 0.2s;
-    }
-    #searchClear.vis {
-      display: block;
-    }
-    #searchClear:hover {
-      color: var(--dm-gold);
-    }
+      /* ── SIDEBAR ── */
+      #sidebar {
+        width: var(--sb-w);
+        flex-shrink: 0;
+        height: 100%;
+        background: var(--dm-surface);
+        border-right: 1px solid var(--dm-border);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 800;
+      }
+      .sb-header {
+        padding: 18px 20px 14px;
+        border-bottom: 1px solid var(--dm-border);
+        flex-shrink: 0;
+      }
+      .sb-eyebrow {
+        font-size: 7px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--dm-gold);
+        margin-bottom: 6px;
+        font-family: var(--font-mono);
+      }
+      .sb-title {
+        font-family: var(--font-disp);
+        font-size: 22px;
+        font-weight: 300;
+        color: #e8e3dc;
+        line-height: 1.1;
+        letter-spacing: 0.5px;
+      }
+      .sb-title em {
+        color: var(--dm-gold);
+        font-style: italic;
+      }
+      .sb-stats {
+        display: flex;
+        gap: 16px;
+        margin-top: 10px;
+      }
+      .sb-stat {
+        display: flex;
+        flex-direction: column;
+      }
+      .sb-stat-n {
+        font-family: var(--font-mono);
+        font-size: 18px;
+        color: #e8e3dc;
+        line-height: 1;
+      }
+      .sb-stat-l {
+        font-size: 8px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--dm-muted);
+        margin-top: 2px;
+      }
 
-    /* Filters */
-    .sb-body {
-      flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-    .sb-body::-webkit-scrollbar {
-      width: 3px;
-    }
-    .sb-body::-webkit-scrollbar-thumb {
-      background: rgba(201, 168, 76, 0.25);
-    }
-    .sb-sec {
-      border-bottom: 1px solid var(--dm-border);
-    }
-    .sb-sec-hd {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 16px;
-      cursor: pointer;
-      user-select: none;
-      transition: background 0.2s;
-    }
-    .sb-sec-hd:hover {
-      background: rgba(201, 168, 76, 0.04);
-    }
-    .sb-sec-label {
-      font-size: 7px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--dm-muted);
-      font-family: var(--font-mono);
-    }
-    .sb-sec-badge {
-      font-size: 8px;
-      background: rgba(201, 168, 76, 0.18);
-      color: var(--dm-gold);
-      padding: 1px 5px;
-      margin-left: 6px;
-      display: none;
-    }
-    .sb-sec-badge.vis {
-      display: inline;
-    }
-    .sb-arrow {
-      font-size: 8px;
-      color: var(--dm-muted);
-      transition: transform 0.2s;
-    }
-    .sb-sec.open .sb-arrow {
-      transform: rotate(180deg);
-    }
-    .sb-sec-body {
-      display: none;
-      padding: 0 16px 12px;
-    }
-    .sb-sec.open .sb-sec-body {
-      display: block;
-    }
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      padding-top: 10px;
-    }
-    .chip {
-      font-size: 9px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border: 1px solid rgba(201, 168, 76, 0.2);
-      color: var(--dm-muted);
-      cursor: pointer;
-      transition: all 0.18s;
-      border-radius: 1px;
-    }
-    .chip:hover {
-      border-color: rgba(201, 168, 76, 0.5);
-      color: #d4cfc8;
-    }
-    .chip.active {
-      background: rgba(201, 168, 76, 0.15);
-      border-color: rgba(201, 168, 76, 0.5);
-      color: var(--dm-gold);
-    }
+      /* Search */
+      .sb-search {
+        padding: 10px 16px 8px;
+        border-bottom: 1px solid var(--dm-border);
+        flex-shrink: 0;
+        position: relative;
+      }
+      .sb-search-lbl {
+        font-size: 7px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--dm-muted);
+        margin-bottom: 5px;
+        font-family: var(--font-mono);
+      }
+      .sb-search-row {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .sb-ico {
+        position: absolute;
+        left: 9px;
+        color: var(--dm-muted);
+        pointer-events: none;
+        font-size: 13px;
+      }
+      #searchInput {
+        width: 100%;
+        padding: 7px 28px 7px 28px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(201, 168, 76, 0.15);
+        color: #d4cfc8;
+        font-family: var(--font-head);
+        font-size: 12px;
+        outline: none;
+        transition: border-color 0.2s;
+        border-radius: 2px;
+      }
+      #searchInput:focus {
+        border-color: rgba(201, 168, 76, 0.4);
+      }
+      #searchInput::placeholder {
+        color: var(--dm-muted);
+        opacity: 0.7;
+      }
+      #searchClear {
+        position: absolute;
+        right: 8px;
+        font-size: 10px;
+        color: var(--dm-muted);
+        cursor: pointer;
+        display: none;
+        background: none;
+        border: none;
+        transition: color 0.2s;
+      }
+      #searchClear.vis {
+        display: block;
+      }
+      #searchClear:hover {
+        color: var(--dm-gold);
+      }
 
-    /* Category color dots */
-    .chip-dot {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      margin-right: 5px;
-      vertical-align: middle;
-    }
+      /* Filters */
+      .sb-body {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      .sb-body::-webkit-scrollbar {
+        width: 3px;
+      }
+      .sb-body::-webkit-scrollbar-thumb {
+        background: rgba(201, 168, 76, 0.25);
+      }
+      .sb-sec {
+        border-bottom: 1px solid var(--dm-border);
+      }
+      .sb-sec-hd {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 16px;
+        cursor: pointer;
+        user-select: none;
+        transition: background 0.2s;
+      }
+      .sb-sec-hd:hover {
+        background: rgba(201, 168, 76, 0.04);
+      }
+      .sb-sec-label {
+        font-size: 7px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--dm-muted);
+        font-family: var(--font-mono);
+      }
+      .sb-sec-badge {
+        font-size: 8px;
+        background: rgba(201, 168, 76, 0.18);
+        color: var(--dm-gold);
+        padding: 1px 5px;
+        margin-left: 6px;
+        display: none;
+      }
+      .sb-sec-badge.vis {
+        display: inline;
+      }
+      .sb-arrow {
+        font-size: 8px;
+        color: var(--dm-muted);
+        transition: transform 0.2s;
+      }
+      .sb-sec.open .sb-arrow {
+        transform: rotate(180deg);
+      }
+      .sb-sec-body {
+        display: none;
+        padding: 0 16px 12px;
+      }
+      .sb-sec.open .sb-sec-body {
+        display: block;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        padding-top: 10px;
+      }
+      .chip {
+        font-size: 9px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border: 1px solid rgba(201, 168, 76, 0.2);
+        color: var(--dm-muted);
+        cursor: pointer;
+        transition: all 0.18s;
+        border-radius: 1px;
+      }
+      .chip:hover {
+        border-color: rgba(201, 168, 76, 0.5);
+        color: #d4cfc8;
+      }
+      .chip.active {
+        background: rgba(201, 168, 76, 0.15);
+        border-color: rgba(201, 168, 76, 0.5);
+        color: var(--dm-gold);
+      }
+      .chip-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        margin-right: 5px;
+        vertical-align: middle;
+      }
 
-    .sb-footer {
-      padding: 12px 16px;
-      border-top: 1px solid var(--dm-border);
-      flex-shrink: 0;
-    }
-    .sb-result-lbl {
-      font-size: 8px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--dm-muted);
-      font-family: var(--font-mono);
-    }
-    .sb-result-n {
-      color: var(--dm-gold);
-    }
+      .sb-footer {
+        padding: 12px 16px;
+        border-top: 1px solid var(--dm-border);
+        flex-shrink: 0;
+      }
+      .sb-result-lbl {
+        font-size: 8px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--dm-muted);
+        font-family: var(--font-mono);
+      }
+      .sb-result-n {
+        color: var(--dm-gold);
+      }
 
-    /* ── MAP ── */
-    #map-wrap {
-      flex: 1;
-      position: relative;
-    }
-    #map {
-      position: absolute;
-      inset: 0;
-    }
+      /* ── MAP ── */
+      #map-wrap {
+        flex: 1;
+        position: relative;
+      }
+      #map {
+        position: absolute;
+        inset: 0;
+      }
 
-    /* Map attribution fix */
-    .mapboxgl-ctrl-bottom-left,
-    .mapboxgl-ctrl-bottom-right {
-      bottom: 0;
-    }
+      .mapboxgl-ctrl-bottom-left,
+      .mapboxgl-ctrl-bottom-right {
+        bottom: 0;
+      }
 
-    /* Loading overlay */
-    #loading {
-      position: absolute;
-      inset: 0;
-      background: #0e0b08;
-      z-index: 500;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      transition: opacity 0.5s;
-    }
-    #loading.done {
-      opacity: 0;
-      pointer-events: none;
-    }
-    .loading-title {
-      font-family: var(--font-disp);
-      font-size: 28px;
-      font-weight: 300;
-      color: #e8e3dc;
-      letter-spacing: 1px;
-    }
-    .loading-title em {
-      color: var(--dm-gold);
-      font-style: italic;
-    }
-    .loading-bar {
-      width: 200px;
-      height: 1px;
-      background: rgba(201, 168, 76, 0.15);
-      position: relative;
-      overflow: hidden;
-    }
-    .loading-bar::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--dm-gold);
-      transform: translateX(-100%);
-      animation: ldbar 1.8s ease-in-out infinite;
-    }
-    @keyframes ldbar {
-      0% {
+      /* Loading overlay */
+      #loading {
+        position: absolute;
+        inset: 0;
+        background: #0e0b08;
+        z-index: 500;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        transition: opacity 0.5s;
+      }
+      #loading.done {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .loading-title {
+        font-family: var(--font-disp);
+        font-size: 28px;
+        font-weight: 300;
+        color: #e8e3dc;
+        letter-spacing: 1px;
+      }
+      .loading-title em {
+        color: var(--dm-gold);
+        font-style: italic;
+      }
+      .loading-bar {
+        width: 200px;
+        height: 1px;
+        background: rgba(201, 168, 76, 0.15);
+        position: relative;
+        overflow: hidden;
+      }
+      .loading-bar::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--dm-gold);
         transform: translateX(-100%);
+        animation: ldbar 1.8s ease-in-out infinite;
       }
-      100% {
+      @keyframes ldbar {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+      .loading-sub {
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--dm-muted);
+        font-family: var(--font-mono);
+      }
+
+      /* Token warning */
+      #token-warn {
+        position: absolute;
+        inset: 0;
+        background: #0e0b08;
+        z-index: 600;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        text-align: center;
+        padding: 40px;
+      }
+      #token-warn.show {
+        display: flex;
+      }
+      .tw-title {
+        font-family: var(--font-disp);
+        font-size: 32px;
+        font-weight: 300;
+        color: #e8e3dc;
+      }
+      .tw-title em {
+        color: var(--dm-gold);
+        font-style: italic;
+      }
+      .tw-body {
+        font-size: 13px;
+        color: var(--dm-muted);
+        max-width: 480px;
+        line-height: 1.7;
+      }
+      .tw-code {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--dm-border);
+        padding: 10px 16px;
+        color: var(--dm-gold);
+        margin: 4px 0;
+      }
+      .tw-link {
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--dm-gold);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+        padding-bottom: 2px;
+      }
+      .tw-link:hover {
+        border-bottom-color: var(--dm-gold);
+      }
+
+      /* ── DETAIL PANEL ── */
+      #detail {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 340px;
+        background: var(--dm-surface);
+        border-left: 1px solid var(--dm-border);
+        z-index: 700;
+        display: flex;
+        flex-direction: column;
         transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
       }
-    }
-    .loading-sub {
-      font-size: 9px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--dm-muted);
-      font-family: var(--font-mono);
-    }
+      #detail.open {
+        transform: translateX(0);
+      }
+      .det-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 28px;
+        height: 28px;
+        border: 1px solid var(--dm-border);
+        background: none;
+        color: var(--dm-muted);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        transition: all 0.2s;
+        z-index: 2;
+        border-radius: 1px;
+      }
+      .det-close:hover {
+        border-color: rgba(201, 168, 76, 0.5);
+        color: var(--dm-gold);
+      }
+      .det-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background: #1a1612;
+        flex-shrink: 0;
+      }
+      .det-img-placeholder {
+        width: 100%;
+        height: 200px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-disp);
+        font-size: 36px;
+        font-weight: 300;
+        font-style: italic;
+      }
+      .det-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px 20px 24px;
+      }
+      .det-body::-webkit-scrollbar {
+        width: 3px;
+      }
+      .det-body::-webkit-scrollbar-thumb {
+        background: rgba(201, 168, 76, 0.2);
+      }
+      .det-cat {
+        display: inline-block;
+        font-size: 7px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        padding: 3px 8px;
+        border: 1px solid;
+        margin-bottom: 10px;
+        font-family: var(--font-mono);
+      }
+      .det-name {
+        font-family: var(--font-disp);
+        font-size: 26px;
+        font-weight: 300;
+        color: #e8e3dc;
+        line-height: 1.2;
+        margin-bottom: 4px;
+      }
+      .det-name em {
+        font-style: italic;
+        color: var(--dm-gold);
+      }
+      .det-origin {
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--dm-muted);
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .det-origin img {
+        width: 16px;
+        height: 12px;
+        object-fit: cover;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .det-props {
+        border-top: 1px solid var(--dm-border);
+        padding-top: 14px;
+        margin-top: 4px;
+      }
+      .det-prop {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 5px 0;
+        border-bottom: 1px solid rgba(201, 168, 76, 0.05);
+      }
+      .det-prop:last-child {
+        border-bottom: none;
+      }
+      .det-prop-l {
+        font-size: 8px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--dm-muted);
+        font-family: var(--font-mono);
+      }
+      .det-prop-v {
+        font-size: 11px;
+        color: #c8c3bc;
+        text-align: right;
+        max-width: 180px;
+      }
+      .det-actions {
+        padding: 0 20px 20px;
+        flex-shrink: 0;
+      }
+      .det-btn {
+        display: block;
+        width: 100%;
+        padding: 11px;
+        text-align: center;
+        background: var(--dm-gold);
+        color: #0e0b08;
+        text-decoration: none;
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-weight: 600;
+        transition: background 0.2s;
+        font-family: var(--font-head);
+      }
+      .det-btn:hover {
+        background: #d4a85a;
+      }
+      .det-btn-ghost {
+        display: block;
+        width: 100%;
+        padding: 9px;
+        text-align: center;
+        border: 1px solid var(--dm-border);
+        color: var(--dm-muted);
+        text-decoration: none;
+        font-size: 8px;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        transition: all 0.2s;
+        margin-top: 6px;
+        font-family: var(--font-head);
+      }
+      .det-btn-ghost:hover {
+        border-color: rgba(201, 168, 76, 0.4);
+        color: var(--dm-gold);
+      }
 
-    /* Token warning */
-    #token-warn {
-      position: absolute;
-      inset: 0;
-      background: #0e0b08;
-      z-index: 600;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      text-align: center;
-      padding: 40px;
-    }
-    #token-warn.show {
-      display: flex;
-    }
-    .tw-title {
-      font-family: var(--font-disp);
-      font-size: 32px;
-      font-weight: 300;
-      color: #e8e3dc;
-    }
-    .tw-title em {
-      color: var(--dm-gold);
-      font-style: italic;
-    }
-    .tw-body {
-      font-size: 13px;
-      color: var(--dm-muted);
-      max-width: 480px;
-      line-height: 1.7;
-    }
-    .tw-code {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--dm-border);
-      padding: 10px 16px;
-      color: var(--dm-gold);
-      margin: 4px 0;
-    }
-    .tw-link {
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--dm-gold);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(201, 168, 76, 0.3);
-      padding-bottom: 2px;
-    }
-    .tw-link:hover {
-      border-bottom-color: var(--dm-gold);
-    }
+      /* Mapbox overrides */
+      .mapboxgl-popup-close-button {
+        color: #8a8070;
+        font-size: 16px;
+        padding: 2px 6px;
+      }
+      .mapboxgl-popup-close-button:hover {
+        color: var(--dm-gold);
+        background: none;
+      }
+      .mapboxgl-ctrl-group {
+        background: rgba(18, 14, 10, 0.9) !important;
+        border: 1px solid rgba(201, 168, 76, 0.15) !important;
+        border-radius: 2px !important;
+      }
+      .mapboxgl-ctrl-group button {
+        background: transparent !important;
+      }
+      .mapboxgl-ctrl-group button:hover {
+        background: rgba(201, 168, 76, 0.08) !important;
+      }
+      .mapboxgl-ctrl-icon {
+        filter: invert(1) brightness(0.6) !important;
+      }
+      .mapboxgl-ctrl-group button + button {
+        border-top: 1px solid rgba(201, 168, 76, 0.1) !important;
+      }
 
-    /* ── DETAIL PANEL ── */
-    #detail {
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 340px;
-      background: var(--dm-surface);
-      border-left: 1px solid var(--dm-border);
-      z-index: 700;
-      display: flex;
-      flex-direction: column;
-      transform: translateX(100%);
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: hidden;
-    }
-    #detail.open {
-      transform: translateX(0);
-    }
-    .det-close {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 28px;
-      height: 28px;
-      border: 1px solid var(--dm-border);
-      background: none;
-      color: var(--dm-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      transition: all 0.2s;
-      z-index: 2;
-      border-radius: 1px;
-    }
-    .det-close:hover {
-      border-color: rgba(201, 168, 76, 0.5);
-      color: var(--dm-gold);
-    }
-    .det-img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      background: #1a1612;
-      flex-shrink: 0;
-    }
-    .det-img-placeholder {
-      width: 100%;
-      height: 200px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-disp);
-      font-size: 36px;
-      font-weight: 300;
-      font-style: italic;
-    }
-    .det-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px 20px 24px;
-    }
-    .det-body::-webkit-scrollbar {
-      width: 3px;
-    }
-    .det-body::-webkit-scrollbar-thumb {
-      background: rgba(201, 168, 76, 0.2);
-    }
-    .det-cat {
-      display: inline-block;
-      font-size: 7px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border: 1px solid;
-      margin-bottom: 10px;
-      font-family: var(--font-mono);
-    }
-    .det-name {
-      font-family: var(--font-disp);
-      font-size: 26px;
-      font-weight: 300;
-      color: #e8e3dc;
-      line-height: 1.2;
-      margin-bottom: 4px;
-    }
-    .det-name em {
-      font-style: italic;
-      color: var(--dm-gold);
-    }
-    .det-origin {
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--dm-muted);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .det-origin img {
-      width: 16px;
-      height: 12px;
-      object-fit: cover;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .det-props {
-      border-top: 1px solid var(--dm-border);
-      padding-top: 14px;
-      margin-top: 4px;
-    }
-    .det-prop {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 5px 0;
-      border-bottom: 1px solid rgba(201, 168, 76, 0.05);
-    }
-    .det-prop:last-child {
-      border-bottom: none;
-    }
-    .det-prop-l {
-      font-size: 8px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--dm-muted);
-      font-family: var(--font-mono);
-    }
-    .det-prop-v {
-      font-size: 11px;
-      color: #c8c3bc;
-      text-align: right;
-      max-width: 180px;
-    }
-    .det-actions {
-      padding: 0 20px 20px;
-      flex-shrink: 0;
-    }
-    .det-btn {
-      display: block;
-      width: 100%;
-      padding: 11px;
-      text-align: center;
-      background: var(--dm-gold);
-      color: #0e0b08;
-      text-decoration: none;
-      font-size: 9px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      font-weight: 600;
-      transition: background 0.2s;
-      font-family: var(--font-head);
-    }
-    .det-btn:hover {
-      background: #d4a85a;
-    }
-    .det-btn-ghost {
-      display: block;
-      width: 100%;
-      padding: 9px;
-      text-align: center;
-      border: 1px solid var(--dm-border);
-      color: var(--dm-muted);
-      text-decoration: none;
-      font-size: 8px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      transition: all 0.2s;
-      margin-top: 6px;
-      font-family: var(--font-head);
-    }
-    .det-btn-ghost:hover {
-      border-color: rgba(201, 168, 76, 0.4);
-      color: var(--dm-gold);
-    }
+      @media (max-width: 960px) {
+        #sidebar { display: none; }
+      }
+    </style>
+  </Fragment>
 
-    /* Cluster popup */
-    .cluster-popup .mapboxgl-popup-content {
-      background: rgba(18, 14, 10, 0.97);
-      border: 1px solid rgba(201, 168, 76, 0.25);
-      color: #d4cfc8;
-      font-family: var(--font-head);
-      padding: 10px 14px;
-      font-size: 10px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      border-radius: 0;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    }
-    .cluster-popup .mapboxgl-popup-tip {
-      border-bottom-color: rgba(18, 14, 10, 0.97);
-    }
-
-    /* Mapbox overrides */
-    .mapboxgl-popup-close-button {
-      color: #8a8070;
-      font-size: 16px;
-      padding: 2px 6px;
-    }
-    .mapboxgl-popup-close-button:hover {
-      color: var(--dm-gold);
-      background: none;
-    }
-    .mapboxgl-ctrl-group {
-      background: rgba(18, 14, 10, 0.9) !important;
-      border: 1px solid rgba(201, 168, 76, 0.15) !important;
-      border-radius: 2px !important;
-    }
-    .mapboxgl-ctrl-group button {
-      background: transparent !important;
-    }
-    .mapboxgl-ctrl-group button:hover {
-      background: rgba(201, 168, 76, 0.08) !important;
-    }
-    .mapboxgl-ctrl-icon {
-      filter: invert(1) brightness(0.6) !important;
-    }
-    .mapboxgl-ctrl-group button + button {
-      border-top: 1px solid rgba(201, 168, 76, 0.1) !important;
-    }
-  </style>
-  <script slot="head" src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
-  <link
-    slot="head"
-    href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css"
-    rel="stylesheet"
-  />
+  <Navbar activePage="mapa" />
 
   <div id="app">
     <!-- SIDEBAR -->
@@ -663,41 +647,21 @@ import Page from '../layouts/Page.astro';
         <div class="sb-search-lbl">Buscar material</div>
         <div class="sb-search-row">
           <span class="sb-ico">⌕</span>
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Carrara, granito, azul..."
-            autocomplete="off"
-          />
+          <input type="text" id="searchInput" placeholder="Carrara, granito, azul..." autocomplete="off" />
           <button id="searchClear">✕</button>
         </div>
       </div>
 
-      <!-- Quality filter toggle -->
+      <!-- Quality filter -->
       <div style="padding:10px 16px 4px;border-bottom:1px solid rgba(255,255,255,.06);">
-        <div
-          style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dm-muted);margin-bottom:8px;"
-        >
-          Calidad de ficha
-        </div>
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dm-muted);margin-bottom:8px;">Calidad de ficha</div>
         <div style="display:flex;gap:6px;">
-          <button
-            id="qbtn-stars"
-            onclick="setQuality(50)"
-            style="flex:1;padding:5px 0;font-size:10px;font-weight:600;letter-spacing:1px;border-radius:4px;cursor:pointer;border:1px solid rgba(201,168,76,.5);background:rgba(201,168,76,.15);color:#c9a84c;"
-            >★★+ Calidad</button
-          >
-          <button
-            id="qbtn-all"
-            onclick="setQuality(0)"
-            style="flex:1;padding:5px 0;font-size:10px;font-weight:600;letter-spacing:1px;border-radius:4px;cursor:pointer;border:1px solid rgba(255,255,255,.12);background:transparent;color:var(--dm-muted);"
-            >Todos</button
-          >
+          <button id="qbtn-stars" onclick="setQuality(50)" style="flex:1;padding:5px 0;font-size:10px;font-weight:600;letter-spacing:1px;border-radius:4px;cursor:pointer;border:1px solid rgba(201,168,76,.5);background:rgba(201,168,76,.15);color:#c9a84c;">★★+ Calidad</button>
+          <button id="qbtn-all" onclick="setQuality(0)" style="flex:1;padding:5px 0;font-size:10px;font-weight:600;letter-spacing:1px;border-radius:4px;cursor:pointer;border:1px solid rgba(255,255,255,.12);background:transparent;color:var(--dm-muted);">Todos</button>
         </div>
       </div>
 
       <div class="sb-body">
-        <!-- Category filter -->
         <div class="sb-sec open" id="sec-cat">
           <div class="sb-sec-hd" onclick="toggleSec('cat')">
             <span class="sb-sec-label">Categoría</span>
@@ -709,7 +673,6 @@ import Page from '../layouts/Page.astro';
           </div>
         </div>
 
-        <!-- Color filter -->
         <div class="sb-sec" id="sec-color">
           <div class="sb-sec-hd" onclick="toggleSec('color')">
             <span class="sb-sec-label">Color</span>
@@ -721,7 +684,6 @@ import Page from '../layouts/Page.astro';
           </div>
         </div>
 
-        <!-- Country filter -->
         <div class="sb-sec" id="sec-country">
           <div class="sb-sec-hd" onclick="toggleSec('country')">
             <span class="sb-sec-label">País</span>
@@ -735,9 +697,7 @@ import Page from '../layouts/Page.astro';
       </div>
 
       <div class="sb-footer">
-        <div class="sb-result-lbl">
-          Mostrando <span class="sb-result-n" id="resultCount">—</span> materiales
-        </div>
+        <div class="sb-result-lbl">Mostrando <span class="sb-result-n" id="resultCount">—</span> materiales</div>
       </div>
     </aside>
 
@@ -745,34 +705,19 @@ import Page from '../layouts/Page.astro';
     <div id="map-wrap">
       <div id="map"></div>
 
-      <!-- Loading -->
       <div id="loading">
         <div class="loading-title">Piedras <em>del Mundo</em></div>
         <div class="loading-bar"></div>
         <div class="loading-sub">Cargando materiales</div>
       </div>
 
-      <!-- Token warning -->
       <div id="token-warn">
         <div class="tw-title">Configura tu <em>token</em> de Mapbox</div>
         <div class="tw-body">
-          Para usar el mapa interactivo necesitas un token público de Mapbox.<br />
-          Crea una cuenta gratuita en <a href="https://mapbox.com" class="tw-link" target="_blank"
-            >mapbox.com</a
-          >, ve a Account → Tokens y copia tu <strong>Public Access Token</strong>.<br /><br />
-          Luego abre <strong>mapa.html</strong> y reemplaza el placeholder al inicio del script:
-        </div>
-        <div class="tw-code">
-          const MAPBOX_TOKEN =
-          'pk.eyJ1IjoiTU9ESUZZX01FIiwiYSI6IlBPTl9BUVVJX1RVX1RPS0VOIn0.TU_TOKEN_AQUI';
-        </div>
-        <div class="tw-body" style="font-size:11px;margin-top:4px;">
-          Una vez configurado, el mapa mostrará todos los materiales geolocalizados con clustering
-          interactivo.
+          Para usar el mapa interactivo necesitas un token público de Mapbox.
         </div>
       </div>
 
-      <!-- Detail panel -->
       <div id="detail">
         <button class="det-close" onclick="closeDetail()" aria-label="Cerrar">✕</button>
         <div id="det-media"></div>
@@ -782,683 +727,382 @@ import Page from '../layouts/Page.astro';
     </div>
   </div>
 
-  <script>
-    import { getForMap, getMapById } from '@contexts/materials/services/http/materialsHttp';
-    import { supabase } from '@services/http/config';
-    // ─────────────────────────────────────────────
-    //  CONFIG — Reemplaza con tu token público de Mapbox
-    //  (empieza con pk.eyJ1...)
-    // ─────────────────────────────────────────────
-    const MAPBOX_TOKEN =
-      'pk.eyJ1Ijoid3Noam9zZSIsImEiOiJjbW42aDR2bGMwNWNjMnJwZG53anVzaHVoIn0.4yf3OytJyTI2RYz8yokVlw';
+  <!-- Supabase + i18n + auth -->
+  <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script is:inline src="/i18n.js"></script>
+  <script is:inline src="/auth-nav.js"></script>
+  <!-- Mapbox GL JS -->
+  <script is:inline src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
 
-    // ─────────────────────────────────────────────
-    //  CATEGORY CONFIG
-    // ─────────────────────────────────────────────
-    const CAT_CONFIG = {
-      mármol: { color: '#c9a84c', label: 'Mármol' },
-      marble: { color: '#c9a84c', label: 'Mármol' },
-      granito: { color: '#7a9e7e', label: 'Granito' },
-      granite: { color: '#7a9e7e', label: 'Granito' },
-      cuarcita: { color: '#8fa8c4', label: 'Cuarcita' },
-      quartzite: { color: '#8fa8c4', label: 'Cuarcita' },
-      pizarra: { color: '#a08070', label: 'Pizarra' },
-      slate: { color: '#a08070', label: 'Pizarra' },
-      travertino: { color: '#c4a882', label: 'Travertino' },
-      travertine: { color: '#c4a882', label: 'Travertino' },
-      caliza: { color: '#b8b090', label: 'Caliza' },
-      limestone: { color: '#b8b090', label: 'Caliza' },
-      arenisca: { color: '#c4986a', label: 'Arenisca' },
-      sandstone: { color: '#c4986a', label: 'Arenisca' },
-      basalto: { color: '#607080', label: 'Basalto' },
-      basalt: { color: '#607080', label: 'Basalto' },
-      onix: { color: '#9a7ab8', label: 'Ónix' },
-      onyx: { color: '#9a7ab8', label: 'Ónix' },
-      cuarzo: { color: '#b4c8d8', label: 'Cuarzo' },
-      quartz: { color: '#b4c8d8', label: 'Cuarzo' },
-      gneis: { color: '#8a9a8a', label: 'Gneis' },
-      gneiss: { color: '#8a9a8a', label: 'Gneis' },
-      dolomita: { color: '#c0b090', label: 'Dolomita' },
-      dolomite: { color: '#c0b090', label: 'Dolomita' },
+  <script is:inline>
+  const MAPBOX_TOKEN = 'pk.eyJ1Ijoid3Noam9zZSIsImEiOiJjbW42aDR2bGMwNWNjMnJwZG53anVzaHVoIn0.4yf3OytJyTI2RYz8yokVlw';
+  const SB_URL = 'https://whcptmdapnavcxcszwwk.supabase.co';
+  const SB_KEY = 'sb_publishable_CsE_EOAwQSJgKDC2eEcBOA_UztVp7gO';
+
+  const CAT_CONFIG = {
+    'mármol':     { color:'#c9a84c', label:'Mármol' },
+    'marble':     { color:'#c9a84c', label:'Mármol' },
+    'granito':    { color:'#7a9e7e', label:'Granito' },
+    'granite':    { color:'#7a9e7e', label:'Granito' },
+    'cuarcita':   { color:'#8fa8c4', label:'Cuarcita' },
+    'quartzite':  { color:'#8fa8c4', label:'Cuarcita' },
+    'pizarra':    { color:'#a08070', label:'Pizarra' },
+    'slate':      { color:'#a08070', label:'Pizarra' },
+    'travertino': { color:'#c4a882', label:'Travertino' },
+    'travertine': { color:'#c4a882', label:'Travertino' },
+    'caliza':     { color:'#b8b090', label:'Caliza' },
+    'limestone':  { color:'#b8b090', label:'Caliza' },
+    'arenisca':   { color:'#c4986a', label:'Arenisca' },
+    'sandstone':  { color:'#c4986a', label:'Arenisca' },
+    'basalto':    { color:'#607080', label:'Basalto' },
+    'basalt':     { color:'#607080', label:'Basalto' },
+    'onix':       { color:'#9a7ab8', label:'Ónix' },
+    'onyx':       { color:'#9a7ab8', label:'Ónix' },
+    'cuarzo':     { color:'#b4c8d8', label:'Cuarzo' },
+    'quartz':     { color:'#b4c8d8', label:'Cuarzo' },
+    'gneis':      { color:'#8a9a8a', label:'Gneis' },
+    'gneiss':     { color:'#8a9a8a', label:'Gneis' },
+    'dolomita':   { color:'#c0b090', label:'Dolomita' },
+    'dolomite':   { color:'#c0b090', label:'Dolomita' },
+  };
+  const DEFAULT_CAT = { color:'#8a8070', label:'Piedra' };
+
+  function parseRegion(v) {
+    if (!v) return '';
+    var s = typeof v === 'string' ? v.trim() : String(v);
+    if (s.charAt(0) === '{' && s.charAt(s.length-1) === '}') {
+      var inner = s.slice(1, -1);
+      try { return JSON.parse('[' + inner + ']')[0]; } catch(e) { return inner; }
+    }
+    if (s.charAt(0) === '[') {
+      try { var p = JSON.parse(s); s = Array.isArray(p) ? p[0] : s; } catch(e) {}
+    }
+    var m = s.match(/\(([^)]+)\)/);
+    if (m) return m[1].trim();
+    return s;
+  }
+
+  function getCatConfig(cat) {
+    if (!cat) return DEFAULT_CAT;
+    const k = cat.toLowerCase().trim();
+    for (const key of Object.keys(CAT_CONFIG)) {
+      if (k.includes(key)) return CAT_CONFIG[key];
+    }
+    return { color: DEFAULT_CAT.color, label: cat };
+  }
+
+  let allData = [], filteredData = [];
+  let map, activeCat = null, activeColor = null, activeCountry = null;
+  let searchTerm = '', activeQuality = 50;
+
+  function init() {
+    if (!MAPBOX_TOKEN || MAPBOX_TOKEN.startsWith('PON_')) {
+      document.getElementById('loading').classList.add('done');
+      document.getElementById('token-warn').classList.add('show');
+      return;
+    }
+    mapboxgl.accessToken = MAPBOX_TOKEN;
+    map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/dark-v11',
+      center: [15, 25],
+      zoom: 2,
+      minZoom: 1.2,
+      maxZoom: 16,
+      projection: 'mercator',
+    });
+    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
+    map.addControl(new mapboxgl.ScaleControl({ unit: 'metric' }), 'bottom-right');
+    map.on('load', async () => {
+      setupLayers();
+      setupInteractions();
+      await loadData();
+      applyFilters();
+      document.getElementById('loading').classList.add('done');
+    });
+  }
+
+  function applyJitter(d) {
+    const h1 = Math.imul(d.id, 2654435761) >>> 0;
+    const h2 = Math.imul(d.id, 2246822519) >>> 0;
+    const jLng = ((h1 & 0xFFFF) / 0xFFFF - 0.5) * 3.0;
+    const jLat = ((h2 & 0xFFFF) / 0xFFFF - 0.5) * 2.0;
+    return { ...d, lat: d.lat + jLat, lng: d.lng + jLng };
+  }
+
+  async function loadData() {
+    const fields = 'id,nombre_comercial,categoria,color_principal,origen_pais,origen_region,lat,lng,content_score';
+    const hdrs = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` };
+    const PAGE = 1000;
+    function fetchPage(offset) {
+      const url = `${SB_URL}/rest/v1/materiales?select=${fields}&lat=not.is.null&order=id.asc&limit=${PAGE}&offset=${offset}`;
+      return fetch(url, { headers: hdrs }).then(r => r.ok ? r.json() : []).catch(() => []);
+    }
+    async function fetchQuality() {
+      const url = `${SB_URL}/rest/v1/materiales?select=${fields}&lat=not.is.null&content_score=gte.50&order=content_score.desc&limit=500`;
+      return fetch(url, { headers: hdrs }).then(r => r.ok ? r.json() : []).catch(() => []);
+    }
+    try {
+      const qualityRaw = await fetchQuality();
+      const qualityData = qualityRaw.filter(d => d.lat != null && d.lng != null).map(applyJitter);
+      const pageNums = Array.from({ length: 25 }, (_, i) => i * PAGE);
+      const results = await Promise.all(pageNums.map(offset => fetchPage(offset)));
+      const raw = results.flat();
+      const qualityIds = new Set(qualityData.map(d => d.id));
+      const restData = raw.filter(d => d.lat != null && d.lng != null && !qualityIds.has(d.id)).map(applyJitter);
+      allData = [...qualityData, ...restData];
+    } catch (e) { allData = []; }
+    activeQuality = 50;
+    buildFilters();
+    updateStats();
+  }
+
+  async function fetchDetail(id) {
+    const fields = 'id,nombre_comercial,categoria,color_principal,origen_pais,origen_region,imagen_url_principal,lat,lng';
+    try {
+      const r = await fetch(`${SB_URL}/rest/v1/materiales?select=${fields}&id=eq.${id}&limit=1`,
+        { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } });
+      const rows = await r.json();
+      return rows[0] || null;
+    } catch(e) { return null; }
+  }
+
+  function toGeoJSON(data) {
+    return {
+      type: 'FeatureCollection',
+      features: data.map(d => ({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [d.lng, d.lat] },
+        properties: {
+          id: d.id,
+          nombre: d.nombre_comercial || '—',
+          categoria: d.categoria || '',
+          color: d.color_principal || '',
+          pais: Array.isArray(d.origen_pais) ? d.origen_pais[0] : (d.origen_pais || ''),
+          region: parseRegion(d.origen_region),
+          catColor: getCatConfig(d.categoria).color,
+        }
+      }))
     };
-    const DEFAULT_CAT = { color: '#8a8070', label: 'Piedra' };
+  }
 
-    function parseRegion(v) {
-      if (!v) return '';
-      var s = typeof v === 'string' ? v.trim() : String(v);
-      // PostgreSQL array: {Toscana} or {"País Vasco"}
-      if (s.charAt(0) === '{' && s.charAt(s.length - 1) === '}') {
-        var inner = s.slice(1, -1);
-        try {
-          return JSON.parse('[' + inner + ']')[0];
-        } catch (e) {
-          return inner;
-        }
-      }
-      // JSON string array: ["Italy (Lazio)"]
-      if (s.charAt(0) === '[') {
-        try {
-          var p = JSON.parse(s);
-          s = Array.isArray(p) ? p[0] : s;
-        } catch (e) {}
-      }
-      // Extract part in parentheses: "Italy (Lazio)" → "Lazio"
-      var m = s.match(/\(([^)]+)\)/);
-      if (m) return m[1].trim();
-      return s;
-    }
-
-    function getCatConfig(cat) {
-      if (!cat) return DEFAULT_CAT;
-      const k = cat.toLowerCase().trim();
-      for (const key of Object.keys(CAT_CONFIG)) {
-        if (k.includes(key)) return CAT_CONFIG[key];
-      }
-      return { color: DEFAULT_CAT.color, label: cat };
-    }
-
-    // ─────────────────────────────────────────────
-    //  STATE
-    // ─────────────────────────────────────────────
-    let allData = [];
-    let filteredData = [];
-    let map,
-      activeCat = null,
-      activeColor = null,
-      activeCountry = null;
-    let searchTerm = '';
-    let activeQuality = 50; // default: ★★+ (content_score >= 50)
-
-    // ─────────────────────────────────────────────
-    //  INIT
-    // ─────────────────────────────────────────────
-    function init() {
-      // Check token
-      if (!MAPBOX_TOKEN || MAPBOX_TOKEN.startsWith('PON_')) {
-        document.getElementById('loading').classList.add('done');
-        document.getElementById('token-warn').classList.add('show');
-        return;
-      }
-
-      mapboxgl.accessToken = MAPBOX_TOKEN;
-
-      // Initialize map
-      map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/dark-v11',
-        center: [15, 25],
-        zoom: 2,
-        minZoom: 1.2,
-        maxZoom: 16,
-        projection: 'mercator',
-      });
-
-      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
-      map.addControl(new mapboxgl.ScaleControl({ unit: 'metric' }), 'bottom-right');
-
-      // Register load BEFORE any await — avoids race condition where style
-      // finishes loading before data fetch completes and listener is never called
-      map.on('load', async () => {
-        setupLayers();
-        setupInteractions();
-        await loadData();
-        applyFilters();
-        document.getElementById('loading').classList.add('done');
-      });
-    }
-
-    // ─────────────────────────────────────────────
-    //  DATA LOADING
-    // ─────────────────────────────────────────────
-    // Deterministic jitter: spreads co-located points using id as seed
-    function applyJitter(d) {
-      const h1 = Math.imul(d.id, 2654435761) >>> 0;
-      const h2 = Math.imul(d.id, 2246822519) >>> 0;
-      const jLng = ((h1 & 0xffff) / 0xffff - 0.5) * 3.0;
-      const jLat = ((h2 & 0xffff) / 0xffff - 0.5) * 2.0;
-      return { ...d, lat: d.lat + jLat, lng: d.lng + jLng };
-    }
-
-    async function loadData() {
-      const PAGE = 1000;
-
-      try {
-        // Load quality materials immediately (needed for default view)
-        const qualityRaw = await getForMap(50);
-        const qualityData = qualityRaw
-          .filter((d) => d.lat != null && d.lng != null)
-          .map(applyJitter);
-
-        // Load all geolocated materials in background
-        const pageNums = Array.from({ length: 25 }, (_, i) => i * PAGE);
-        const results = await Promise.all(pageNums.map((offset) => getForMap(0).catch(() => [])));
-        const raw = results.flat();
-
-        // Merge: quality materials first, then add any not already present
-        const qualityIds = new Set(qualityData.map((d) => d.id));
-        const restData = raw
-          .filter((d) => d.lat != null && d.lng != null && !qualityIds.has(d.id))
-          .map(applyJitter);
-        allData = [...qualityData, ...restData];
-      } catch (e) {
-        console.error('loadData error:', e);
-        allData = [];
-      }
-
-      // Por defecto mostrar solo ★★ y ★★★ (content_score >= 50)
-      activeQuality = 50;
-
-      buildFilters();
-      updateStats();
-    }
-
-    // Fetch full detail for a single material on click
-    async function fetchDetail(id) {
-      try {
-        return await getMapById(id);
-      } catch (e) {
-        return null;
-      }
-    }
-
-    // ─────────────────────────────────────────────
-    //  GEOJSON HELPER
-    // ─────────────────────────────────────────────
-    function toGeoJSON(data) {
-      return {
-        type: 'FeatureCollection',
-        features: data.map((d) => ({
-          type: 'Feature',
-          geometry: { type: 'Point', coordinates: [d.lng, d.lat] },
-          properties: {
-            id: d.id,
-            nombre: d.nombre_comercial || '—',
-            categoria: d.categoria || '',
-            color: d.color_principal || '',
-            pais: Array.isArray(d.origen_pais) ? d.origen_pais[0] : d.origen_pais || '',
-            region: parseRegion(d.origen_region),
-            catColor: getCatConfig(d.categoria).color,
-          },
-        })),
-      };
-    }
-
-    // ─────────────────────────────────────────────
-    //  MAP LAYERS
-    // ─────────────────────────────────────────────
-    function setupLayers() {
-      // Source
-      map.addSource('materiales', {
-        type: 'geojson',
-        data: toGeoJSON([]),
-        cluster: true,
-        clusterMaxZoom: 9,
-        clusterRadius: 45,
-      });
-
-      // Cluster circles — large gold
-      map.addLayer({
-        id: 'clusters',
-        type: 'circle',
-        source: 'materiales',
-        filter: ['has', 'point_count'],
-        paint: {
-          'circle-color': [
-            'step',
-            ['get', 'point_count'],
-            '#5a4230',
-            50,
-            '#7a5a3a',
-            200,
-            '#9a7248',
-            500,
-            '#c9a84c',
-          ],
-          'circle-radius': ['step', ['get', 'point_count'], 14, 50, 20, 200, 26, 500, 32],
-          'circle-stroke-color': '#c9a84c',
-          'circle-stroke-width': 1.5,
-          'circle-opacity': 0.92,
-        },
-      });
-
-      // Cluster count label
-      map.addLayer({
-        id: 'cluster-count',
-        type: 'symbol',
-        source: 'materiales',
-        filter: ['has', 'point_count'],
-        layout: {
-          'text-field': '{point_count_abbreviated}',
-          'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-          'text-size': 12,
-        },
-        paint: { 'text-color': '#e8d8b8' },
-      });
-
-      // Individual points
-      map.addLayer({
-        id: 'unclustered-point',
-        type: 'circle',
-        source: 'materiales',
-        filter: ['!', ['has', 'point_count']],
-        paint: {
-          'circle-color': ['get', 'catColor'],
-          'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 4, 10, 7, 14, 10],
-          'circle-stroke-color': 'rgba(255,255,255,0.3)',
-          'circle-stroke-width': 1,
-          'circle-opacity': 0.9,
-        },
-      });
-
-      // Point pulse ring
-      map.addLayer({
-        id: 'unclustered-pulse',
-        type: 'circle',
-        source: 'materiales',
-        filter: ['!', ['has', 'point_count']],
-        paint: {
-          'circle-color': 'transparent',
-          'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 7, 10, 12, 14, 16],
-          'circle-stroke-color': ['get', 'catColor'],
-          'circle-stroke-width': 0.5,
-          'circle-opacity': 0.35,
-        },
-      });
-    }
-
-    // ─────────────────────────────────────────────
-    //  INTERACTIONS
-    // ─────────────────────────────────────────────
-    function setupInteractions() {
-      // Click cluster → zoom in
-      map.on('click', 'clusters', (e) => {
-        const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
-        if (!features.length) return;
-        const clusterId = features[0].properties.cluster_id;
-        map.getSource('materiales').getClusterExpansionZoom(clusterId, (err, zoom) => {
-          if (err) return;
-          map.easeTo({
-            center: features[0].geometry.coordinates,
-            zoom: Math.min(zoom + 0.5, 12),
-            duration: 600,
-          });
-        });
-      });
-
-      // Click individual point → show detail
-      map.on('click', 'unclustered-point', (e) => {
-        const props = e.features[0].properties;
-        openDetail(props);
-        map.easeTo({ center: e.features[0].geometry.coordinates, duration: 300 });
-      });
-
-      // Cursors
-      map.on('mouseenter', 'clusters', () => (map.getCanvas().style.cursor = 'pointer'));
-      map.on('mouseleave', 'clusters', () => (map.getCanvas().style.cursor = ''));
-      map.on('mouseenter', 'unclustered-point', () => (map.getCanvas().style.cursor = 'pointer'));
-      map.on('mouseleave', 'unclustered-point', () => (map.getCanvas().style.cursor = ''));
-    }
-
-    // ─────────────────────────────────────────────
-    //  FILTERS
-    // ─────────────────────────────────────────────
-    function buildFilters() {
-      // Categories
-      const cats = [...new Set(allData.map((d) => d.categoria).filter(Boolean))].sort();
-      const fcatEl = document.getElementById('fcat');
-      fcatEl.innerHTML = cats
-        .map((cat) => {
-          const cfg = getCatConfig(cat);
-          return `<div class="chip" data-val="${cat}" onclick="toggleCat(this,'${cat}')">
-      <span class="chip-dot" style="background:${cfg.color}"></span>${cfg.label}
-    </div>`;
-        })
-        .join('');
-
-      // Colors
-      const colors = [...new Set(allData.map((d) => d.color_principal).filter(Boolean))]
-        .sort()
-        .slice(0, 20);
-      document.getElementById('fcolor').innerHTML = colors
-        .map(
-          (c) => `<div class="chip" data-val="${c}" onclick="toggleColor(this,'${c}')">${c}</div>`
-        )
-        .join('');
-
-      // Countries
-      const countries = [
-        ...new Set(
-          allData
-            .flatMap((d) =>
-              Array.isArray(d.origen_pais) ? d.origen_pais.slice(0, 1) : [d.origen_pais]
-            )
-            .filter(Boolean)
-        ),
-      ]
-        .sort()
-        .slice(0, 40);
-      document.getElementById('fcountry').innerHTML = countries
-        .map(
-          (c) => `<div class="chip" data-val="${c}" onclick="toggleCountry(this,'${c}')">${c}</div>`
-        )
-        .join('');
-    }
-
-    function setQuality(minScore) {
-      activeQuality = minScore;
-      document.getElementById('qbtn-stars').style.background =
-        minScore > 0 ? 'rgba(201,168,76,.15)' : 'transparent';
-      document.getElementById('qbtn-stars').style.borderColor =
-        minScore > 0 ? 'rgba(201,168,76,.5)' : 'rgba(255,255,255,.12)';
-      document.getElementById('qbtn-stars').style.color =
-        minScore > 0 ? '#c9a84c' : 'var(--dm-muted)';
-      document.getElementById('qbtn-all').style.background =
-        minScore === 0 ? 'rgba(201,168,76,.15)' : 'transparent';
-      document.getElementById('qbtn-all').style.borderColor =
-        minScore === 0 ? 'rgba(201,168,76,.5)' : 'rgba(255,255,255,.12)';
-      document.getElementById('qbtn-all').style.color =
-        minScore === 0 ? '#c9a84c' : 'var(--dm-muted)';
-      applyFilters();
-    }
-
-    function toggleSec(id) {
-      document.getElementById('sec-' + id).classList.toggle('open');
-    }
-
-    function toggleCat(el, val) {
-      if (activeCat === val) {
-        activeCat = null;
-        el.classList.remove('active');
-      } else {
-        document.querySelectorAll('#fcat .chip').forEach((c) => c.classList.remove('active'));
-        activeCat = val;
-        el.classList.add('active');
-      }
-      updateBadge('cat', activeCat ? 1 : 0);
-      applyFilters();
-    }
-
-    function toggleColor(el, val) {
-      if (activeColor === val) {
-        activeColor = null;
-        el.classList.remove('active');
-      } else {
-        document.querySelectorAll('#fcolor .chip').forEach((c) => c.classList.remove('active'));
-        activeColor = val;
-        el.classList.add('active');
-      }
-      updateBadge('color', activeColor ? 1 : 0);
-      applyFilters();
-    }
-
-    function toggleCountry(el, val) {
-      if (activeCountry === val) {
-        activeCountry = null;
-        el.classList.remove('active');
-      } else {
-        document.querySelectorAll('#fcountry .chip').forEach((c) => c.classList.remove('active'));
-        activeCountry = val;
-        el.classList.add('active');
-      }
-      updateBadge('country', activeCountry ? 1 : 0);
-      applyFilters();
-    }
-
-    function updateBadge(id, count) {
-      const el = document.getElementById('badge-' + id);
-      if (el) {
-        el.textContent = count || '';
-        el.classList.toggle('vis', count > 0);
-      }
-    }
-
-    function applyFilters() {
-      const s = searchTerm.toLowerCase();
-      filteredData = allData.filter((d) => {
-        if (activeQuality > 0 && (d.content_score || 0) < activeQuality) return false;
-        if (activeCat && d.categoria !== activeCat) return false;
-        if (activeColor && d.color_principal !== activeColor) return false;
-        if (activeCountry) {
-          const paises = Array.isArray(d.origen_pais) ? d.origen_pais : [d.origen_pais];
-          if (!paises.includes(activeCountry)) return false;
-        }
-        if (s) {
-          const hay =
-            `${d.nombre_comercial} ${d.categoria} ${d.origen_region} ${d.color_principal}`.toLowerCase();
-          if (!hay.includes(s)) return false;
-        }
-        return true;
-      });
-
-      updateMapData();
-      updateStats();
-    }
-
-    function updateMapData() {
-      if (!map || !map.getSource('materiales')) return;
-      map.getSource('materiales').setData(toGeoJSON(filteredData));
-      document.getElementById('resultCount').textContent = filteredData.length;
-    }
-
-    function updateStats() {
-      document.getElementById('statTotal').textContent = allData.length;
-      document.getElementById('statVisible').textContent = filteredData.length || allData.length;
-      const countries = new Set(
-        allData
-          .flatMap((d) =>
-            Array.isArray(d.origen_pais) ? d.origen_pais.slice(0, 1) : [d.origen_pais]
-          )
-          .filter(Boolean)
-      );
-      document.getElementById('statCountries').textContent = countries.size;
-      document.getElementById('resultCount').textContent = filteredData.length || allData.length;
-    }
-
-    // ─────────────────────────────────────────────
-    //  SEARCH
-    // ─────────────────────────────────────────────
-    document.getElementById('searchInput').addEventListener('input', function () {
-      searchTerm = this.value;
-      document.getElementById('searchClear').classList.toggle('vis', !!searchTerm);
-      applyFilters();
+  function setupLayers() {
+    map.addSource('materiales', {
+      type: 'geojson', data: toGeoJSON([]),
+      cluster: true, clusterMaxZoom: 9, clusterRadius: 45,
     });
-    document.getElementById('searchClear').addEventListener('click', () => {
-      document.getElementById('searchInput').value = '';
-      searchTerm = '';
-      document.getElementById('searchClear').classList.remove('vis');
-      applyFilters();
-    });
-
-    // ─────────────────────────────────────────────
-    //  DETAIL PANEL
-    // ─────────────────────────────────────────────
-    async function openDetail(props) {
-      const cfg = getCatConfig(props.categoria);
-      const mediaEl = document.getElementById('det-media');
-      const bodyEl = document.getElementById('det-body');
-      const actEl = document.getElementById('det-actions');
-
-      // Open panel immediately with basic data (no waiting)
-      document.getElementById('detail').classList.add('open');
-      mediaEl.innerHTML = placeholderImg(cfg.color, props.nombre);
-
-      const paisHtml = props.pais
-        ? `<img src="https://flagcdn.com/20x15/${countryCode(props.pais)}.png" alt="${props.pais}" onerror="this.style.display='none'"> ${props.pais}`
-        : '';
-
-      bodyEl.innerHTML = `
-    <div class="det-cat" style="color:${cfg.color};border-color:${cfg.color}40">${cfg.label}</div>
-    <div class="det-name">${props.nombre}</div>
-    <div class="det-origin">${paisHtml}${props.region ? (props.pais ? ' · ' : '') + props.region : ''}</div>
-    <div class="det-props" id="det-props-inner">
-      ${props.categoria ? detProp('Categoría', cfg.label) : ''}
-      ${props.color ? detProp('Color', props.color) : ''}
-      ${props.pais ? detProp('País', props.pais) : ''}
-      ${props.region ? detProp('Región', props.region) : ''}
-    </div>`;
-
-      actEl.innerHTML = `
-    <a href="material.html?id=${props.id}" class="det-btn">Ver ficha completa →</a>
-    <a href="materiales.html?cat=${encodeURIComponent(props.categoria)}" class="det-btn-ghost">Ver más ${cfg.label}</a>`;
-
-      // Then enrich with imagen + descripcion in background
-      const detail = await fetchDetail(props.id);
-      if (!detail) return;
-
-      if (detail.imagen_url_principal) {
-        mediaEl.innerHTML = `<img class="det-img" src="${detail.imagen_url_principal}" alt="${props.nombre}" loading="lazy" onerror="this.innerHTML=''">`;
-      }
-    }
-
-    function closeDetail() {
-      document.getElementById('detail').classList.remove('open');
-    }
-
-    function detProp(label, val) {
-      return `<div class="det-prop"><span class="det-prop-l">${label}</span><span class="det-prop-v">${val}</span></div>`;
-    }
-
-    function placeholderImg(color, name) {
-      const initial = (name || '?')[0].toUpperCase();
-      return `<div class="det-img-placeholder" style="background:${color}18;color:${color}">${initial}</div>`;
-    }
-
-    // Simple country → ISO2 mapping for flag CDN
-    const COUNTRY_ISO2 = {
-      España: 'es',
-      Italy: 'it',
-      Italia: 'it',
-      Portugal: 'pt',
-      France: 'fr',
-      Francia: 'fr',
-      Turkey: 'tr',
-      Turquía: 'tr',
-      Greece: 'gr',
-      Grecia: 'gr',
-      India: 'in',
-      Brazil: 'br',
-      Brasil: 'br',
-      China: 'cn',
-      Norway: 'no',
-      Noruega: 'no',
-      'South Africa': 'za',
-      Sudáfrica: 'za',
-      USA: 'us',
-      'United States': 'us',
-      'Estados Unidos': 'us',
-      Iran: 'ir',
-      Irán: 'ir',
-      Pakistan: 'pk',
-      Pakistán: 'pk',
-      Egypt: 'eg',
-      Egipto: 'eg',
-      Morocco: 'ma',
-      Marruecos: 'ma',
-      Argentina: 'ar',
-      Mexico: 'mx',
-      México: 'mx',
-      Germany: 'de',
-      Alemania: 'de',
-      Belgium: 'be',
-      Bélgica: 'be',
-      Sweden: 'se',
-      Suecia: 'se',
-      Finland: 'fi',
-      Finlandia: 'fi',
-      Canada: 'ca',
-      Canadá: 'ca',
-      Australia: 'au',
-      Chile: 'cl',
-      Colombia: 'co',
-      Peru: 'pe',
-      Perú: 'pe',
-      Vietnam: 'vn',
-      Indonesia: 'id',
-      Taiwan: 'tw',
-      Bangladesh: 'bd',
-      Ukraine: 'ua',
-      Ucrania: 'ua',
-      Bulgaria: 'bg',
-      Romania: 'ro',
-      Rumania: 'ro',
-      Croatia: 'hr',
-      Croacia: 'hr',
-      Slovenia: 'si',
-      Eslovenia: 'si',
-      'Czech Republic': 'cz',
-      'República Checa': 'cz',
-      Hungary: 'hu',
-      Hungría: 'hu',
-      Slovakia: 'sk',
-      Eslovaquia: 'sk',
-      'United Kingdom': 'gb',
-      'Reino Unido': 'gb',
-      Ireland: 'ie',
-      Irlanda: 'ie',
-      Netherlands: 'nl',
-      'Países Bajos': 'nl',
-      Austria: 'at',
-      Switzerland: 'ch',
-      Suiza: 'ch',
-      Poland: 'pl',
-      Polonia: 'pl',
-      Russia: 'ru',
-      Rusia: 'ru',
-      Japan: 'jp',
-      Japón: 'jp',
-      'South Korea': 'kr',
-      'Corea del Sur': 'kr',
-      'Saudi Arabia': 'sa',
-      'Arabia Saudita': 'sa',
-      UAE: 'ae',
-      'Emiratos Árabes': 'ae',
-      Kenya: 'ke',
-      Ethiopia: 'et',
-      Tanzania: 'tz',
-      Angola: 'ao',
-      Namibia: 'na',
-      Zimbabwe: 'zw',
-      Mozambique: 'mz',
-      Madagascar: 'mg',
-      Algeria: 'dz',
-      Argelia: 'dz',
-      Tunisia: 'tn',
-      Túnez: 'tn',
-      Libya: 'ly',
-      Libia: 'ly',
-    };
-    function countryCode(name) {
-      return COUNTRY_ISO2[name] || name.slice(0, 2).toLowerCase();
-    }
-
-    // Close detail on map click (not on points)
-    document.getElementById('map-wrap').addEventListener('click', (e) => {
-      if (!e.target.closest('#detail')) {
-        // only close if click was on the map canvas, not the panel
+    map.addLayer({
+      id: 'clusters', type: 'circle', source: 'materiales',
+      filter: ['has', 'point_count'],
+      paint: {
+        'circle-color': ['step',['get','point_count'],'#5a4230',50,'#7a5a3a',200,'#9a7248',500,'#c9a84c'],
+        'circle-radius': ['step',['get','point_count'],14,50,20,200,26,500,32],
+        'circle-stroke-color': '#c9a84c', 'circle-stroke-width': 1.5, 'circle-opacity': 0.92,
       }
     });
+    map.addLayer({
+      id: 'cluster-count', type: 'symbol', source: 'materiales',
+      filter: ['has', 'point_count'],
+      layout: { 'text-field': '{point_count_abbreviated}', 'text-font': ['DIN Offc Pro Medium','Arial Unicode MS Bold'], 'text-size': 12 },
+      paint: { 'text-color': '#e8d8b8' }
+    });
+    map.addLayer({
+      id: 'unclustered-point', type: 'circle', source: 'materiales',
+      filter: ['!', ['has', 'point_count']],
+      paint: {
+        'circle-color': ['get','catColor'],
+        'circle-radius': ['interpolate',['linear'],['zoom'],5,4,10,7,14,10],
+        'circle-stroke-color': 'rgba(255,255,255,0.3)', 'circle-stroke-width': 1, 'circle-opacity': 0.9,
+      }
+    });
+    map.addLayer({
+      id: 'unclustered-pulse', type: 'circle', source: 'materiales',
+      filter: ['!', ['has', 'point_count']],
+      paint: {
+        'circle-color': 'transparent',
+        'circle-radius': ['interpolate',['linear'],['zoom'],5,7,10,12,14,16],
+        'circle-stroke-color': ['get','catColor'], 'circle-stroke-width': .5, 'circle-opacity': 0.35,
+      }
+    });
+  }
 
-    // ─────────────────────────────────────────────
-    //  AUTH NAV (reuse pattern from other pages)
-    // ─────────────────────────────────────────────
-    (async () => {
-      try {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
-        const li = document.getElementById('nav-auth-item');
-        if (!li) return;
-        if (session) {
-          li.innerHTML = `<span class="nav-auth-sep"></span><a href="panel.html" class="nav-auth-link state-panel"><span class="nav-auth-dot"></span>Panel</a>`;
-        } else {
-          li.innerHTML = `<span class="nav-auth-sep"></span><a href="registro.html" class="nav-auth-link state-acceso">Acceso</a>`;
-        }
-      } catch (e) {}
-    })();
+  function setupInteractions() {
+    map.on('click', 'clusters', (e) => {
+      const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+      if (!features.length) return;
+      const clusterId = features[0].properties.cluster_id;
+      map.getSource('materiales').getClusterExpansionZoom(clusterId, (err, zoom) => {
+        if (err) return;
+        map.easeTo({ center: features[0].geometry.coordinates, zoom: Math.min(zoom + 0.5, 12), duration: 600 });
+      });
+    });
+    map.on('click', 'unclustered-point', (e) => {
+      const props = e.features[0].properties;
+      openDetail(props);
+      map.easeTo({ center: e.features[0].geometry.coordinates, duration: 300 });
+    });
+    map.on('mouseenter', 'clusters', () => map.getCanvas().style.cursor = 'pointer');
+    map.on('mouseleave', 'clusters', () => map.getCanvas().style.cursor = '');
+    map.on('mouseenter', 'unclustered-point', () => map.getCanvas().style.cursor = 'pointer');
+    map.on('mouseleave', 'unclustered-point', () => map.getCanvas().style.cursor = '');
+  }
 
-    // ─────────────────────────────────────────────
-    //  START
-    // ─────────────────────────────────────────────
-    init();
+  function buildFilters() {
+    const cats = [...new Set(allData.map(d => d.categoria).filter(Boolean))].sort();
+    document.getElementById('fcat').innerHTML = cats.map(cat => {
+      const cfg = getCatConfig(cat);
+      return `<div class="chip" data-val="${cat}" onclick="toggleCat(this,'${cat}')"><span class="chip-dot" style="background:${cfg.color}"></span>${cfg.label}</div>`;
+    }).join('');
+    const colors = [...new Set(allData.map(d => d.color_principal).filter(Boolean))].sort().slice(0, 20);
+    document.getElementById('fcolor').innerHTML = colors.map(c =>
+      `<div class="chip" data-val="${c}" onclick="toggleColor(this,'${c}')">${c}</div>`
+    ).join('');
+    const countries = [...new Set(allData.flatMap(d =>
+      Array.isArray(d.origen_pais) ? d.origen_pais.slice(0,1) : [d.origen_pais]
+    ).filter(Boolean))].sort().slice(0, 40);
+    document.getElementById('fcountry').innerHTML = countries.map(c =>
+      `<div class="chip" data-val="${c}" onclick="toggleCountry(this,'${c}')">${c}</div>`
+    ).join('');
+  }
+
+  function setQuality(minScore) {
+    activeQuality = minScore;
+    document.getElementById('qbtn-stars').style.background = minScore > 0 ? 'rgba(201,168,76,.15)' : 'transparent';
+    document.getElementById('qbtn-stars').style.borderColor = minScore > 0 ? 'rgba(201,168,76,.5)' : 'rgba(255,255,255,.12)';
+    document.getElementById('qbtn-stars').style.color = minScore > 0 ? '#c9a84c' : 'var(--dm-muted)';
+    document.getElementById('qbtn-all').style.background = minScore === 0 ? 'rgba(201,168,76,.15)' : 'transparent';
+    document.getElementById('qbtn-all').style.borderColor = minScore === 0 ? 'rgba(201,168,76,.5)' : 'rgba(255,255,255,.12)';
+    document.getElementById('qbtn-all').style.color = minScore === 0 ? '#c9a84c' : 'var(--dm-muted)';
+    applyFilters();
+  }
+
+  function toggleSec(id) { document.getElementById('sec-' + id).classList.toggle('open'); }
+
+  function toggleCat(el, val) {
+    if (activeCat === val) { activeCat = null; el.classList.remove('active'); }
+    else { document.querySelectorAll('#fcat .chip').forEach(c => c.classList.remove('active')); activeCat = val; el.classList.add('active'); }
+    updateBadge('cat', activeCat ? 1 : 0); applyFilters();
+  }
+  function toggleColor(el, val) {
+    if (activeColor === val) { activeColor = null; el.classList.remove('active'); }
+    else { document.querySelectorAll('#fcolor .chip').forEach(c => c.classList.remove('active')); activeColor = val; el.classList.add('active'); }
+    updateBadge('color', activeColor ? 1 : 0); applyFilters();
+  }
+  function toggleCountry(el, val) {
+    if (activeCountry === val) { activeCountry = null; el.classList.remove('active'); }
+    else { document.querySelectorAll('#fcountry .chip').forEach(c => c.classList.remove('active')); activeCountry = val; el.classList.add('active'); }
+    updateBadge('country', activeCountry ? 1 : 0); applyFilters();
+  }
+  function updateBadge(id, count) {
+    const el = document.getElementById('badge-' + id);
+    if (el) { el.textContent = count || ''; el.classList.toggle('vis', count > 0); }
+  }
+
+  function applyFilters() {
+    const s = searchTerm.toLowerCase();
+    filteredData = allData.filter(d => {
+      if (activeQuality > 0 && (d.content_score || 0) < activeQuality) return false;
+      if (activeCat && d.categoria !== activeCat) return false;
+      if (activeColor && d.color_principal !== activeColor) return false;
+      if (activeCountry) {
+        const paises = Array.isArray(d.origen_pais) ? d.origen_pais : [d.origen_pais];
+        if (!paises.includes(activeCountry)) return false;
+      }
+      if (s) {
+        const hay = `${d.nombre_comercial} ${d.categoria} ${d.origen_region} ${d.color_principal}`.toLowerCase();
+        if (!hay.includes(s)) return false;
+      }
+      return true;
+    });
+    updateMapData(); updateStats();
+  }
+
+  function updateMapData() {
+    if (!map || !map.getSource('materiales')) return;
+    map.getSource('materiales').setData(toGeoJSON(filteredData));
+    document.getElementById('resultCount').textContent = filteredData.length;
+  }
+
+  function updateStats() {
+    document.getElementById('statTotal').textContent = allData.length;
+    document.getElementById('statVisible').textContent = filteredData.length || allData.length;
+    const countries = new Set(allData.flatMap(d =>
+      Array.isArray(d.origen_pais) ? d.origen_pais.slice(0,1) : [d.origen_pais]
+    ).filter(Boolean));
+    document.getElementById('statCountries').textContent = countries.size;
+    document.getElementById('resultCount').textContent = (filteredData.length || allData.length);
+  }
+
+  document.getElementById('searchInput').addEventListener('input', function() {
+    searchTerm = this.value;
+    document.getElementById('searchClear').classList.toggle('vis', !!searchTerm);
+    applyFilters();
+  });
+  document.getElementById('searchClear').addEventListener('click', () => {
+    document.getElementById('searchInput').value = '';
+    searchTerm = '';
+    document.getElementById('searchClear').classList.remove('vis');
+    applyFilters();
+  });
+
+  async function openDetail(props) {
+    const cfg = getCatConfig(props.categoria);
+    const mediaEl = document.getElementById('det-media');
+    const bodyEl = document.getElementById('det-body');
+    const actEl = document.getElementById('det-actions');
+    document.getElementById('detail').classList.add('open');
+    mediaEl.innerHTML = placeholderImg(cfg.color, props.nombre);
+    const paisHtml = props.pais
+      ? `<img src="https://flagcdn.com/20x15/${countryCode(props.pais)}.png" alt="${props.pais}" onerror="this.style.display='none'"> ${props.pais}`
+      : '';
+    bodyEl.innerHTML = `
+      <div class="det-cat" style="color:${cfg.color};border-color:${cfg.color}40">${cfg.label}</div>
+      <div class="det-name">${props.nombre}</div>
+      <div class="det-origin">${paisHtml}${props.region ? (props.pais ? ' · ' : '') + props.region : ''}</div>
+      <div class="det-props">
+        ${props.categoria ? detProp('Categoría', cfg.label) : ''}
+        ${props.color ? detProp('Color', props.color) : ''}
+        ${props.pais ? detProp('País', props.pais) : ''}
+        ${props.region ? detProp('Región', props.region) : ''}
+      </div>`;
+    actEl.innerHTML = `
+      <a href="/material.html?id=${props.id}" class="det-btn">Ver ficha completa →</a>
+      <a href="/materiales.html?cat=${encodeURIComponent(props.categoria)}" class="det-btn-ghost">Ver más ${cfg.label}</a>`;
+    const detail = await fetchDetail(props.id);
+    if (!detail) return;
+    if (detail.imagen_url_principal) {
+      mediaEl.innerHTML = `<img class="det-img" src="${detail.imagen_url_principal}" alt="${props.nombre}" loading="lazy" onerror="this.innerHTML=''">`;
+    }
+  }
+
+  function closeDetail() { document.getElementById('detail').classList.remove('open'); }
+  function detProp(label, val) {
+    return `<div class="det-prop"><span class="det-prop-l">${label}</span><span class="det-prop-v">${val}</span></div>`;
+  }
+  function placeholderImg(color, name) {
+    const initial = (name || '?')[0].toUpperCase();
+    return `<div class="det-img-placeholder" style="background:${color}18;color:${color}">${initial}</div>`;
+  }
+
+  const COUNTRY_ISO2 = {
+    'España':'es','Italy':'it','Italia':'it','Portugal':'pt','France':'fr','Francia':'fr',
+    'Turkey':'tr','Turquía':'tr','Greece':'gr','Grecia':'gr','India':'in',
+    'Brazil':'br','Brasil':'br','China':'cn','Norway':'no','Noruega':'no',
+    'South Africa':'za','Sudáfrica':'za','USA':'us','United States':'us','Estados Unidos':'us',
+    'Iran':'ir','Irán':'ir','Pakistan':'pk','Pakistán':'pk','Egypt':'eg','Egipto':'eg',
+    'Morocco':'ma','Marruecos':'ma','Argentina':'ar','Mexico':'mx','México':'mx',
+    'Germany':'de','Alemania':'de','Belgium':'be','Bélgica':'be','Sweden':'se','Suecia':'se',
+    'Finland':'fi','Finlandia':'fi','Canada':'ca','Canadá':'ca','Australia':'au',
+    'Chile':'cl','Colombia':'co','Peru':'pe','Perú':'pe','Vietnam':'vn',
+    'Indonesia':'id','Taiwan':'tw','Bangladesh':'bd','Ukraine':'ua','Ucrania':'ua',
+    'Bulgaria':'bg','Romania':'ro','Rumania':'ro','Croatia':'hr','Croacia':'hr',
+    'United Kingdom':'gb','Reino Unido':'gb','Netherlands':'nl','Austria':'at','Switzerland':'ch','Suiza':'ch',
+    'Poland':'pl','Polonia':'pl','Russia':'ru','Rusia':'ru',
+    'Japan':'jp','Japón':'jp','South Korea':'kr','Corea del Sur':'kr',
+    'Saudi Arabia':'sa','Arabia Saudita':'sa',
+  };
+  function countryCode(name) { return (COUNTRY_ISO2[name] || name.slice(0,2).toLowerCase()); }
+
+  init();
   </script>
-</Page>
+</Base>

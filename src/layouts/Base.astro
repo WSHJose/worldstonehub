@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 /**
  * Base.astro — Shell HTML mínimo: <html>, <head>, GA4, fuentes, favicon.
  * No incluye navbar ni footer — úsalo solo para páginas que los omiten (404, etc.)
@@ -55,8 +57,7 @@ const resolvedOgUrl = ogUrl ?? Astro.url.href;
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
 
-  <!-- Global CSS -->
-  <link rel="stylesheet" href="/src/styles/global.css" />
+  <!-- Global CSS (bundled by Astro via import in frontmatter) -->
 
   <!-- GA4 -->
   <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
