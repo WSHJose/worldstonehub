@@ -9,6 +9,29 @@ export interface SearchItem {
   link: string;
 }
 
+interface MaterialSearchRow {
+  slug: string;
+  nombre_comercial: string;
+  origen_pais: string | string[] | null;
+  imagen_url_principal: string | null;
+}
+
+interface canteraSearchRow {
+  slug: string;
+  nombre: string;
+  tipo_piedra: string | null;
+  pais: string | null;
+}
+
+interface ProveedorSearchRow {
+  slug: string;
+  nombre_empresa: string;
+  tipo_empresa: string | null;
+  pais: string | null;
+  logo_url: string | null;
+  plan: string;
+}
+
 const PAGE_SIZE = 6;
 
 interface EntityState {
@@ -27,8 +50,8 @@ async function fetchMateriales(q: string, offset: number) {
     `&activo=eq.true` +
     `&or=(nombre_comercial.ilike.${eq},categoria.ilike.${eq},color_principal.ilike.${eq},subcategoria.ilike.${eq})` +
     `&order=content_score.desc,nombre_comercial.asc`;
-  const { data, total } = await restFetchPaged<any>(path, PAGE_SIZE, offset);
-  const items: SearchItem[] = data.map((m: any) => ({
+  const { data, total } = await restFetchPaged<MaterialSearchRow>(path, PAGE_SIZE, offset);
+  const items: SearchItem[] = data.map((m) => ({
     t: 'material',
     n: m.nombre_comercial || '',
     pais: Array.isArray(m.origen_pais) ? m.origen_pais[0] || '' : m.origen_pais || '',
@@ -44,8 +67,8 @@ async function fetchCanteras(q: string, offset: number) {
     `canteras?select=slug,nombre,tipo_piedra,pais` +
     `&or=(nombre.ilike.${eq},tipo_piedra.ilike.${eq},pais.ilike.${eq},color_principal.ilike.${eq})` +
     `&order=nombre.asc`;
-  const { data, total } = await restFetchPaged<any>(path, PAGE_SIZE, offset);
-  const items: SearchItem[] = data.map((c: any) => ({
+  const { data, total } = await restFetchPaged<canteraSearchRow>(path, PAGE_SIZE, offset);
+  const items: SearchItem[] = data.map((c) => ({
     t: 'cantera',
     n: c.nombre || '',
     pais: c.pais || '',
@@ -62,8 +85,8 @@ async function fetchProveedores(q: string, offset: number) {
     `&estado=eq.activo` +
     `&or=(nombre_empresa.ilike.${eq},tipo_empresa.ilike.${eq},pais.ilike.${eq})` +
     `&order=nombre_empresa.asc`;
-  const { data, total } = await restFetchPaged<any>(path, PAGE_SIZE, offset);
-  const items: SearchItem[] = data.map((p: any) => ({
+  const { data, total } = await restFetchPaged<ProveedorSearchRow>(path, PAGE_SIZE, offset);
+  const items: SearchItem[] = data.map((p) => ({
     t: 'proveedor',
     n: p.nombre_empresa || '',
     pais: p.pais || '',

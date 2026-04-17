@@ -1,99 +1,1029 @@
 ---
-import Page from '../layouts/Page.astro';
+import Base from '../layouts/Base.astro';
 ---
 
-<Page title="Esquema de Negocio — World Stone Hub">
+<Base title="Esquema de Negocio — World Stone Hub" noIndex={true}>
   <style slot="head">
-    .container {
-      margin-top: 64px;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 60px 48px;
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    h1 {
-      font-family: var(--font-disp);
-      font-size: 2.8rem;
-      font-weight: 300;
-      margin-bottom: 24px;
+
+    :root {
+      --gold: #a67c52;
+      --elite: #c9a84c;
+      --bg-soft: #f8f7f5;
+      --bg: #ffffff;
+      --bg-mid: #f0efed;
+      --ink: #1a1917;
+      --ink-2: #4a4845;
+      --ink-4: #8a8784;
+      --border: #e2e0dc;
+      --border2: #c8c5bf;
+      --green: #27ae60;
+      --yellow: #e6a817;
+      --red: #c0392b;
+      --gray: #9b9b9b;
     }
-    h2 {
-      font-family: var(--font-disp);
-      font-size: 1.8rem;
-      font-weight: 400;
-      margin-top: 48px;
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-soft);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 0 0 60px;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--ink);
+      padding: 40px 32px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(166, 124, 82, 0.15) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .logo-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       margin-bottom: 20px;
     }
-    p {
-      font-size: 1rem;
-      color: var(--ink-mid);
-      line-height: 1.8;
-      margin-bottom: 16px;
+    .logo-mark span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 3px;
+      color: #fff;
+      text-transform: uppercase;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      margin: 32px 0;
+    .logo-mark .sep {
+      color: var(--gold);
+      font-weight: 300;
     }
-    .card {
-      background: var(--bg-soft);
-      border: 1px solid var(--border);
-      padding: 28px;
-      border-radius: 8px;
+    .logo-mark .hub {
+      font-style: italic;
+      color: var(--gold);
+      letter-spacing: 1px;
     }
-    .card h3 {
+    header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 400;
+      color: #fff;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    header h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+    header p {
+      color: var(--ink-4);
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    /* LEGEND */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 24px;
+      padding: 20px 32px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .legend-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .legend-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--ink-4);
       font-weight: 600;
-      margin-bottom: 12px;
+      margin-right: 4px;
     }
-    .card p {
-      margin-bottom: 0;
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--ink-2);
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .dot-green {
+      background: var(--green);
+    }
+    .dot-yellow {
+      background: var(--yellow);
+    }
+    .dot-red {
+      background: var(--red);
+    }
+    .dot-gray {
+      background: var(--gray);
+    }
+
+    /* MAIN GRID */
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    /* PILLAR CARD */
+    .pillar {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition:
+        box-shadow 0.2s,
+        transform 0.2s;
+    }
+    .pillar:hover {
+      box-shadow: 0 8px 32px rgba(26, 25, 23, 0.08);
+      transform: translateY(-2px);
+    }
+    .pillar-header {
+      padding: 20px 22px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pillar-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      background: var(--bg-mid);
+    }
+    .pillar-title-group {
+      flex: 1;
+    }
+    .pillar-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--ink-4);
+      letter-spacing: 1px;
+      margin-bottom: 3px;
+    }
+    .pillar-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .pillar-sub {
+      font-size: 12px;
+      color: var(--ink-4);
+      margin-top: 3px;
+    }
+    .pillar-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-text {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .s-green .status-dot {
+      background: var(--green);
+    }
+    .s-green .status-text {
+      color: var(--green);
+    }
+    .s-yellow .status-dot {
+      background: var(--yellow);
+    }
+    .s-yellow .status-text {
+      color: var(--yellow);
+    }
+    .s-red .status-dot {
+      background: var(--red);
+    }
+    .s-red .status-text {
+      color: var(--red);
+    }
+    .s-gray .status-dot {
+      background: var(--gray);
+    }
+    .s-gray .status-text {
+      color: var(--gray);
+    }
+
+    /* ROWS */
+    .pillar-body {
+      padding: 8px 0;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      padding: 10px 22px;
+      gap: 10px;
+      border-bottom: 1px solid var(--bg-soft);
+      transition: background 0.15s;
+    }
+    .row:last-child {
+      border-bottom: none;
+    }
+    .row:hover {
+      background: var(--bg-soft);
+    }
+    .row-icon {
+      font-size: 14px;
+      flex-shrink: 0;
+      width: 20px;
+      text-align: center;
+    }
+    .row-content {
+      flex: 1;
+    }
+    .row-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.35;
+    }
+    .row-note {
+      font-size: 11px;
+      color: var(--ink-4);
+      margin-top: 2px;
+    }
+    .row-badges {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 20px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+    .badge-auto {
+      background: #e8f5e9;
+      color: #1b7a3e;
+    }
+    .badge-human {
+      background: #fff3e0;
+      color: #8a5000;
+    }
+    .badge-hybrid {
+      background: #e8f0fe;
+      color: #1a56b0;
+    }
+    .badge-ok {
+      background: #e8f5e9;
+      color: #1b7a3e;
+    }
+    .badge-wip {
+      background: #fff8e1;
+      color: #7a5000;
+    }
+    .badge-todo {
+      background: #fce4ec;
+      color: #8b1a2e;
+    }
+    .badge-na {
+      background: var(--bg-mid);
+      color: var(--ink-4);
+    }
+    .badge-gold {
+      background: #fef3e2;
+      color: #8a5200;
+      border: 1px solid #f0cc88;
+    }
+
+    /* SUMMARY BAR */
+    .summary {
+      max-width: 1280px;
+      margin: 32px auto 0;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .sum-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+      text-align: center;
+    }
+    .sum-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 40px;
+      font-weight: 600;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .sum-num.green {
+      color: var(--green);
+    }
+    .sum-num.yellow {
+      color: var(--yellow);
+    }
+    .sum-num.red {
+      color: var(--red);
+    }
+    .sum-num.gray {
+      color: var(--gray);
+    }
+    .sum-label {
+      font-size: 12px;
+      color: var(--ink-4);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* FOOTER NOTE */
+    .foot-note {
+      max-width: 1280px;
+      margin: 24px auto 0;
+      padding: 0 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .fn-chip {
+      font-size: 12px;
+      color: var(--ink-2);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+    .fn-chip strong {
+      color: var(--gold);
+    }
+
+    @media (max-width: 720px) {
+      main {
+        grid-template-columns: 1fr;
+        padding: 24px 16px 0;
+      }
+      .summary {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 0 16px;
+      }
+      header {
+        padding: 28px 16px 24px;
+      }
     }
   </style>
 
-  <div class="container">
-    <h1>Esquema de Negocio</h1>
+  <header>
+    <div class="logo-mark">
+      <span>WORLD STONE</span>
+      <span class="sep">|</span>
+      <span class="hub">Hub</span>
+    </div>
+    <h1>Esquema de <em>Negocio</em></h1>
+    <p>Estado operativo · Automatización · Prioridades · Actualizado 2 Abril 2026 · 10:00</p>
+  </header>
 
-    <p>
-      World Stone Hub opera bajo un modelo B2B de suscripción por plan, dirigido a profesionales del
-      sector de la piedra natural a nivel global.
-    </p>
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-group">
+      <span class="legend-label">Estado</span>
+      <span class="legend-item"><span class="dot dot-green"></span> Activo</span>
+      <span class="legend-item"><span class="dot dot-yellow"></span> En progreso</span>
+      <span class="legend-item"><span class="dot dot-red"></span> Bloqueante</span>
+      <span class="legend-item"><span class="dot dot-gray"></span> Pendiente</span>
+    </div>
+    <div class="legend-group">
+      <span class="legend-label">Modo</span>
+      <span class="legend-item">🤖 Automatizable</span>
+      <span class="legend-item">👤 Requiere humano</span>
+      <span class="legend-item">🤝 Híbrido</span>
+    </div>
+  </div>
 
-    <h2>Actores principales</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Canteras</h3>
-        <p>
-          Productoras de piedra natural. Suministran datos de yacimientos, materiales y producción.
-        </p>
+  <!-- SUMMARY STATS -->
+  <div class="summary">
+    <div class="sum-card">
+      <div class="sum-num green">5</div>
+      <div class="sum-label">Pilares activos</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-num yellow">4</div>
+      <div class="sum-label">En progreso</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-num red">0</div>
+      <div class="sum-label">Bloqueantes</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-num gray">3</div>
+      <div class="sum-label">Sin empezar</div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <main>
+    <!-- 1. PRODUCTO -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">🏗️</div>
+        <div class="pillar-title-group">
+          <div class="pillar-num">01 — CORE</div>
+          <div class="pillar-name">Producto · Plataforma</div>
+          <div class="pillar-sub">La web, la base de datos, la experiencia</div>
+          <div class="pillar-status s-green">
+            <div class="status-dot"></div>
+            <div class="status-text">ACTIVO</div>
+          </div>
+        </div>
       </div>
-      <div class="card">
-        <h3>Fabricantes</h3>
-        <p>Procesan y transforman la piedra. Enumeran productos finales en el catálogo.</p>
-      </div>
-      <div class="card">
-        <h3>Distribuidores</h3>
-        <p>Intermediarios en la cadena de suministro. Conectan productores con clientes finales.</p>
-      </div>
-      <div class="card">
-        <h3>Arquitectos</h3>
-        <p>Especificadores y compradores de materiales. Acceden a catálogos, mapa y proveedores.</p>
+      <div class="pillar-body">
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Catálogo de materiales</div>
+            <div class="row-note">22.900 filas · búsqueda · filtros · badges ★</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Mapa interactivo</div>
+            <div class="row-note">MapLibre · 50 materiales geolocalizados ★★+</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Directorio de proveedores</div>
+            <div class="row-note">Fichas, filtros, plan badge, visibilidad</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Canteras</div>
+            <div class="row-note">Estructura lista · sin datos reales aún</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-wip">⚡ WIP</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤝</div>
+          <div class="row-content">
+            <div class="row-title">Blog / Contenido editorial</div>
+            <div class="row-note">Estructura en DB · sin artículos reales</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Pendiente</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Content Score automático</div>
+            <div class="row-note">Trigger PostgreSQL en INSERT/UPDATE</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
       </div>
     </div>
 
-    <h2>Fuentes de ingresos</h2>
-    <p>
-      <strong>Suscripciones recurrentes:</strong> Planes anuales y mensuales por tipo de empresa (Presencia,
-      Profesional, Elite).
-    </p>
-    <p><strong>Publicidad:</strong> Anuncios en espacios específicos (hero, catálogo, mapa).</p>
-    <p><strong>Servicios premium:</strong> Onboarding, fotografía, diseño de ficha.</p>
+    <!-- 2. CAPTACIÓN / VENTAS -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">💰</div>
+        <div class="pillar-title-group">
+          <div class="pillar-num">02 — REVENUE</div>
+          <div class="pillar-name">Captación · Ventas</div>
+          <div class="pillar-sub">Registro, pagos, activación de proveedores</div>
+          <div class="pillar-status s-green">
+            <div class="status-dot"></div>
+            <div class="status-text">ACTIVO</div>
+          </div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Página de registro</div>
+            <div class="row-note">12 actores · precios dinámicos · IKEA flow</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Stripe · Pagos LIVE</div>
+            <div class="row-note">40 precios · 12 actores · anual + mensual · Edge Functions</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Activación automática post-pago</div>
+            <div class="row-note">Webhook Stripe → Supabase activa proveedor sin intervención</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">👤</div>
+          <div class="row-content">
+            <div class="row-title">Oferta de Fundadores</div>
+            <div class="row-note">
+              fundadores.html · PDF oferta · 5 templates outreach · gestión en admin
+            </div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Notificación email solicitudes Fundadores</div>
+            <div class="row-note">
+              FormSubmit → hello@worldstonehub.com · automático en cada envío
+            </div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Dominio propio</div>
+            <div class="row-note">worldstonehub.com · DNS propagando · HTTPS automático</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤝</div>
+          <div class="row-content">
+            <div class="row-title">Pipeline de leads</div>
+            <div class="row-note">CRM / hoja de contactos sectoriales</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Pendiente</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Gracias.html post-pago</div>
+            <div class="row-note">Confirmación y activación de cuenta</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+      </div>
+    </div>
 
-    <h2>Propuesta de valor</h2>
-    <p>
-      Un único lugar donde toda la industria de la piedra natural se reúne: datos, contactos,
-      especificaciones técnicas y oportunidades comerciales en un directorio verificado y
-      actualizado.
-    </p>
+    <!-- 3. MARKETING / SEO -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">📣</div>
+        <div class="pillar-title-group">
+          <div class="pillar-num">03 — TRÁFICO</div>
+          <div class="pillar-name">Marketing · SEO</div>
+          <div class="pillar-sub">Visibilidad orgánica, redes, imagen de marca</div>
+          <div class="pillar-status s-yellow">
+            <div class="status-dot"></div>
+            <div class="status-text">EN PROGRESO</div>
+          </div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Google Analytics 4</div>
+            <div class="row-note">G-Z386REXEZF · sector pages + proveedor</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">SEO técnico · Meta tags</div>
+            <div class="row-note">Títulos, descriptions, robots.txt</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ OK</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">👤</div>
+          <div class="row-content">
+            <div class="row-title">og:image · Imagen social</div>
+            <div class="row-note">Ninguna página tiene imagen para redes</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Crear</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤝</div>
+          <div class="row-content">
+            <div class="row-title">Blog · SEO de contenido</div>
+            <div class="row-note">Artículos de sector para posicionamiento orgánico</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Pendiente</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">👤</div>
+          <div class="row-content">
+            <div class="row-title">LinkedIn / RRSS</div>
+            <div class="row-note">Presencia activa en sector de la piedra</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Pendiente</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤝</div>
+          <div class="row-content">
+            <div class="row-title">Outreach ferias sectoriales</div>
+            <div class="row-note">Marmomac, Stonetech, Cevisama...</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Planificar</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. OPERACIONES -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">⚙️</div>
+        <div class="pillar-title-group">
+          <div class="pillar-num">04 — OPS</div>
+          <div class="pillar-name">Operaciones</div>
+          <div class="pillar-sub">Gestión diaria, onboarding, soporte</div>
+          <div class="pillar-status s-green">
+            <div class="status-dot"></div>
+            <div class="status-text">ACTIVO</div>
+          </div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Admin panel</div>
+            <div class="row-note">
+              Gestión proveedores, anuncios, contribuciones, Fundadores (con badge)
+            </div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Panel del proveedor</div>
+            <div class="row-note">Área privada, contribuciones, puntos</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Sistema de contribuciones</div>
+            <div class="row-note">Proveedores enriquecen fichas → puntos</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤝</div>
+          <div class="row-content">
+            <div class="row-title">Moderación de contenido</div>
+            <div class="row-note">Revisión contribuciones / materiales propuestos</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-wip">⚡ Manual</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">👤</div>
+          <div class="row-content">
+            <div class="row-title">Soporte a proveedores</div>
+            <div class="row-note">Onboarding, dudas, retención</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-wip">⚡ Manual</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Visibility Score automático</div>
+            <div class="row-note">Calculado en DB · pendiente conectar a UI</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-wip">⚡ WIP</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. CONTENIDO / DATOS -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">📦</div>
+        <div class="pillar-title-group">
+          <div class="pillar-num">05 — DATOS</div>
+          <div class="pillar-name">Contenido · Datos</div>
+          <div class="pillar-sub">Calidad del catálogo, enriquecimiento continuo</div>
+          <div class="pillar-status s-yellow">
+            <div class="status-dot"></div>
+            <div class="status-text">EN PROGRESO</div>
+          </div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">22.900 materiales importados</div>
+            <div class="row-note">España + datos internacionales</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">50 fichas de calidad ★★+</div>
+            <div class="row-note">Content score ≥ 50 · coords precisas</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤝</div>
+          <div class="row-content">
+            <div class="row-title">Enriquecimiento de fichas</div>
+            <div class="row-note">Imágenes, precios, especificaciones técnicas</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-wip">⚡ Continuo</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤝</div>
+          <div class="row-content">
+            <div class="row-title">Datos de canteras</div>
+            <div class="row-note">Tabla existe · sin datos reales</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Pendiente</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Proponer material (crowdsource)</div>
+            <div class="row-note">Formulario público activo</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">👤</div>
+          <div class="row-content">
+            <div class="row-title">Content Score visible en admin</div>
+            <div class="row-note">Para revisar y priorizar fichas bajas</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Pendiente</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. FINANZAS -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">📊</div>
+        <div class="pillar-title-group">
+          <div class="pillar-num">06 — FINANZAS</div>
+          <div class="pillar-name">Finanzas · Métricas</div>
+          <div class="pillar-sub">Ingresos, costes, MRR, unit economics</div>
+          <div class="pillar-status s-yellow">
+            <div class="status-dot"></div>
+            <div class="status-text">EN PROGRESO</div>
+          </div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Estructura de precios</div>
+            <div class="row-note">12 actores · 3–4 tiers · precios dinámicos</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Diseñado</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Stripe · Cobro recurrente</div>
+            <div class="row-note">LIVE · suscripciones anuales y mensuales activas</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">👤</div>
+          <div class="row-content">
+            <div class="row-title">Facturación / Fiscalidad</div>
+            <div class="row-note">IVA, SII, modelo de suscripción legal</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Pendiente</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Dashboard MRR / Churn</div>
+            <div class="row-note">
+              Stripe Dashboard disponible — primeras métricas tras primera venta
+            </div>
+          </div>
+          <div class="row-badges"><span class="badge badge-wip">⚡ Listo</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">👤</div>
+          <div class="row-content">
+            <div class="row-title">Costes Supabase / infra</div>
+            <div class="row-note">Free tier hasta ~500 MB / 50K req/mes</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Free</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">👤</div>
+          <div class="row-content">
+            <div class="row-title">Proyección 12 meses</div>
+            <div class="row-note">TAM, conversión esperada, break-even</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Pendiente</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. LEGAL -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">⚖️</div>
+        <div class="pillar-title-group">
+          <div class="pillar-num">07 — LEGAL</div>
+          <div class="pillar-name">Legal · Compliance</div>
+          <div class="pillar-sub">RGPD, términos, marca registrada</div>
+          <div class="pillar-status s-yellow">
+            <div class="status-dot"></div>
+            <div class="status-text">BÁSICO OK</div>
+          </div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Aviso legal · Privacidad</div>
+            <div class="row-note">legal.html activo en el sitio</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Robots.txt / noindex</div>
+            <div class="row-note">Admin, panel, i18n excluidos de indexación</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ OK</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">👤</div>
+          <div class="row-content">
+            <div class="row-title">RGPD · Consentimiento cookies</div>
+            <div class="row-note">Banner de cookies pendiente</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Pendiente</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">👤</div>
+          <div class="row-content">
+            <div class="row-title">Términos de uso / SaaS</div>
+            <div class="row-note">Condiciones del servicio para proveedores</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Pendiente</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">👤</div>
+          <div class="row-content">
+            <div class="row-title">Marca registrada</div>
+            <div class="row-note">"World Stone Hub" — registrar en OEPM/EUIPO</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Pendiente</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">👤</div>
+          <div class="row-content">
+            <div class="row-title">Sociedad / estructura fiscal</div>
+            <div class="row-note">SL o autónomo para recibir pagos</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-todo">✗ Definir</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. INFRAESTRUCTURA -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">🔧</div>
+        <div class="pillar-title-group">
+          <div class="pillar-num">08 — INFRA</div>
+          <div class="pillar-name">Infraestructura · Deploy</div>
+          <div class="pillar-sub">Hosting, CI/CD, monitorización</div>
+          <div class="pillar-status s-green">
+            <div class="status-dot"></div>
+            <div class="status-text">PRODUCTION READY</div>
+          </div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">GitHub Pages · Deploy</div>
+            <div class="row-note">Push a main → deploy automático</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Auto</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Supabase · DB + Auth + Storage</div>
+            <div class="row-note">Free tier · project whcptmdapnavcxcszwwk</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Dominio propio</div>
+            <div class="row-note">
+              worldstonehub.com · Namecheap → GitHub Pages · DNS propagando
+            </div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Live</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">MapTiler · Mapas</div>
+            <div class="row-note">API key activa · tiles vectoriales</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ OK</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤖</div>
+          <div class="row-content">
+            <div class="row-title">Monitorización / alertas</div>
+            <div class="row-note">GA4 activo · Supabase logs · sin UptimeRobot</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-wip">⚡ Básico</span></div>
+        </div>
+        <div class="row">
+          <div class="row-icon">🤝</div>
+          <div class="row-content">
+            <div class="row-title">Backups / disaster recovery</div>
+            <div class="row-note">Supabase auto-backup diario (free tier 7d)</div>
+          </div>
+          <div class="row-badges"><span class="badge badge-ok">✓ Auto</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- CHIPS DE CONTEXTO -->
+  <div class="foot-note">
+    <div class="fn-chip">
+      🤖 <strong>Automatizable</strong> — Claude Code puede ejecutarlo sin supervisión
+    </div>
+    <div class="fn-chip">🤝 <strong>Híbrido</strong> — Claude propone, José decide/revisa</div>
+    <div class="fn-chip">👤 <strong>Humano</strong> — requiere tu presencia o decisión directa</div>
+    <div class="fn-chip">
+      ⚠️ Prioridad #1: <strong
+        >Outreach Fundadores · Primera venta · Tabla solicitudes_fundadores en Supabase SQL Editor</strong>
+    </div>
   </div>
-</Page>
+</Base>

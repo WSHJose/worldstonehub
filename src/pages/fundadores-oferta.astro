@@ -1,9 +1,36 @@
 ---
-import Page from '../layouts/Page.astro';
+import Base from '../layouts/Base.astro';
 ---
 
-<Page title="Oferta Fundadores — World Stone Hub" noIndex={true}>
+<Base
+  title="Oferta Fundadores — World Stone Hub"
+  description="Oferta confidencial del Programa de Fundadores de World Stone Hub. Acceso Elite con precio bloqueado de por vida."
+  noIndex={true}
+>
   <style slot="head">
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --gold: #a67c52;
+      --elite: #c9a84c;
+      --ink: #1a1917;
+      --ink2: #4a4845;
+      --ink3: #8a8784;
+      --bg: #ffffff;
+      --bg2: #f8f7f5;
+      --border: #e2e0dc;
+    }
+    body {
+      background: #e8e6e2;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+    }
     .toolbar {
       position: fixed;
       top: 0;
@@ -47,14 +74,12 @@ import Page from '../layouts/Page.astro';
     .toolbar-btn:hover {
       opacity: 0.85;
     }
-
     .page-wrap {
       max-width: 800px;
       margin: 4.5rem auto 3rem;
       background: var(--bg);
       box-shadow: 0 4px 40px rgba(0, 0, 0, 0.15);
     }
-
     .doc-header {
       background: var(--ink);
       padding: 3.5rem 3.5rem 3rem;
@@ -83,7 +108,7 @@ import Page from '../layouts/Page.astro';
       margin-bottom: 1rem;
     }
     .doc-title {
-      font-family: var(--font-disp);
+      font-family: 'Cormorant Garamond', serif;
       font-size: 3rem;
       font-weight: 600;
       color: #fff;
@@ -91,7 +116,7 @@ import Page from '../layouts/Page.astro';
       margin-bottom: 0.8rem;
     }
     .doc-title em {
-      color: #c9a84c;
+      color: var(--elite);
       font-style: italic;
     }
     .doc-subtitle {
@@ -106,8 +131,6 @@ import Page from '../layouts/Page.astro';
       gap: 2.5rem;
       flex-wrap: wrap;
     }
-    .doc-meta-item {
-    }
     .doc-meta-label {
       font-size: 10px;
       font-weight: 700;
@@ -119,35 +142,32 @@ import Page from '../layouts/Page.astro';
     .doc-meta-value {
       font-size: 13px;
       color: rgba(255, 255, 255, 0.75);
-      font-family: var(--font-mono);
+      font-family: 'DM Mono', monospace;
     }
-
     .doc-body {
       padding: 3rem 3.5rem;
     }
-
     .section-block {
       margin-bottom: 2.5rem;
     }
     .section-block h2 {
-      font-family: var(--font-disp);
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.6rem;
       font-weight: 600;
       color: var(--ink);
-      border-bottom: 2px solid #c9a84c;
+      border-bottom: 2px solid var(--elite);
       padding-bottom: 0.5rem;
       margin-bottom: 1.2rem;
       display: inline-block;
     }
     p {
-      color: var(--ink-mid);
+      color: var(--ink2);
       line-height: 1.75;
       margin-bottom: 0.8rem;
     }
     p strong {
       color: var(--ink);
     }
-
     .pricing-table {
       width: 100%;
       border-collapse: collapse;
@@ -167,7 +187,7 @@ import Page from '../layouts/Page.astro';
       color: rgba(255, 255, 255, 0.65);
     }
     .pricing-table tbody tr:nth-child(even) {
-      background: var(--bg-soft);
+      background: var(--bg2);
     }
     .pricing-table tbody tr:hover {
       background: #f0ede8;
@@ -182,12 +202,12 @@ import Page from '../layouts/Page.astro';
       color: var(--ink);
     }
     .td-normal {
-      color: var(--ink-muted);
+      color: var(--ink3);
       text-decoration: line-through;
       font-size: 12px;
     }
     .td-founder {
-      color: #c9a84c;
+      color: var(--elite);
       font-weight: 700;
       font-size: 1.1em;
     }
@@ -200,7 +220,6 @@ import Page from '../layouts/Page.astro';
       font-size: 11px;
       font-weight: 700;
     }
-
     .benefits-list {
       list-style: none;
     }
@@ -210,7 +229,7 @@ import Page from '../layouts/Page.astro';
       align-items: flex-start;
       padding: 0.7rem 0;
       border-bottom: 1px solid var(--border);
-      color: var(--ink-mid);
+      color: var(--ink2);
       font-size: 14px;
       line-height: 1.55;
     }
@@ -248,11 +267,10 @@ import Page from '../layouts/Page.astro';
       color: var(--gold);
       border: 1px solid #d4b896;
     }
-
     .conditions-box {
-      background: var(--bg-soft);
+      background: var(--bg2);
       border: 1px solid var(--border);
-      border-left: 4px solid #c9a84c;
+      border-left: 4px solid var(--elite);
       padding: 1.5rem 1.8rem;
       border-radius: 0 8px 8px 0;
       margin: 1.2rem 0;
@@ -270,17 +288,16 @@ import Page from '../layouts/Page.astro';
     }
     .conditions-box li {
       padding: 0.3rem 0;
-      color: var(--ink-mid);
+      color: var(--ink2);
       font-size: 13px;
       display: flex;
       gap: 0.6rem;
     }
     .conditions-box li::before {
       content: '—';
-      color: #c9a84c;
+      color: var(--elite);
       flex-shrink: 0;
     }
-
     .cta-box {
       background: var(--ink);
       border-radius: 12px;
@@ -289,14 +306,14 @@ import Page from '../layouts/Page.astro';
       margin-top: 2.5rem;
     }
     .cta-box h3 {
-      font-family: var(--font-disp);
+      font-family: 'Cormorant Garamond', serif;
       font-size: 2rem;
       font-weight: 600;
       color: #fff;
       margin-bottom: 0.5rem;
     }
     .cta-box h3 em {
-      color: #c9a84c;
+      color: var(--elite);
       font-style: italic;
     }
     .cta-box p {
@@ -306,7 +323,7 @@ import Page from '../layouts/Page.astro';
     }
     .cta-url {
       display: inline-block;
-      background: #c9a84c;
+      background: var(--elite);
       color: var(--ink);
       font-weight: 700;
       padding: 0.85rem 2rem;
@@ -328,9 +345,8 @@ import Page from '../layouts/Page.astro';
       font-size: 13px;
       text-decoration: none;
     }
-
     .doc-footer {
-      background: var(--bg-soft);
+      background: var(--bg2);
       border-top: 1px solid var(--border);
       padding: 1.5rem 3.5rem;
       display: flex;
@@ -340,19 +356,18 @@ import Page from '../layouts/Page.astro';
       gap: 1rem;
     }
     .doc-footer-brand {
-      font-family: var(--font-disp);
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.1rem;
       font-weight: 600;
-      color: var(--ink-mid);
+      color: var(--ink2);
     }
     .doc-footer-brand em {
       color: var(--gold);
     }
     .doc-footer-info {
       font-size: 12px;
-      color: var(--ink-muted);
+      color: var(--ink3);
     }
-
     @media print {
       .toolbar {
         display: none;
@@ -397,7 +412,7 @@ import Page from '../layouts/Page.astro';
         </p>
         <div class="doc-meta">
           <div class="doc-meta-item">
-            <div class="doc-meta-label">V&aacute;lida hasta</div>
+            <div class="doc-meta-label">Válida hasta</div>
             <div class="doc-meta-value">Cierre de las 20 plazas</div>
           </div>
           <div class="doc-meta-item">
@@ -414,14 +429,14 @@ import Page from '../layouts/Page.astro';
 
     <div class="doc-body">
       <div class="section-block">
-        <h2>&iquest;Qu&eacute; es World Stone Hub?</h2>
+        <h2>¿Qué es World Stone Hub?</h2>
         <p>
           <strong>World Stone Hub</strong> es el primer directorio B2B especializado en el sector de la
-          piedra natural: m&aacute;rmol, granito, cuarcita, pizarra y derivados. Conecta canteras, fabricantes,
+          piedra natural: mármol, granito, cuarcita, pizarra y derivados. Conecta canteras, fabricantes,
           distribuidores, agentes, arquitectos y compradores a escala global.
         </p>
         <p>
-          Actualmente contamos con <strong>m&aacute;s de 22.000 fichas de materiales</strong> de 138 pa&iacute;ses,
+          Actualmente contamos con <strong>más de 22.000 fichas de materiales</strong> de 138 países,
           directorio de proveedores con ficha completa, mapa interactivo y sistema de contribuciones.
           En fase de lanzamiento activa, con primeros clientes onboarded.
         </p>
@@ -430,82 +445,128 @@ import Page from '../layouts/Page.astro';
       <div class="section-block">
         <h2>Tarifa Fundador por tipo de empresa</h2>
         <p>
-          El precio Fundador es el precio que pagas hoy y el que pagar&aacute;s siempre, sin
-          actualizaciones futuras, mientras mantengas la suscripci&oacute;n activa.
+          El precio Fundador es el precio que pagas hoy y el que pagarás siempre, sin
+          actualizaciones futuras, mientras mantengas la suscripción activa.
         </p>
-
         <table class="pricing-table">
           <thead>
             <tr>
               <th>Tipo de empresa</th>
-              <th>Precio Elite normal/a&ntilde;o</th>
-              <th>Precio Fundador/a&ntilde;o</th>
+              <th>Precio Elite normal/año</th>
+              <th>Precio Fundador/año</th>
               <th>Ahorro</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="td-tipo">🪨 Cantera</td>
-              <td class="td-normal">1.390 €/a&ntilde;o</td>
-              <td class="td-founder">890 €/a&ntilde;o</td>
-              <td><span class="td-saving">−36%</span></td>
-            </tr>
-            <tr>
-              <td class="td-tipo">🏭 Fabricante / Procesador</td>
-              <td class="td-normal">1.490 €/a&ntilde;o</td>
-              <td class="td-founder">990 €/a&ntilde;o</td>
-              <td><span class="td-saving">−34%</span></td>
-            </tr>
-            <tr>
-              <td class="td-tipo">🚛 Distribuidor</td>
-              <td class="td-normal">1.990 €/a&ntilde;o</td>
-              <td class="td-founder">1.290 €/a&ntilde;o</td>
-              <td><span class="td-saving">−35%</span></td>
-            </tr>
+            <tr
+              ><td class="td-tipo">🪨 Cantera</td><td class="td-normal">1.390 €/año</td><td
+                class="td-founder">890 €/año</td
+              ><td><span class="td-saving">−36%</span></td></tr
+            >
+            <tr
+              ><td class="td-tipo">🏭 Fabricante / Procesador</td><td class="td-normal"
+                >1.490 €/año</td
+              ><td class="td-founder">990 €/año</td><td><span class="td-saving">−34%</span></td></tr
+            >
+            <tr
+              ><td class="td-tipo">🚛 Distribuidor</td><td class="td-normal">1.990 €/año</td><td
+                class="td-founder">1.290 €/año</td
+              ><td><span class="td-saving">−35%</span></td></tr
+            >
+            <tr
+              ><td class="td-tipo">🤝 Agente Comercial</td><td class="td-normal">490 €/año</td><td
+                class="td-founder">290 €/año</td
+              ><td><span class="td-saving">−41%</span></td></tr
+            >
+            <tr
+              ><td class="td-tipo">📦 Logística / Transporte</td><td class="td-normal"
+                >1.490 €/año</td
+              ><td class="td-founder">990 €/año</td><td><span class="td-saving">−34%</span></td></tr
+            >
+            <tr
+              ><td class="td-tipo">🔬 Laboratorio / Certificación</td><td class="td-normal"
+                >1.190 €/año</td
+              ><td class="td-founder">790 €/año</td><td><span class="td-saving">−34%</span></td></tr
+            >
+            <tr
+              ><td class="td-tipo">📦 Embalaje / Palets</td><td class="td-normal">1.190 €/año</td
+              ><td class="td-founder">790 €/año</td><td><span class="td-saving">−34%</span></td></tr
+            >
+            <tr
+              ><td class="td-tipo">⚙️ Maquinaria / Herramientas</td><td class="td-normal"
+                >1.490 €/año</td
+              ><td class="td-founder">990 €/año</td><td><span class="td-saving">−34%</span></td></tr
+            >
+            <tr
+              ><td class="td-tipo">🏛️ Arquitecto / Diseñador</td><td class="td-normal">990 €/año</td
+              ><td class="td-founder">590 €/año</td><td><span class="td-saving">−40%</span></td></tr
+            >
+            <tr
+              ><td class="td-tipo">🏗️ Constructora / Promotora</td><td class="td-normal"
+                >1.490 €/año</td
+              ><td class="td-founder">990 €/año</td><td><span class="td-saving">−34%</span></td></tr
+            >
+            <tr
+              ><td class="td-tipo">🛠️ Instalador / Aplicador</td><td class="td-normal">590 €/año</td
+              ><td class="td-founder">390 €/año</td><td><span class="td-saving">−34%</span></td></tr
+            >
           </tbody>
         </table>
-        <p style="font-size:12px;color:var(--ink-muted);">
-          * Precios en EUR, IVA no incluido donde aplique. Facturaci&oacute;n anual. El precio
-          Fundador no incluye posibilidad de facturaci&oacute;n mensual.
+        <p style="font-size:12px; color:var(--ink3);">
+          * Precios en EUR, IVA no incluido donde aplique. Facturación anual. El precio Fundador no
+          incluye posibilidad de facturación mensual.
         </p>
       </div>
 
       <div class="section-block">
-        <h2>Qu&eacute; incluye el Plan Elite Fundador</h2>
+        <h2>Qué incluye el Plan Elite Fundador</h2>
         <ul class="benefits-list">
           <li>
-            <span class="ben-icon">🔒</span>
-            <span class="ben-text">
-              <strong
+            <span class="ben-icon">🔒</span><span class="ben-text"
+              ><strong
                 >Precio bloqueado de por vida <span class="ben-tag tag-perm">Permanente</span
                 ></strong
-              >
-              Tu tarifa nunca sube, aunque WSH modifique sus precios. V&aacute;lido mientras la suscripci&oacute;n
-              est&eacute; activa y sin interrupciones.
-            </span>
+              >Tu tarifa nunca sube, aunque WSH modifique sus precios. Válido mientras la
+              suscripción esté activa y sin interrupciones.</span>
           </li>
           <li>
-            <span class="ben-icon">⭐</span>
-            <span class="ben-text">
-              <strong
+            <span class="ben-icon">⭐</span><span class="ben-text"
+              ><strong
                 >Badge exclusivo "Fundador" en perfil <span class="ben-tag tag-perm"
                   >Permanente</span
                 ></strong
-              >
-              Distinci&oacute;n visible en tu ficha p&uacute;blica que acredita tu participaci&oacute;n
-              desde la fase 0. Activo de reputaci&oacute;n permanente.
-            </span>
+              >Distinción visible en tu ficha pública que acredita tu participación desde la fase 0.
+              Activo de reputación permanente.</span>
           </li>
           <li>
-            <span class="ben-icon">📄</span>
-            <span class="ben-text">
-              <strong
-                >Ficha completa sin l&iacute;mites <span class="ben-tag tag-perm">Permanente</span
+            <span class="ben-icon">📄</span><span class="ben-text"
+              ><strong
+                >Ficha completa sin límites <span class="ben-tag tag-perm">Permanente</span></strong
+              >Galería de imágenes (hasta 20), listado de materiales, catálogo descargable PDF,
+              sección de noticias y presencia en el mapa interactivo.</span>
+          </li>
+          <li>
+            <span class="ben-icon">📈</span><span class="ben-text"
+              ><strong
+                >Posicionamiento prioritario <span class="ben-tag tag-perm">Permanente</span
                 ></strong
-              >
-              Galer&iacute;a de im&aacute;genes (hasta 20), listado de materiales, cat&aacute;logo descargable
-              PDF, secci&oacute;n de noticias y presencia en el mapa interactivo.
-            </span>
+              >Tu empresa aparece antes en búsquedas y listados del directorio respecto a planes
+              inferiores.</span>
+          </li>
+          <li>
+            <span class="ben-icon">🤝</span><span class="ben-text"
+              ><strong
+                >Onboarding personalizado 1:1 <span class="ben-tag tag-year">1er año</span></strong
+              >Sesión directa con el equipo de WSH para configurar tu perfil, subir materiales y
+              optimizar tu presencia desde el primer día.</span>
+          </li>
+          <li>
+            <span class="ben-icon">🔬</span><span class="ben-text"
+              ><strong
+                >Acceso beta a nuevas funciones <span class="ben-tag tag-year">1er año</span
+                ></strong
+              >Pruebas anticipadas de RFQ (solicitudes de cotización), analytics de visitas a tu
+              ficha y newsletter sectorial WSH antes del lanzamiento público.</span>
           </li>
         </ul>
       </div>
@@ -513,33 +574,35 @@ import Page from '../layouts/Page.astro';
       <div class="section-block">
         <h2>Condiciones</h2>
         <div class="conditions-box">
-          <h4>T&eacute;rminos del programa</h4>
+          <h4>Términos del programa</h4>
           <ul>
-            <li>El programa est&aacute; limitado a 20 plazas globales, sin excepciones.</li>
+            <li>El programa está limitado a 20 plazas globales, sin excepciones.</li>
             <li>
-              El precio bloqueado aplica mientras la suscripci&oacute;n est&eacute; activa y se
-              renueve sin interrupci&oacute;n.
+              El precio bloqueado aplica mientras la suscripción esté activa y se renueve sin
+              interrupción.
             </li>
             <li>
-              Si se cancela la suscripci&oacute;n, al reactivar se aplica la tarifa vigente en ese
-              momento.
+              Si se cancela la suscripción, al reactivar se aplica la tarifa vigente en ese momento.
             </li>
             <li>
-              La oferta es nominal: cada plaza est&aacute; vinculada a una empresa/persona
-              jur&iacute;dica concreta, no es transferible.
+              La oferta es nominal: cada plaza está vinculada a una empresa/persona jurídica
+              concreta, no es transferible.
             </li>
+            <li>El pago es anual. No está disponible la opción mensual para el precio Fundador.</li>
+            <li>
+              World Stone Hub se reserva el derecho a cerrar el programa en cualquier momento una
+              vez alcanzadas las 20 plazas.
+            </li>
+            <li>Facturación y condiciones de servicio completas en worldstonehub.com/legal</li>
           </ul>
         </div>
       </div>
 
       <div class="cta-box">
         <h3>Reserva tu plaza de <em>Fundador</em></h3>
-        <p>
-          Sin pago ahora. Solicita tu plaza y recibir&aacute;s confirmaci&oacute;n en menos de 24
-          horas.
-        </p>
+        <p>Sin pago ahora. Solicita tu plaza y recibirás confirmación en menos de 24 horas.</p>
         <a href="/fundadores" class="cta-url">worldstonehub.com/fundadores</a>
-        <div class="cta-or">o escr&iacute;benos directamente</div>
+        <div class="cta-or">o escríbenos directamente</div>
         <a href="mailto:hello@worldstonehub.com" class="cta-email">hello@worldstonehub.com</a>
       </div>
     </div>
@@ -548,8 +611,8 @@ import Page from '../layouts/Page.astro';
       <div class="doc-footer-brand">WORLD STONE <em>Hub</em></div>
       <div class="doc-footer-info">
         worldstonehub.com · hello@worldstonehub.com · Documento interno — no distribuir sin
-        autorizaci&oacute;n
+        autorización
       </div>
     </div>
   </div>
-</Page>
+</Base>
