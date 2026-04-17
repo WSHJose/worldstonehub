@@ -10,10 +10,6 @@ import Page from '../layouts/Page.astro';
   activePage="directorio"
 >
   <style slot="head" is:global>
-    body {
-      background: #f8f7f5;
-    }
-
     /* ── PAGE HEADER 50/50 ── */
     .page-header {
       background: var(--bg-soft);
@@ -94,33 +90,9 @@ import Page from '../layouts/Page.astro';
       overflow: hidden;
       background: var(--bg-mid);
     }
-    .ad-container {
+    #heroAdRoot {
       position: absolute;
       inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .ad-link {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .ad-link img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .ad-label {
-      position: absolute;
-      bottom: 8px;
-      right: 12px;
-      font-size: 8px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--ink-4);
-      z-index: 2;
     }
 
     /* ── TOOLBAR ── */
@@ -676,8 +648,7 @@ import Page from '../layouts/Page.astro';
       </div>
     </div>
     <div class="ph-right" id="heroAdWrapper" style="display:none">
-      <div class="ad-container" id="heroAdSlot"></div>
-      <span class="ad-label">Publicidad</span>
+      <div id="heroAdRoot"></div>
     </div>
   </header>
 
@@ -766,7 +737,8 @@ import Page from '../layouts/Page.astro';
 
   <script>
     import { getForSearch as getProveedoresForSearch } from '@contexts/proveedores/services/http/proveedoresHttp';
-    import { getAdByCode } from '@contexts/home/services/http/homeHttp';
+    import { createApp, h } from 'vue';
+    import HeroAdComponent from '@contexts/ads/components/HeroAd.vue';
     (function () {
       var SECTORS = {
         arquitectura: {
@@ -1232,38 +1204,21 @@ import Page from '../layouts/Page.astro';
         });
 
       /* Anuncio dinámico */
-      (function loadAd() {
-        var today = new Date().toISOString().slice(0, 10);
-        getAdByCode(cfg.adCode)
-          .then(function (data) {
-            if (!data.length) return;
-            var valid = data.filter(function (a) {
-              if (a.fecha_inicio && a.fecha_inicio > today) return false;
-              if (a.fecha_fin && a.fecha_fin < today) return false;
-              return true;
+      const heroAdRoot = document.getElementById('heroAdRoot');
+      if (heroAdRoot) {
+        createApp({
+          render() {
+            return h(HeroAdComponent, {
+              code: cfg.adCode,
+              fill: true,
+              onLoaded() {
+                const wrapper = document.getElementById('heroAdWrapper');
+                if (wrapper) (wrapper as HTMLElement).style.display = '';
+              },
             });
-            if (!valid.length) return;
-            var ad = valid[0];
-            var slot = document.getElementById('heroAdSlot');
-            if (!slot) return;
-            var href = ad.url_destino
-              ? ad.url_destino.startsWith('http')
-                ? ad.url_destino
-                : 'https://' + ad.url_destino
-              : '#';
-            slot.innerHTML =
-              '<a class="ad-link" href="' +
-              href +
-              '" target="_blank" rel="noopener sponsored"><img src="' +
-              (ad.imagen_url || '') +
-              '" alt="' +
-              (ad.texto_alt || 'Publicidad') +
-              '" loading="lazy"></a>';
-            var wrapper = document.getElementById('heroAdWrapper');
-            if (wrapper) wrapper.style.display = '';
-          })
-          .catch(function () {});
-      })();
+          },
+        }).mount(heroAdRoot);
+      }
     })();
   </script>
 </Page>

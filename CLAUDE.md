@@ -104,7 +104,9 @@ REST API máximo ~1000 filas/request. Coordenadas: 50 materiales con precisión 
 
 ## 💡 Key Technical Notes
 
-1. **Astro SSG** — `src/pages/*.astro`, output estático, `astro build` → `dist/`
+1. **All code in English** — variable names, function names, type/interface fields, and comments must be in English. HTML text content rendered to the user (labels, headings, fallback strings) stays in Spanish.
+
+2. **Astro SSG** — `src/pages/*.astro`, output estático, `astro build` → `dist/`
 2. **Context-based architecture** — `src/contexts/{context}/services/http/{context}Http.ts` + `{context}Http.types.ts`
 3. **API calls y tipos** — siempre en archivos `*Http.ts` / `*Http.types.ts` dentro del contexto correspondiente
 4. **Shared HTTP** — `src/services/http/config.ts` exporta `supabase` (SDK client), `restFetch<T>()`, `restFetchCount()`
