@@ -1,3 +1,8 @@
+export interface ISitemapUrlGenerator {
+  readonly filename: string;
+  generate(): Promise<SitemapUrl[]>;
+}
+
 export enum ChangeFrequency {
   ALWAYS = 'always',
   HOURLY = 'hourly',

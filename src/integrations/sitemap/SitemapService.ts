@@ -1,44 +1,40 @@
+import fs from 'fs';
 import path from 'path';
-import { SitemapGenerator } from '@Integrations/sitemap/SitemapGenerator';
-import { SitemapUrl, ChangeFrequency } from '@Integrations/sitemap/SitemapUrl';
-import { MaterialsSitemapUrlGenerator } from '@Integrations/sitemap/entities/MaterialsSitemapUrlGenerator';
+import type { ISitemapUrlGenerator } from './SitemapUrl';
+import { SitemapGenerator } from './SitemapGenerator';
 
 const BASE_URL = 'https://worldstonehub.com';
 
 interface Config {
-  supabaseUrl: string;
-  supabaseKey: string;
-  /** Absolute path where sitemap-materials.xml will be written (inside dist/) */
+  /** Absolute path of dist/ directory */
   outputDir: string;
+  generators: ISitemapUrlGenerator[];
 }
 
 export class SitemapService {
   constructor(private readonly config: Config) {}
 
   async generateSitemap(): Promise<void> {
-    const generator = new SitemapGenerator(BASE_URL);
+    for (const gen of this.config.generators) {
+      const generator = new SitemapGenerator(BASE_URL);
+      generator.addUrls(await gen.generate());
 
-    const staticPages: Array<{ loc: string; freq: ChangeFrequency; priority: number }> = [
-      { loc: '', freq: ChangeFrequency.DAILY, priority: 1.0 },
-      { loc: '/materiales', freq: ChangeFrequency.DAILY, priority: 0.9 },
-      { loc: '/proveedores', freq: ChangeFrequency.WEEKLY, priority: 0.8 },
-      { loc: '/mapa', freq: ChangeFrequency.MONTHLY, priority: 0.7 },
-      { loc: '/sector', freq: ChangeFrequency.MONTHLY, priority: 0.6 },
-      { loc: '/nosotros', freq: ChangeFrequency.MONTHLY, priority: 0.5 },
-      { loc: '/contacto', freq: ChangeFrequency.MONTHLY, priority: 0.5 },
-    ];
-
-    for (const page of staticPages) {
-      generator.addUrl(new SitemapUrl(page.loc, new Date(), page.freq, page.priority));
+      const outputPath = path.join(this.config.outputDir, gen.filename);
+      await generator.writeSitemapToFile(outputPath);
+      await this.addToSitemapIndex(gen.filename, outputPath);
     }
+  }
 
-    const materialGenerator = new MaterialsSitemapUrlGenerator({
-      supabaseUrl: this.config.supabaseUrl,
-      supabaseKey: this.config.supabaseKey,
-    });
-    generator.addUrls(await materialGenerator.generate());
+  private async addToSitemapIndex(filename: string, sitemapPath: string): Promise<void> {
+    const indexPath = path.join(path.dirname(sitemapPath), 'sitemap-index.xml');
+    if (!fs.existsSync(indexPath)) return;
 
-    const outputPath = path.join(this.config.outputDir, 'sitemap-materials.xml');
-    await generator.writeSitemapToFile(outputPath);
+    const entry = `<sitemap><loc>${BASE_URL}/${filename}</loc></sitemap>`;
+    let content = await fs.promises.readFile(indexPath, 'utf-8');
+
+    if (content.includes(filename)) return;
+
+    content = content.replace('</sitemapindex>', `${entry}</sitemapindex>`);
+    await fs.promises.writeFile(indexPath, content, 'utf-8');
   }
 }

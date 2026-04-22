@@ -9,7 +9,6 @@ import { wshSitemap } from './src/integrations/sitemap/SitemapIntegration';
 export default defineConfig({
   integrations: [
     vue(),
-    wshSitemap(),
     sitemap({
       filter: (page) => {
         const excluded = [
@@ -29,6 +28,7 @@ export default defineConfig({
         return true;
       },
     }),
+    wshSitemap(),
   ],
   output: 'static',
   site: 'https://worldstonehub.com',
@@ -38,6 +38,13 @@ export default defineConfig({
     format: 'file', // genera materiales.html en vez de materiales/index.html
   },
   vite: {
+    resolve: {
+      alias: {
+        '@services': '/src/services',
+        '@contexts': '/src/contexts',
+        '@Integrations': '/src/integrations',
+      },
+    },
     plugins: [
       tailwindcss(),
       Icons({

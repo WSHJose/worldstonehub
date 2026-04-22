@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import type { SitemapUrl } from '@Integrations/sitemap/SitemapUrl';
+import type { SitemapUrl } from './SitemapUrl';
 
 export class SitemapGenerator {
   private readonly urls: SitemapUrl[] = [];

@@ -1,4 +1,5 @@
-import { ChangeFrequency, SitemapUrl } from '@Integrations/sitemap/SitemapUrl';
+import { ChangeFrequency, SitemapUrl } from '../SitemapUrl';
+import type { ISitemapUrlGenerator } from '../SitemapUrl';
 
 interface MaterialSitemapEntry {
   slug: string;
@@ -13,7 +14,9 @@ interface Config {
 const PAGE_SIZE = 1000;
 const MIN_SCORE = 50;
 
-export class MaterialsSitemapUrlGenerator {
+export class MaterialsSitemapUrlGenerator implements ISitemapUrlGenerator {
+  readonly filename = 'sitemap-materials.xml';
+
   constructor(private readonly config: Config) {}
 
   async generate(): Promise<SitemapUrl[]> {

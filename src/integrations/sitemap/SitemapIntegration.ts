@@ -1,5 +1,7 @@
+import { fileURLToPath } from 'node:url';
 import type { AstroIntegration } from 'astro';
-import { SitemapService } from '@Integrations/sitemap/SitemapService';
+import { SitemapService } from './SitemapService';
+import { MaterialsSitemapUrlGenerator } from './entities/MaterialsSitemapUrlGenerator';
 
 export function wshSitemap(): AstroIntegration {
   return {
@@ -15,13 +17,12 @@ export function wshSitemap(): AstroIntegration {
         }
 
         const service = new SitemapService({
-          supabaseUrl,
-          supabaseKey,
-          outputDir: dir.pathname,
+          outputDir: fileURLToPath(dir),
+          generators: [new MaterialsSitemapUrlGenerator({ supabaseUrl, supabaseKey })],
         });
 
         await service.generateSitemap();
-        logger.info('wsh-sitemap: sitemap-materials.xml generated');
+        logger.info('wsh-sitemap: sitemaps generated');
       },
     },
   };
