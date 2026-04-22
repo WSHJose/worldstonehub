@@ -1,0 +1,1941 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getAllBasic } from '@contexts/materials/services/http/materialsHttp';
+
+export async function getStaticPaths() {
+  const materials = await getAllBasic();
+  // To limit build to quality materials only, change the filter to: m.content_score >= 50
+  return materials
+    .filter((m) => Boolean(m.slug))
+    .map((m) => ({
+      params: { slug: m.slug },
+      props: {
+        nombre: m.nombre_comercial,
+        contentScore: m.content_score ?? 0,
+        categoria: m.categoria ?? '',
+      },
+    }));
+}
+
+interface Props {
+  nombre: string;
+  contentScore: number;
+  categoria: string;
+}
+
+const { slug } = Astro.params;
+const { nombre, contentScore, categoria } = Astro.props;
+const noindex = contentScore < 50;
+const catDisplay = categoria ? categoria.charAt(0).toUpperCase() + categoria.slice(1) : '';
+const pageTitle = `${nombre} — Ficha Técnica | World Stone Hub`;
+const pageDesc = `Ficha técnica de ${nombre}: propiedades físicas, acabados disponibles, aplicaciones y proveedores especializados en World Stone Hub.`;
+const canonicalUrl = `https://worldstonehub.com/materiales/${slug}`;
+---
+
+<Page
+  title={pageTitle}
+  description={pageDesc}
+  canonicalUrl={canonicalUrl}
+  noIndex={noindex}
+  activePage="materiales"
+>
+  <style is:global>
+    body {
+      background: var(--bg);
+    }
+
+    /* ── ESTADOS ── */
+    .state-screen {
+      margin-top: 64px;
+      min-height: calc(100vh - 64px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .loading-spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .loading-text {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+    }
+    .not-found {
+      text-align: center;
+    }
+    .not-found-num {
+      font-family: var(--font-disp);
+      font-size: 7rem;
+      color: var(--border2);
+      line-height: 1;
+    }
+    .not-found-title {
+      font-family: var(--font-disp);
+      font-size: 2rem;
+      margin: 12px 0 8px;
+    }
+    .not-found-desc {
+      color: var(--ink-4);
+      font-size: 0.88rem;
+      margin-bottom: 28px;
+    }
+    .not-found-btn {
+      display: inline-block;
+      background: var(--gold);
+      color: white;
+      padding: 12px 28px;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: var(--radius);
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      margin-top: 64px;
+      padding: 14px 48px;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      color: var(--ink-4);
+    }
+    .breadcrumb a {
+      color: var(--ink-4);
+      transition: color 0.2s;
+    }
+    .breadcrumb a:hover {
+      color: var(--gold);
+    }
+    .breadcrumb .sep {
+      opacity: 0.4;
+    }
+    .breadcrumb .current {
+      color: var(--ink);
+    }
+
+    /* ── HERO ── */
+    .ficha-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 520px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-left {
+      padding: 56px 56px 52px;
+      background: var(--bg-soft);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid var(--border);
+    }
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .hero-tipo-badge {
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      color: var(--gold);
+      border: 1px solid currentColor;
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+    .hero-orden {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--ink-4);
+      letter-spacing: 0.1em;
+    }
+    .ficha-nombre {
+      font-family: var(--font-disp);
+      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    .ficha-alt {
+      font-size: 0.75rem;
+      color: var(--ink-4);
+      letter-spacing: 0.05em;
+      margin-bottom: 32px;
+      font-family: var(--font-mono);
+    }
+    .hero-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      gap: 0;
+      margin-bottom: 32px;
+      border: 1px solid var(--border);
+      background: var(--border);
+      width: fit-content;
+    }
+    .hero-meta-cell {
+      background: var(--bg-soft);
+      padding: 12px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hero-meta-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+    }
+    .hero-meta-value {
+      font-size: 0.82rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .precio-val {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      color: var(--gold);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+    .precio-label {
+      font-size: 0.65rem;
+      color: var(--ink-4);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .hero-precio-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .hero-certs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 16px;
+    }
+    .cert-pill {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      padding: 3px 9px;
+      border: 1px solid var(--border2);
+      border-radius: 2px;
+      color: var(--ink-2);
+    }
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+    }
+    .hero-main-img {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .hero-main-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .hero-main-img:hover img {
+      transform: scale(1.03);
+    }
+    .hero-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .hero-placeholder-letter {
+      font-family: var(--font-disp);
+      font-size: 6rem;
+      font-weight: 300;
+      opacity: 0.15;
+      line-height: 1;
+    }
+    .hero-placeholder-text {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      color: white;
+    }
+    .hero-gallery-strip {
+      display: flex;
+      gap: 3px;
+      padding: 3px;
+      background: rgba(0, 0, 0, 0.3);
+      flex-shrink: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .hero-gallery-strip::-webkit-scrollbar {
+      display: none;
+    }
+    .gallery-thumb {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+      overflow: hidden;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+      position: relative;
+      border: 2px solid transparent;
+    }
+    .gallery-thumb:hover,
+    .gallery-thumb.active {
+      opacity: 1;
+      border-color: var(--gold);
+    }
+    .gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .gallery-count {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.65);
+      color: white;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      padding: 3px 7px;
+      border-radius: 2px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── LAYOUT ── */
+    .ficha-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 0;
+      padding: 0;
+    }
+    .ficha-main {
+      padding: 64px 56px;
+      border-right: 1px solid var(--border);
+    }
+    .section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-family: var(--font-mono);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .descripcion-texto {
+      font-family: var(--font-disp);
+      font-size: 1.08rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--ink-2);
+      margin-bottom: 48px;
+    }
+    .descripcion-texto p {
+      margin-bottom: 1.1em;
+    }
+    .props-section {
+      margin-bottom: 52px;
+    }
+    .props-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .prop-row {
+      background: var(--bg);
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.15s;
+    }
+    .prop-row:hover {
+      background: var(--bg-soft);
+    }
+    .prop-label {
+      font-size: 0.72rem;
+      color: var(--ink-4);
+    }
+    .prop-val {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .tech-detail-list {
+      list-style: none;
+      margin-bottom: 48px;
+    }
+    .tech-detail-item {
+      display: flex;
+      gap: 14px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--ink-2);
+    }
+    .tech-detail-item:first-child {
+      border-top: 1px solid var(--border);
+    }
+    .tech-detail-bullet {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+    .apps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 48px;
+    }
+    .app-card {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: var(--ink-2);
+      line-height: 1.5;
+      transition:
+        border-color 0.2s,
+        background 0.2s;
+    }
+    .app-card:hover {
+      border-color: var(--gold);
+      background: #f5efea;
+    }
+    .app-icon {
+      color: var(--gold);
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .acabados-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 48px;
+    }
+    .acabado-chip {
+      padding: 6px 14px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-2);
+      transition:
+        border-color 0.2s,
+        color 0.2s;
+    }
+    .acabado-chip:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .formatos-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 48px;
+    }
+    .formato-pill {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 5px 12px;
+      background: var(--ink);
+      color: rgba(255, 255, 255, 0.8);
+      border-radius: 2px;
+      letter-spacing: 0.04em;
+    }
+    .consejos-list {
+      list-style: none;
+      margin-bottom: 48px;
+    }
+    .consejo-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .consejo-item:first-child {
+      border-top: 1px solid var(--border);
+    }
+    .consejo-num {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--gold);
+      flex-shrink: 0;
+      min-width: 24px;
+      padding-top: 3px;
+      opacity: 0.7;
+    }
+    .consejo-text {
+      font-size: 0.85rem;
+      color: var(--ink-2);
+      line-height: 1.65;
+    }
+    .perfil-block {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      padding: 24px 28px;
+      margin-bottom: 48px;
+      font-size: 0.88rem;
+      color: var(--ink-2);
+      line-height: 1.75;
+    }
+    .compradores-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 48px;
+    }
+    .comprador-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-size: 0.73rem;
+      color: var(--ink-2);
+      border-radius: 2px;
+    }
+    .obs-block {
+      background: linear-gradient(135deg, #f5efea, var(--bg-soft));
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 48px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .obs-icon {
+      color: var(--gold);
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .obs-text {
+      font-size: 0.83rem;
+      color: var(--ink-2);
+      line-height: 1.65;
+    }
+    .tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag-link {
+      display: inline-block;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      font-size: 0.68rem;
+      color: var(--ink-4);
+      border-radius: 2px;
+      transition:
+        border-color 0.2s,
+        color 0.2s;
+    }
+    .tag-link:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ── SIDEBAR ── */
+    .ficha-sidebar {
+      padding: 40px 32px;
+    }
+    .cta-card {
+      background: var(--ink);
+      color: white;
+      padding: 28px 24px;
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+    }
+    .cta-card-title {
+      font-family: var(--font-disp);
+      font-size: 1.2rem;
+      color: white;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .cta-card-desc {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.55);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .cta-btn {
+      display: block;
+      background: var(--gold);
+      color: white;
+      padding: 12px 20px;
+      text-align: center;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: var(--radius);
+      transition: opacity 0.2s;
+      margin-bottom: 8px;
+    }
+    .cta-btn:hover {
+      opacity: 0.85;
+    }
+    .cta-btn-sec {
+      display: block;
+      text-align: center;
+      margin-top: 4px;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.4);
+      transition: color 0.2s;
+    }
+    .cta-btn-sec:hover {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .sb-card {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 16px;
+      border-radius: var(--radius);
+    }
+    .sb-card-title {
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      font-family: var(--font-mono);
+      margin-bottom: 14px;
+    }
+    .origen-pais {
+      font-family: var(--font-disp);
+      font-size: 1.25rem;
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .origen-region {
+      font-size: 0.73rem;
+      color: var(--ink-4);
+      font-family: var(--font-mono);
+      letter-spacing: 0.04em;
+    }
+    .sb-precio {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      color: var(--gold);
+      letter-spacing: 0.03em;
+      font-weight: 300;
+    }
+    .sb-precio-unit {
+      font-size: 0.62rem;
+      color: var(--ink-4);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 2px;
+      font-family: var(--font-mono);
+    }
+    .sb-cat-name {
+      font-size: 0.88rem;
+      color: var(--ink);
+      font-weight: 500;
+      text-transform: capitalize;
+      margin-bottom: 4px;
+    }
+    .sb-cat-bar {
+      height: 3px;
+      border-radius: 2px;
+      margin-top: 8px;
+    }
+    .cert-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .cert-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border: 1px solid var(--border2);
+      border-radius: 2px;
+      color: var(--ink-2);
+    }
+    .esp-company-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    .esp-company-row:last-of-type {
+      border-bottom: none;
+    }
+    .esp-company-row:hover .esp-company-name {
+      color: var(--gold);
+    }
+    .esp-company-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink);
+      transition: color 0.2s;
+    }
+    .esp-company-loc {
+      font-size: 0.72rem;
+      color: var(--ink-4);
+      font-family: var(--font-mono);
+    }
+    .esp-ver-todos {
+      display: block;
+      margin-top: 14px;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-family: var(--font-mono);
+      transition: opacity 0.2s;
+    }
+    .esp-ver-todos:hover {
+      opacity: 0.7;
+    }
+    .sb-elite-header {
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-family: var(--font-mono);
+      margin-bottom: 10px;
+      margin-top: 4px;
+    }
+    .sb-contrib-header {
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      font-family: var(--font-mono);
+      margin: 14px 0 10px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .sb-elite-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 10px 12px;
+      border: 1px solid rgba(166, 124, 82, 0.3);
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      background: #f5efea;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .sb-elite-row:hover {
+      border-color: var(--gold);
+    }
+    .sb-elite-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .sb-elite-meta {
+      font-size: 0.7rem;
+      color: var(--ink-4);
+      font-family: var(--font-mono);
+    }
+    .sb-merit-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .sb-merit-row:last-of-type {
+      border-bottom: none;
+    }
+    .sb-merit-name {
+      font-size: 0.83rem;
+      color: var(--ink);
+    }
+    .sb-merit-badges {
+      display: flex;
+      gap: 4px;
+    }
+    .sb-merit-badge {
+      font-size: 0.62rem;
+      padding: 2px 6px;
+      background: var(--bg-mid);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--ink-4);
+      white-space: nowrap;
+    }
+    .sb-community-card {
+      background: linear-gradient(135deg, rgba(166, 124, 82, 0.08), var(--bg-soft));
+      border: 1px solid rgba(166, 124, 82, 0.25);
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+    }
+    .sb-community-title {
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-family: var(--font-mono);
+      margin-bottom: 10px;
+    }
+    .sb-community-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .sb-community-item {
+      font-size: 0.75rem;
+      color: var(--ink-2);
+    }
+    .resist-bar-wrap {
+      margin-top: 6px;
+    }
+    .resist-label {
+      font-size: 0.68rem;
+      color: var(--ink-4);
+      margin-bottom: 6px;
+    }
+    .resist-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .resist-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--gold);
+      transition: width 0.6s ease;
+    }
+
+    /* ── NAV PREV/NEXT ── */
+    .ficha-nav-row {
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 56px;
+    }
+    .ficha-nav-prev,
+    .ficha-nav-next {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 28px 0;
+      color: var(--ink-4);
+      transition: color 0.2s;
+      max-width: 44%;
+    }
+    .ficha-nav-prev:hover,
+    .ficha-nav-next:hover {
+      color: var(--ink);
+    }
+    .nav-arrow {
+      font-size: 1.2rem;
+      color: var(--gold);
+    }
+    .nav-hint {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: block;
+      color: var(--ink-4);
+    }
+    .nav-name {
+      font-size: 0.82rem;
+      display: block;
+      margin-top: 3px;
+    }
+    .ficha-nav-next {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .ficha-hero {
+        grid-template-columns: 1fr;
+      }
+      .hero-right {
+        min-height: 300px;
+      }
+      .hero-gallery-strip {
+        display: none;
+      }
+      .ficha-layout {
+        grid-template-columns: 1fr;
+      }
+      .ficha-main {
+        padding: 40px 24px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .ficha-sidebar {
+        padding: 32px 24px;
+      }
+      .breadcrumb {
+        padding: 14px 24px;
+      }
+      .props-grid {
+        grid-template-columns: 1fr;
+      }
+      .apps-grid {
+        grid-template-columns: 1fr;
+      }
+      .ficha-nav-row {
+        padding: 0 24px;
+      }
+      .hero-left {
+        padding: 40px 28px;
+      }
+      .hero-meta-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 600px) {
+      .hero-meta-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <!-- CARGANDO -->
+  <div id="stateLoading" class="state-screen">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Cargando ficha…</div>
+  </div>
+
+  <!-- 404 -->
+  <div id="state404" class="state-screen" style="display:none;">
+    <div class="not-found">
+      <div class="not-found-num">404</div>
+      <h1 class="not-found-title">Material no encontrado</h1>
+      <p class="not-found-desc">
+        Este material no existe en nuestro catálogo o la URL es incorrecta.
+      </p>
+      <a href="/materiales" class="not-found-btn">← Ver todos los materiales</a>
+    </div>
+  </div>
+
+  <!-- CONTENIDO FICHA -->
+  <div id="fichaContent" style="display:none;">
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+      <a href="/index.html">Inicio</a>
+      <span class="sep">/</span>
+      <a href="/materiales">Materiales</a>
+      <span class="sep">/</span>
+      <a href="/materiales" id="bc-cat"></a>
+      <span class="sep">/</span>
+      <span class="current" id="bc-nombre"></span>
+    </div>
+
+    <!-- HERO -->
+    <section class="ficha-hero">
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <span class="hero-tipo-badge" id="hero-tipo-badge"></span>
+          <span class="hero-orden" id="hero-orden"></span>
+        </div>
+        <h1 class="ficha-nombre" id="hero-nombre">{nombre}</h1>
+        <div class="ficha-alt" id="hero-alt"></div>
+        <div class="hero-meta-grid" id="hero-meta-grid"></div>
+        <div id="hero-precio-wrap"></div>
+        <div class="hero-certs" id="hero-certs"></div>
+      </div>
+      <div class="hero-right" id="hero-right">
+        <div class="hero-main-img" id="hero-main-img">
+          <div class="hero-placeholder" id="hero-placeholder">
+            <div class="hero-placeholder-letter" id="hero-placeholder-letter"></div>
+            <div class="hero-placeholder-text" id="hero-placeholder-text"></div>
+          </div>
+        </div>
+        <div class="hero-gallery-strip" id="hero-gallery-strip" style="display:none;"></div>
+      </div>
+    </section>
+
+    <!-- LAYOUT PRINCIPAL -->
+    <div class="ficha-layout">
+      <main class="ficha-main" id="ficha-main">
+        <section id="sec-descripcion" style="display:none; margin-bottom:52px;">
+          <div class="section-label">Descripción editorial</div>
+          <div class="descripcion-texto" id="descripcion-texto"></div>
+        </section>
+        <section id="sec-props" style="display:none;" class="props-section">
+          <div class="section-label">Propiedades técnicas</div>
+          <div class="props-grid" id="props-grid"></div>
+          <div id="props-detalle" style="margin-top:16px;"></div>
+        </section>
+        <section id="sec-apps" style="display:none; margin-bottom:52px;">
+          <div class="section-label">Aplicaciones recomendadas</div>
+          <div class="apps-grid" id="apps-grid"></div>
+        </section>
+        <section id="sec-acabados" style="display:none; margin-bottom:52px;">
+          <div class="section-label">Acabados disponibles</div>
+          <div class="acabados-wrap" id="acabados-wrap"></div>
+        </section>
+        <section id="sec-formatos" style="display:none; margin-bottom:52px;">
+          <div class="section-label">Formatos comunes</div>
+          <div class="formatos-row" id="formatos-row"></div>
+        </section>
+        <section id="sec-consejos" style="display:none; margin-bottom:52px;">
+          <div class="section-label">Instalación y mantenimiento</div>
+          <ul class="consejos-list" id="consejos-list"></ul>
+        </section>
+        <section id="sec-perfil" style="display:none; margin-bottom:52px;">
+          <div class="section-label">Perfil comercial</div>
+          <div class="perfil-block" id="perfil-block"></div>
+        </section>
+        <section id="sec-compradores" style="display:none; margin-bottom:52px;">
+          <div class="section-label">Mercados principales</div>
+          <div class="compradores-row" id="compradores-row"></div>
+        </section>
+        <section id="sec-obs" style="display:none; margin-bottom:52px;">
+          <div class="obs-block" id="obs-block">
+            <div class="obs-icon">◈</div>
+            <div class="obs-text" id="obs-text"></div>
+          </div>
+        </section>
+        <section id="sec-tags" style="display:none;">
+          <div class="section-label">Explorar relacionados</div>
+          <div class="tags-wrap" id="tags-wrap"></div>
+        </section>
+      </main>
+
+      <aside class="ficha-sidebar" id="ficha-sidebar">
+        <div class="cta-card" id="cta-proveedores"></div>
+        <div class="sb-card" id="sb-empresas" style="display:none;"></div>
+        <div id="sb-community-contrib" style="display:none;"></div>
+        <div class="sb-card" id="sb-origen"></div>
+        <div class="sb-card" id="sb-precio" style="display:none;"></div>
+        <div class="sb-card" id="sb-resistencia" style="display:none;"></div>
+        <div class="sb-card" id="sb-categoria"></div>
+        <div class="sb-card" id="sb-certs" style="display:none;"></div>
+      </aside>
+    </div>
+
+    <!-- NAV PREV/NEXT -->
+    <div class="ficha-nav-row">
+      <a id="nav-prev" class="ficha-nav-prev" style="display:none;">
+        <span class="nav-arrow">←</span>
+        <span class="nav-label">
+          <span class="nav-hint">Material anterior</span>
+          <span class="nav-name" id="nav-prev-name"></span>
+        </span>
+      </a>
+      <a id="nav-next" class="ficha-nav-next" style="display:none;">
+        <span class="nav-label">
+          <span class="nav-hint">Siguiente material</span>
+          <span class="nav-name" id="nav-next-name"></span>
+        </span>
+        <span class="nav-arrow">→</span>
+      </a>
+    </div>
+  </div><!-- /fichaContent -->
+
+  <script>
+    import {
+      getBySlug,
+      getContributions,
+      getProveedores,
+    } from '@contexts/materials/services/http/materialsHttp';
+    import { supabase } from '@services/http/config';
+    (function () {
+      var db = supabase;
+
+      function esc(s: unknown) {
+        if (!s) return '';
+        return String(s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+      function arr(v: unknown): unknown[] {
+        if (!v) return [];
+        if (Array.isArray(v)) return v;
+        if (typeof v === 'string') {
+          var s = v.trim();
+          if (s.charAt(0) === '[') {
+            try {
+              var p = JSON.parse(s);
+              if (Array.isArray(p)) return p;
+            } catch (e) {}
+          }
+          return [v];
+        }
+        return [v as unknown];
+      }
+      function el(id: string) {
+        return document.getElementById(id);
+      }
+      function show(id: string) {
+        var e = el(id);
+        if (e) e.style.display = '';
+      }
+      function hide(id: string) {
+        var e = el(id);
+        if (e) e.style.display = 'none';
+      }
+      function getRegionDisplay(v: unknown) {
+        var items = arr(v);
+        if (!items.length) return '';
+        var r = String(items[0]).trim();
+        var m = r.match(/\(([^)]+)\)/);
+        if (m) return m[1].trim();
+        return r;
+      }
+
+      var FLAG_CODES: Record<string, string> = {
+        España: 'es',
+        Italy: 'it',
+        Italia: 'it',
+        Portugal: 'pt',
+        Grecia: 'gr',
+        Turquía: 'tr',
+        Turkey: 'tr',
+        Francia: 'fr',
+        Alemania: 'de',
+        Germany: 'de',
+        Austria: 'at',
+        Bélgica: 'be',
+        Suecia: 'se',
+        India: 'in',
+        China: 'cn',
+        Brasil: 'br',
+        Brazil: 'br',
+        'Estados Unidos': 'us',
+        México: 'mx',
+        Australia: 'au',
+        Sudáfrica: 'za',
+        'South Africa': 'za',
+        Marruecos: 'ma',
+        Egipto: 'eg',
+        Irán: 'ir',
+        Iran: 'ir',
+        Pakistán: 'pk',
+        Pakistan: 'pk',
+        Vietnam: 'vn',
+        Zimbabwe: 'zw',
+        Zimbabue: 'zw',
+        Finlandia: 'fi',
+        Finland: 'fi',
+        Israel: 'il',
+        Croacia: 'hr',
+        Croatia: 'hr',
+        'Arabia Saudita': 'sa',
+        'Reino Unido': 'gb',
+        'United Kingdom': 'gb',
+        Canadá: 'ca',
+        Canada: 'ca',
+        Spain: 'es',
+      };
+      function getFlag(pais: string) {
+        if (!pais) return '';
+        var code = FLAG_CODES[pais];
+        if (!code) {
+          var pl = pais.toLowerCase();
+          for (var k in FLAG_CODES) {
+            if (k.toLowerCase() === pl) {
+              code = FLAG_CODES[k];
+              break;
+            }
+          }
+        }
+        if (!code) return '';
+        return (
+          '<img src="https://flagicons.lipis.dev/flags/1x1/' +
+          code +
+          '.svg" width="16" height="16" alt="' +
+          esc(pais) +
+          '" style="border-radius:2px;display:inline-block;vertical-align:middle;flex-shrink:0" loading="lazy" onerror="this.style.display=\'none\'">'
+        );
+      }
+      var CAT_COLORS: Record<string, string> = {
+        marmol: '#C9B99A',
+        mármol: '#C9B99A',
+        granito: '#7A8A7A',
+        caliza: '#D4C5A9',
+        travertino: '#C8A96E',
+        cuarcita: '#9EAAB8',
+        arenisca: '#C4956A',
+        pizarra: '#6B7280',
+        onix: '#A67C52',
+        ónix: '#A67C52',
+        basalto: '#4A4540',
+        porfido: '#7A6A5A',
+      };
+      function getCatColor(cat: string) {
+        return CAT_COLORS[(cat || '').toLowerCase()] || '#A8A098';
+      }
+      var ACABADOS_ES: Record<string, string> = {
+        Polished: 'Pulido',
+        Honed: 'Apomazado',
+        Brushed: 'Cepillado',
+        'Bush Hammered': 'Abujardado',
+        Tumbled: 'Envejecido',
+        Sandblasted: 'Chorreado arena',
+        Flamed: 'Flameado',
+        Leathered: 'Cuero',
+        Split: 'Partido',
+        'Machine Cut': 'Corte máquina',
+        'Acid Washing': 'Lavado ácido',
+        Grooved: 'Estriado',
+        Hammered: 'Martillado',
+      };
+      function tradAcabado(a: string) {
+        return ACABADOS_ES[a] || a;
+      }
+      var USOS_ES: Record<string, string> = {
+        flooring: 'Suelos',
+        countertops: 'Encimeras',
+        'wall applications': 'Revestimiento pared',
+        exterior: 'Exterior',
+        interior: 'Interior',
+        stairs: 'Escaleras',
+        facades: 'Fachadas',
+        pool: 'Piscina',
+        paving: 'Pavimento exterior',
+        monuments: 'Monumentos',
+        bathroom: 'Baños',
+        kitchen: 'Cocina',
+        ornamental: 'Decoración',
+      };
+      function tradUso(u: string) {
+        var low = u.toLowerCase().trim();
+        for (var k in USOS_ES) {
+          if (low.indexOf(k) !== -1) return USOS_ES[k];
+        }
+        return u.charAt(0).toUpperCase() + u.slice(1).toLowerCase();
+      }
+      var APP_ICONS: Record<string, string> = {
+        baño: '◉',
+        suelo: '◻',
+        encimera: '⬡',
+        pared: '▭',
+        fachada: '▮',
+        escalera: '◈',
+        piscina: '◎',
+        decoraci: '◇',
+        mobiliario: '▷',
+        exterior: '◼',
+        interior: '◻',
+        cocina: '⬡',
+        contract: '◆',
+        urbanismo: '◐',
+      };
+      function getAppIcon(txt: string) {
+        var low = txt.toLowerCase();
+        for (var k in APP_ICONS) {
+          if (low.indexOf(k) !== -1) return APP_ICONS[k];
+        }
+        return '·';
+      }
+      var RESIST_MAP: Record<string, number> = {
+        'Muy alta': 90,
+        Alta: 75,
+        'Media-Alta': 65,
+        Media: 50,
+        'Baja-Media': 30,
+        Baja: 20,
+      };
+      function resistPct(r: string) {
+        if (!r) return 0;
+        for (var k in RESIST_MAP) {
+          if (r.toLowerCase().indexOf(k.toLowerCase()) !== -1) return RESIST_MAP[k];
+        }
+        return 50;
+      }
+
+      // Read slug from URL path: /materiales/[slug]
+      var slug =
+        window.location.pathname
+          .split('/')
+          .filter(Boolean)
+          .pop()
+          ?.replace(/\.html$/, '') || '';
+      if (!slug) {
+        show404();
+        return;
+      }
+
+      getBySlug(slug).then(function (m) {
+        if (!m) {
+          show404();
+          return;
+        }
+        renderFicha(m);
+        loadAdyacentes(m);
+      });
+
+      function renderFicha(m: Record<string, unknown>) {
+        var catColor = getCatColor(m.categoria as string);
+        var paises = arr(m.origen_pais),
+          altNames = arr(m.nombres_alternativos),
+          acabados = arr(m.acabados_disponibles);
+        var usos = arr(m.usos_recomendados),
+          tags = arr(m.tags_busqueda),
+          t = (m.propiedades_tecnicas as Record<string, unknown>) || {};
+        var regionStr = getRegionDisplay(m.origen_region),
+          galeria = arr(m.imagenes_galeria);
+        var apps_txt = arr(m.aplicaciones_recomendadas_txt),
+          consejos = arr(m.consejos_instalacion),
+          props_txt = arr(m.propiedades_tecnicas_texto);
+        var catDisplay =
+          ((m.categoria as string) || '').charAt(0).toUpperCase() +
+          ((m.categoria as string) || '').slice(1);
+
+        document.title = esc(m.nombre_comercial as string) + ' — Ficha Técnica | World Stone Hub';
+        document
+          .querySelector('meta[name="description"]')
+          ?.setAttribute(
+            'content',
+            (m.nombre_comercial as string) +
+              ' — ficha técnica completa: descripción, propiedades, aplicaciones, instalación y proveedores especializados.'
+          );
+
+        el('bc-cat')!.textContent = catDisplay;
+        (el('bc-cat') as HTMLAnchorElement).href = '/materiales?cat=' + esc(m.categoria as string);
+        el('bc-nombre')!.textContent = m.nombre_comercial as string;
+        el('hero-tipo-badge')!.textContent = catDisplay;
+        (el('hero-tipo-badge') as HTMLElement).style.borderColor = catColor;
+        (el('hero-tipo-badge') as HTMLElement).style.color = catColor;
+        if (m.orden_catalogo)
+          el('hero-orden')!.textContent =
+            'Nº ' + String(m.orden_catalogo).padStart(2, '0') + ' / 50';
+        el('hero-nombre')!.textContent = m.nombre_comercial as string;
+        if (altNames.length)
+          el('hero-alt')!.textContent = (altNames as string[]).slice(0, 4).join(' · ');
+        else hide('hero-alt');
+
+        var COLOR_HEX: Record<string, string> = {
+          Blanco: '#f5f5f0',
+          'Blanco con venas grises': '#e8e8e8',
+          Negro: '#1a1a1a',
+          Beige: '#d4b896',
+          'Crema beige uniforme': '#e8d8b8',
+          Rojo: '#c0392b',
+          Verde: '#4a7c59',
+          Azul: '#3a6fa8',
+          Gris: '#9a9a9a',
+          Marrón: '#8B5E3C',
+          Dorado: '#c4922a',
+          Crema: '#e8dcc8',
+          'Beige/crema': '#e0d0a0',
+          'Negro con venas blancas': '#1a1a1a',
+        };
+        var metaHtml = '';
+        if (paises.length)
+          metaHtml +=
+            '<div class="hero-meta-cell"><div class="hero-meta-label">País de origen</div><div class="hero-meta-value">' +
+            (paises as string[])
+              .map(function (p) {
+                return getFlag(p) + esc(p);
+              })
+              .join(', ') +
+            '</div></div>';
+        if (regionStr)
+          metaHtml +=
+            '<div class="hero-meta-cell"><div class="hero-meta-label">Región</div><div class="hero-meta-value">' +
+            esc(regionStr) +
+            '</div></div>';
+        if (m.color_principal) {
+          var hex = COLOR_HEX[m.color_principal as string] || '#ccc';
+          var swatch =
+            '<span style="display:inline-block;width:13px;height:13px;border-radius:50%;background:' +
+            hex +
+            ';border:1px solid rgba(0,0,0,.15);flex-shrink:0"></span>';
+          metaHtml +=
+            '<div class="hero-meta-cell"><div class="hero-meta-label">Color principal</div><div class="hero-meta-value" style="gap:7px;">' +
+            swatch +
+            esc(m.color_principal as string) +
+            '</div></div>';
+        }
+        el('hero-meta-grid')!.innerHTML = metaHtml;
+
+        var precio = m.precio_orientativo;
+        if (precio)
+          el('hero-precio-wrap')!.innerHTML =
+            '<div class="hero-precio-row"><div><div class="precio-val">' +
+            esc(precio as string) +
+            ' €/m²</div><div class="precio-label">precio orientativo ex-obras</div></div></div>';
+
+        var certs = (m.certificaciones_txt as string) || '';
+        if (certs) {
+          var certList = certs
+            .split(',')
+            .map(function (c) {
+              return c.trim();
+            })
+            .filter(Boolean);
+          el('hero-certs')!.innerHTML = certList
+            .map(function (c) {
+              return '<span class="cert-pill">' + esc(c) + '</span>';
+            })
+            .join('');
+        }
+
+        var mainImgEl = el('hero-main-img')!;
+        if (m.imagen_url_principal) {
+          mainImgEl.innerHTML =
+            '<img src="' +
+            esc(m.imagen_url_principal as string) +
+            '" alt="' +
+            esc(m.nombre_comercial as string) +
+            '" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;">';
+          mainImgEl.style.cursor = 'zoom-in';
+        } else {
+          el('hero-placeholder-letter')!.textContent = (m.nombre_comercial as string).charAt(0);
+          el('hero-placeholder-text')!.textContent = (m.categoria as string) || '';
+          el('hero-placeholder')!.style.background = catColor + '25';
+        }
+
+        if (galeria.length) {
+          var stripEl = el('hero-gallery-strip')!;
+          stripEl.style.display = 'flex';
+          var allImgs = (m.imagen_url_principal ? [m.imagen_url_principal] : []).concat(
+            galeria
+          ) as string[];
+          stripEl.innerHTML = allImgs
+            .map(function (imgUrl, idx) {
+              return (
+                '<div class="gallery-thumb' +
+                (idx === 0 ? ' active' : '') +
+                '" onclick="switchImg(this,\'' +
+                esc(imgUrl) +
+                "','" +
+                esc(m.nombre_comercial as string) +
+                '\')">' +
+                '<img src="' +
+                esc(imgUrl) +
+                '" alt="Imagen ' +
+                (idx + 1) +
+                ' de ' +
+                esc(m.nombre_comercial as string) +
+                '" loading="lazy"></div>'
+              );
+            })
+            .join('');
+          if (allImgs.length > 1)
+            mainImgEl.innerHTML +=
+              '<span class="gallery-count">' + allImgs.length + ' fotos</span>';
+        }
+
+        if (m.descripcion_general) {
+          var sentences = (m.descripcion_general as string).split('. ');
+          var chunkSize = Math.ceil(sentences.length / 3);
+          var paras: string[] = [];
+          for (var i = 0; i < sentences.length; i += chunkSize) {
+            var chunk = sentences
+              .slice(i, i + chunkSize)
+              .join('. ')
+              .trim();
+            if (chunk && !chunk.endsWith('.')) chunk += '.';
+            if (chunk) paras.push(chunk);
+          }
+          el('descripcion-texto')!.innerHTML = paras
+            .map(function (p) {
+              return '<p>' + esc(p) + '</p>';
+            })
+            .join('');
+          show('sec-descripcion');
+        }
+
+        var propsRows = '';
+        function propRow(label: string, val: unknown, unit?: string) {
+          if (val === null || val === undefined || val === '') return '';
+          return (
+            '<div class="prop-row"><span class="prop-label">' +
+            label +
+            '</span><span class="prop-val">' +
+            esc(String(val)) +
+            (unit || '') +
+            '</span></div>'
+          );
+        }
+        propsRows += propRow('Densidad', t.densidad_kg_m3, ' kg/m³');
+        propsRows += propRow('Absorción agua', t.absorcion_agua_pct, '%');
+        propsRows += propRow('Resist. compresión', t.resistencia_compresion_mpa, ' MPa');
+        propsRows += propRow('Resist. flexión', t.resistencia_flexion_mpa, ' MPa');
+        propsRows += propRow('Dureza Mohs', t.dureza_mohs);
+        propsRows += propRow('Resist. helada', t.resistencia_helada);
+        propsRows += propRow('Coef. fricción', t.coeficiente_friccion);
+        if (m.resistencia_desgaste_txt)
+          propsRows += propRow('Resist. desgaste', m.resistencia_desgaste_txt);
+        var propsDetalleHtml = '';
+        if (props_txt.length)
+          propsDetalleHtml =
+            '<ul class="tech-detail-list">' +
+            (props_txt as string[])
+              .map(function (p) {
+                return (
+                  '<li class="tech-detail-item"><span class="tech-detail-bullet"></span><span>' +
+                  esc(p) +
+                  '</span></li>'
+                );
+              })
+              .join('') +
+            '</ul>';
+        if (propsRows || propsDetalleHtml) {
+          if (propsRows) el('props-grid')!.innerHTML = propsRows;
+          else (el('props-grid') as HTMLElement).style.display = 'none';
+          if (propsDetalleHtml) el('props-detalle')!.innerHTML = propsDetalleHtml;
+          show('sec-props');
+        }
+
+        var appsToShow = apps_txt.length
+          ? (apps_txt as string[])
+          : (usos as string[]).map(function (u) {
+              return tradUso(u);
+            });
+        if (appsToShow.length) {
+          el('apps-grid')!.innerHTML = appsToShow
+            .slice(0, 10)
+            .map(function (a) {
+              var icon = getAppIcon(a);
+              return (
+                '<div class="app-card"><span class="app-icon">' +
+                icon +
+                '</span><span>' +
+                esc(a) +
+                '</span></div>'
+              );
+            })
+            .join('');
+          show('sec-apps');
+        }
+
+        if (acabados.length) {
+          el('acabados-wrap')!.innerHTML = (acabados as string[])
+            .map(function (a) {
+              return '<span class="acabado-chip">' + esc(tradAcabado(a)) + '</span>';
+            })
+            .join('');
+          show('sec-acabados');
+        }
+        if (m.formatos_disponibles) {
+          var fmts = (m.formatos_disponibles as string)
+            .split(',')
+            .map(function (f) {
+              return f.trim();
+            })
+            .filter(Boolean);
+          el('formatos-row')!.innerHTML = fmts
+            .map(function (f) {
+              return '<span class="formato-pill">' + esc(f) + '</span>';
+            })
+            .join('');
+          show('sec-formatos');
+        }
+        if (consejos.length) {
+          el('consejos-list')!.innerHTML = (consejos as string[])
+            .map(function (c, idx) {
+              return (
+                '<li class="consejo-item"><span class="consejo-num">' +
+                String(idx + 1).padStart(2, '0') +
+                '</span><span class="consejo-text">' +
+                esc(c) +
+                '</span></li>'
+              );
+            })
+            .join('');
+          show('sec-consejos');
+        }
+        if (m.perfil_comercial) {
+          el('perfil-block')!.textContent = m.perfil_comercial as string;
+          show('sec-perfil');
+        }
+        if (m.principales_compradores) {
+          var buyers = (m.principales_compradores as string)
+            .split(',')
+            .map(function (b) {
+              return b.trim();
+            })
+            .filter(Boolean);
+          el('compradores-row')!.innerHTML = buyers
+            .map(function (b) {
+              return '<span class="comprador-tag">' + getFlag(b) + esc(b) + '</span>';
+            })
+            .join('');
+          show('sec-compradores');
+        }
+        if (m.observaciones_editoriales) {
+          el('obs-text')!.textContent = m.observaciones_editoriales as string;
+          show('sec-obs');
+        }
+        var filteredTags = (tags as string[])
+          .filter(function (t) {
+            return t && t.length > 2 && isNaN(Number(t));
+          })
+          .slice(0, 20);
+        if (filteredTags.length) {
+          el('tags-wrap')!.innerHTML = filteredTags
+            .map(function (t) {
+              return (
+                '<a href="/materiales?q=' +
+                encodeURIComponent(t) +
+                '" class="tag-link">' +
+                esc(t) +
+                '</a>'
+              );
+            })
+            .join('');
+          show('sec-tags');
+        }
+
+        el('cta-proveedores')!.innerHTML =
+          '<div class="cta-card-title">¿Buscas <em style="color:var(--gold);font-style:italic;">' +
+          esc(m.nombre_comercial as string) +
+          '</em>?</div><div class="cta-card-desc">Accede al directorio de proveedores especializados verificados para este material en nuestra red global.</div><a href="/proveedores.html?material=' +
+          esc(slug) +
+          '" class="cta-btn">Ver proveedores →</a><a href="/registro.html" class="cta-btn-sec">¿Eres proveedor? Publica tu empresa →</a>';
+        el('sb-origen')!.innerHTML =
+          '<div class="sb-card-title">Origen</div>' +
+          (paises as string[])
+            .map(function (p) {
+              return '<div class="origen-pais">' + getFlag(p) + esc(p) + '</div>';
+            })
+            .join('') +
+          (regionStr ? '<div class="origen-region">' + esc(regionStr) + '</div>' : '');
+        if (precio) {
+          el('sb-precio')!.innerHTML =
+            '<div class="sb-card-title">Precio orientativo</div><div class="sb-precio">' +
+            esc(precio as string) +
+            '</div><div class="sb-precio-unit">€ por m² · ex-obra · orientativo</div>';
+          show('sb-precio');
+        }
+        if (m.resistencia_desgaste_txt) {
+          var pct = resistPct(m.resistencia_desgaste_txt as string);
+          el('sb-resistencia')!.innerHTML =
+            '<div class="sb-card-title">Resistencia al desgaste</div><div class="resist-label">' +
+            esc(m.resistencia_desgaste_txt as string) +
+            '</div><div class="resist-bar"><div class="resist-bar-fill" style="width:' +
+            pct +
+            '%;background:' +
+            catColor +
+            '"></div></div>';
+          show('sb-resistencia');
+        }
+        el('sb-categoria')!.innerHTML =
+          '<div class="sb-card-title">Tipo de roca</div><div class="sb-cat-name">' +
+          esc(catDisplay) +
+          '</div><div class="sb-cat-bar" style="background:' +
+          catColor +
+          '50;"><div style="height:100%;width:60%;background:' +
+          catColor +
+          ';border-radius:2px;"></div></div>' +
+          (altNames.length
+            ? '<div style="margin-top:12px;font-size:.72rem;color:var(--ink-4);line-height:1.8;">' +
+              (altNames as string[]).slice(0, 5).map(esc).join('<br>') +
+              '</div>'
+            : '');
+        if (certs) {
+          var certList2 = certs
+            .split(',')
+            .map(function (c) {
+              return c.trim();
+            })
+            .filter(Boolean);
+          el('sb-certs')!.innerHTML =
+            '<div class="sb-card-title">Certificaciones</div><div class="cert-grid">' +
+            certList2
+              .map(function (c) {
+                return '<span class="cert-badge">' + esc(c) + '</span>';
+              })
+              .join('') +
+            '</div>';
+          show('sb-certs');
+        }
+
+        getContributions(slug).then(function (contribs) {
+          if (!contribs.length) return;
+          var counts: Record<string, number> = {};
+          contribs.forEach(function (c) {
+            counts[c.tipo_contribucion] = (counts[c.tipo_contribucion] || 0) + 1;
+          });
+          var items: string[] = [];
+          if (counts['foto'] || counts['imagen'])
+            items.push(
+              '\uD83D\uDCF7 ' +
+                ((counts['foto'] || 0) + (counts['imagen'] || 0)) +
+                ' foto' +
+                ((counts['foto'] || 0) + (counts['imagen'] || 0) !== 1 ? 's' : '')
+            );
+          if (counts['dato'] || counts['datos']) items.push('\uD83D\uDCCA datos verificados');
+          if (counts['precio']) items.push('\uD83D\uDCB6 precio actualizado');
+          if (counts['descripcion'] || counts['texto']) items.push('\uD83D\uDCDD descripción');
+          if (!items.length) return;
+          var html =
+            '<div class="sb-community-card"><div class="sb-community-title">Contenido aportado</div><div class="sb-community-items">' +
+            items
+              .map(function (i) {
+                return '<span class="sb-community-item">' + i + '</span>';
+              })
+              .join('<span class="sb-community-item" style="color:var(--border2)">·</span>') +
+            '</div></div>';
+          el('sb-community-contrib')!.innerHTML = html;
+          show('sb-community-contrib');
+        });
+
+        getProveedores(slug).then(function (provs) {
+          var r = { data: provs, error: null };
+          if (!r.data || !r.data.length) {
+            return db
+              .from('proveedores')
+              .select('nombre_empresa,slug,plan,pais,ciudad')
+              .eq('plan_activo', true)
+              .eq('estado', 'activo')
+              .contains('materiales', [slug])
+              .order('plan', { ascending: false })
+              .limit(5)
+              .then(function (rf: {
+                data: Array<{
+                  slug: string;
+                  nombre_empresa: string;
+                  pais?: string;
+                  ciudad?: string;
+                }> | null;
+              }) {
+                if (!rf.data || !rf.data.length) return;
+                var rows = rf.data
+                  .map(function (p) {
+                    var loc = [p.pais, p.ciudad].filter(Boolean).join(' \u00B7 ');
+                    return (
+                      '<a href="/proveedor.html?id=' +
+                      esc(p.slug) +
+                      '" class="esp-company-row"><span class="esp-company-name">' +
+                      esc(p.nombre_empresa) +
+                      '</span>' +
+                      (loc ? '<span class="esp-company-loc">' + esc(loc) + '</span>' : '') +
+                      '</a>'
+                    );
+                  })
+                  .join('');
+                el('sb-empresas')!.innerHTML =
+                  '<div class="sb-card-title">Proveedores especializados</div>' +
+                  rows +
+                  '<a href="/proveedores.html?material=' +
+                  esc(slug) +
+                  '" class="esp-ver-todos">Ver todos en directorio \u2192</a>';
+                show('sb-empresas');
+                var sidebar = el('ficha-sidebar')!;
+                sidebar.insertBefore(el('sb-empresas')!, el('cta-proveedores')!.nextElementSibling);
+              });
+          }
+          if (!r.data || !r.data.length) return;
+          var elite = r.data
+            .filter(function (p) {
+              return p.plan === 'elite';
+            })
+            .slice(0, 2);
+          var merit = r.data.filter(function (p) {
+            return p.plan !== 'elite';
+          });
+          var html = '<div class="sb-card-title">Proveedores especializados</div>';
+          if (elite.length) {
+            html += '<div class="sb-elite-header">Socios \u00C9lite</div>';
+            html += elite
+              .map(function (p) {
+                var loc = [p.pais, p.ciudad].filter(Boolean).join(' \u00B7 ');
+                return (
+                  '<a href="/proveedor.html?id=' +
+                  esc(p.slug) +
+                  '" class="sb-elite-row"><span class="sb-elite-name">' +
+                  esc(p.nombre_empresa) +
+                  '</span>' +
+                  (loc ? '<span class="sb-elite-meta">' + esc(loc) + '</span>' : '') +
+                  '</a>'
+                );
+              })
+              .join('');
+          }
+          var meritWithContrib = merit.filter(function (p) {
+            return (
+              p.contribuciones &&
+              (Array.isArray(p.contribuciones)
+                ? p.contribuciones.length
+                : Object.keys(p.contribuciones as object).length)
+            );
+          });
+          if (meritWithContrib.length) {
+            html += '<div class="sb-contrib-header">Contribuidores activos</div>';
+            html += meritWithContrib
+              .map(function (p) {
+                var badges = '';
+                if (Array.isArray(p.contribuciones)) {
+                  var bMap: Record<string, number> = {};
+                  (p.contribuciones as Array<string | { tipo: string; count?: number }>).forEach(
+                    function (c) {
+                      if (typeof c === 'string') {
+                        bMap[c] = (bMap[c] || 0) + 1;
+                      } else if (c && c.tipo) {
+                        bMap[c.tipo] = (bMap[c.tipo] || 0) + (c.count || 1);
+                      }
+                    }
+                  );
+                  if (bMap['foto'] || bMap['imagen'])
+                    badges +=
+                      '<span class="sb-merit-badge">\uD83D\uDCF7 ' +
+                      ((bMap['foto'] || 0) + (bMap['imagen'] || 0)) +
+                      ' foto' +
+                      ((bMap['foto'] || 0) + (bMap['imagen'] || 0) !== 1 ? 's' : '') +
+                      '</span>';
+                  if (bMap['dato'] || bMap['datos'])
+                    badges += '<span class="sb-merit-badge">\uD83D\uDCCA datos</span>';
+                  if (bMap['precio'])
+                    badges += '<span class="sb-merit-badge">\uD83D\uDCB6 precio</span>';
+                }
+                return (
+                  '<div class="sb-merit-row"><a href="/proveedor.html?id=' +
+                  esc(p.slug) +
+                  '" class="sb-merit-name">' +
+                  esc(p.nombre_empresa) +
+                  '</a>' +
+                  (badges ? '<div class="sb-merit-badges">' + badges + '</div>' : '') +
+                  '</div>'
+                );
+              })
+              .join('');
+          }
+          html +=
+            '<a href="/proveedores.html?material=' +
+            esc(slug) +
+            '" class="esp-ver-todos">Ver todos en directorio \u2192</a>';
+          el('sb-empresas')!.innerHTML = html;
+          show('sb-empresas');
+          var sidebar = el('ficha-sidebar')!;
+          sidebar.insertBefore(el('sb-empresas')!, el('cta-proveedores')!.nextElementSibling);
+        });
+
+        el('stateLoading')!.style.display = 'none';
+        el('fichaContent')!.style.display = 'block';
+      }
+
+      (
+        window as Window & {
+          switchImg: (thumbEl: HTMLElement, imgUrl: string, nombre: string) => void;
+        }
+      ).switchImg = function (thumbEl, imgUrl, nombre) {
+        var strip = el('hero-gallery-strip')!;
+        strip.querySelectorAll('.gallery-thumb').forEach(function (t) {
+          t.classList.remove('active');
+        });
+        thumbEl.classList.add('active');
+        var mainImg = el('hero-main-img')!;
+        var imgTag = mainImg.querySelector('img') as HTMLImageElement | null;
+        if (imgTag) {
+          imgTag.style.opacity = '0';
+          imgTag.src = imgUrl;
+          imgTag.alt = nombre;
+          imgTag.onload = function () {
+            imgTag!.style.opacity = '1';
+            imgTag!.style.transition = 'opacity .3s';
+          };
+        }
+      };
+
+      function loadAdyacentes(m: Record<string, unknown>) {
+        db.from('materiales')
+          .select('slug,nombre_comercial')
+          .lt('id', m.id)
+          .order('id', { ascending: false })
+          .limit(1)
+          .then(function (r: { data: Array<{ slug: string; nombre_comercial: string }> | null }) {
+            if (r.data && r.data.length) {
+              var prev = r.data[0];
+              (el('nav-prev') as HTMLAnchorElement).href = '/materiales/' + esc(prev.slug);
+              el('nav-prev-name')!.textContent = prev.nombre_comercial;
+              (el('nav-prev') as HTMLElement).style.display = 'flex';
+            }
+          });
+        db.from('materiales')
+          .select('slug,nombre_comercial')
+          .gt('id', m.id)
+          .order('id', { ascending: true })
+          .limit(1)
+          .then(function (r: { data: Array<{ slug: string; nombre_comercial: string }> | null }) {
+            if (r.data && r.data.length) {
+              var next = r.data[0];
+              (el('nav-next') as HTMLAnchorElement).href = '/materiales/' + esc(next.slug);
+              el('nav-next-name')!.textContent = next.nombre_comercial;
+              (el('nav-next') as HTMLElement).style.display = 'flex';
+            }
+          });
+      }
+
+      function show404() {
+        el('stateLoading')!.style.display = 'none';
+        el('state404')!.style.display = 'flex';
+        document.title = 'Material no encontrado | World Stone Hub';
+      }
+    })();
+  </script>
+</Page>

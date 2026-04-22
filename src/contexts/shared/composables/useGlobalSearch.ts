@@ -56,7 +56,7 @@ async function fetchMateriales(q: string, offset: number) {
     n: m.nombre_comercial || '',
     pais: Array.isArray(m.origen_pais) ? m.origen_pais[0] || '' : m.origen_pais || '',
     img: m.imagen_url_principal || '',
-    link: m.slug ? `material.html?id=${m.slug}` : 'materiales.html',
+    link: m.slug ? `/materiales/${m.slug}` : '/materiales',
   }));
   return { items, total };
 }

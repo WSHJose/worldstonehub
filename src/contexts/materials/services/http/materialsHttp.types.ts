@@ -1,3 +1,10 @@
+export interface MaterialBasic {
+  slug: string;
+  nombre_comercial: string;
+  content_score: number;
+  categoria: string;
+}
+
 export interface Material {
   id: number;
   slug: string;

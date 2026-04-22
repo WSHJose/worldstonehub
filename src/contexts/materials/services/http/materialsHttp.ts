@@ -1,5 +1,12 @@
-import { supabase, restFetch } from '@services/http/config';
-import type { Material, MaterialContribucion, ProveedorPorMaterial } from './materialsHttp.types';
+import { supabase, restFetch, restFetchPaged } from '@services/http/config';
+import type {
+  Material,
+  MaterialBasic,
+  MaterialContribucion,
+  ProveedorPorMaterial,
+} from './materialsHttp.types';
+
+const BASIC_FIELDS = 'slug,nombre_comercial,content_score,categoria';
 
 const CATALOG_FIELDS =
   'id,slug,nombre_comercial,categoria,subcategoria,color_principal,origen_pais,origen_region,imagen_url_principal,content_score,precio_orientativo,activo';
@@ -9,6 +16,23 @@ const MAP_FIELDS =
 
 const SEARCH_FIELDS =
   'slug,nombre_comercial,categoria,color_principal,origen_pais,imagen_url_principal';
+
+export async function getAllBasic(): Promise<MaterialBasic[]> {
+  const pageSize = 1000;
+  const base = `materiales?select=${BASIC_FIELDS}&activo=eq.true&order=slug.asc`;
+
+  const first = await restFetchPaged<MaterialBasic>(base, pageSize, 0);
+  if (first.total <= pageSize) return first.data;
+
+  const totalPages = Math.ceil(first.total / pageSize);
+  const rest = await Promise.all(
+    Array.from({ length: totalPages - 1 }, (_, i) =>
+      restFetchPaged<MaterialBasic>(base, pageSize, (i + 1) * pageSize).then((r) => r.data)
+    )
+  );
+
+  return [first.data, ...rest].flat();
+}
 
 export async function getAll(options?: { offset?: number; limit?: number }): Promise<Material[]> {
   const limit = options?.limit ?? 1000;

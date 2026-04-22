@@ -346,7 +346,7 @@ import MaterialesGrid from '../contexts/materials/components/MaterialesGrid.astr
       }
 
       const verBtn = m.slug
-        ? '<a class="card-ver-btn" href="material.html?id=' +
+        ? '<a class="card-ver-btn" href="/materiales/' +
           esc(m.slug) +
           '" onclick="event.stopPropagation()">Ver ficha →</a>'
         : '';
@@ -375,7 +375,7 @@ import MaterialesGrid from '../contexts/materials/components/MaterialesGrid.astr
 
       return (
         '<div class="material-card" onclick="' +
-        (m.slug ? "location.href='material.html?id=" + esc(m.slug) + "'" : '') +
+        (m.slug ? "location.href='/materiales/" + esc(m.slug) + "'" : '') +
         '">' +
         '<div class="card-swatch" style="background:' +
         gradient +
@@ -674,7 +674,7 @@ import MaterialesGrid from '../contexts/materials/components/MaterialesGrid.astr
             '</span></div>'
           : '') +
         (m.slug
-          ? '<a class="featured-stone-cta" href="material.html?id=' +
+          ? '<a class="featured-stone-cta" href="/materiales/' +
             esc(m.slug) +
             '" onclick="event.stopPropagation()">Ver ficha →</a>'
           : '') +
@@ -686,7 +686,7 @@ import MaterialesGrid from '../contexts/materials/components/MaterialesGrid.astr
         panel.onclick = function (e: MouseEvent): void {
           const target = e.target as HTMLElement | null;
           if (!target || !target.closest('.featured-stone-cta'))
-            location.href = 'material.html?id=' + encodeURIComponent(m.slug);
+            location.href = '/materiales/' + encodeURIComponent(m.slug);
         };
       }
     }
