@@ -1,10 +1,3 @@
-export interface MaterialBasic {
-  slug: string;
-  nombre_comercial: string;
-  content_score: number;
-  categoria: string;
-}
-
 export interface Material {
   id: number;
   slug: string;
@@ -30,6 +23,60 @@ export interface Material {
   lng?: number;
 }
 
+export type MaterialBasic = Pick<
+  Material,
+  'slug' | 'nombre_comercial' | 'content_score' | 'categoria'
+>;
+
+export type MaterialCard = Pick<
+  Material,
+  | 'id'
+  | 'slug'
+  | 'nombre_comercial'
+  | 'categoria'
+  | 'subcategoria'
+  | 'color_principal'
+  | 'color_acento'
+  | 'origen_pais'
+  | 'origen_region'
+  | 'imagen_url_principal'
+  | 'content_score'
+  | 'precio_orientativo'
+  | 'activo'
+  | 'acabados_disponibles'
+  | 'usos_recomendados'
+  | 'tags_busqueda'
+  | 'nombres_alternativos'
+  | 'propiedades_tecnicas'
+>;
+
+export type MaterialMapPoint = Pick<
+  Material,
+  | 'id'
+  | 'slug'
+  | 'nombre_comercial'
+  | 'categoria'
+  | 'color_principal'
+  | 'origen_pais'
+  | 'origen_region'
+  | 'imagen_url_principal'
+  | 'content_score'
+  | 'lat'
+  | 'lng'
+>;
+
+export type MaterialSearchHit = Pick<
+  Material,
+  | 'slug'
+  | 'nombre_comercial'
+  | 'categoria'
+  | 'color_principal'
+  | 'origen_pais'
+  | 'imagen_url_principal'
+>;
+
+export type MaterialNav = Pick<Material, 'slug' | 'nombre_comercial'>;
+
 export interface MaterialContribucion {
   id: string;
   proveedor_slug: string;
@@ -48,4 +95,5 @@ export interface ProveedorPorMaterial {
   ciudad?: string;
   visibility_score?: number;
   contribuciones?: number;
+  material_slug?: string;
 }

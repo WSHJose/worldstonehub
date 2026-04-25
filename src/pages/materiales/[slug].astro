@@ -1105,9 +1105,12 @@ const canonicalUrl = `https://worldstonehub.com/materiales/${slug}`;
     import {
       getBySlug,
       getContributions,
+      getNext,
+      getPrev,
       getProveedores,
     } from '@contexts/materials/services/http/materialsHttp';
     import { supabase } from '@services/http/config';
+    import { getFlagImg } from '@contexts/shared/utils/flags';
     (function () {
       var db = supabase;
 
@@ -1154,70 +1157,8 @@ const canonicalUrl = `https://worldstonehub.com/materiales/${slug}`;
         return r;
       }
 
-      var FLAG_CODES: Record<string, string> = {
-        España: 'es',
-        Italy: 'it',
-        Italia: 'it',
-        Portugal: 'pt',
-        Grecia: 'gr',
-        Turquía: 'tr',
-        Turkey: 'tr',
-        Francia: 'fr',
-        Alemania: 'de',
-        Germany: 'de',
-        Austria: 'at',
-        Bélgica: 'be',
-        Suecia: 'se',
-        India: 'in',
-        China: 'cn',
-        Brasil: 'br',
-        Brazil: 'br',
-        'Estados Unidos': 'us',
-        México: 'mx',
-        Australia: 'au',
-        Sudáfrica: 'za',
-        'South Africa': 'za',
-        Marruecos: 'ma',
-        Egipto: 'eg',
-        Irán: 'ir',
-        Iran: 'ir',
-        Pakistán: 'pk',
-        Pakistan: 'pk',
-        Vietnam: 'vn',
-        Zimbabwe: 'zw',
-        Zimbabue: 'zw',
-        Finlandia: 'fi',
-        Finland: 'fi',
-        Israel: 'il',
-        Croacia: 'hr',
-        Croatia: 'hr',
-        'Arabia Saudita': 'sa',
-        'Reino Unido': 'gb',
-        'United Kingdom': 'gb',
-        Canadá: 'ca',
-        Canada: 'ca',
-        Spain: 'es',
-      };
       function getFlag(pais: string) {
-        if (!pais) return '';
-        var code = FLAG_CODES[pais];
-        if (!code) {
-          var pl = pais.toLowerCase();
-          for (var k in FLAG_CODES) {
-            if (k.toLowerCase() === pl) {
-              code = FLAG_CODES[k];
-              break;
-            }
-          }
-        }
-        if (!code) return '';
-        return (
-          '<img src="https://flagicons.lipis.dev/flags/1x1/' +
-          code +
-          '.svg" width="16" height="16" alt="' +
-          esc(pais) +
-          '" style="border-radius:2px;display:inline-block;vertical-align:middle;flex-shrink:0" loading="lazy" onerror="this.style.display=\'none\'">'
-        );
+        return getFlagImg(pais, { size: 16 });
       }
       var CAT_COLORS: Record<string, string> = {
         marmol: '#C9B99A',
@@ -1903,32 +1844,20 @@ const canonicalUrl = `https://worldstonehub.com/materiales/${slug}`;
       };
 
       function loadAdyacentes(m: Record<string, unknown>) {
-        db.from('materiales')
-          .select('slug,nombre_comercial')
-          .lt('id', m.id)
-          .order('id', { ascending: false })
-          .limit(1)
-          .then(function (r: { data: Array<{ slug: string; nombre_comercial: string }> | null }) {
-            if (r.data && r.data.length) {
-              var prev = r.data[0];
-              (el('nav-prev') as HTMLAnchorElement).href = '/materiales/' + esc(prev.slug);
-              el('nav-prev-name')!.textContent = prev.nombre_comercial;
-              (el('nav-prev') as HTMLElement).style.display = 'flex';
-            }
-          });
-        db.from('materiales')
-          .select('slug,nombre_comercial')
-          .gt('id', m.id)
-          .order('id', { ascending: true })
-          .limit(1)
-          .then(function (r: { data: Array<{ slug: string; nombre_comercial: string }> | null }) {
-            if (r.data && r.data.length) {
-              var next = r.data[0];
-              (el('nav-next') as HTMLAnchorElement).href = '/materiales/' + esc(next.slug);
-              el('nav-next-name')!.textContent = next.nombre_comercial;
-              (el('nav-next') as HTMLElement).style.display = 'flex';
-            }
-          });
+        getPrev(m.id as number).then(function (prev) {
+          if (prev) {
+            (el('nav-prev') as HTMLAnchorElement).href = '/materiales/' + esc(prev.slug);
+            el('nav-prev-name')!.textContent = prev.nombre_comercial;
+            (el('nav-prev') as HTMLElement).style.display = 'flex';
+          }
+        });
+        getNext(m.id as number).then(function (next) {
+          if (next) {
+            (el('nav-next') as HTMLAnchorElement).href = '/materiales/' + esc(next.slug);
+            el('nav-next-name')!.textContent = next.nombre_comercial;
+            (el('nav-next') as HTMLElement).style.display = 'flex';
+          }
+        });
       }
 
       function show404() {
