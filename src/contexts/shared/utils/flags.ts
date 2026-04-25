@@ -25,6 +25,7 @@ export const FLAG_CODES: Record<string, string> = {
   China: 'cn',
   Brasil: 'br',
   'Estados Unidos': 'us',
+  'EE.UU.': 'us',
   México: 'mx',
   Canadá: 'ca',
   Argentina: 'ar',
@@ -35,6 +36,7 @@ export const FLAG_CODES: Record<string, string> = {
   Sudáfrica: 'za',
   Marruecos: 'ma',
   Egipto: 'eg',
+  Europa: 'eu',
   Irán: 'ir',
   Pakistán: 'pk',
   Vietnam: 'vn',
@@ -44,6 +46,7 @@ export const FLAG_CODES: Record<string, string> = {
   'Corea del Sur': 'kr',
   Israel: 'il',
   'Arabia Saudita': 'sa',
+  'Arabia Saudí': 'sa',
   Etiopía: 'et',
   Tanzania: 'tz',
   Zimbabwe: 'zw',
@@ -59,6 +62,7 @@ export const FLAG_CODES: Record<string, string> = {
   Nigeria: 'ng',
   Ghana: 'gh',
   Angola: 'ao',
+  EAU: 'ae',
   Mozambique: 'mz',
   Namibia: 'na',
   Kenia: 'ke',
@@ -119,6 +123,7 @@ export function getFlagImg(
   pais: string | string[] | null | undefined,
   options: FlagImgOptions = {}
 ): string {
+  console.log(pais);
   const name = Array.isArray(pais) ? String(pais[0] || '') : pais ? String(pais) : '';
   const url = getFlagUrl(name);
   if (!url) return '';

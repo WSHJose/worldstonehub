@@ -5,7 +5,8 @@
     "baseUrl": ".",
     "paths": {
       "@services/*": ["src/services/*"],
-      "@contexts/*": ["src/contexts/*"]
+      "@contexts/*": ["src/contexts/*"],
+      "@Integrations/*": ["src/integrations/*"]
     }
   }
 }

@@ -4,13 +4,14 @@ import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@astrojs/vue';
 import sitemap from '@astrojs/sitemap';
+import { wshSitemap } from './src/integrations/sitemap/SitemapIntegration';
 
 export default defineConfig({
   integrations: [
     vue(),
     sitemap({
-      filter: (page) =>
-        ![
+      filter: (page) => {
+        const excluded = [
           '/admin',
           '/admin-anuncios',
           '/panel',
@@ -19,8 +20,15 @@ export default defineConfig({
           '/esquema-negocio',
           '/i18n-example',
           '/404',
-        ].some((path) => page.includes(path)),
+        ];
+        if (excluded.some((path) => page.includes(path))) return false;
+        // Exclude individual material pages — most have content_score < 50 (noindex).
+        // Phase 2: replace with Cloudflare SSR + per-page sitemap logic.
+        if (/\/materiales\/.+/.test(page)) return false;
+        return true;
+      },
     }),
+    wshSitemap(),
   ],
   output: 'static',
   site: 'https://worldstonehub.com',
@@ -30,6 +38,13 @@ export default defineConfig({
     format: 'file', // genera materiales.html en vez de materiales/index.html
   },
   vite: {
+    resolve: {
+      alias: {
+        '@services': '/src/services',
+        '@contexts': '/src/contexts',
+        '@Integrations': '/src/integrations',
+      },
+    },
     plugins: [
       tailwindcss(),
       Icons({
